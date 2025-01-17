@@ -7,6 +7,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF); // White
   static const Color primaryRed = Color(0xFFFF5069); // Red
 
+
   static const Color blue = Color(0xFF2196F3); // Blue
   static const Color deepBlue = Color(0xFF006CAF); // Deep Blue Shade
   static const Color lightSkyBlue = Color(0xFFAEE7FF); // Light Sky Blue Shade
@@ -23,7 +24,6 @@ class AppColors {
   static const Color vibrantYellow = Color(0xFFE7D813); //  Yellow goldenmembership Shade
   static const Color skyBlue = Color(0xFF50C2FF); //  Blue platinummembership Shade
   static const Color lightGray = Color(0xFFC8C8C8); //  Gray  silver membership Shade
- 
   static const Color vibrantGreen = Color(0xFF4CE417); //  Green chat active Shade
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
 
@@ -34,8 +34,8 @@ class AppColors {
 
   static const Gradient pinkWhiteGradient = LinearGradient(
     colors: [
-      Color(0xFFFF90A0), // Pink
       Color(0xFFFFFFFF), // White
+      Color(0xFFFF90A0), // Pink
     ],
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
