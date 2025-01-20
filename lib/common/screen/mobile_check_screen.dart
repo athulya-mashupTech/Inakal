@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class MobileNoCheckScreen extends StatefulWidget {
   @override
@@ -35,7 +37,8 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
@@ -48,16 +51,28 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     'We\'ll need your phone number to send an OTP for verification.',
                     style: TextStyle(fontSize: 16),
                   ),
-                  const SizedBox(height: 32),
-                  TextField(
-                    controller: _mobileController,
-                    keyboardType: TextInputType.phone,
+                  SizedBox(height: 32),
+                  // TextField(
+                  // controller: _mobileController,
+                  // keyboardType: TextInputType.phone,
+                  // decoration: InputDecoration(
+                  //   hintText: 'Enter Mobile Number',
+                  //   contentPadding: EdgeInsets.symmetric(horizontal: 20.0), // Added padding
+                  //   border: OutlineInputBorder(
+                  //   borderRadius: BorderRadius.circular(30.0),
+                  //   borderSide: BorderSide(color: AppColors.primaryRed)
+                  //   ),
+                  // ),
+                  // ),
+                  IntlPhoneField(
                     decoration: InputDecoration(
-                      hintText: 'Mobile Number',
+                      labelText: 'Mobile Number',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30.0),
+                        borderRadius: BorderRadius.circular(25),
+                        borderSide: BorderSide(),
                       ),
                     ),
+                    initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
                   Center(
@@ -67,6 +82,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           // Add your onPressed code here!
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OTPValidateScreen()));
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -84,8 +100,12 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
               ),
             ),
             Positioned(
-              bottom: 20,
-              child: Image.asset('assets/vectors/dotted_design1.png',width: MediaQuery.of(context).size.width),
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
             ),
           ],
         ),
