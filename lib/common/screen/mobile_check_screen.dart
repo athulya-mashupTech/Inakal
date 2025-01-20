@@ -42,12 +42,12 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text(
+                  const Text(
                     'Phone Number Verification',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: 16),
-                  Text(
+                  const SizedBox(height: 16),
+                  const Text(
                     'We\'ll need your phone number to send an OTP for verification.',
                     style: TextStyle(fontSize: 16),
                   ),
@@ -74,7 +74,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     ),
                     initialCountryCode: 'IN',
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Center(
                     child: SizedBox(
                       width: double.infinity,

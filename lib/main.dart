@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 
 void main() {
