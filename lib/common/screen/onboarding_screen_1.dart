@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/onboardingpage.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:swipeable_button_view/swipeable_button_view.dart';
 
 class OnboardingScreen1 extends StatefulWidget {
   @override
@@ -11,6 +13,7 @@ class OnboardingScreen1 extends StatefulWidget {
 class _OnboardingScreen1State extends State<OnboardingScreen1> {
   final PageController _controller = PageController();
   int _currentPage = 0;
+  bool isFinished = false;
 
   @override
   void initState() {
@@ -132,11 +135,47 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 right: 20,
                 child: TextButton(
                   onPressed: () {
-                    Navigator.pushReplacementNamed(context, '/home');
+                    _controller.jumpToPage(onboardingPages.length - 1);
                   },
                   child: const Text(
                     'Skip',
                     style: TextStyle(color: Colors.black),
+                  ),
+                ),
+              ),
+
+            // Swipeable Button on the last page
+            if (_currentPage == onboardingPages.length - 1)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 70),
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: SwipeableButtonView(
+                        buttonText: "Get Started",
+                        buttonWidget: const Icon(
+                          Icons.call,
+                          color: AppColors.primaryRed
+                        ),
+                        activeColor: AppColors.primaryRed,
+                        isFinished: isFinished,
+                        onWaitingProcess: () {
+                          // Simulate a delay for the button action
+                          Future.delayed(const Duration(seconds: 2), () {
+                            setState(() {
+                              isFinished = true;
+                            });
+                          });
+                        },
+                        onFinish: () {
+                          // Navigate to the next screen after swipe
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MobileNoCheckScreen()));
+                        },
+                      ),
+                    ),
                   ),
                 ),
               ),
