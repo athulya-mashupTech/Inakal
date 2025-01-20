@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 
 void main() {
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MobileNoCheckScreen(),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
