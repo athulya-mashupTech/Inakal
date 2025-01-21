@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: MobileNoCheckScreen(),
-     // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-     home: RegistrationForm(),
+     home: const MyHomePage(title: 'Flutter Demo Home Page'),
+    //  home: RegistrationForm(),
     );
   }
 }

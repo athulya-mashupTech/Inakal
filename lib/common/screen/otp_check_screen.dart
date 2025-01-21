@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
+import 'package:inakal/common/widgets/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:pinput/pinput.dart';
 
@@ -22,8 +23,8 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
       color: AppColors.white,
       border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
       borderRadius: BorderRadius.circular(30),
-      boxShadow: [
-        const BoxShadow(
+      boxShadow: const [
+        BoxShadow(
           color: Color.fromARGB(25, 0, 0, 0),
           spreadRadius: 2,
           blurRadius: 3,
@@ -126,7 +127,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => MobileNoCheckScreen()));
+                          builder: (context) => RegistrationForm()));
                 }
               },
               errorBuilder: (errorText, pin) {
