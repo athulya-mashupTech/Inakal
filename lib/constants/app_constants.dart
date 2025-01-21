@@ -28,9 +28,6 @@ class AppColors {
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
 
 
-  
-
-
 
   static const Gradient pinkWhiteGradient = LinearGradient(
     colors: [
@@ -49,4 +46,5 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
+  
 }
