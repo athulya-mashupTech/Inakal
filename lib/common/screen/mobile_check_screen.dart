@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/otp_check_screen.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -77,27 +78,14 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
-                  Center(
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // Add your onPressed code here!
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => OTPValidateScreen()));
-                        },
-                        style: ElevatedButton.styleFrom(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                            backgroundColor: AppColors.primaryRed),
-                        child: const Text(
-                          'Send OTP',
-                          style: TextStyle(color: AppColors.white),
-                        ),
-                      ),
-                    ),
+
+                  // CustomButton(
+                  CustomButton(
+                    text: "Send OTP", 
+                    onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OTPValidateScreen()));}, 
+                    color: AppColors.primaryRed,
                   ),
+
                 ],
               ),
             ),
