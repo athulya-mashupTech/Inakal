@@ -39,112 +39,103 @@ class _RegistrationFormState extends State<RegistrationForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [AppColors.primaryRed, AppColors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(30.0),
-          child: Form(
-            key: _formKey,
-            child: ListView(
-              children: [
-                const Text(
-                  "What’s about you?",
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryRed,
+      body: Padding(
+        padding: const EdgeInsets.only(top: 32.0, left: 30.0, right: 30.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
+            children: [
+              const Text(
+                "What’s about you?",
+                style: TextStyle(
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryRed,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16.0),
+              const Text(
+                "Let's Get to Know Each Other",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: AppColors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 16.0),
+              TextFieldWidget(
+                controller: _fullNameController,
+                hintText: 'Full Name',
+              ),
+              TextFieldWidget(
+                controller: _emailController,
+                hintText: 'Email ID',
+              ),
+              TextFieldWidget(
+                controller: _addressController,
+                hintText: 'Address',
+              ),
+              TextFieldWidget(
+                controller: _countryController,
+                hintText: 'Country',
+              ),
+              TextFieldWidget(
+                controller: _cityController,
+                hintText: 'City',
+              ),
+              TextFieldWidget(
+                controller: _districtController,
+                hintText: 'District',
+              ),
+              TextFieldWidget(
+                controller: _pincodeController,
+                hintText: 'Pincode',
+                keyboardType: TextInputType.number,
+              ),
+              TextFieldWidget(
+                controller: _dobController,
+                hintText: 'Date of Birth',
+                suffixIcon: const Icon(Icons.calendar_month),
+                onTap: () async {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                  );
+                  if (pickedDate != null) {
+                    _dobController.text =
+                        '${pickedDate.toLocal()}'.split(' ')[0];
+                  }
+                },
+              ),
+              GenderSelectionWidget(
+                selectedGender: selectedGender,
+                onGenderSelected: (gender) {
+                  setState(() {
+                    selectedGender = gender;
+                  });
+                },
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: () {
+                  //  onPressed code here
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
                   ),
-                  textAlign: TextAlign.center,
+                  backgroundColor: AppColors.primaryRed,
                 ),
-                const SizedBox(height: 16.0),
-                const Text(
-                  "Let's Get to Know Each Other",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: AppColors.black,
-                  ),
-                  textAlign: TextAlign.center,
+                child: const Text(
+                  'Continue',
+                  style: TextStyle(color: Colors.white),
                 ),
-                const SizedBox(height: 16.0),
-                TextFieldWidget(
-                  controller: _fullNameController,
-                  hintText: 'Full Name',
-                ),
-                TextFieldWidget(
-                  controller: _emailController,
-                  hintText: 'Email ID',
-                ),
-                TextFieldWidget(
-                  controller: _addressController,
-                  hintText: 'Address',
-                ),
-                TextFieldWidget(
-                  controller: _countryController,
-                  hintText: 'Country',
-                ),
-                TextFieldWidget(
-                  controller: _cityController,
-                  hintText: 'City',
-                ),
-                TextFieldWidget(
-                  controller: _districtController,
-                  hintText: 'District',
-                ),
-                TextFieldWidget(
-                  controller: _pincodeController,
-                  hintText: 'Pincode',
-                  keyboardType: TextInputType.number,
-                ),
-                TextFieldWidget(
-                  controller: _dobController,
-                  hintText: 'Date of Birth',
-                  suffixIcon: const Icon(Icons.calendar_month),
-                  onTap: () async {
-                    FocusScope.of(context).requestFocus(FocusNode());
-                    DateTime? pickedDate = await showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime(1900),
-                      lastDate: DateTime.now(),
-                    );
-                    if (pickedDate != null) {
-                      _dobController.text =
-                          '${pickedDate.toLocal()}'.split(' ')[0];
-                    }
-                  },
-                ),
-                GenderSelectionWidget(
-                  selectedGender: selectedGender,
-                  onGenderSelected: (gender) {
-                    setState(() {
-                      selectedGender = gender;
-                    });
-                  },
-                ),
-                const SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    //  onPressed code 
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                    backgroundColor: AppColors.primaryRed,
-                  ),
-                  child: const Text(
-                    'Continue',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

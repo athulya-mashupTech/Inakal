@@ -43,7 +43,7 @@ class GenderSelectionWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: selectedGender == gender ? AppColors.primaryRed : AppColors.white,
           shape: BoxShape.circle,
-          border: Border.all(color: AppColors.white),
+          //border: Border.all(color: AppColors.white),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

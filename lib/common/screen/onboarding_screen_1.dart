@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/onboardingpage.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 
@@ -75,17 +76,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
 
             // Gradient at the bottom
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 100,
-                decoration: const BoxDecoration(
-                  gradient: AppColors.pinkWhiteGradient,
-                ),
-              ),
-            ),
+            const LightPinkGradient(),
 
             // PageView for onboarding content
             Padding(
