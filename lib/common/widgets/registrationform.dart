@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/gender_selection.dart';
@@ -6,6 +5,8 @@ import 'package:inakal/constants/app_constants.dart';
 import 'text_field_widget.dart';
 
 class RegistrationForm extends StatefulWidget {
+  const RegistrationForm({super.key});
+
   @override
   _RegistrationFormState createState() => _RegistrationFormState();
 }
@@ -122,7 +123,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               const SizedBox(height: 16.0),
 
-              CustomButton(text: "Continue"),
+              const CustomButton(text: "Continue"),
               
               const SizedBox(height: 20.0),
             ],

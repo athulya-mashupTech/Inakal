@@ -23,7 +23,7 @@ class CustomButton extends StatelessWidget {
               backgroundColor: AppColors.primaryRed),
           child: Text(
             text,
-            style: TextStyle(color: AppColors.white),
+            style: const TextStyle(color: AppColors.white),
           ),
         ),
       ),
