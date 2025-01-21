@@ -44,11 +44,13 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                 children: <Widget>[
                   const Text(
                     'Phone Number Verification',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   const Text(
                     'We\'ll need your phone number to send an OTP for verification.',
+                    textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
                   ),
                   SizedBox(height: 32),
