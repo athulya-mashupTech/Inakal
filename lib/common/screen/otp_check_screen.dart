@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:pinput/pinput.dart';
@@ -148,28 +149,12 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
 
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: Center(
-                child: SizedBox(
-                  width: double.infinity,
-                  height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      // Add your onPressed code here!
-                      final result = formKey.currentState!.validate();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      backgroundColor: AppColors.primaryRed,
-                    ),
-                    child: const Text(
-                      'Verify OTP',
-                      style: TextStyle(color: AppColors.white),
-                    ),
-                  ),
-                ),
-              ),
+              child: CustomButton(text: "Verify OTP",
+              onPressed: () {
+                // Add your onPressed code here!
+                final result = formKey.currentState!.validate();
+              }, 
+              color: AppColors.primaryRed),
             ),
           ],
         ));

@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/gender_selection.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'text_field_widget.dart';
@@ -120,21 +121,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 },
               ),
               const SizedBox(height: 16.0),
-              ElevatedButton(
-                onPressed: () {
-                  //  onPressed code here
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  backgroundColor: AppColors.primaryRed,
-                ),
-                child: const Text(
-                  'Continue',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
+
+              CustomButton(text: "Continue"),
+              
+              const SizedBox(height: 20.0),
             ],
           ),
         ),
