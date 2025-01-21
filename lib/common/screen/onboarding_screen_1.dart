@@ -171,7 +171,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                           });
                         },
                         onFinish: () {
-                          // Navigate to the next screen after swipe
+                          // Navigate to the otp screen
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MobileNoCheckScreen()));
                         },
                       ),
