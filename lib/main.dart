@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/registrationform.dart';
-import 'package:inakal/constants/app_constants.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,8 +19,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       // home: MobileNoCheckScreen(),
-     home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    //  home: RegistrationForm(),
+    //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
+     home: RegistrationForm(),
     );
   }
 }
