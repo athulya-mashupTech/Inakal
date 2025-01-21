@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
+import 'package:inakal/common/widgets/registration_hobbies.dart';
+import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/common/widgets/registrationform.dart';
 
 void main() {
@@ -15,12 +17,13 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Color.fromARGB(255, 246, 17, 101)),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
+     home: RegistrationHobbies()
       // home: MobileNoCheckScreen(),
-    //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
-     home: RegistrationForm(),
+      //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: RegistrationForm(),
     );
   }
 }
