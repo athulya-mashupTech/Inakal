@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
@@ -21,8 +22,9 @@ class MyApp extends StatelessWidget {
       ),
       // home: ImageUploadScreen()
       // home: MobileNoCheckScreen(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: RegistrationForm(),
+      home: BottomNavBarScreen()
     );
   }
 }
