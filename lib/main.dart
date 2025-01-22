@@ -21,9 +21,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-     home: ImageUploadScreen()
+      // home: ImageUploadScreen()
       // home: MobileNoCheckScreen(),
-      //  home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: RegistrationForm(),
     );
   }
