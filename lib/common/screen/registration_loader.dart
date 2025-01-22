@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:im_stepper/stepper.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
