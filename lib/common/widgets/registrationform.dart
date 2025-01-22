@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/gender_selection.dart';
+import 'package:inakal/common/widgets/registration_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'text_field_widget.dart';
 
@@ -48,8 +49,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
           key: _formKey,
           child: ListView(
             children: [
-              RegistrationLoader(progress: 1),
-              SizedBox(height: 20),
+              const RegistrationLoader(progress: 1),
+              const SizedBox(height: 20),
               const Text(
                 "What’s about you?",
                 style: TextStyle(
@@ -126,7 +127,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               const SizedBox(height: 16.0),
 
-              const CustomButton(text: "Continue"),
+              CustomButton(text: "Continue", onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationHobbies()));},),
 
               const SizedBox(height: 20.0),
             ],
