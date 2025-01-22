@@ -27,8 +27,6 @@ class AppColors {
   static const Color vibrantGreen = Color(0xFF4CE417); //  Green chat active Shade
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
 
-
-
   static const Gradient pinkWhiteGradient = LinearGradient(
     colors: [
       Color(0xFFFFFFFF), // White
