@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
@@ -109,7 +110,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const RegistrationForm(),
+                      builder: (context) => ImageUploadScreen(),
                     ),
                   );
                 },

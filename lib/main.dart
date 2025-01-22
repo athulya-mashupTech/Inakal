@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
-import 'package:inakal/features/registration/screens/registration_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/registration/screens/registrationform.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,9 +19,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-      home: ImageUploadScreen()
+      // home: ImageUploadScreen()
       // home: MobileNoCheckScreen(),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: RegistrationForm(),
     );
   }
