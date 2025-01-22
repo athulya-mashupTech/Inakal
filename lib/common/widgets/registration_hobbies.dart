@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/screen/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/custom_hobbies.dart';
 import 'package:inakal/common/widgets/registrationform.dart';
@@ -37,9 +38,9 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
   // Set to track selected interests to ensure no duplicates.
   final Set<String> selectedInterests = {};
 
-  /// Toggles the selection state of a hobby.
-  /// If the hobby is already selected, it will be removed; otherwise, it will be added.
-  /// Limits selection to a maximum of 5 hobbies.
+  // Toggles the selection state of a hobby.
+  // If the hobby is already selected, it will be removed; otherwise, it will be added.
+  // Limits selection to a maximum of 5 hobbies.
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
@@ -51,7 +52,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
       }
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +60,9 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
         child: Form(
           child: ListView(
             children: [
-              // Title text: instructs the user to select hobbies.
+              const RegistrationLoader(progress: 2),
+              const SizedBox(height: 20),
+           
               const Text(
                 "Select upto 5 Hobbies",
                 style: TextStyle(
@@ -107,7 +109,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => RegistrationForm(),
+                      builder: (context) => const RegistrationForm(),
                     ),
                   );
                 },
