@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/registration/screens/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
@@ -18,7 +17,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
     height: 56,
     textStyle: const TextStyle(
         fontSize: 20,
-        color: Color.fromRGBO(30, 60, 87, 1),
+        color: AppColors.otpblue,
         fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
       color: AppColors.white,
@@ -143,6 +142,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                 );
               },
             ),
+            const SizedBox(height: 16),
 
             /// Resend OTP
             ResendOTP(),

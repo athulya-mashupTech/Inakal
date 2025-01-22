@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/mobile_check_screen.dart';
-import 'package:inakal/features/registration/screens/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class RegistrationLoader extends StatefulWidget {
@@ -17,7 +15,7 @@ class _RegistrationLoaderState extends State<RegistrationLoader> {
     return Center(
         child: Container(
       decoration: const BoxDecoration(
-        color: Color.fromARGB(255, 236, 236, 236),
+        color: AppColors.white,
         borderRadius: BorderRadius.all(
           Radius.circular(20),
         ),
@@ -36,7 +34,7 @@ class _RegistrationLoaderState extends State<RegistrationLoader> {
     return Container(
         width: MediaQuery.of(context).size.width / 12,
         height: 18,
-        child: Card(
+        child: const Card(
           color: AppColors.primaryRed,
         ));
   }
