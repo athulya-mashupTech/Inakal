@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/registration_loader.dart';
+import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/common/widgets/custom_hobbies.dart';
-import 'package:inakal/common/widgets/registrationform.dart';
+import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
+import 'package:inakal/features/registration/screens/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 /// The `RegistrationHobbies` widget represents a screen where users can select up to 5 hobbies.

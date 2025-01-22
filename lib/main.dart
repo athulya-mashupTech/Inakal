@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/image_upload_screen.dart';
+import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
-import 'package:inakal/common/widgets/registration_hobbies.dart';
+import 'package:inakal/features/registration/screens/registration_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/common/widgets/registrationform.dart';
+import 'package:inakal/features/registration/screens/registrationform.dart';
 
 void main() {
   runApp(const MyApp());
