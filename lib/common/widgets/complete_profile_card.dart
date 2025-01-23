@@ -12,7 +12,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Container(
         width: MediaQuery.of(context).size.width,
         child: ClipRRect(
@@ -22,6 +22,38 @@ class _CompleteProfileCardState extends State<CompleteProfileCard> {
             clipBehavior: Clip.hardEdge, // Ensures children are clipped
             child: Stack(
               children: [
+
+                Positioned(
+                bottom: 40,
+                right: 40,
+                child: Transform.rotate(
+                  angle: 10 * 3.1415927 / 180,
+                  child: Opacity(
+                    opacity: 0.5,
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: Image.asset('assets/vectors/heart_pattern1.png'),
+                    ),
+                  ),
+                ),
+              ),
+                Positioned(
+                  bottom: -35,
+                  right: -35,
+                  child: Transform.rotate(
+                    angle: -45 * 3.1415927 / 180,
+                    child: Opacity(
+                      opacity: 0.5,
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: Image.asset('assets/vectors/heart_pattern1.png'),
+                      ),
+                    ),
+                  ),
+                ),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       vertical: 20.0, horizontal: 30.0),
@@ -71,36 +103,6 @@ class _CompleteProfileCardState extends State<CompleteProfileCard> {
                         ),
                       ),
                     ],
-                  ),
-                ),
-                Positioned(
-                bottom: 40,
-                right: 40,
-                child: Transform.rotate(
-                  angle: 10 * 3.1415927 / 180,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: Image.asset('assets/vectors/heart_pattern1.png'),
-                    ),
-                  ),
-                ),
-              ),
-                Positioned(
-                  bottom: -35,
-                  right: -35,
-                  child: Transform.rotate(
-                    angle: -45 * 3.1415927 / 180,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Image.asset('assets/vectors/heart_pattern1.png'),
-                      ),
-                    ),
                   ),
                 ),
               ],
