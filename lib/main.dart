@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: ImageUploadScreen()
       // home: MobileNoCheckScreen(),
-      //home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       // home: RegistrationForm(),
       home: BottomNavBarScreen()
     );
