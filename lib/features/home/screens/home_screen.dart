@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/screen/mobile_check_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -11,6 +10,13 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return MobileNoCheckScreen();
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home'),
+      ),
+      body: const Center(
+        child: Text('Home Screen'),
+      ),
+    );
   }
 }
