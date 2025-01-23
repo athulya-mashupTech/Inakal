@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart'; // Material Design Icons
+import 'package:iconify_flutter_plus/icons/fa6_regular.dart'; // Font Awesome Icons
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
@@ -47,37 +51,58 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         behaviour: SnakeBarBehaviour.floating,
         snakeShape: SnakeShape.circle,
         padding: const EdgeInsets.all(8),
-        // backgroundColor: Colors.white,
         snakeViewColor: AppColors.primaryRed,
         selectedItemColor: Colors.white,
-        unselectedItemColor: AppColors.primaryRed,
-        // height: 70,
+        unselectedItemColor: const Color.fromARGB(255, 255, 0, 38),
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        items: const [
+        items: [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Iconify(
+              color: _selectedIndex == 0 ? AppColors.white : AppColors.primaryRed,
+              Mdi.cards, // Home icon
+              size: 24,
+            ),
             label: 'Home',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.psychology_outlined),
+           BottomNavigationBarItem(
+            icon: FaIcon(
+            color: _selectedIndex == 1 ? AppColors.white : AppColors.primaryRed,
+              FontAwesomeIcons.userDoctor, // Psychologists icon
+              size: 24,
+            ),
             label: 'Psychologists',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite_outline),
+           BottomNavigationBarItem(
+            icon: Iconify(
+            color: _selectedIndex == 2 ? AppColors.white : AppColors.primaryRed,
+
+              Mdi.heart, // Matches icon
+              size: 28,
+            ),
             label: 'Matches',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat_outlined),
+           BottomNavigationBarItem(
+            icon: FaIcon(
+            color: _selectedIndex == 3 ? AppColors.white : AppColors.primaryRed,
+              FontAwesomeIcons.solidMessage, // Psychologists icon
+              size: 24,
+            ),
             label: 'Requests',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
+           BottomNavigationBarItem(
+            icon: Iconify(
+            color: _selectedIndex == 4 ? AppColors.white : AppColors.primaryRed,
+
+              Mdi.user, // Profile icon
+              size: 28,
+            ),
             label: 'Profile',
           ),
         ],
-        // elevation: 20,
       ),
     );
   }
 }
+
+
