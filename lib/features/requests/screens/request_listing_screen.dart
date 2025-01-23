@@ -10,6 +10,10 @@ class RequestListingScreen extends StatefulWidget {
 class _RequestListingScreenState extends State<RequestListingScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Container(
+        child: Text("Requests Page"),
+      ),
+    );
   }
 }

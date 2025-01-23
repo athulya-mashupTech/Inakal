@@ -10,6 +10,10 @@ class PsychologistsScreen extends StatefulWidget {
 class _PsychologistsScreenState extends State<PsychologistsScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Container(
+        child: Text("Psychologist Page"),
+      ),
+    );
   }
 }
