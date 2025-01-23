@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart'; // Material Design Icons
-import 'package:iconify_flutter_plus/icons/fa6_regular.dart'; // Font Awesome Icons
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';

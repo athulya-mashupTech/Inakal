@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'dart:io';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
@@ -83,7 +84,14 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  const CustomButton(text: "Continue"),
+                  CustomButton(text: "Continue", onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const BottomNavBarScreen(),
+                    ),
+                  );
+                },),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.42),
                 ],
               ),
