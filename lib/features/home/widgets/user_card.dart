@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class UserCard extends StatefulWidget {
-  const UserCard({super.key});
+  final String name;
+  final String location;
+  
+  const UserCard({required this.name, required this.location, super.key});
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -21,7 +24,7 @@ class _UserCardState extends State<UserCard> {
             children: [
               // Background image
               Image.asset(
-                'assets/vectors/druv.jpg',
+                'assets/vectors/druv.jpg', // You can change this to any image you'd like
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
@@ -43,7 +46,7 @@ class _UserCardState extends State<UserCard> {
                   ),
                 ),
               ),
-              // Name and designation
+              // Name and location
               Align(
                 alignment: Alignment.bottomLeft,
                 child: Padding(
@@ -51,10 +54,10 @@ class _UserCardState extends State<UserCard> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children: [
                       Text(
-                        'John Doe', // Replace with your name
-                        style: TextStyle(
+                        widget.name, // Use the name from the constructor
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
@@ -62,8 +65,8 @@ class _UserCardState extends State<UserCard> {
                       ),
                       SizedBox(height: 4.0),
                       Text(
-                        'Software Engineer', // Replace with designation
-                        style: TextStyle(
+                        widget.location, // Use the location from the constructor
+                        style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 16.0,
                         ),
