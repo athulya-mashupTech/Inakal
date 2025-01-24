@@ -26,6 +26,8 @@ class AppColors {
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
   static const Color otpblue = Color.fromRGBO(30, 60, 87, 1); 
   static const Color otplightblue = Color.fromRGBO(234, 239, 243, 1);
+  static const Color psychotext = Color(0xFF007AB7)
+;
 
   static const Gradient pinkWhiteGradient = LinearGradient(
     colors: [

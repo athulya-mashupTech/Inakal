@@ -38,12 +38,12 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
             _selectedIndex = index;
           });
         },
-        children: const [
-          HomeScreen(),
-          PsychologistsScreen(),
-          MatchesScreen(),
-          RequestListingScreen(),
-          ProfileScreen(),
+        children: [
+          const HomeScreen(),
+          PsychologistScreen(),  
+           MatchesScreen(),
+          const RequestListingScreen(),
+          const ProfileScreen(),
         ],
       ),
       bottomNavigationBar: SnakeNavigationBar.color(
