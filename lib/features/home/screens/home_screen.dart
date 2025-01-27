@@ -38,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const NeverScrollableScrollPhysics(),
               itemCount: users.length,
               itemBuilder: (context, index) {
-                return UserCard(name: users[index].name, location: users[index].location);
+                return UserCard(name: users[index].name, location: users[index].location, image: users[index].image);
               },
             ),
             

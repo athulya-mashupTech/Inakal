@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/home/screens/home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,9 +20,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-      // home: ImageUploadScreen()
+      home: BottomNavBarScreen()
       // home: MobileNoCheckScreen(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
        //home: PsychologistScreen(),
       // home: BottomNavBarScreen()
     );
