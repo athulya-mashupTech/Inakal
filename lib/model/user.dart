@@ -39,7 +39,7 @@ class User {
     return [
       User(
         name: "Suriya Sivakumar",
-        image: "assets/vectors/suriya.png",
+        image: "assets/vectors/suriya.jpeg",
         location: "New York, USA",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -54,7 +54,7 @@ class User {
       ),
       User(
         name: "Tovino Thomas",
-        image: "assets/vectors/tovi.png",
+        image: "assets/vectors/tovi.jpg",
         location: "Kochi, Kerala",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -69,7 +69,7 @@ class User {
       ),
       User(
         name: "Shahid Kapoor",
-        image: "assets/vectors/shahid.png",
+        image: "assets/vectors/shahid.jpeg",
         location: "Bathinda, Punjab",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -84,7 +84,7 @@ class User {
       ),
       User(
         name: "Shahid Kapoor",
-        image: "assets/vectors/shahid.png",
+        image: "assets/vectors/shahid.jpeg",
         location: "Bathinda, Punjab",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -99,7 +99,7 @@ class User {
       ),
       User(
         name: "Tovino Thomas",
-        image: "assets/vectors/tovi.png",
+        image: "assets/vectors/tovi.jpg",
         location: "Kochi, Kerala",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -114,7 +114,7 @@ class User {
       ),
       User(
         name: "Tovino Thomas",
-        image: "assets/vectors/tovi.png",
+        image: "assets/vectors/tovi.jpg",
         location: "Kochi, Kerala",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -134,7 +134,7 @@ class User {
     return [
       User(
         name: "Suriya Sivakumar",
-        image: "assets/vectors/suriya.png",
+        image: "assets/vectors/suriya.jpeg",
         location: "New York, USA",
         description:
             "Software engineer with a passion for mobile applications.",
@@ -149,7 +149,7 @@ class User {
       ),
       User(
         name: "Shahid Kapoor",
-        image: "assets/vectors/shahid.png",
+        image: "assets/vectors/shahid.jpeg",
         location: "Bathinda, Punjab",
         description:
             "Software engineer with a passion for mobile applications.",
