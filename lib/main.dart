@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
+import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,9 +22,10 @@ class MyApp extends StatelessWidget {
       ),
       // home: ImageUploadScreen()
       // home: MobileNoCheckScreen(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-       //home: PsychologistScreen(),
-      // home: BottomNavBarScreen()
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        //home: PsychologistScreen(),
+        // home: BottomNavBarScreen()
+        //home: MatchesScreen(),
     );
   }
 }

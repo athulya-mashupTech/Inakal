@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 
 class PremaritalCard extends StatelessWidget {
   final String firstText; // "Pre-Marital"
   final String secondText; // "Harmony"
-  final IconData icon; // Icon on the top right
+  final Widget topRightWidget; // Can be an image or any widget
   final Color backgroundColor;
+
   const PremaritalCard({
     Key? key,
     required this.firstText,
     required this.secondText,
-    required this.icon,
-    this.backgroundColor = AppColors.lightSkyBlue
+    required this.topRightWidget,
+    this.backgroundColor = AppColors.deepBlue,
   }) : super(key: key);
 
   @override
@@ -23,7 +25,7 @@ class PremaritalCard extends StatelessWidget {
       ),
       color: backgroundColor,
       child: Container(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Stack(
           children: [
             // Heading and Subheading
@@ -35,7 +37,7 @@ class PremaritalCard extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: firstText + " ",
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: AppColors.white,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -43,8 +45,8 @@ class PremaritalCard extends StatelessWidget {
                       ),
                       TextSpan(
                         text: secondText,
-                        style: TextStyle(
-                          color: AppColors.deepBlue,
+                        style: const TextStyle(
+                          color: AppColors.lightSkyBlue,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -52,7 +54,7 @@ class PremaritalCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Text(
                   "Navigate your journey to marriage with expert guidance, ensuring understanding, communication, and a strong foundation.",
                   style: TextStyle(
@@ -62,14 +64,23 @@ class PremaritalCard extends StatelessWidget {
                 ),
               ],
             ),
-            // Top-Right Icon
+         
             Positioned(
               top: 0,
               right: 0,
-              child: Icon(
-                icon,
-                color: AppColors.white,
-                size: 24,
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                context,
+                MaterialPageRoute(
+                builder: (context) => CounsellorsScreen()));
+                  
+                },
+                child: SizedBox(
+                  width: 30,
+                  height: 30,
+                  child: topRightWidget,
+                ),
               ),
             ),
           ],
@@ -78,3 +89,6 @@ class PremaritalCard extends StatelessWidget {
     );
   }
 }
+
+
+

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/tailored_matches/widgets/matchcard_widget.dart';
+import 'package:inakal/features/psychologists_listing/widgets/counsellor_widget.dart';
 
 
-class MatchesScreen extends StatelessWidget {
+class CounsellorsScreen extends StatelessWidget {
   final List<Map<String, String>> matches = [
     {
       'name': 'Kalidas R, 27',
@@ -42,22 +42,24 @@ class MatchesScreen extends StatelessWidget {
     },
   ];
 
+   CounsellorsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.all(5),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(
-            children: [
-              Padding(
-              padding: const EdgeInsets.all(15.0),
+            children: [ 
+               Padding(
+              padding: const EdgeInsets.all(10.0),
               child: RichText(
               text: const TextSpan(
               children: [
               TextSpan(
-                text: 'Tailored  ',
+                text: 'Guiding  ',
                 style: TextStyle(
                   color: AppColors.black,
                   fontWeight: FontWeight.bold,
@@ -65,9 +67,9 @@ class MatchesScreen extends StatelessWidget {
                   ),
               ),
               TextSpan(
-                text: 'Matches',
+                text: 'Hearts',
                 style: TextStyle(
-                color: AppColors.primaryRed,
+                color: AppColors.deepBlue,
                 fontWeight: FontWeight.bold,
                 fontSize: 24),
               ),
@@ -75,6 +77,7 @@ class MatchesScreen extends StatelessWidget {
               ),
               ),
             ),
+             
               const SizedBox(height: 20),
               Expanded(
                 child: Padding(
@@ -89,7 +92,7 @@ class MatchesScreen extends StatelessWidget {
                     itemCount: matches.length,
                     itemBuilder: (context, index) {
                       final match = matches[index];
-                      return MatchCardWidget(
+                      return CounsellorWidget(
                         image: match['image']!,
                         name: match['name']!,
                         location: match['location']!,
