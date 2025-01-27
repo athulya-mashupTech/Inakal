@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
@@ -107,7 +106,6 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       const SizedBox(height: 5),
 
                       Column(
-                        spacing: 0,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
@@ -144,7 +142,6 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       Column(
                         children: [
                           Row(
-                            spacing: 10,
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.ideographic,
                             children: [
@@ -159,17 +156,17 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                     color: AppColors.black,
                                     fontWeight: FontWeight.bold),
                               ),
-                              // SizedBox(width: 5),
+                              SizedBox(width: 10),
                               widget.req_status == "Pending"
                                   ? // Chat Button
                                   Row(
-                                      spacing: 10,
                                       children: [
                                         Icon(
                                           Icons.circle,
                                           size: 10,
                                           color: AppColors.grey.withAlpha(100),
                                         ),
+                                        SizedBox(width: 10,),
                                         Text(
                                           "10 Jan 2025",
                                           style: TextStyle(
@@ -182,9 +179,9 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                   : const SizedBox.shrink(),
                             ],
                           ),
+                          SizedBox(width: 10,),
                           widget.req_status == "Pending"
                               ? const Row(
-                                  spacing: 3,
                                   children: [
                                     Text(
                                       "Expires on 15 Feb 2025",
@@ -193,6 +190,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                         color: AppColors.primaryRed,
                                       ),
                                     ),
+                                    SizedBox(width: 3,),
                                     Icon(
                                       Icons.info_rounded,
                                       size: 15,

@@ -20,10 +20,10 @@ class AcceptButton extends StatelessWidget {
               ),
               backgroundColor: AppColors.primaryRed),
           child: Row(
-            spacing: 5,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.check, color: AppColors.white), // Check icon
+              SizedBox(width: 5,),
               Text(
                 text,
                 style: TextStyle(color: AppColors.white), // Ensure text is grey
