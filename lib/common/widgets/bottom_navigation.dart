@@ -41,7 +41,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         children: [
           const HomeScreen(),
           PsychologistScreen(),  
-           MatchesScreen(),
+          MatchesScreen(),
           const RequestListingScreen(),
           const ProfileScreen(),
         ],
@@ -103,5 +103,3 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
     );
   }
 }
-
-
