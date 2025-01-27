@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class UserCard extends StatefulWidget {
+  final String image;
   final String name;
   final String location;
   
-  const UserCard({required this.name, required this.location, super.key});
+  const UserCard({required this.name, required this.location, super.key, required this.image});
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -24,7 +25,7 @@ class _UserCardState extends State<UserCard> {
             children: [
               // Background image
               Image.asset(
-                'assets/vectors/druv.jpg', // You can change this to any image you'd like
+                widget.image, // You can change this to any image you'd like
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
