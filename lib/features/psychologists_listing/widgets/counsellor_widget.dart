@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 
-class MatchCardWidget extends StatelessWidget {
+class CounsellorWidget extends StatelessWidget {
   final String image;
   final String name;
   final String location;
+  
 
-  const MatchCardWidget({
+  const CounsellorWidget({
     super.key,
     required this.image,
     required this.name,
     required this.location,
+    
   });
 
   @override
@@ -46,7 +48,7 @@ class MatchCardWidget extends StatelessWidget {
             left: 5,
             child: Stack(
               children: [
-                SizedBox(
+                Container(
                   width: MediaQuery.of(context).size.width,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -71,25 +73,19 @@ class MatchCardWidget extends StatelessWidget {
                     ),
                   ),
                 ),
+                
               ],
             ),
           ),
-          Positioned(
-            right: 10,
-            bottom: 45,
-            child: CircleAvatar(
-              backgroundColor: AppColors.primaryRed,
-              child: IconButton(
-                  icon: const Icon(Icons.favorite),
-                  onPressed: () {
-                    // Navigator.push(
-                    //     context,
-                    //     MaterialPageRoute(
-                    //         builder: (context) => CounsellorsScreen()));
-                  },
-                  color: AppColors.white),
-            ),
-          ),
+          const Positioned(
+                  right: 10,
+                  bottom: 45,
+                  child: CircleAvatar(
+                    backgroundColor: AppColors.deepBlue,
+                    child: Icon(Icons.call, 
+                    color: AppColors.white),
+                  ),
+                ),
         ],
       ),
     );

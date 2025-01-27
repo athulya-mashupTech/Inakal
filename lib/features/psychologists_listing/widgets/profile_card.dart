@@ -4,7 +4,8 @@ import 'package:inakal/constants/app_constants.dart';
 class ProfileCard extends StatelessWidget {
   final String imagePath;
   final String name;
-  final List<String> subheadings;
+  final String occupation;
+  final String location;
   final void Function()? onTakeAppointment;
   final void Function()? onChat;
 
@@ -12,7 +13,8 @@ class ProfileCard extends StatelessWidget {
     Key? key,
     required this.imagePath,
     required this.name,
-    required this.subheadings,
+    required this.occupation,
+    required this.location,
     this.onTakeAppointment,
     this.onChat,
   }) : super(key: key);
@@ -20,66 +22,65 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0,horizontal:16 ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
         gradient: AppColors.blueWhiteGradient,
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.psychotext,
-            blurRadius: 10,
-            offset: Offset(0, 4),
-          ),
-        ],
+        border: Border.all(
+          color: AppColors.lightSkyBlue,
+          width: 2,
+        ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Row(
           children: [
             // Profile Image with Padding
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(50),
-                child: Image.asset(
-                  imagePath,
-                  width: 100,
-                  height: 100,
-                  fit: BoxFit.cover,
-                ),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(100),
+              child: Image.asset(
+                imagePath,
+                width: 130,
+                height: 130,
+                fit: BoxFit.cover,
               ),
             ),
-
+            const SizedBox(width: 16),
+        
             // Details Section
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Name
+                  const SizedBox(height: 18),
+                
                   Text(
                     name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                       color: AppColors.deepBlue,
                     ),
                   ),
-                  SizedBox(height: 8),
-
+                  // const SizedBox(height: 8),
                   // Subheadings
-                  ...subheadings.map(
-                    (subheading) => Text(
-                      subheading,
-                      style: TextStyle(
+                  Text(
+                      location,
+                      style: const TextStyle(
                         fontSize: 14,
                         color: AppColors.psychotext,
                       ),
-                    ),
                   ),
-
-                  // Buttons
-                  SizedBox(height: 16),
+                  Text(
+                      occupation,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: AppColors.psychotext,
+                      ),
+                  ),
+                  // const SizedBox(height: 8),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       // Take Appointment Button
                       ElevatedButton(
@@ -90,20 +91,23 @@ class ProfileCard extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30),
                           ),
                         ),
-                        child: Text("Take Appointment"),
+                          child: const Text(
+                          "Take Appointment",
+                          style: TextStyle(color: AppColors.white),
+                          ),
                       ),
-                      SizedBox(width: 8),
-
+                      //const SizedBox(width: 4),
+        
                       // Chat Button
                       ElevatedButton(
                         onPressed: onChat ?? () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.deepBlue,
-                          shape: CircleBorder(),
+                          shape: const CircleBorder(),
                         ),
-                        child: Icon(
+                        child: const Icon(
                           Icons.chat,
-                          color: Colors.white,
+                          color: AppColors.white,
                         ),
                       ),
                     ],
