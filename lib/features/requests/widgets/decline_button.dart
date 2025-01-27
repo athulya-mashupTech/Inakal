@@ -26,10 +26,10 @@ class DeclineButton extends StatelessWidget {
             backgroundColor: AppColors.white, // Background color of button
           ),
           child: Row(
-            spacing: 5,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(Icons.close, color: AppColors.black), // Close icon
+              SizedBox(width: 5,),
               Text(
                 text,
                 style: const TextStyle(color: AppColors.black),

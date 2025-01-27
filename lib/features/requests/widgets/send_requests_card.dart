@@ -109,8 +109,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
 
                   SizedBox(height: 5),
 
-                  Column(
-                    spacing: 0,
+                  Column(                    
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
