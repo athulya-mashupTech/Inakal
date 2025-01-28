@@ -3,9 +3,9 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 
 class PremaritalCard extends StatelessWidget {
-  final String firstText; // "Pre-Marital"
-  final String secondText; // "Harmony"
-  final Widget topRightWidget; // Can be an image or any widget
+  final String firstText; 
+  final String secondText; 
+  final Widget topRightWidget; 
   final Color backgroundColor;
 
   const PremaritalCard({
@@ -64,23 +64,43 @@ class PremaritalCard extends StatelessWidget {
                 ),
               ],
             ),
-         
+
+            // Top-right widget with dotted image
             Positioned(
               top: 0,
               right: 0,
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                context,
-                MaterialPageRoute(
-                builder: (context) => CounsellorsScreen()));
-                  
-                },
-                child: SizedBox(
-                  width: 30,
-                  height: 30,
-                  child: topRightWidget,
-                ),
+              child: Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  // Dotted image
+                  Positioned(
+                    top: -10,
+                    right: -10,
+                    
+                    child: Image.asset(
+                      'assets/vectors/dotted_design1.png',
+                      width: 50, 
+                      height: 50,
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  // Arrow button
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CounsellorsScreen(),
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: topRightWidget,
+                    ),
+                  ),
+                ],
               ),
             ),
           ],
@@ -89,6 +109,3 @@ class PremaritalCard extends StatelessWidget {
     );
   }
 }
-
-
-

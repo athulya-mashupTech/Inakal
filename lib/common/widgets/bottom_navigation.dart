@@ -43,7 +43,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
           PsychologistScreen(),  
           MatchesScreen(),
           const RequestListingScreen(),
-          const ProfileScreen(),
+          ProfilePage(),
         ],
       ),
       bottomNavigationBar: SnakeNavigationBar.color(

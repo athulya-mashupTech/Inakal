@@ -98,7 +98,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
             ),
           ),
           
-          const LightPinkGradient(),
+           LightPinkGradient(),
         ],
       ),
     );

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class LightPinkGradient extends StatelessWidget {
-  const LightPinkGradient({super.key});
 
   @override
   Widget build(BuildContext context) {
