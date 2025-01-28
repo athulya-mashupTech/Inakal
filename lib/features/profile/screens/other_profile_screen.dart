@@ -47,11 +47,12 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                 ),
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.only(
+                    borderRadius: const BorderRadius.only(
                       bottomLeft:
                           Radius.circular(20), // Adjust the radius as needed
                       bottomRight: Radius.circular(20),
                     ),
+                    //User Images
                     child: Image(
                       image: AssetImage(userData.image),
                       width: MediaQuery.of(context).size.width,
@@ -71,7 +72,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           textBaseline: TextBaseline.alphabetic,
                           children: [
                             Text(userData.name,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold)),
                             const SizedBox(width: 5),
                             const Text("|",
@@ -81,21 +82,21 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     color: AppColors.grey)),
                             const SizedBox(width: 5),
                             Text(userData.location,
-                                style: TextStyle(fontSize: 16)),
+                                style: const TextStyle(fontSize: 16)),
                           ],
                         ),
-                        Row(
+                        const Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            const Text("INK3929",
+                            Text("INK3929",
                                 style: TextStyle(fontSize: 20)),
-                            const SizedBox(width: 5),
-                            const Text("|",
+                            SizedBox(width: 5),
+                            Text("|",
                                 style: TextStyle(
                                     fontSize: 24, color: AppColors.grey)),
-                            const SizedBox(width: 5),
-                            const Text("Last seen today at 11:11am",
+                            SizedBox(width: 5),
+                            Text("Last seen today at 11:11am",
                                 style: TextStyle(fontSize: 16)),
                           ],
                         ),
@@ -110,13 +111,13 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     fontSize: 24, color: AppColors.grey)),
                             const SizedBox(width: 5),
                             Text("${userData.height}, ${userData.weight} Kg",
-                                style: TextStyle(fontSize: 16)),
+                                style: const TextStyle(fontSize: 16)),
                           ],
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         Text(
                             userData.description,
-                            style: TextStyle(fontSize: 16)),
+                            style: const TextStyle(fontSize: 16)),
                       ],
                     ),
                   ),
@@ -158,7 +159,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         const Text("Educational Details",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
@@ -181,22 +182,22 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         const Text("Additional Details",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        const Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const OtherProfileDetailCard(
+                              OtherProfileDetailCard(
                                   title: "Smoking Habit", value: "No"),
-                              const OtherProfileDetailCard(
+                              OtherProfileDetailCard(
                                   title: "Drinking Habit", value: "Yes"),
-                              const OtherProfileDetailCard(
+                              OtherProfileDetailCard(
                                   title: "Profile created by", value: "Sister"),
-                              const OtherProfileDetailCard(
+                              OtherProfileDetailCard(
                                   title: "Hobbies",
                                   value: "Reading, Painting, Singing"),
                             ],
@@ -205,11 +206,11 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   userData.req_status == "Accepted" 
-                    ? MessageButton(text: "Message")
-                    : Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    ? const MessageButton(text: "Message")
+                    : const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 25.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -219,7 +220,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                       ),
                     ),
 
-                  SizedBox(
+                  const SizedBox(
                     height: 40,
                   )
                 ]),
