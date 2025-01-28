@@ -58,7 +58,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         borderRadius: BorderRadius.circular(10),
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            Colors.grey, // This will apply the grayscale effect
+                            AppColors.grey, // This will apply the grayscale effect
                             BlendMode
                                 .saturation, // Apply the grayscale effect using saturation
                           ),
@@ -167,7 +167,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                           color: AppColors.grey.withAlpha(100),
                                         ),
                                         SizedBox(width: 10,),
-                                        Text(
+                                        const Text(
                                           "10 Jan 2025",
                                           style: TextStyle(
                                             fontSize: 14,

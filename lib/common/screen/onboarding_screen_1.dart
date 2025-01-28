@@ -76,7 +76,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
 
             // Gradient at the bottom
-            const LightPinkGradient(),
+             LightPinkGradient(),
 
             // PageView for onboarding content
             Padding(

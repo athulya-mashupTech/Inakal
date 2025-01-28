@@ -22,11 +22,11 @@ class AcceptButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check, color: AppColors.white), // Check icon
+              const Icon(Icons.check, color: AppColors.white), 
               SizedBox(width: 5,),
               Text(
                 text,
-                style: TextStyle(color: AppColors.white), // Ensure text is grey
+                style: const TextStyle(color: AppColors.white), 
               ),
             ],
           ),
