@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
+import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
