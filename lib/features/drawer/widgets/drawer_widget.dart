@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/screens/about_us.dart';
+import 'package:inakal/features/drawer/screens/edit_profile.dart';
+import 'package:inakal/features/drawer/screens/notifications.dart';
+import 'package:inakal/features/drawer/screens/subscriptions.dart';
+import 'package:inakal/features/drawer/screens/terms_conditions.dart';
+import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -18,29 +24,80 @@ class DrawerWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text('Profile', style: TextStyle(color: AppColors.white)),
-            leading: const Icon(Icons.person, color: AppColors.white),
+            title: const Text(' Edit Profile', style: TextStyle(color: AppColors.white)),
+            leading: const Icon(Icons.edit, color: AppColors.white),
             onTap: () {
-              Navigator.pop(context); // Close drawer after navigation
-              // Navigate to the profile page if required
+               Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => EditProfile(),
+                    ),
+                  );
             },
           ),
           ListTile(
-            title: const Text('Settings', style: TextStyle(color: AppColors.white)),
+            title: const Text('Notifications', style: TextStyle(color: AppColors.white)),
+            leading: const Icon(Icons.notifications, color: AppColors.white),
+            onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Notifications(),
+                    ),
+                  );
+            },
+          ),
+          ListTile(
+            title: const Text('Subscriptions', style: TextStyle(color: AppColors.white)),
+            leading: const Icon(Icons.money, color: AppColors.white),
+            onTap: () {
+               Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => Subscriptions(),
+                    ),
+                  );
+            },
+          ),
+            ListTile(
+            title: const Text('Help & support', style: TextStyle(color: AppColors.white)),
             leading: const Icon(Icons.settings, color: AppColors.white),
             onTap: () {
-              Navigator.pop(context); // Close drawer after navigation
-              // Navigate to settings page
+            
             },
           ),
-          ListTile(
+            ListTile(
+            title: const Text('Terms & conditions', style: TextStyle(color: AppColors.white)),
+            leading: const Icon(Icons.settings, color: AppColors.white),
+            onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => TermsConditions(),
+                    ),
+                  );
+            },
+          ),
+            ListTile(
             title: const Text('Logout', style: TextStyle(color: AppColors.white)),
             leading: const Icon(Icons.logout, color: AppColors.white),
             onTap: () {
-              Navigator.pop(context); 
-              // Handle logout logic
+            
             },
           ),
+            ListTile(
+            title: const Text('About Us', style: TextStyle(color: AppColors.white)),
+            leading: const Icon(Icons.info, color: AppColors.white),
+            onTap: () {
+            Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AboutUs(),
+                    ),
+                  );
+            },
+          ),
+            
         ],
       ),
     );
