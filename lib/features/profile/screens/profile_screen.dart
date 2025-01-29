@@ -5,6 +5,7 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/Image_card.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -26,28 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: Drawer(
-        backgroundColor: AppColors.primaryRed,
-        child: ListView(
-          children: [
-            DrawerHeader(
-              decoration: BoxDecoration(color: AppColors.white),
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Image.asset("assets/logo/inakal_logo.png"),
-              ),
-            ),
-            ListTile(
-              title: Text('Profile', style: TextStyle(color: AppColors.white)),
-              leading: Icon(Icons.person, color: AppColors.white),
-            ),
-            ListTile(
-              title: Text('Settings', style: TextStyle(color: AppColors.white)),
-              leading: Icon(Icons.settings, color: AppColors.white),
-            ),
-          ],
-        ),
-      ),
+      endDrawer: DrawerWidget(),
       body: Stack(
         children: [
           Stack(
@@ -163,8 +143,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
+                              ),
                             ),
-                          ),
+                          )
                         ],
                       ),
                     ),
