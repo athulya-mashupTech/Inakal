@@ -46,37 +46,41 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   children: [
-                    const SizedBox(height: 30),
+                    const SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        RichText(
-                          text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'My ',
-                                style: TextStyle(
-                                  color: AppColors.black,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
+                        Container(),
+                        Center(
+                          child: RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'My ',
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: 'Profile',
-                                style: TextStyle(
-                                  color: AppColors.primaryRed,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 24,
+                                TextSpan(
+                                  text: 'Profile',
+                                  style: TextStyle(
+                                    color: AppColors.primaryRed,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.widgets_rounded),
+                          icon: const Icon(Icons.widgets_rounded, size: 28,),
                           onPressed: () {
                             _scaffoldKey.currentState!.openEndDrawer();
                           },
+                          color: AppColors.primaryRed,
                         ),
                       ],
                     ),
