@@ -13,6 +13,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final List<String> images = [
     "assets/vectors/harsha1.jpg",
     "assets/vectors/harsha2.jpg",
@@ -24,6 +25,29 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: Drawer(
+        backgroundColor: AppColors.primaryRed,
+        child: ListView(
+          children: [
+            DrawerHeader(
+              decoration: BoxDecoration(color: AppColors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(40.0),
+                child: Image.asset("assets/logo/inakal_logo.png"),
+              ),
+            ),
+            ListTile(
+              title: Text('Profile', style: TextStyle(color: AppColors.white)),
+              leading: Icon(Icons.person, color: AppColors.white),
+            ),
+            ListTile(
+              title: Text('Settings', style: TextStyle(color: AppColors.white)),
+              leading: Icon(Icons.settings, color: AppColors.white),
+            ),
+          ],
+        ),
+      ),
       body: Stack(
         children: [
           Stack(
@@ -43,29 +67,42 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     const SizedBox(height: 30),
-                    RichText(
-                      text: const TextSpan(
-                        children: [
-                          TextSpan(
-                            text: 'My ',
-                            style: TextStyle(
-                              color: AppColors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'My ',
+                                style: TextStyle(
+                                  color: AppColors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                ),
+                              ),
+                              TextSpan(
+                                text: 'Profile',
+                                style: TextStyle(
+                                  color: AppColors.primaryRed,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 24,
+                                ),
+                              ),
+                            ],
                           ),
-                          TextSpan(
-                            text: 'Profile',
-                            style: TextStyle(
-                              color: AppColors.primaryRed,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 24,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.widgets_rounded),
+                          onPressed: () {
+                            _scaffoldKey.currentState!.openEndDrawer();
+                          },
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 10),
+                    // Remaining ProfilePage content continues unchanged...
+
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 10),
@@ -126,7 +163,6 @@ class _ProfilePageState extends State<ProfilePage> {
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
-                              ),
                             ),
                           ),
                         ],
