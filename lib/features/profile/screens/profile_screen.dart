@@ -72,48 +72,61 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Profile Image
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12),
-                            child: Image.asset(
-                              'assets/vectors/harsha1.jpg',
-                              width: 160,
-                              height: 180,
-                              fit: BoxFit.cover,
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: AppColors.primaryRed,
+                                width: 3,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/vectors/harsha1.jpg',
+                                width: 160,
+                                height: 180,
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           const SizedBox(width: 16),
                           const Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "#INK3929",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                Text(
-                                  "Harsha Sreekanth",
-                                  style: TextStyle(
-                                      fontSize: 35,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.1),
-                                ),
-                                Text(
-                                  "Perumbavoor, Kerala",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Fashion designer",
-                                  style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                Text(
-                                  "Bhramin",
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                              ],
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "#INK3929",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        color: AppColors.primaryRed),
+                                  ),
+                                  Text(
+                                    "Harsha Sreekanth",
+                                    style: TextStyle(
+                                        fontSize: 35,
+                                        fontWeight: FontWeight.bold,
+                                        height: 1.1),
+                                  ),
+                                  Text(
+                                    "Perumbavoor, Kerala",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  SizedBox(height: 8),
+                                  Text(
+                                    "Fashion designer",
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    "Bhramin",
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],
@@ -125,6 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         children: [
                           Iconify(
                             Mdi.numbers,
+                            color: AppColors.primaryRed,
                             size: 21,
                           ),
                           Text(
@@ -137,6 +151,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(width: 12),
                           Iconify(
                             Mdi.human_male_height_variant,
+                            color: AppColors.primaryRed,
                             size: 15,
                           ),
                           Text(
@@ -147,10 +162,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           SizedBox(width: 12),
-                          Iconify(
-                            Mdi.weight_lifter,
-                            size: 15,
-                          ),
+                          Iconify(Mdi.weight_lifter,
+                              color: AppColors.primaryRed, size: 15),
                           Text(
                             "52KG",
                             style: TextStyle(
@@ -168,7 +181,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                        
                           Text(
                             'About Me',
                             style: TextStyle(
@@ -209,16 +221,28 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ImageCard(image: images[index]),
                                       Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
-                                        color: AppColors.black.withAlpha(150),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          color: AppColors.black.withAlpha(150),
                                         ),
                                       ),
                                       Column(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
                                         children: [
-                                          const Icon(Icons.image_outlined, size: 35, color: AppColors.white,),
-                                          Text("+${images.length - 3}", style: const TextStyle(color: AppColors.white,fontSize: 24),)
+                                          const Icon(
+                                            Icons.image_outlined,
+                                            size: 35,
+                                            color: AppColors.white,
+                                          ),
+                                          Text(
+                                            "+${images.length - 3}",
+                                            style: const TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: 24),
+                                          )
                                         ],
                                       )
                                     ],
@@ -232,11 +256,16 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: Column(
                         children: [
                           CustomButton(text: "Edit Profile"),
-                          SizedBox(height: 10,),
-                          CustomButton(text: "Logout",color: AppColors.black,),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          CustomButton(
+                            text: "Logout",
+                            color: AppColors.black,
+                          ),
                         ],
                       ),
-                    ), 
+                    ),
                   ],
                 ),
               ),
