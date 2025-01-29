@@ -36,19 +36,14 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
     "Yoga",
   ];
 
-  // Set to track selected interests to ensure no duplicates.
   final Set<String> selectedInterests = {};
 
-  // Toggles the selection state of a hobby.
-  // If the hobby is already selected, it will be removed; otherwise, it will be added.
-  // Limits selection to a maximum of 5 hobbies.
+
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
-        // Remove interest if it is already selected.
         selectedInterests.remove(interest);
       } else if (selectedInterests.length < 5) {
-        // Add interest if less than 5 are already selected.
         selectedInterests.add(interest);
       }
     });
@@ -75,7 +70,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
               ),
               const SizedBox(height: 16.0),
 
-              // Subtitle text: explains the purpose of selecting hobbies.
               const Text(
                 "This will help us to match you with the right people",
                 style: TextStyle(
@@ -86,13 +80,12 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
               ),
               const SizedBox(height: 30.0),
 
-              // Wrap widget to display hobbies in a responsive grid-like layout.
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 10, // Horizontal spacing between items
-                  runSpacing: 10, // Vertical spacing between lines
+                  spacing: 10, 
+                  runSpacing: 10, 
                   children: interests.map((interest) {
                     return InterestItem(
                       interest: interest,
@@ -103,7 +96,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 ),
               ),
 
-              // Continue button: Navigates to the next screen when pressed.
               CustomButton(
                 text: "Continue",
                 onPressed: () {
