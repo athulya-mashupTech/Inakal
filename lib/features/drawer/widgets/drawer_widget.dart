@@ -23,6 +23,31 @@ class DrawerWidget extends StatelessWidget {
               child: Image.asset("assets/logo/inakal_logo.png"),
             ),
           ),
+          const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CircleAvatar(
+            radius: 40,
+            backgroundImage: AssetImage("assets/vectors/harsha1.jpg"),
+            ),
+            SizedBox(width: 10),
+            Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+              'Harsha sreekanth',
+              style: TextStyle(color: AppColors.white, fontSize: 18),
+              ),
+              Text(
+              'INK3929',
+              style: TextStyle(color: AppColors.white, fontSize: 14),
+              ),
+            ],
+            ),
+          ],
+          ),
+          const SizedBox(height: 20),
+
           ListTile(
             title: const Text(' Edit Profile', style: TextStyle(color: AppColors.white)),
             leading: const Icon(Icons.edit, color: AppColors.white),
