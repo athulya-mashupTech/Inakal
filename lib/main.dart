@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
       ),
          home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
-        // home: BottomNavBarScreen()
+        home: BottomNavBarScreen()
         // home: MatchesScreen(),
         //home: ProfilePage(),
     );

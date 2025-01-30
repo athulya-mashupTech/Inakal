@@ -15,14 +15,13 @@ class ImageCard extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15),
         ),
-        child:ClipRRect(
-         borderRadius: BorderRadius.circular(10),
-         child: Image.asset(image,
-          fit: BoxFit.cover,
-          ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            image,
+            fit: BoxFit.cover,
+          ),  
         )
-         );
-        
-    
+    );
   }
 }
