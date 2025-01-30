@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
+import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
@@ -28,10 +29,11 @@ class MyApp extends StatelessWidget {
       ),
          //home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
-        // home: BottomNavBarScreen()
+        home: BottomNavBarScreen()
         // home: MatchesScreen(),
         //home: ProfilePage(),
-        home: const AboutUs(),
+        // home: Notifications()
+        // home: const AboutUs(),
     );
   }
 }
