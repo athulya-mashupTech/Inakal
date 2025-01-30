@@ -62,7 +62,7 @@ class _AboutUsState extends State<AboutUs> {
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(30),
+              padding: EdgeInsets.all(8),
               child: Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   
@@ -83,7 +83,6 @@ class _AboutUsState extends State<AboutUs> {
                           ),
                           
                       ],
-                      
                     ),
                   ),
                   Padding(
@@ -106,29 +105,62 @@ class _AboutUsState extends State<AboutUs> {
                 ],  
               ),
             ),
-            const Row(
-              children: [
-                Icon(Icons.ac_unit_rounded)
-              ],
-              
-            ),
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(
+            const Padding(
+              padding: EdgeInsets.only(top: 10,left:10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+            Row(
+            children: [
+              CircleAvatar(
+
+              )
+              ,
+           // Icon(Icons.apps),
+                Column(
+                 children: [
+                          Text(
                             'Our Mission',
                             style: TextStyle(color: AppColors.black, fontSize: 15,fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'Save Marriages.',
-                            style: TextStyle(color: AppColors.black, fontSize: 15),
-                          ), 
-              ],
-            )
-          ],
-          
-        ),
+                                    ),
+                                    Text(
+                                      'Save Marriages.',
+                                      style: TextStyle(color: AppColors.black, fontSize: 15),
+                             ), 
+                        ],
+                     ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                         
+                        )
+                        , //Icon(Icons.add),
+                                    Column(
+                                     children: [
+                            Text(
+                              'Our Mission',
+                              style: TextStyle(color: AppColors.black, fontSize: 15,fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        'Save Marriages.',
+                                        style: TextStyle(color: AppColors.black, fontSize: 15),
+                               ), 
+                          ],
+                       ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+ 
+        ],
       ),
+    )
     );
   }
 }
