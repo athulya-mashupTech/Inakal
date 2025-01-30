@@ -85,8 +85,6 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                     const SizedBox(height: 10),
-                    // Remaining ProfilePage content continues unchanged...
-
                     Padding(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 8.0, vertical: 10),
