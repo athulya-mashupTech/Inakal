@@ -31,7 +31,10 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(height: 20),
-            CompleteProfileCard(),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: CompleteProfileCard(),
+            ),
             // Text("Home Page"),
             SizedBox(height: 10),
             ListView.builder(
