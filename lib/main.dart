@@ -32,7 +32,6 @@ class MyApp extends StatelessWidget {
         // home: MatchesScreen(),
         //home: ProfilePage(),
         home: const AboutUs(),
-
     );
   }
 }
