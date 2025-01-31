@@ -41,7 +41,8 @@ class _AboutUsState extends State<AboutUs> {
                         fontWeight: FontWeight.bold),
                   ),
                   RichText(
-                      text: const TextSpan(children: [
+                      text: const TextSpan(
+                      children: [
                     TextSpan(
                       text: 'inakal.com ',
                       style: TextStyle(
@@ -65,7 +66,6 @@ class _AboutUsState extends State<AboutUs> {
               padding: EdgeInsets.all(8),
               child: Row(
                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
@@ -81,7 +81,6 @@ class _AboutUsState extends State<AboutUs> {
                             'Let Marriages be Eternal.',
                             style: TextStyle(color: AppColors.black, fontSize: 15),
                           ),
-                          
                       ],
                     ),
                   ),

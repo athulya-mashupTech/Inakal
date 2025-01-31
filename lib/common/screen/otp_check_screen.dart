@@ -123,7 +123,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
               },
               onCompleted: (value) {
                 if (value == _otp) {
-                  print("OTP Verified");
+                  //print("OTP Verified");
                   Navigator.push(
                       context,
                       MaterialPageRoute(
