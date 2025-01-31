@@ -6,7 +6,6 @@ import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
-import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -57,13 +56,13 @@ class DrawerWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ListTile(
                   title: const Text(' Edit Profile',
-                      style: TextStyle(color: AppColors.white)),
+                  style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.edit, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfile(),
+                        builder: (context) => const EditProfile(),
                       ),
                     );
                   },
@@ -77,7 +76,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Notifications(),
+                        builder: (context) => const Notifications(),
                       ),
                     );
                   },
@@ -90,7 +89,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => Subscriptions(),
+                        builder: (context) => const Subscriptions(),
                       ),
                     );
                   },
@@ -109,7 +108,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TermsConditions(),
+                        builder: (context) => const TermsConditions(),
                       ),
                     );
                   },
@@ -138,7 +137,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => AboutUs(),
+                        builder: (context) => const AboutUs(),
                       ),
                     );
                   },
