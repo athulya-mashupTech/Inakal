@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
@@ -27,9 +28,9 @@ class DrawerWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0),
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: const Row(
+                const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
@@ -84,7 +85,7 @@ class DrawerWidget extends StatelessWidget {
                 ListTile(
                   title: const Text('Subscriptions',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(Icons.money, color: AppColors.white),
+                  leading: const Icon(FontAwesomeIcons.boxOpen, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -97,13 +98,13 @@ class DrawerWidget extends StatelessWidget {
                 ListTile(
                   title: const Text('Help & support',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(Icons.settings, color: AppColors.white),
+                  leading: const Icon(FontAwesomeIcons.headset, color: AppColors.white),
                   onTap: () {},
                 ),
                 ListTile(
                   title: const Text('Terms & conditions',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(Icons.settings, color: AppColors.white),
+                  leading: const Icon(FontAwesomeIcons.fileSignature, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                       context,
@@ -118,6 +119,16 @@ class DrawerWidget extends StatelessWidget {
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.logout, color: AppColors.white),
                   onTap: () {},
+                ),
+                ListTile(
+                  title: const Text('Delete account',
+                      style: TextStyle(color: AppColors.white)),
+                  leading: const Icon(Icons.delete, color: AppColors.white),
+                  onTap: () {
+
+                    //alert to delete account
+                  
+                  },
                 ),
                 ListTile(
                   title: const Text('About Us',

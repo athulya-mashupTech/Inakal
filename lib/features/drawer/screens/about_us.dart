@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/widgets/custom_icon.dart';
 import 'package:lottie/lottie.dart';
-
-
 
 class AboutUs extends StatefulWidget {
   const AboutUs({super.key});
@@ -52,8 +51,8 @@ class _AboutUsState extends State<AboutUs> {
                     ),
                     TextSpan(
                       text:
-                     " is not just a matrimony platform; it’s a mission-driven community dedicated to promoting enduring, meaningful relationships. The name inakal means pairs in Malayalam, symbolizing our commitment to uniting like-minded life partners who share a belief in the timeless value of marriage and true companionship. At inakal.com, we recognize that marriage is a journey that flourishes with understanding and support. Unlike traditional matrimonial sites, we are managed by a dedicated team of psychologists, doctors, and astrologers who are deeply invested in the success of each partnership. With services that include pre-marital counseling upon request, our goal is to provide couples with resources to foster strong, healthy relationships.",
-                      style: TextStyle(fontSize: 12, color: Color.fromARGB(255, 24, 24, 24), fontWeight: FontWeight.w100),
+                     " is not just a matrimony platform.It’s a mission-driven community dedicated to promoting enduring, meaningful relationships. The name inakal means pairs in Malayalam, symbolizing our commitment to uniting like-minded life partners who share a belief in the timeless value of marriage and true companionship. At inakal.com, we recognize that marriage is a journey that flourishes with understanding and support. Unlike traditional matrimonial sites, we are managed by a dedicated team of psychologists, doctors, and astrologers who are deeply invested in the success of each partnership. With services that include pre-marital counseling upon request, our goal is to provide couples with resources to foster strong, healthy relationships.",
+                      style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 24, 24, 24), fontWeight: FontWeight.w100),
                     )
                   ]),
                   textAlign: TextAlign.justify,
@@ -112,19 +111,17 @@ class _AboutUsState extends State<AboutUs> {
                 children: [
             Row(
             children: [
-              CircleAvatar(
-
-              )
-              ,
-           // Icon(Icons.apps),
+              CustomIcon(),
                 Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                  children: [
                           Text(
-                            'Our Mission',
+                            'Enquiry',
                             style: TextStyle(color: AppColors.black, fontSize: 15,fontWeight: FontWeight.bold),
                                     ),
                                     Text(
-                                      'Save Marriages.',
+                                      '+91 9867543986',
                                       style: TextStyle(color: AppColors.black, fontSize: 15),
                              ), 
                         ],
@@ -135,18 +132,17 @@ class _AboutUsState extends State<AboutUs> {
                     padding: EdgeInsets.all(20.0),
                     child: Row(
                       children: [
-                        CircleAvatar(
-                         
-                        )
-                        , //Icon(Icons.add),
-                                    Column(
-                                     children: [
+                      CustomIcon(),
+                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                             Text(
-                              'Our Mission',
+                              'Get Support',
                               style: TextStyle(color: AppColors.black, fontSize: 15,fontWeight: FontWeight.bold),
                                       ),
                                       Text(
-                                        'Save Marriages.',
+                                        'inakal@inakal.com',
                                         style: TextStyle(color: AppColors.black, fontSize: 15),
                                ), 
                           ],
@@ -155,9 +151,8 @@ class _AboutUsState extends State<AboutUs> {
                     ),
                   ),
                 ],
-              ),
-            ),
- 
+             ),
+          ),
         ],
       ),
     )
