@@ -47,12 +47,13 @@ class _AboutUsState extends State<AboutUs> {
                       style: TextStyle(
                         color: AppColors.primaryRed,
                         fontWeight: FontWeight.normal,
+                        fontSize: 15
                       ),
                     ),
                     TextSpan(
                       text:
                      " is not just a matrimony platform.It’s a mission-driven community dedicated to promoting enduring, meaningful relationships. The name inakal means pairs in Malayalam, symbolizing our commitment to uniting like-minded life partners who share a belief in the timeless value of marriage and true companionship. At inakal.com, we recognize that marriage is a journey that flourishes with understanding and support. Unlike traditional matrimonial sites, we are managed by a dedicated team of psychologists, doctors, and astrologers who are deeply invested in the success of each partnership. With services that include pre-marital counseling upon request, our goal is to provide couples with resources to foster strong, healthy relationships.",
-                      style: TextStyle(fontSize: 15, color: Color.fromARGB(255, 24, 24, 24), fontWeight: FontWeight.w100),
+                      style: TextStyle(fontSize: 15, color: AppColors.black, fontWeight: FontWeight.w100),
                     )
                   ]),
                   textAlign: TextAlign.justify,
@@ -111,7 +112,7 @@ class _AboutUsState extends State<AboutUs> {
                 children: [
             Row(
             children: [
-              CustomIcon(),
+              CustomIcon(icon: Icons.phone,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -132,7 +133,7 @@ class _AboutUsState extends State<AboutUs> {
                     padding: EdgeInsets.all(20.0),
                     child: Row(
                       children: [
-                      CustomIcon(),
+                      CustomIcon(icon: Icons.email),
                        Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
