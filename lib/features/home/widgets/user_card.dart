@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fe.dart';
-import 'package:iconify_flutter_plus/icons/gg.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class UserCard extends StatefulWidget {

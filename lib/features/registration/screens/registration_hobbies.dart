@@ -6,6 +6,8 @@ import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class RegistrationHobbies extends StatefulWidget {
+  const RegistrationHobbies({super.key});
+
   @override
   _RegistrationHobbiesState createState() => _RegistrationHobbiesState();
 }

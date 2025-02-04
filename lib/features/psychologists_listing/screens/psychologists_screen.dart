@@ -5,6 +5,8 @@ import 'package:inakal/features/psychologists_listing/widgets/profile_card.dart'
 import 'package:inakal/model/psychologist_model.dart';
 
 class PsychologistScreen extends StatefulWidget {
+  const PsychologistScreen({super.key});
+
   @override
   State<PsychologistScreen> createState() => _PsychologistScreenState();
 }

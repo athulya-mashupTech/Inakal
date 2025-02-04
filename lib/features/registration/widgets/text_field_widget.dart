@@ -57,8 +57,8 @@ class TextFieldWidget extends StatelessWidget {
     this.onTap,
     this.obscureText = false,
     this.validator,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

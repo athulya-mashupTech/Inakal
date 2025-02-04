@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/constants/app_constants.dart';
 
 class ImageCard extends StatelessWidget {
   final String image;

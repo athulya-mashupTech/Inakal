@@ -13,12 +13,12 @@ class OtherProfileDetailCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.baseline,
       textBaseline: TextBaseline.alphabetic,
       children: [
-        Icon(
+        const Icon(
           Icons.circle,
           size: 10,
           color: AppColors.primaryRed,
         ),
-        SizedBox(width: 3),
+        const SizedBox(width: 3),
         Text("$title -  ", style: const TextStyle(fontSize: 14)),
         Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
       ],

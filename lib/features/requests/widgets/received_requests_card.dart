@@ -156,7 +156,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                     color: AppColors.black,
                                     fontWeight: FontWeight.bold),
                               ),
-                              SizedBox(width: 10),
+                              const SizedBox(width: 10),
                               widget.req_status == "Pending"
                                   ? // Chat Button
                                   Row(
@@ -166,7 +166,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                           size: 10,
                                           color: AppColors.grey.withAlpha(100),
                                         ),
-                                        SizedBox(width: 10,),
+                                        const SizedBox(width: 10,),
                                         const Text(
                                           "10 Jan 2025",
                                           style: TextStyle(
@@ -179,7 +179,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                   : const SizedBox.shrink(),
                             ],
                           ),
-                          SizedBox(width: 10,),
+                          const SizedBox(width: 10,),
                           widget.req_status == "Pending"
                               ? const Row(
                                   children: [
@@ -210,10 +210,10 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
             const SizedBox(height: 10),
 
             widget.req_status == "Accepted"
-                ? Column(
+                ? const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           "Take the next step and contact him directly",
@@ -222,14 +222,14 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      const MessageButton(text: "Message")
+                      SizedBox(height: 5),
+                      MessageButton(text: "Message")
                     ],
                   )
-                : Column(
+                : const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                      Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16.0),
                         child: Text(
                           "Accept his interest to communicate further",
@@ -238,8 +238,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           ),
                         ),
                       ),
-                      const SizedBox(height: 5),
-                      const Row(
+                      SizedBox(height: 5),
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           DeclineButton(text: "Decline"),
