@@ -5,14 +5,13 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 
-/// The `RegistrationHobbies` widget represents a screen where users can select up to 5 hobbies.
-/// This helps personalize the user's experience by matching them with others with similar interests.
 class RegistrationHobbies extends StatefulWidget {
   @override
   _RegistrationHobbiesState createState() => _RegistrationHobbiesState();
 }
 
 class _RegistrationHobbiesState extends State<RegistrationHobbies> {
+
   // List of available hobbies/interests.
   final List<String> interests = [
     "Reading",
@@ -36,8 +35,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
   ];
 
   final Set<String> selectedInterests = {};
-
-
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
@@ -68,7 +65,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16.0),
-
               const Text(
                 "This will help us to match you with the right people",
                 style: TextStyle(

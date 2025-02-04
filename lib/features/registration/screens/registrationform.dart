@@ -6,6 +6,7 @@ import 'package:inakal/features/registration/screens/registration_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 import '../widgets/text_field_widget.dart';
 
+
 class RegistrationForm extends StatefulWidget {
   const RegistrationForm({super.key});
 
@@ -24,7 +25,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _districtController = TextEditingController();
   final TextEditingController _pincodeController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
-
+  final TextEditingController _passwordController = TextEditingController();
   String? selectedGender;
 
   @override
@@ -37,7 +38,41 @@ class _RegistrationFormState extends State<RegistrationForm> {
     _districtController.dispose();
     _pincodeController.dispose();
     _dobController.dispose();
+    _passwordController.dispose();
     super.dispose();
+  }
+
+  
+
+  String? _validateEmail(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Email is required';
+  }
+  String pattern =
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+  RegExp regex = RegExp(pattern);
+
+  if (!regex.hasMatch(value)) {
+    return 'Enter a valid email address';
+  }
+
+  return null;
+}
+
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 8) {
+      return 'Password must be at least 8 characters';
+    } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
+      return 'Password must contain at least one uppercase letter';
+    } else if (!RegExp(r"[a-z]").hasMatch(value)) {
+      return 'Password must contain at least one lowercase letter';
+    } else if (!RegExp(r"[0-9]").hasMatch(value)) {
+      return 'Password must contain at least one digit';
+    }
+    return null;
   }
 
   @override
@@ -61,61 +96,47 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16.0),
-              const Text(
-                "Let's Get to Know Each Other",
-                style: TextStyle(
-                  fontSize: 16.0,
-                  color: AppColors.black,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16.0),
               TextFieldWidget(
                 controller: _fullNameController,
                 hintText: 'Full Name',
+                validator: (value) => value!.isEmpty ? 'Full Name is required' : null,
               ),
               TextFieldWidget(
                 controller: _emailController,
                 hintText: 'Email ID',
+                validator: _validateEmail,
+              ),
+              TextFieldWidget(
+                controller: _passwordController,
+                hintText: 'Password',
+                obscureText: true,
+                validator: _validatePassword,
               ),
               TextFieldWidget(
                 controller: _addressController,
                 hintText: 'Address',
+                validator: (value) => value!.isEmpty ? 'Address is required' : null,
               ),
               TextFieldWidget(
                 controller: _countryController,
                 hintText: 'Country',
+                validator: (value) => value!.isEmpty ? 'Country is required' : null,
               ),
               TextFieldWidget(
                 controller: _cityController,
                 hintText: 'City',
+                validator: (value) => value!.isEmpty ? 'City is required' : null,
               ),
               TextFieldWidget(
                 controller: _districtController,
                 hintText: 'District',
+                validator: (value) => value!.isEmpty ? 'District is required' : null,
               ),
               TextFieldWidget(
                 controller: _pincodeController,
                 hintText: 'Pincode',
                 keyboardType: TextInputType.number,
-              ),
-              TextFieldWidget(
-                controller: _dobController,
-                hintText: 'Date of Birth',
-                suffixIcon: const Icon(Icons.calendar_month),
-                onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (pickedDate != null) {
-                    _dobController.text =
-                        '${pickedDate.toLocal()}'.split(' ')[0];
-                  }
-                },
+                validator: (value) => value!.isEmpty ? 'Pincode is required' : null,
               ),
               GenderSelectionWidget(
                 selectedGender: selectedGender,
@@ -126,9 +147,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 },
               ),
               const SizedBox(height: 16.0),
-
-              CustomButton(text: "Continue", onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => RegistrationHobbies()));},),
-
+              CustomButton(
+                text: "Continue", 
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => RegistrationHobbies(),
+                      ),
+                    );
+                  }
+                },
+              ),
               const SizedBox(height: 20.0),
             ],
           ),

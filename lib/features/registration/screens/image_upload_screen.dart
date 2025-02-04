@@ -42,7 +42,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   const RegistrationLoader(progress: 3),
                   const SizedBox(height: 20),
                   const Text(
-                    "Select upto 5 Hobbies",
+                    "Upload your photo",
                     style: TextStyle(
                       fontSize: 24.0,
                       fontWeight: FontWeight.bold,
@@ -54,7 +54,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 30),
                     child: Text(
-                      "Ready to make a connection? Upload a photo and let your journey to love begin!",
+                      "We'd love to see you. Upload a photo for your dating journey.",
                       style: TextStyle(fontSize: 16),
                       textAlign: TextAlign.center,
                     ),
