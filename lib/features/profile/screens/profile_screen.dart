@@ -6,7 +6,7 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
-import 'package:inakal/features/profile/widgets/Image_card.dart';
+import 'package:inakal/features/profile/widgets/image_card.dart';
 
 class ProfilePage extends StatefulWidget {
   @override

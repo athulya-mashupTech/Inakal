@@ -42,6 +42,8 @@ class CounsellorsScreen extends StatelessWidget {
     },
   ];
 
+  CounsellorsScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {

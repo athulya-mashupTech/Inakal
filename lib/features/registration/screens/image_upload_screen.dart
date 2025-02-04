@@ -9,6 +9,8 @@ import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 
 class ImageUploadScreen extends StatefulWidget {
+  const ImageUploadScreen({super.key});
+
   @override
   _ImageUploadScreenState createState() => _ImageUploadScreenState();
 }
@@ -147,7 +149,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
             : DottedBorder(
                 color: Colors.grey,
                 strokeWidth: 2,
-                dashPattern: [6, 4],
+                dashPattern: const [6, 4],
                 borderType: BorderType.RRect,
                 radius: const Radius.circular(10),
                 child: const Center(

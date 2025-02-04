@@ -10,12 +10,12 @@ class PremaritalCard extends StatelessWidget {
   final Color backgroundColor;
 
   const PremaritalCard({
-    Key? key,
+    super.key,
     required this.firstText,
     required this.secondText,
     required this.topRightWidget,
     this.backgroundColor = AppColors.deepBlue,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

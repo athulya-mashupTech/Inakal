@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/bi.dart';
-import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
