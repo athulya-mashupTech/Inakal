@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/bi.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
+import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/model/user.dart';
@@ -24,7 +29,18 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Home"),
+        title: Image.asset("assets/logo/inakal_logo.png", height: 30,),
+        centerTitle: true,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+          child: IconButton(icon: Iconify(Ph.chats_circle_fill, size: 26, color: AppColors.primaryRed,), onPressed: () {},),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
+            child: IconButton(onPressed: () {}, icon: Icon(Icons.filter_alt_rounded, color: AppColors.primaryRed)),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Column(

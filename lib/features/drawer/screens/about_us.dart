@@ -123,7 +123,7 @@ class _AboutUsState extends State<AboutUs> {
                                     Text(
                                       '+91 9867543986',
                                       style: TextStyle(color: AppColors.black, fontSize: 15),
-                             ), 
+                            ), 
                         ],
                      ),
                     ],

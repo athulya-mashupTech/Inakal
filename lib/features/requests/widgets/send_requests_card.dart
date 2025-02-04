@@ -90,46 +90,121 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 5),
-                  // Name
-                  Text(
-                    widget.name,
-                    style: const TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-
-                  Text(
-                    widget.location,
-                    style: const TextStyle(
-                      fontSize: 12,
-                    ),
-                  ),
-
-                  SizedBox(height: 5),
-
-                  Column(                    
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // SizedBox(height: 5),
+                      // Name
                       Text(
-                        "${widget.age} Year, ${widget.height}",
+                        widget.name,
+                        style: const TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+
+                      Text(
+                        widget.location,
                         style: const TextStyle(
                           fontSize: 12,
                         ),
                       ),
-                      Text(
-                        widget.religion,
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
+                    ],
+                  ),
+
+                  SizedBox(height: 8),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${widget.age} Year, ${widget.height}",
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            widget.religion,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Text(
+                            widget.role,
+                            style: const TextStyle(
+                              fontSize: 12,
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.baseline,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            textBaseline: TextBaseline.ideographic,
+                            children: [
+                              Row(
+                                children: [
+                                  Text(
+                                    switch (widget.req_status) {
+                                      "Accepted" => "Request Accepted",
+                                      "Pending" => "Request Pending",
+                                      "Rejected" => "Request Pending",
+                                      _ => "Unknown",
+                                    },
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: switch (widget.req_status) {
+                                        "Accepted" => AppColors.freshGreen,
+                                        "Pending" => AppColors.goldenYellow,
+                                        "Rejected" => AppColors.darkRed,
+                                        _ => AppColors.black,
+                                      },
+                                    ),
+                                  ),
+                                  SizedBox(width: 5),
+                                  Icon(
+                                      switch (widget.req_status) {
+                                        "Accepted" => Icons.check,
+                                        "Pending" => Icons.warning_rounded,
+                                        "Rejected" => Icons.close,
+                                        _ => Icons.error,
+                                      },
+                                      color: switch (widget.req_status) {
+                                        "Accepted" => AppColors.freshGreen,
+                                        "Pending" => AppColors.goldenYellow,
+                                        "Rejected" => AppColors.darkRed,
+                                        _ => AppColors.black,
+                                      },
+                                      size: 20),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-                      Text(
-                        widget.role,
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
+
+                      widget.req_status == "Accepted"
+                      ? // Chat Button
+                      Column(
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {},
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.freshGreen,
+                              shape: CircleBorder(),
+                            ),
+                            child: const Icon(
+                              Icons.chat,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      )
+                      : const SizedBox.shrink(),
+
                     ],
                   ),
 
@@ -143,63 +218,6 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
 
                   // Buttons
                   // const SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    textBaseline: TextBaseline.ideographic,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            switch (widget.req_status) {
-                              "Accepted" => "Request Accepted",
-                              "Pending" => "Request Pending",
-                              "Rejected" => "Request Pending",
-                              _ => "Unknown",
-                            },
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: switch (widget.req_status) {
-                                "Accepted" => AppColors.freshGreen,
-                                "Pending" => AppColors.goldenYellow,
-                                "Rejected" => AppColors.darkRed,
-                                _ => AppColors.black,
-                              },
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Icon(
-                              switch (widget.req_status) {
-                                "Accepted" => Icons.check,
-                                "Pending" => Icons.warning_rounded,
-                                "Rejected" => Icons.close,
-                                _ => Icons.error,
-                              },
-                              color: switch (widget.req_status) {
-                                "Accepted" => AppColors.freshGreen,
-                                "Pending" => AppColors.goldenYellow,
-                                "Rejected" => AppColors.darkRed,
-                                _ => AppColors.black,
-                              },
-                              size: 20),
-                        ],
-                      ),
-                      widget.req_status == "Accepted"
-                          ? // Chat Button
-                          ElevatedButton(
-                              onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.freshGreen,
-                                shape: CircleBorder(),
-                              ),
-                              child: const Icon(
-                                Icons.chat,
-                                color: AppColors.white,
-                              ),
-                            )
-                          : const SizedBox.shrink(),
-                    ],
-                  ),
                 ],
               ),
             ),
