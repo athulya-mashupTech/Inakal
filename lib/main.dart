@@ -7,7 +7,9 @@ import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/widgets/custom_icon.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
+import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
+import 'package:inakal/features/registration/screens/registrationform.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 
@@ -28,13 +30,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-         home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
         //home: BottomNavBarScreen()
-        // home: MatchesScreen(),
+         //home: MatchesScreen(),
         //home: ProfilePage(),
         // home: Notifications()
          //home: const AboutUs(),
+         //home: CounsellorsScreen(),
+         home:RegistrationForm()
     );
   }
 }

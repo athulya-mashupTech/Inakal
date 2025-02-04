@@ -36,6 +36,8 @@ class MatchesScreen extends StatelessWidget {
     },
   ];
 
+   MatchesScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,7 +89,7 @@ class MatchesScreen extends StatelessWidget {
             const SizedBox(height: 20),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
                 
                 child: GridView.builder(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(

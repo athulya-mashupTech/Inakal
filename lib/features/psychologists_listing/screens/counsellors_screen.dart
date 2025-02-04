@@ -42,7 +42,6 @@ class CounsellorsScreen extends StatelessWidget {
     },
   ];
 
-   CounsellorsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,13 +74,13 @@ class CounsellorsScreen extends StatelessWidget {
               ),
               ],
               ),
-              ),
+             ),
             ),
              
               const SizedBox(height: 20),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: GridView.builder(
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
@@ -96,7 +95,6 @@ class CounsellorsScreen extends StatelessWidget {
                         image: match['image']!,
                         name: match['name']!,
                         location: match['location']!,
-                        
                       );
                     },
                   ),
