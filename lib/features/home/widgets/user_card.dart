@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/fe.dart';
+import 'package:iconify_flutter_plus/icons/gg.dart';
+import 'package:inakal/constants/app_constants.dart';
 
 class UserCard extends StatefulWidget {
   final String image;
   final String name;
   final String location;
-  
-  const UserCard({required this.name, required this.location, super.key, required this.image});
+
+  const UserCard(
+      {required this.name,
+      required this.location,
+      super.key,
+      required this.image});
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -30,6 +38,7 @@ class _UserCardState extends State<UserCard> {
                 width: double.infinity,
                 height: double.infinity,
               ),
+
               // Gradient overlay at the bottom
               Align(
                 alignment: Alignment.bottomCenter,
@@ -64,14 +73,32 @@ class _UserCardState extends State<UserCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      SizedBox(height: 4.0),
+                      
                       Text(
-                        widget.location, // Use the location from the constructor
+                        widget
+                            .location, // Use the location from the constructor
                         style: const TextStyle(
                           color: Colors.white70,
                           fontSize: 16.0,
                         ),
                       ),
+                    ],
+                  ),
+                ),
+              ),
+
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Align(
+                  alignment: Alignment.bottomRight,
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Icon(Icons.circle, size: 60, color: AppColors.primaryRed,),
+                      IconButton(
+                        onPressed: () {}, 
+                        icon: Iconify(Fe.heart, size: 35, color: AppColors.white)
+                      )
                     ],
                   ),
                 ),
