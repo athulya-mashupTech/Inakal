@@ -54,19 +54,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 16),
                   ),
-                  SizedBox(height: 32),
-                  // TextField(
-                  // controller: _mobileController,
-                  // keyboardType: TextInputType.phone,
-                  // decoration: InputDecoration(
-                  //   hintText: 'Enter Mobile Number',
-                  //   contentPadding: EdgeInsets.symmetric(horizontal: 20.0), // Added padding
-                  //   border: OutlineInputBorder(
-                  //   borderRadius: BorderRadius.circular(30.0),
-                  //   borderSide: BorderSide(color: AppColors.primaryRed)
-                  //   ),
-                  // ),
-                  // ),
+                  const SizedBox(height: 32),
                   IntlPhoneField(
                     decoration: InputDecoration(
                       labelText: 'Mobile Number',

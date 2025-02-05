@@ -61,7 +61,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                 ? ClipRRect(
                     borderRadius: BorderRadius.circular(10),
                     child: ColorFiltered(
-                      colorFilter: ColorFilter.mode(
+                      colorFilter: const ColorFilter.mode(
                         Colors.grey, // This will apply the grayscale effect
                         BlendMode
                             .saturation, // Apply the grayscale effect using saturation
@@ -113,7 +113,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                     ],
                   ),
 
-                  SizedBox(height: 8),
+                  const SizedBox(height: 8),
 
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -164,7 +164,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                       },
                                     ),
                                   ),
-                                  SizedBox(width: 5),
+                                  const SizedBox(width: 5),
                                   Icon(
                                       switch (widget.req_status) {
                                         "Accepted" => Icons.check,
@@ -194,7 +194,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                             onPressed: () {},
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.freshGreen,
-                              shape: CircleBorder(),
+                              shape: const CircleBorder(),
                             ),
                             child: const Icon(
                               Icons.chat,
