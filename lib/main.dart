@@ -35,13 +35,15 @@ class MyApp extends StatelessWidget {
       ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
-        //home: BottomNavBarScreen()
-         //home: MatchesScreen(),
-        //home: ProfilePage(),
+        // home: BottomNavBarScreen()
+        // home: MatchesScreen(),
+        // home: ProfilePage(),
         // home: Notifications()
-         //home: const AboutUs(),
-         home: const RegistrationDescription(),
-         //home:const RegistrationForm()
+        // home: const AboutUs(),
+        // home: CounsellorsScreen(),
+        // home: RegistrationForm()
+        // home: HomeScreen(),
+        home: const RegistrationDescription(),
     );
   }
 }
