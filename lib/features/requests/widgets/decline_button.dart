@@ -17,7 +17,7 @@ class DeclineButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(30.0),
-              side: BorderSide(
+              side: const BorderSide(
                 color: AppColors.grey, // Grey border color
                 width: 1, // Border width
               ),
@@ -28,8 +28,8 @@ class DeclineButton extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.close, color: AppColors.black), // Close icon
-              SizedBox(width: 5,),
+              const Icon(Icons.close, color: AppColors.black), // Close icon
+              const SizedBox(width: 5,),
               Text(
                 text,
                 style: const TextStyle(color: AppColors.black),

@@ -44,7 +44,8 @@ class _RequestListingScreenState extends State<RequestListingScreen>
       ),
       body: TabBarView(
         controller: _tabController,
-        children: [ // Custom widget for Sent tab
+        // Custom widget for Sent tab
+        children: const [ 
           ReceivedRequests(),
           SendRequests(),
         ],

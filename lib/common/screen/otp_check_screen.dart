@@ -5,12 +5,14 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPValidateScreen extends StatefulWidget {
+  const OTPValidateScreen({super.key});
+
   @override
   _OTPValidateScreenState createState() => _OTPValidateScreenState();
 }
 
 class _OTPValidateScreenState extends State<OTPValidateScreen> {
-  String _otp = '234567';
+  final String _otp = '234567';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final defaultPinTheme = PinTheme(
     width: 56,
@@ -118,7 +120,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
               keyboardType: TextInputType.number,
               defaultPinTheme: defaultPinTheme,
               validator: (value) {
-                print(value ?? "Nil");
+               // print(value ?? "Nil");
                 return value == _otp ? null : "Invalid OTP";
               },
               onCompleted: (value) {
@@ -127,7 +129,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => RegistrationForm()));
+                          builder: (context) => const RegistrationForm()));
                 }
               },
               errorBuilder: (errorText, pin) {

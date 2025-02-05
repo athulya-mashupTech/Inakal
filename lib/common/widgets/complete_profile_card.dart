@@ -72,14 +72,14 @@ class _CompleteProfileCardState extends State<CompleteProfileCard> {
                             value: 0.25,
                             strokeWidth: 7,
                             backgroundColor: AppColors.white.withOpacity(0.2),
-                            valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                            valueColor: const AlwaysStoppedAnimation<Color>(AppColors.white),
                           ),
                         ),
                         Center(
                           child: Container(
                           height: 65,
                           width: 65,
-                            child: Column(
+                            child: const Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text("20%", style: TextStyle(color: AppColors.white, fontSize: 15, fontWeight: FontWeight.w600),),
@@ -92,7 +92,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard> {
     
     
                     const SizedBox(width: 20), // Add spacing between image and text
-                    Expanded(
+                    const Expanded(
                       child: Text(
                         "Complete your profile to help us find your perfect match. A detailed profile leads to better connections!",
                         style: TextStyle(
