@@ -9,6 +9,7 @@ import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
+import 'package:inakal/features/registration/screens/registration_description.dart';
 import 'package:inakal/features/registration/screens/registrationform.dart';
 import 'package:inakal/features/requests/screens/request_listing_screen.dart';
 import 'package:inakal/features/requests/screens/send_requests.dart';
@@ -39,8 +40,8 @@ class MyApp extends StatelessWidget {
         //home: ProfilePage(),
         // home: Notifications()
          //home: const AboutUs(),
-         //home: CounsellorsScreen(),
-         home:RegistrationForm()
+         home: const RegistrationDescription(),
+         //home:const RegistrationForm()
     );
   }
 }

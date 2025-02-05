@@ -37,6 +37,8 @@ class GenderSelectionWidget extends StatelessWidget {
   }) {
     return GestureDetector(
       onTap: () => onGenderSelected(gender),
+      
+      
       child: Container(
         height: 100,
         width: 100,
@@ -45,6 +47,7 @@ class GenderSelectionWidget extends StatelessWidget {
           shape: BoxShape.circle,
           //border: Border.all(color: AppColors.white),
         ),
+        
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
