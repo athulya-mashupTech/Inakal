@@ -26,6 +26,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
     super.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +96,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                   focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryRed, width: 1.5),
             borderRadius: BorderRadius.circular(30.0),
-          ),
+                ),
                 ),
                 maxLines: null, 
                 validator: (value) {

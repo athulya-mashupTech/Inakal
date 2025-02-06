@@ -6,19 +6,21 @@ class TextFieldWidget extends StatelessWidget {
   final String hintText;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
+  final Widget? prefixIcon;
   final VoidCallback? onTap;
   final bool obscureText;
   final String? Function(String?)? validator;
 
-  const TextFieldWidget({
+   const TextFieldWidget({
     required this.controller,
     required this.hintText,
     this.keyboardType,
     this.suffixIcon,
+    this.prefixIcon,
     this.onTap,
     this.obscureText = false,
     this.validator,
-    super.key,
+    super.key, 
   });
 
   @override
@@ -39,6 +41,7 @@ class TextFieldWidget extends StatelessWidget {
             borderRadius: BorderRadius.circular(30.0),
           ),
           suffixIcon: suffixIcon,
+          prefixIcon: prefixIcon
         ),
         onTap: onTap,
         validator: validator,
