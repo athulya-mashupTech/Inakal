@@ -20,13 +20,13 @@ class OnboardingPage2 extends StatelessWidget {
       children: [
         Column(
           children: [
-            SizedBox(height: 100),
+            SizedBox(height: 200),
             Image.asset(image, width: MediaQuery.of(context).size.width),
           ],
         ),
 
         Positioned(
-          top: 20,
+          top: 80,
           child: Image.asset(
             "assets/vectors/ellipse1.png",
             width: 250,
@@ -34,7 +34,7 @@ class OnboardingPage2 extends StatelessWidget {
         ),
 
         Positioned(
-          top: 140,
+          top: 240,
           left: 5,
           child: Image.asset(
             "assets/vectors/ellipse2.png",
@@ -43,7 +43,7 @@ class OnboardingPage2 extends StatelessWidget {
         ),
 
         Positioned(
-          top: 160,
+          top: 260,
           right: 5,
           child: Image.asset(
             "assets/vectors/ellipse3.png",
@@ -54,6 +54,7 @@ class OnboardingPage2 extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            SizedBox(height: 100,),
             Container(
               width: 300,
               height: 400,
