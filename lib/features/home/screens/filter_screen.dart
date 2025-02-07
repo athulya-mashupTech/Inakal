@@ -109,10 +109,9 @@ class _FilterScreenState extends State<FilterScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 5.0),
-                    child: Text("Location",
+                    child: Text("Age",
                         style: TextStyle(fontWeight: FontWeight.bold)),
                   ),
-                  SizedBox(height: 5),
                   RangeSlider(
                     activeColor: AppColors.primaryRed,
                     values: modalRangeValues,
@@ -129,13 +128,17 @@ class _FilterScreenState extends State<FilterScreen> {
                       });
                     },
                   ),
-                  const SizedBox(height: 20),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                    child: const Text('Close'),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("5'6\""),
+                        Text("8'0\"")
+                      ],
+                    ),
                   ),
+                  const SizedBox(height: 20)
                 ],
               ),
             )
