@@ -26,7 +26,7 @@ class _FilterScreenState extends State<FilterScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
+              const Row(
                 children: [
                   Iconify(Mdi.instant_mix),
                   SizedBox(
@@ -35,13 +35,13 @@ class _FilterScreenState extends State<FilterScreen> {
                   Text("Filter")
                 ],
               ),
-              IconButton(onPressed: () {}, icon: Icon(Icons.close))
+              IconButton(onPressed: () {}, icon: const Icon(Icons.close))
             ],
           ),
-          SizedBox(height: 10),
-          Padding(
+          const SizedBox(height: 10),
+          const Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Text("ID", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           TextField(
@@ -50,24 +50,23 @@ class _FilterScreenState extends State<FilterScreen> {
             focusColor: AppColors.primaryRed,
             filled: true,
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.primaryRed, width: 1),
+                borderSide: const BorderSide(color: AppColors.primaryRed, width: 1),
                 borderRadius: BorderRadius.circular(10)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
               borderSide: const BorderSide(width: 1.5),
             ),
             hintText: 'Search by ID',
-            hintStyle: TextStyle(color: AppColors.grey, fontSize: 18),
-            prefixIcon: Container(
-              // padding: EdgeInsets.symmetric(horizontal: 15),
-              child: Icon(Icons.search_rounded),
+            hintStyle: const TextStyle(color: AppColors.grey, fontSize: 18),
+            prefixIcon: const SizedBox(
               width: 18,
+              child: Icon(Icons.search_rounded),
             ),
           )),
-          SizedBox(height: 10),
-          FilterButton(text: "Search"),
-          SizedBox(height: 15),
-          Row(
+          const SizedBox(height: 10),
+          const FilterButton(text: "Search"),
+          const SizedBox(height: 15),
+          const Row(
             children: [
               SizedBox(width: 20),
               Expanded(child: Divider()),
@@ -78,10 +77,10 @@ class _FilterScreenState extends State<FilterScreen> {
               SizedBox(width: 20)
             ],
           ),
-          SizedBox(height: 10),
-          Padding(
+          const SizedBox(height: 10),
+          const Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child:
                 Text("Location", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
@@ -91,7 +90,7 @@ class _FilterScreenState extends State<FilterScreen> {
             focusColor: AppColors.primaryRed,
             filled: true,
             focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: AppColors.primaryRed, width: 1),
+                borderSide: const BorderSide(color: AppColors.primaryRed, width: 1),
                 borderRadius: BorderRadius.circular(10)),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -100,10 +99,10 @@ class _FilterScreenState extends State<FilterScreen> {
             hintText: 'Search prefered location',
             hintStyle: const TextStyle(color: AppColors.grey, fontSize: 18),
           )),
-          SizedBox(height: 10),
-          Padding(
+          const SizedBox(height: 10),
+          const Padding(
             padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+                EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
             child: Text("Age", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           RangeSlider(
@@ -122,8 +121,8 @@ class _FilterScreenState extends State<FilterScreen> {
               });
             },
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
