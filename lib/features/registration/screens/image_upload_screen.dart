@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/registration/screens/registration_description.dart';
+import 'package:inakal/features/registration/screens/registration_password.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 
 class ImageUploadScreen extends StatefulWidget {
@@ -90,7 +92,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const BottomNavBarScreen(),
+                      builder: (context) => const RegistrationPassword(),
                     ),
                   );
                 },),

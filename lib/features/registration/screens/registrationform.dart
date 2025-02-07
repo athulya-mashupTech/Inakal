@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/features/registration/screens/registration_description.dart';
 import 'package:inakal/features/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
@@ -189,7 +190,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const RegistrationHobbies(),
+                        builder: (context) => const RegistrationDescription(),
                       ),
                     );
                   } else {
