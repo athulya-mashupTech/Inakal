@@ -44,9 +44,9 @@ class MyApp extends StatelessWidget {
         // home: const AboutUs(),
         // home: CounsellorsScreen(),
         // home: RegistrationForm()
-        // home: HomeScreen(),
-        home: const RegistrationPassword(),
-        home: FilterScreen(),
+         //home: HomeScreen(),
+         home: const RegistrationPassword(),
+       // home: FilterScreen(),
         // home: const RegistrationDescription(),
 
     );

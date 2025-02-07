@@ -14,7 +14,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _cpasswordController = TextEditingController();
   final TextEditingController _mobileController = TextEditingController();
-   bool isChecked = false;
+  bool isChecked = false;
 
   @override
   void dispose() {
@@ -43,79 +43,87 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SingleChildScrollView(
-          child: Center(
-            child: Column(
-              children: [
-                const Text(
-                  "Confirm your password",
-                  style: TextStyle(
-                    fontSize: 24.0,
-                    fontWeight: FontWeight.bold,
-                    color: AppColors.primaryRed,
+        padding: const EdgeInsets.all(15.0),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 20),
+                  const Text(
+                    "Confirm your password",
+                    style: TextStyle(
+                      fontSize: 29.0,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.black,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 30),
-                const Text(
-                  "Ensure Security & Access",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                    color: AppColors.black,
+                  const SizedBox(height: 5),
+                  const Text(
+                    "Ensure Security & Access",
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.normal,
+                      color: AppColors.black,
+                    ),
+                    textAlign: TextAlign.center,
                   ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                TextFieldWidget(
-                  controller: _passwordController,
-                  hintText: 'Enter your password',
-                  suffixIcon: const Icon(Icons.visibility_off),
-                  prefixIcon: const Icon(Icons.lock),
-                  obscureText: true,
-                  validator: _validatePassword,
-                ),
-                const SizedBox(height: 20),
-                TextFieldWidget(
-                  controller: _cpasswordController,
-                  hintText: 'Confirm password',
-                  suffixIcon: const Icon(Icons.visibility_off),
-                  prefixIcon: const Icon(Icons.lock),
-                  obscureText: true,
-                  validator: (value) {
-                    if (value != _passwordController.text) {
-                      return 'Passwords do not match';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 20),
-                const Text("agree the T&C and complete the ",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                const Text("registration with the mobile number",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                const Text("+91 96XXX XXX99 ",style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold)),
-                const SizedBox(height: 15,),
-               Padding(
-                 padding: const EdgeInsets.all(12.0),
-                 child: Row(
-                  children: [
-                     Checkbox(
-                           value: isChecked,
-                           onChanged: (bool? value) {
-                             setState(() {
-                               isChecked = value ?? false;
-                             });
-                           },
-                           focusColor:AppColors.black , 
-                           activeColor: AppColors.primaryRed, 
-                         ),
-                         const SizedBox(height: 16),
-                            const Text('I Agree to the Terms and Conditions'),
-                  ],
-                 ),
-               ),
-            const CustomButton(text: "Register")
-              ],
+                  const SizedBox(height: 15),
+                  TextFieldWidget(
+                    controller: _passwordController,
+                    hintText: 'Password',
+                    suffixIcon: const Icon(Icons.visibility_off),
+                    prefixIcon: const Icon(Icons.lock),
+                    obscureText: true,
+                    validator: _validatePassword,
+                  ),
+                  TextFieldWidget(
+                    controller: _cpasswordController,
+                    hintText: 'Confirm password',
+                    suffixIcon: const Icon(Icons.visibility_off),
+                    prefixIcon: const Icon(Icons.lock),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value != _passwordController.text) {
+                        return 'Passwords do not match';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  const Text("Agree the T&C and complete the ",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                  const Text("registration with the mobile number",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
+                  const Text("+91 96XXX XXX99",
+                      style:
+                          TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
+                  // const SizedBox(height: 15),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
+                    child: Row(
+                      children: [
+                        Checkbox(
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              isChecked = value ?? false;
+                            });
+                          },
+                          focusColor: AppColors.black,
+                          activeColor: AppColors.primaryRed,
+                        ),
+                        const SizedBox(height: 16),
+                        const Text('I Agree to the Terms and Conditions'),
+                      ],
+                    ),
+                  ),
+                  const CustomButton(text: "Register")
+                ],
+              ),
             ),
           ),
         ),

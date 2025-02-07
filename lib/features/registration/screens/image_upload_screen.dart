@@ -160,7 +160,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                       SizedBox(height: 10),
                       Text(
                         "Add Photo",
-                        style: TextStyle(color: Colors.grey),
+                        style: TextStyle(color: AppColors.grey),
                       ),
                     ],
                   ),
