@@ -43,7 +43,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
   }
 
   void showSnackbar(BuildContext context) {
-    final snackBar = SnackBar(
+    const snackBar = SnackBar(
       content: Text('Please accept the Terms & Conditions'),
       duration: Duration(seconds: 3),
     );
@@ -114,7 +114,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                             : const Icon(Icons.visibility_off),
                       ),
                       prefixIcon: const Icon(Icons.lock),
-                      obscureText: isCPwdVisible,
+                      obscureText: !isCPwdVisible,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Confirm Password is required';
@@ -162,8 +162,8 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        const BottomNavBarScreen()));
+                                builder: (context) =>
+                                const BottomNavBarScreen()));
                           } else {
                             showSnackbar(context);
                           }

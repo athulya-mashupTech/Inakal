@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
-import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
-import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
-import 'package:inakal/features/home/widgets/filter_button.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/model/user.dart';
@@ -38,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         leading: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
           child: IconButton(
-            icon: Iconify(
+            icon: const Iconify(
               Ph.chats_circle_fill,
               size: 26,
               color: AppColors.primaryRed,
@@ -52,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => FilterScreen()));
+                      MaterialPageRoute(builder: (context) => const FilterScreen()));
                 },
                 icon: const Icon(Icons.filter_alt_rounded,
                     color: AppColors.primaryRed)),
@@ -63,13 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            const SizedBox(height: 20),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: CompleteProfileCard(),
             ),
             // Text("Home Page"),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -80,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OtherProfileScreen()));
+                              builder: (context) => const OtherProfileScreen()));
                     },
                     child: UserCard(
                         name: users[index].name,
