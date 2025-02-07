@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/onboardingpage.dart';
+import 'package:inakal/common/widgets/onboardingpage2.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -53,8 +54,8 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
         description:
             'Get pre-marital counseling from professionals to build a strong, happy future together.',
       ),
-      const OnboardingPage(
-        image: 'assets/vectors/onboarding3.jpg',
+      const OnboardingPage2(
+        image: 'assets/vectors/dotted_design3.png',
         title: 'Discover Love where your story begins.',
         description:
             'Join us to discover your ideal partner and ignite the sparks of romance in your journey.',
