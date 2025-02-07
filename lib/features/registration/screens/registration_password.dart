@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/registration/widgets/text_field_widget.dart';
@@ -11,16 +12,18 @@ class RegistrationPassword extends StatefulWidget {
 }
 
 class _RegistrationPasswordState extends State<RegistrationPassword> {
+  final _formKey = GlobalKey<FormState>();
+
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _cpasswordController = TextEditingController();
-  final TextEditingController _mobileController = TextEditingController();
   bool isChecked = false;
+  bool isPwdVisible = false;
+  bool isCPwdVisible = false;
 
   @override
   void dispose() {
     _passwordController.dispose();
     _cpasswordController.dispose();
-    _mobileController.dispose();
     super.dispose();
   }
 
@@ -39,6 +42,14 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
     return null;
   }
 
+  void showSnackbar(BuildContext context) {
+    final snackBar = SnackBar(
+      content: Text('Please accept the Terms & Conditions'),
+      duration: Duration(seconds: 3),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,82 +58,120 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Confirm your password",
-                    style: TextStyle(
-                      fontSize: 29.0,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.black,
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 20),
+                    const Text(
+                      "Confirm your password",
+                      style: TextStyle(
+                        fontSize: 29.0,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.black,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    "Ensure Security & Access",
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.normal,
-                      color: AppColors.black,
+                    const SizedBox(height: 5),
+                    const Text(
+                      "Ensure Security & Access",
+                      style: TextStyle(
+                        fontSize: 16.0,
+                        fontWeight: FontWeight.normal,
+                        color: AppColors.black,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 15),
-                  TextFieldWidget(
-                    controller: _passwordController,
-                    hintText: 'Password',
-                    suffixIcon: const Icon(Icons.visibility_off),
-                    prefixIcon: const Icon(Icons.lock),
-                    obscureText: true,
-                    validator: _validatePassword,
-                  ),
-                  TextFieldWidget(
-                    controller: _cpasswordController,
-                    hintText: 'Confirm password',
-                    suffixIcon: const Icon(Icons.visibility_off),
-                    prefixIcon: const Icon(Icons.lock),
-                    obscureText: true,
-                    validator: (value) {
-                      if (value != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  const Text("Agree the T&C and complete the ",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-                  const Text("registration with the mobile number",
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.normal)),
-                  const Text("+91 96XXX XXX99",
-                      style:
-                          TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
-                  // const SizedBox(height: 15),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 6),
-                    child: Row(
-                      children: [
-                        Checkbox(
-                          value: isChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              isChecked = value ?? false;
-                            });
-                          },
-                          focusColor: AppColors.black,
-                          activeColor: AppColors.primaryRed,
-                        ),
-                        const SizedBox(height: 16),
-                        const Text('I Agree to the Terms and Conditions'),
-                      ],
+                    const SizedBox(height: 15),
+                    TextFieldWidget(
+                      controller: _passwordController,
+                      hintText: 'Password',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isPwdVisible = !isPwdVisible;
+                          });
+                        },
+                        icon: isPwdVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                      ),
+                      prefixIcon: const Icon(Icons.lock),
+                      obscureText: !isPwdVisible,
+                      validator: _validatePassword,
                     ),
-                  ),
-                  const CustomButton(text: "Register")
-                ],
+                    TextFieldWidget(
+                      controller: _cpasswordController,
+                      hintText: 'Confirm password',
+                      suffixIcon: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isCPwdVisible = !isCPwdVisible;
+                          });
+                        },
+                        icon: isCPwdVisible
+                            ? const Icon(Icons.visibility)
+                            : const Icon(Icons.visibility_off),
+                      ),
+                      prefixIcon: const Icon(Icons.lock),
+                      obscureText: isCPwdVisible,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Confirm Password is required';
+                        } else if (value != _passwordController.text) {
+                          return 'Passwords do not match';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(height: 15),
+                    const Text("Agree the T&C and complete the ",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal)),
+                    const Text("registration with the mobile number",
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.normal)),
+                    const Text("+91 96XXX XXX99",
+                        style: TextStyle(
+                            fontSize: 21, fontWeight: FontWeight.bold)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12.0, vertical: 6),
+                      child: Row(
+                        children: [
+                          Checkbox(
+                            value: isChecked,
+                            onChanged: (bool? value) {
+                              setState(() {
+                                isChecked = value ?? false;
+                              });
+                            },
+                            focusColor: AppColors.black,
+                            activeColor: AppColors.primaryRed,
+                          ),
+                          const SizedBox(height: 16),
+                          const Text('I Agree to the Terms and Conditions'),
+                        ],
+                      ),
+                    ),
+                    CustomButton(
+                      text: "Register",
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (isChecked) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const BottomNavBarScreen()));
+                          } else {
+                            showSnackbar(context);
+                          }
+                        }
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),
