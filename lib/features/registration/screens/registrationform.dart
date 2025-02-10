@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/features/registration/screens/registration_description.dart';
-import 'package:inakal/features/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/registration/widgets/gender_selection.dart';
-import 'package:inakal/features/registration/screens/registration_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -110,12 +108,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 hintText: 'Email ID',
                 validator: _validateEmail,
               ),
-              // TextFieldWidget(
-              //   controller: _passwordController,
-              //   hintText: 'Password',
-              //   obscureText: true,
-              //   validator: _validatePassword,
-              // ),
               TextFieldWidget(
                 controller: _addressController,
                 hintText: 'Address',
@@ -178,9 +170,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 },
               ),
               selectedGender == "error"
-                  ?  const Text("Please select a gender",style: TextStyle(color: AppColors.darkRed),)
-                  : const SizedBox(),
-              const SizedBox(height: 16.0),
+                  ?  const Text("Please select a gender",style: TextStyle(color: AppColors.darkRed),textAlign: TextAlign.center,)
+                  : const SizedBox(height: 10),
+              const SizedBox(height: 17.0),
               CustomButton(
                 text: "Continue",
                 onPressed: () {

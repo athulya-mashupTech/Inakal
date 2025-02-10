@@ -66,7 +66,6 @@ class _PsychologistScreenState extends State<PsychologistScreen> {
                       return ProfileCard(
                           name: psychologists[index].name,
                           location: psychologists[index].location,
-                          //description: psychologists[index].description,
                           occupation: psychologists[index].occupation,
                           imagePath: psychologists[index].imagePath);
             }
