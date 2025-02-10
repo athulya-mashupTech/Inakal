@@ -48,6 +48,15 @@ class AppColors {
     end: Alignment.bottomCenter,
   );
 
+  static const Gradient lightPinkWhiteGradientFromTop = LinearGradient(
+    colors: [
+      Color(0xFFFFFFFF), // White
+      Color.fromARGB(57, 255, 144, 161), // Pink
+    ],
+    begin: Alignment.bottomCenter,
+    end: Alignment.topCenter,
+  );
+
    static const Gradient blueWhiteGradient = LinearGradient(
     colors: [
       Color(0xFFC6EEFF), // blue
