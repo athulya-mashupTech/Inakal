@@ -54,7 +54,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(top: 32.0, left: 30.0, right: 30.0),
         child: SafeArea(
           child: SingleChildScrollView(
             child: Center(

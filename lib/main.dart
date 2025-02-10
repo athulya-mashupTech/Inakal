@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
+import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/widgets/custom_icon.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
@@ -29,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Inakal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
       ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
-        home: BottomNavBarScreen()
+        // home: BottomNavBarScreen()
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
@@ -45,9 +46,10 @@ class MyApp extends StatelessWidget {
         // home: CounsellorsScreen(),
         // home: RegistrationForm()
         // home: HomeScreen(),
-        //  home: const RegistrationPassword(),
+        // home: const RegistrationPassword(),
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
+        home: EditProfile()
 
     );
   }
