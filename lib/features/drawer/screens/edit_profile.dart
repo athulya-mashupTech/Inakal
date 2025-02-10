@@ -11,6 +11,14 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  String selectedWeight = '60Kg';
+  String selectedReligion = 'Hindu';
+  String selectedCaste = 'Nair';
+   String selectedMotherTongue = 'Nair';
+  String selectedMaritalStatus = 'Nair';
+   
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,26 +99,28 @@ class _EditProfileState extends State<EditProfile> {
                       const Text("6’65”ft", textAlign: TextAlign.end),
                       Column(
                         children: [
-                           IconButton(
-                              onPressed: () {},
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_up,color: AppColors.primaryRed,size: 30,
-                              )
-                          ),
                           IconButton(
                               onPressed: () {},
                               icon: const Iconify(
-                                Ic.round_arrow_drop_down,color: AppColors.primaryRed,size: 30,
-                              )
-                          )
+                                Ic.round_arrow_drop_up,
+                                color: AppColors.primaryRed,
+                                size: 30,
+                              )),
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Iconify(
+                                Ic.round_arrow_drop_down,
+                                color: AppColors.primaryRed,
+                                size: 30,
+                              ))
                         ],
                       )
                     ],
                   ),
                 ],
               ),
-              Divider(),
-               Row(
+              const Divider(),
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text("Weight", textAlign: TextAlign.start),
@@ -119,29 +129,119 @@ class _EditProfileState extends State<EditProfile> {
                       const Text("60Kg", textAlign: TextAlign.end),
                       Column(
                         children: [
-                           IconButton(
-                              onPressed: () {},
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_up,color: AppColors.primaryRed,size: 30,
-                              )
-                          ),
                           IconButton(
                               onPressed: () {},
                               icon: const Iconify(
-                                Ic.round_arrow_drop_down,color: AppColors.primaryRed,size: 30,
-                              )
-                          )
+                                Ic.round_arrow_drop_up,
+                                color: AppColors.primaryRed,
+                                size: 30,
+                              )),
+                          IconButton(
+                              onPressed: () {},
+                              icon: const Iconify(
+                                Ic.round_arrow_drop_down,
+                                color: AppColors.primaryRed,
+                                size: 30,
+                              ))
                         ],
                       )
                     ],
                   ),
                 ],
-              )
-            ]
-            )
-            ))
-            )
-            )
-            );
+              ),
+              const Divider(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Religion", textAlign: TextAlign.start),
+                  DropdownButton<String>(
+                    value: selectedReligion,
+                    icon: const Iconify(
+                      Ic.round_arrow_drop_down,
+                      color: AppColors.primaryRed,
+                      size: 30,
+                    ),
+                    items: <String>['Hindu', 'Muslim', 'Christian', 'Buddhist']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                            Text(value), // Only the selected item is displayed
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedReligion = newValue;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+              const Divider(),
+              const SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Caste", textAlign: TextAlign.start),
+                  DropdownButton<String>(
+                    value: selectedCaste,
+                    icon: const Iconify(
+                      Ic.round_arrow_drop_down,
+                      color: AppColors.primaryRed,
+                      size: 30,
+                    ),
+                    items: <String>['Nair', 'Ezhava', 'LC', 'RC']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                            Text(value), // Only the selected item is displayed
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedCaste = newValue;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+
+              const Divider(),
+              const SizedBox(height: 15,),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Caste", textAlign: TextAlign.start),
+                  DropdownButton<String>(
+                    value: selectedMotherTongue,
+                    icon: const Iconify(
+                      Ic.round_arrow_drop_down,
+                      color: AppColors.primaryRed,
+                      size: 30,
+                    ),
+                    items: <String>['Nair', 'Ezhava', 'LC', 'RC']
+                        .map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child:
+                            Text(value), // Only the selected item is displayed
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        setState(() {
+                          selectedMotherTongue = newValue;
+                        });
+                      }
+                    },
+                  ),
+                ],
+              ),
+            ]))))));
   }
 }
