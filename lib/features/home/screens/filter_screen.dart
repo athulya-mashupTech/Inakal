@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/widgets/filter_button.dart';
 import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
@@ -16,26 +17,15 @@ class _FilterScreenState extends State<FilterScreen> {
   RangeValues modalRangeValues = const RangeValues(5.0, 8.0);
   RangeValues modalRangeValuesAge = const RangeValues(18, 60);
   final List<String> interests = [
-    "Reading",
-    "Photography",
-    "Gaming",
-    "Music",
-    "Travel",
-    "Painting",
-    "Politics",
-    "Charity",
-    "Cooking",
-    "Pets",
-    "Sports",
-    "Fashion",
-    "Dance",
+    "Reading","Photography","Gaming","Music","Travel", "Painting","Politics","Charity","Cooking","Pets","Sports","Fashion","Dance",
   ];
+
 final Set<String> selectedInterests = {};
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
         selectedInterests.remove(interest);
-      } else if (selectedInterests.length < 5) {
+      } else if (selectedInterests.length < 13) {
         selectedInterests.add(interest);
       }
     });
@@ -210,8 +200,7 @@ final Set<String> selectedInterests = {};
                     }).toList(),
                   ),
                 ),
-          
-          
+                const CustomButton(text: "Apply filters")          
           ],
                 ),
               ),
