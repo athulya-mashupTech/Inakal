@@ -48,6 +48,7 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   lucide_icons: ^0.257.0
   lottie: ^3.1.3
+  country_state_city_pro: ^0.0.6
 
 dev_dependencies:
   flutter_test:
