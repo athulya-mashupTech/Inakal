@@ -43,8 +43,8 @@ class MyApp extends StatelessWidget {
         // home: ProfilePage(),
         // home: Notifications()
         // home: const AboutUs(),
-        home: CounsellorsScreen(),
-        // home: RegistrationForm()
+        // home: CounsellorsScreen(),
+        home: RegistrationForm()
         // home: HomeScreen(),
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
