@@ -3,7 +3,6 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
-import 'package:inakal/features/registration/widgets/dropdown_feild.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
