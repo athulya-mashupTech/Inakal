@@ -14,7 +14,6 @@ class AppColors {
   static const Color otplightblue = Color.fromRGBO(234, 239, 243, 1);
   static const Color psychotext = Color(0xFF007AB7);
   static const Color deepBlue = Color(0xFF006CAF); // Deep Blue Shade
-  //static const Color premaritalbg = Color(0xFF006CAF);//premarital card background color
   static const Color lightred = Color(0xFFFF90A0); // LightRed
   static const Color coralred = Color(0xFFE2473D); // CoralRed
   static const Color softPink = Color(0xFFFFB8B8); // Soft Pink Shade
@@ -28,6 +27,9 @@ class AppColors {
   static const Color lightGray = Color(0xFFC8C8C8); //  Gray  silver membership Shade
   static const Color vibrantGreen = Color(0xFF4CE417); //  Green chat active Shade
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
+  static const Color bgsoftpink= Color.fromARGB(67, 255, 184, 184);
+
+
 
 
   static const Gradient pinkWhiteGradient = LinearGradient(
