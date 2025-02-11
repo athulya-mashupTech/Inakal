@@ -13,6 +13,7 @@ class FilterScreen extends StatefulWidget {
 
 class _FilterScreenState extends State<FilterScreen> {
   RangeValues modalRangeValues = const RangeValues(5.0, 8.0);
+  RangeValues modalRangeValuesAge = const RangeValues(18.0, 60.0);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +104,7 @@ class _FilterScreenState extends State<FilterScreen> {
           const Padding(
             padding:
                 EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-            child: Text("Age", style: TextStyle(fontWeight: FontWeight.bold)),
+            child: Text("Height", style: TextStyle(fontWeight: FontWeight.bold)),
           ),
           RangeSlider(
             activeColor: AppColors.primaryRed,
@@ -131,7 +132,40 @@ class _FilterScreenState extends State<FilterScreen> {
               ],
             ),
           ),
-          const SizedBox(height: 20)
+
+
+          const SizedBox(height: 10),
+          const Padding(
+            padding:
+                EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+            child: Text("Age", style: TextStyle(fontWeight: FontWeight.bold)),
+          ),
+          RangeSlider(
+            activeColor: AppColors.primaryRed,
+            values: modalRangeValuesAge,
+            min: 18,
+            max: 60,
+            divisions: 30,
+            labels: RangeLabels(
+              modalRangeValuesAge.start.toString(),
+              modalRangeValuesAge.end.toString(),
+            ),
+            onChanged: (RangeValues values) {
+              setState(() {
+                modalRangeValuesAge = values;
+              });
+            },
+          ),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("18", style: TextStyle(color: AppColors.grey)),
+                Text("60", style: TextStyle(color: AppColors.grey))
+              ],
+            ),
+          ),
         ],
       ),
     ));
