@@ -44,13 +44,12 @@ class MyApp extends StatelessWidget {
         // home: Notifications()
         // home: const AboutUs(),
         // home: CounsellorsScreen(),
-        // home: RegistrationForm()
+        home: RegistrationForm()
         // home: HomeScreen(),
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
-        home: EditProfile()
-
+        // home: EditProfile()
     );
   }
 }
