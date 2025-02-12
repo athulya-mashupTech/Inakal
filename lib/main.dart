@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         // home: PsychologistScreen(),
         home: BottomNavBarScreen()
         // home: MatchesScreen(),
-        home: ProfilePage(),
+        // home: ProfilePage(),
         // home: Notifications()
         // home: const AboutUs(),
         // home: CounsellorsScreen(),
