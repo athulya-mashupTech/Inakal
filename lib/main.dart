@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         // home: PsychologistScreen(),
         // home: BottomNavBarScreen()
         // home: MatchesScreen(),
-        // home: ProfilePage(),
+        home: ProfilePage(),
         // home: Notifications()
         // home: const AboutUs(),
         // home: CounsellorsScreen(),
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         // home: HomeScreen(),
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
-        home: const RegistrationDescription(),
+        // home: const RegistrationDescription(),
         // home: EditProfile()
         // home: LoginPage(),
     );

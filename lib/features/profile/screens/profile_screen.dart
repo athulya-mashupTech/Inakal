@@ -5,6 +5,7 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 
@@ -23,11 +24,48 @@ class _ProfilePageState extends State<ProfilePage> {
     "assets/vectors/harsha1.jpg"
   ];
 
+  void _showImageOverlay(int index) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Stack(
+            children: [
+              // Container(
+              //   width: MediaQuery.of(context).size.width,
+              //   height: MediaQuery.of(context).size.height,
+              //   color: Colors.black.withOpacity(0.7),
+              // ),
+              Center(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  // height: MediaQuery.of(context).size.height * 0.7,
+                  child: PageView.builder(
+                    itemCount: images.length,
+                    controller: PageController(initialPage: index),
+                    itemBuilder: (context, i) {
+                      return Image.asset(
+                        images[i],
+                        fit: BoxFit.contain,
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      endDrawer: DrawerWidget(),
+      endDrawer: const DrawerWidget(),
       body: Stack(
         children: [
           Stack(
@@ -76,7 +114,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         IconButton(
-                          icon: const Icon(Icons.widgets_rounded, size: 28,),
+                          icon: const Icon(
+                            Icons.widgets_rounded,
+                            size: 28,
+                          ),
                           onPressed: () {
                             _scaffoldKey.currentState!.openEndDrawer();
                           },
@@ -220,65 +261,93 @@ class _ProfilePageState extends State<ProfilePage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 1.3,
-                      ),
-                      itemCount: images.length > 4 ? 4 : images.length,
-                      itemBuilder: (context, index) {
-                        return images.length > 4
-                            ? index == 3
-                                ? Stack(
-                                    fit: StackFit.expand,
-                                    children: [
-                                      ImageCard(image: images[index]),
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          color: AppColors.black.withAlpha(150),
-                                        ),
-                                      ),
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10.0,
+                          mainAxisSpacing: 10.0,
+                          childAspectRatio: 1.3,
+                        ),
+                        itemCount: images.length > 4 ? 4 : images.length,
+                        itemBuilder: (context, index) {
+                          return images.length > 4
+                              ? index == 3
+                                  ? GestureDetector(
+                                      onTap: () {
+                                        _showImageOverlay(3);
+                                      },
+                                      child: Stack(
+                                        fit: StackFit.expand,
                                         children: [
-                                          const Icon(
-                                            Icons.image_outlined,
-                                            size: 35,
-                                            color: AppColors.white,
+                                          ImageCard(image: images[index]),
+                                          Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              color:
+                                                  AppColors.black.withAlpha(150),
+                                            ),
                                           ),
-                                          Text(
-                                            "+${images.length - 3}",
-                                            style: const TextStyle(
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const Icon(
+                                                Icons.image_outlined,
+                                                size: 35,
                                                 color: AppColors.white,
-                                                fontSize: 24),
+                                              ),
+                                              Text(
+                                                "+${images.length - 3}",
+                                                style: const TextStyle(
+                                                    color: AppColors.white,
+                                                    fontSize: 24),
+                                              )
+                                            ],
                                           )
                                         ],
-                                      )
-                                    ],
-                                  )
-                                : ImageCard(image: images[index])
-                            : ImageCard(image: images[index]);
-                      },
+                                      ),
+                                    )
+                                  : GestureDetector(
+                                      child: ImageCard(image: images[index]),
+                                      onTap: () {
+                                        _showImageOverlay(index);
+                                      },
+                                    )
+                              : GestureDetector(
+                                  child: ImageCard(image: images[index]),
+                                  onTap: () {
+                                    _showImageOverlay(index);
+                                  },
+                                );
+                        },
+                      ),
                     ),
-                    const Padding(
-                      padding: EdgeInsets.all(8.0),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         children: [
-                          CustomButton(text: "Edit Profile"),
-                          SizedBox(
+                          CustomButton(
+                              text: "Edit Profile",
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EditProfile()));
+                              }),
+                          const SizedBox(
                             height: 10,
                           ),
-                          CustomButton(
+                          const CustomButton(
                             text: "Logout",
                             color: AppColors.black,
                           ),
