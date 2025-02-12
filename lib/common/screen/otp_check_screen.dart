@@ -51,6 +51,14 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
               color: AppColors.white,
             ),
             Positioned(
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
               bottom: 0,
               left: 0,
               right: 0,
@@ -63,8 +71,9 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
             ),
             Padding(
               padding:
-                  const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
+                  const EdgeInsets.symmetric(horizontal: 40),
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   const Text(
@@ -87,21 +96,13 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                     ],
                   ),
 
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 30),
 
                   /// Insert the OTPWidget here
                   OTPWidget(),
 
-                  const SizedBox(height: 25),
+                  // const SizedBox(height: 25),
                 ],
-              ),
-            ),
-            Positioned(
-              bottom: -100,
-              child: Image.asset(
-                'assets/vectors/dotted_design1.png',
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
               ),
             ),
           ],
@@ -150,7 +151,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
             ResendOTP(),
 
             Padding(
-              padding: const EdgeInsets.only(top: 16),
+              padding: const EdgeInsets.only(top: 12),
               child: CustomButton(text: "Verify OTP",
               onPressed: () {
                 // Add your onPressed code here!
