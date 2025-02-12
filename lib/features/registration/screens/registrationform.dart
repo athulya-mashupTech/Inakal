@@ -116,30 +116,12 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 validator: (value) =>
                     value!.isEmpty ? 'Address is required' : null,
               ),
-              // TextFieldWidget(
-              //   controller: _countryController,
-              //   hintText: 'Country',
-              //   validator: (value) =>
-              //       value!.isEmpty ? 'Country is required' : null,
-              // ),
-              // TextFieldWidget(
-              //   controller: _cityController,
-              //   hintText: 'State',
-              //   validator: (value) =>
-              //       value!.isEmpty ? 'City is required' : null,
-              // ),
-              // TextFieldWidget(
-              //   controller: _districtController,
-              //   hintText: 'District',
-              //   validator: (value) =>
-              //       value!.isEmpty ? 'District is required' : null,
-              // ),
               CountryStateCityWidget(
                   countryController: _countryController,
                   stateController: _stateController,
                   cityController: _cityController,
                   isChecked: isChecked),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextFieldWidget(
                 controller: _pincodeController,
                 hintText: 'Pincode',
@@ -178,10 +160,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 },
               ),
               selectedGender == "error"
-                  ? Column(
+                  ? const Column(
                     children: [
                       SizedBox(height: 10),
-                      const Text(
+                      Text(
                           "Gender is required",
                           style: TextStyle(color: AppColors.errorRed, fontSize: 12),
                           textAlign: TextAlign.center,

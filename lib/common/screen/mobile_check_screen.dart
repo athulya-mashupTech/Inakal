@@ -19,13 +19,19 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
         gradient: AppColors.pinkWhiteGradient,
       ),
       child: Scaffold(
+        backgroundColor: AppColors.white,
         body: Stack(
           children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              color: AppColors.white,
+            
+            Positioned(
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
             ),
+
             Positioned(
               bottom: 0,
               left: 0,
@@ -75,14 +81,6 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   ),
 
                 ],
-              ),
-            ),
-            Positioned(
-              bottom: -100,
-              child: Image.asset(
-                'assets/vectors/dotted_design1.png',
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
               ),
             ),
           ],
