@@ -18,8 +18,20 @@ class _EditProfileState extends State<EditProfile> {
   String selectedMotherTongue = 'Malayalam';
   String selectedMaritalStatus = 'Single';
   String selectedBirthStar = 'Virgo';
+
+  final TextEditingController _fNameController = TextEditingController();
+  final TextEditingController _sNameController = TextEditingController();
+  final TextEditingController _phNoController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fNameController.text = "Harsha";
+    _sNameController.text = "Sreekanth";
+    _phNoController.text = "9876543210";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +45,10 @@ class _EditProfileState extends State<EditProfile> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                SizedBox(height: 15),
                 Text(
                   "Edit Profile",
-                  style: TextStyle(color: AppColors.primaryRed, fontSize: 16),
+                  style: TextStyle(color: AppColors.black, fontSize: 20),
                 ),
                 SizedBox(height: 15),
                 CircleAvatar(
@@ -46,7 +59,10 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
           const SizedBox(height: 14),
-          const Text("Personal Details", textAlign: TextAlign.start),
+          const Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text("Personal Details", textAlign: TextAlign.start),
+          ),
           const SizedBox(height: 15),
           Container(
             color: AppColors.bgsoftpink,
@@ -54,39 +70,63 @@ class _EditProfileState extends State<EditProfile> {
               padding: const EdgeInsets.all(30.0),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Firstname", textAlign: TextAlign.start),
-                      Text(
-                        "Harsha",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      const Text("Firstname", textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                          controller: _fNameController,
+                          textAlign: TextAlign.end,
+                          decoration: null,
+                          onSubmitted: (value) {
+                            setState(() {
+                              _fNameController.text = value;
+                            });
+                          },
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
                       ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Divider(),
                   const SizedBox(height: 12),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Secondname", textAlign: TextAlign.start),
-                      Text("Sreekanth",
+                      const Text("Secondname", textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                          controller: _sNameController,
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          decoration: null,
+                          onSubmitted: (value) {
+                            setState(() {
+                              _sNameController.text = value;
+                            });
+                          },
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Divider(),
                   const SizedBox(height: 12),
-                  const Row(
+                   const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Phone Number", textAlign: TextAlign.start),
                       Text("9876543210",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
+                     
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -98,7 +138,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Date Of Birth", textAlign: TextAlign.start),
                       Text("21/12/2025",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -110,7 +151,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Gender", textAlign: TextAlign.start),
                       Text("female",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -124,7 +166,8 @@ class _EditProfileState extends State<EditProfile> {
                         children: [
                           const Text("6’65”ft",
                               textAlign: TextAlign.end,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
                           Column(
                             children: [
                               IconButton(
@@ -156,7 +199,8 @@ class _EditProfileState extends State<EditProfile> {
                         children: [
                           const Text("60Kg",
                               textAlign: TextAlign.end,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18)),
                           Column(
                             children: [
                               IconButton(
@@ -199,7 +243,11 @@ class _EditProfileState extends State<EditProfile> {
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(
+                              value,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -231,7 +279,9 @@ class _EditProfileState extends State<EditProfile> {
                             .map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -263,7 +313,9 @@ class _EditProfileState extends State<EditProfile> {
                             .map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -298,7 +350,9 @@ class _EditProfileState extends State<EditProfile> {
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -333,7 +387,9 @@ class _EditProfileState extends State<EditProfile> {
                         ].map((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
-                            child: Text(value),
+                            child: Text(value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
                           );
                         }).toList(),
                         onChanged: (String? newValue) {
@@ -352,7 +408,10 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
           const SizedBox(height: 20),
-          const Text("Living Address", textAlign: TextAlign.start),
+          const Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text("Living Address", textAlign: TextAlign.start),
+          ),
           const SizedBox(height: 20),
           Container(
             color: AppColors.bgsoftpink,
@@ -413,8 +472,11 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
           const SizedBox(height: 14),
-          const Text("Professional & Educational Details",
-              textAlign: TextAlign.start),
+          const Padding(
+            padding: EdgeInsets.only(left: 16),
+            child: Text("Professional & Educational Details",
+                textAlign: TextAlign.start),
+          ),
           const SizedBox(height: 20),
           Container(
             color: AppColors.bgsoftpink,
@@ -428,7 +490,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Occupation", textAlign: TextAlign.start),
                       Text("Software Developer",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -440,7 +503,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Work Location", textAlign: TextAlign.start),
                       Text("Infopark,Kochi",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -452,7 +516,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Annual Income", textAlign: TextAlign.start),
                       Text("20LPA",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                   SizedBox(height: 12),
@@ -464,7 +529,8 @@ class _EditProfileState extends State<EditProfile> {
                       Text("Highest Education", textAlign: TextAlign.start),
                       Text("MCA",
                           textAlign: TextAlign.end,
-                          style: TextStyle(fontWeight: FontWeight.bold)),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18)),
                     ],
                   ),
                 ],
