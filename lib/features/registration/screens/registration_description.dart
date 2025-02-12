@@ -4,6 +4,7 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/registration/screens/registration_hobbies.dart';
 import 'package:inakal/features/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
+import 'package:inakal/features/registration/widgets/text_field_widget.dart';
 
 class RegistrationDescription extends StatefulWidget {
   const RegistrationDescription({super.key});
@@ -26,6 +27,133 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
     super.dispose();
   }
 
+  final TextEditingController controller = TextEditingController();
+
+  final List<String> fruits = [
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Date',
+    'Fig',
+    'Grape',
+    'Kiwi',
+    'Lemon',
+    'Mango',
+    'Orange',
+    'Papaya',
+    'Peach',
+    'Pear',
+    'Pineapple',
+    'Plum',
+    'Raspberry',
+    'Strawberry',
+    'Watermelon'
+  ];
+
+  Map<String, List<String>> religionsWithSubcastes = {
+    "Hindu": [
+      "Brahmin",
+      "Kshatriya",
+      "Vaishya",
+      "Shudra",
+      "Dalit",
+      "Agarwal",
+      "Iyer",
+      "Iyengar",
+      "Nair",
+      "Maratha",
+      "Jat",
+      "Rajput",
+      "Vokkaliga",
+      "Lingayat",
+      "Reddy",
+      "Chettiar",
+      "Yadav",
+      "Gounder",
+      "Gupta",
+      "Mahishya",
+      "Kayastha"
+    ],
+    "Christian": [
+      "Roman Catholic",
+      "Protestant",
+      "Eastern Orthodox",
+      "Pentecostal",
+      "Evangelical",
+      "Anglican",
+      "Baptist",
+      "Lutheran",
+      "Methodist",
+      "Presbyterian",
+      "Seventh-day Adventist",
+      "Jehovah's Witness",
+      "Syrian Christian",
+      "Marthoma",
+      "Coptic Christian"
+    ],
+    "Muslim": [
+      "Sunni",
+      "Shia",
+      "Ahmadiyya",
+      "Sufi",
+      "Bohra",
+      "Ismaili",
+      "Deobandi",
+      "Barelvi",
+      "Salafi",
+      "Wahhabi",
+      "Hanafi",
+      "Maliki",
+      "Shafi'i",
+      "Hanbali"
+    ],
+    "Buddhist": [
+      "Theravada",
+      "Mahayana",
+      "Vajrayana",
+      "Zen",
+      "Pure Land",
+      "Nichiren",
+      "Tibetan Buddhism"
+    ],
+    "Sikh": [
+      "Jat Sikh",
+      "Ramgarhia",
+      "Khatri Sikh",
+      "Arora Sikh",
+      "Ravidasia",
+      "Mazhabi Sikh",
+      "Nanakpanthi",
+      "Udasi"
+    ],
+    "Jew": [
+      "Ashkenazi",
+      "Sephardic",
+      "Mizrahi",
+      "Beta Israel",
+      "Karaite",
+      "Hasidic",
+      "Orthodox",
+      "Reform",
+      "Conservative"
+    ],
+    "Jain": ["Digambara", "Shwetambara", "Sthanakvasi", "Terapanthi"]
+  };
+  final List<String> zodiacSigns = [
+    "Aries",
+    "Taurus",
+    "Gemini",
+    "Cancer",
+    "Leo",
+    "Virgo",
+    "Libra",
+    "Scorpio",
+    "Sagittarius",
+    "Capricorn",
+    "Aquarius",
+    "Pisces"
+  ];
+  List<String> availableCastes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -48,33 +176,83 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16.0),
-              DropdownWidget(
-                label: 'Religion',
-                items: const ['Hindu', 'Muslim', 'Christian', 'others'],
-                controller: _religionController,
+
+              /// Religion Autocomplete
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  }
+                  return religionsWithSubcastes.keys
+                      .where((religion) => religion.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          ));
+                },
+                onSelected: (String selection) {
+                  print(selection);
+                  setState(() {
+                    _religionController.text = selection;
+                    _casteController.text = "";
+                    availableCastes.clear();
+                    availableCastes =
+                        religionsWithSubcastes[_religionController.text] ?? [];
+                    _casteController.clear();
+                  });
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                    onFieldSubmitted) {
+                  return TextFieldWidget(
+                    controller: textEditingController,
+                    hintText: "Select Religion",
+                    focusNode: focusNode,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Religion is required';
+                      }
+                      return null;
+                    },
+                  );
+                },
               ),
-              const SizedBox(height: 15),
-              DropdownWidget(
-                label: 'Caste',
-                items: const [
-                  'lc',
-                  'rc',
-                  'jacobite',
-                  'nair',
-                  'ezhava',
-                  'bhramin',
-                  'panditar',
-                  'others'
-                ],
-                controller: _casteController,
+
+              /// Caste Autocomplete (Filtered by Religion)
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return availableCastes;
+                  }
+                  return availableCastes
+                      .where((caste) => caste.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          ));
+                },
+                onSelected: (String selection) {
+                  _casteController.text = selection;
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                    onFieldSubmitted) {
+                  if (_casteController.text == "")
+                    textEditingController.text = "";
+                  return TextFieldWidget(
+                    controller: textEditingController,
+                    hintText: "Select Caste",
+                    focusNode: focusNode,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Caste is required';
+                      }
+                      return null;
+                    },
+                  );
+                },
               ),
-              const SizedBox(height: 15),
+
               DropdownWidget(
                 label: 'Birth Star',
-                items: const ['punardam', 'revathi', 'uthradam', 'others'],
+                items: zodiacSigns,
                 controller: _birthStarController,
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               const Padding(
                 padding: EdgeInsets.only(left: 15),
                 child: Text(
@@ -89,16 +267,17 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
               ),
               const SizedBox(height: 10),
               TextFormField(
-                decoration:  InputDecoration(
+                decoration: InputDecoration(
                   labelText: "Enter Description",
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)
-                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30)),
                   focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppColors.primaryRed, width: 1.5),
-            borderRadius: BorderRadius.circular(30.0),
+                    borderSide: const BorderSide(
+                        color: AppColors.primaryRed, width: 1.5),
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
                 ),
-                ),
-                maxLines: null, 
+                maxLines: null,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Description is required';
@@ -107,6 +286,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                 },
               ),
               const SizedBox(height: 15),
+
               CustomButton(
                   text: "Continue",
                   onPressed: () {

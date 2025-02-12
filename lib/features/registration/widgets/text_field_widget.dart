@@ -8,10 +8,11 @@ class TextFieldWidget extends StatelessWidget {
   final Widget? suffixIcon;
   final Widget? prefixIcon;
   final VoidCallback? onTap;
+  final FocusNode? focusNode;
   final bool obscureText;
   final String? Function(String?)? validator;
 
-   const TextFieldWidget({
+  const TextFieldWidget({
     required this.controller,
     required this.hintText,
     this.keyboardType,
@@ -20,7 +21,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onTap,
     this.obscureText = false,
     this.validator,
-    super.key, 
+    super.key, this.focusNode,
   });
 
   @override
@@ -31,18 +32,19 @@ class TextFieldWidget extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         obscureText: obscureText,
+        focusNode: focusNode,
         decoration: InputDecoration(
-          hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppColors.primaryRed, width: 1.5),
-            borderRadius: BorderRadius.circular(30.0),
-          ),
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon
-        ),
+            hintText: hintText,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide:
+                  const BorderSide(color: AppColors.primaryRed, width: 1.5),
+              borderRadius: BorderRadius.circular(30.0),
+            ),
+            suffixIcon: suffixIcon,
+            prefixIcon: prefixIcon),
         onTap: onTap,
         validator: validator,
       ),
