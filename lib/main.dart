@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
       ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         // home: PsychologistScreen(),
-        // home: BottomNavBarScreen()
+        home: BottomNavBarScreen()
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
         // home: HomeScreen(),
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
-        home: const RegistrationDescription(),
+        // home: const RegistrationDescription(),
         // home: EditProfile()
         // home: LoginPage(),
     );

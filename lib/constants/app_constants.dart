@@ -27,7 +27,7 @@ class AppColors {
   static const Color lightGray = Color(0xFFC8C8C8); //  Gray  silver membership Shade
   static const Color vibrantGreen = Color(0xFF4CE417); //  Green chat active Shade
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
-  static const Color bgsoftpink= Color.fromARGB(67, 255, 184, 184);
+  static const Color bgsoftpink= Color(0xFFFFE7EA);
   static const Color errorRed = Color(0xFFBD2726); 
 
 
