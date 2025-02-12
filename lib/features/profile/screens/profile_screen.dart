@@ -33,11 +33,6 @@ class _ProfilePageState extends State<ProfilePage> {
           backgroundColor: Colors.transparent,
           child: Stack(
             children: [
-              // Container(
-              //   width: MediaQuery.of(context).size.width,
-              //   height: MediaQuery.of(context).size.height,
-              //   color: Colors.black.withOpacity(0.7),
-              // ),
               Center(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,

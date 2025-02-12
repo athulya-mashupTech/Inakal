@@ -22,7 +22,7 @@ class PremaritalCard extends StatelessWidget {
     return Stack(
       children: [
         Card(
-          elevation: 5,
+          elevation: 3,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
