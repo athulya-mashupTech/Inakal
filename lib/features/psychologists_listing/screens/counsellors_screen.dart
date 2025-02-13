@@ -42,44 +42,47 @@ class CounsellorsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(5),
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Row(
-                    children: [
-                      IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
-                      SizedBox(width: 20,),
-                      Row(
-                        children: [
-                          RichText(
-                            text: const TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: 'Guiding  ',
-                                  style: TextStyle(
-                                      color: AppColors.black,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24),
-                                ),
-                                TextSpan(
-                                  text: 'Hearts',
-                                  style: TextStyle(
-                                      color: AppColors.deepBlue,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 24),
-                                ),
-                              ],
-                            ),
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  children: [
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back)),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Row(
+                      children: [
+                        RichText(
+                          text: const TextSpan(
+                            children: [
+                              TextSpan(
+                                text: 'Guiding  ',
+                                style: TextStyle(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24),
+                              ),
+                              TextSpan(
+                                text: 'Hearts',
+                                style: TextStyle(
+                                    color: AppColors.deepBlue,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24),
+                              ),
+                            ],
                           ),
-
-                          const SizedBox(width: 10),
+                        ),
+                        const SizedBox(width: 10),
                         Column(
                           children: [
                             Row(
@@ -125,40 +128,44 @@ class CounsellorsScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 10,)
+                            const SizedBox(
+                              height: 10,
+                            )
                           ],
                         )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 10),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20.0,
-                      mainAxisSpacing: 20.0,
-                      childAspectRatio: 0.75,
+                      ],
                     ),
-                    itemCount: matches.length,
-                    itemBuilder: (context, index) {
-                      final match = matches[index];
-                      return CounsellorWidget(
-                        image: match['image']!,
-                        name: match['name']!,
-                        location: match['location']!,
-                      );
-                    },
-                  ),
+                  ],
                 ),
-                SizedBox(height: 20,)
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 20.0,
+                    mainAxisSpacing: 20.0,
+                    childAspectRatio: 0.75,
+                  ),
+                  itemCount: matches.length,
+                  itemBuilder: (context, index) {
+                    final match = matches[index];
+                    return CounsellorWidget(
+                      image: match['image']!,
+                      name: match['name']!,
+                      location: match['location']!,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              )
+            ],
           ),
         ),
       ),
