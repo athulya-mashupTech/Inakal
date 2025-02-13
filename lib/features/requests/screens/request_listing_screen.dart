@@ -30,7 +30,32 @@ class _RequestListingScreenState extends State<RequestListingScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // title: const Text("Requests"),
+        automaticallyImplyLeading: false,
+        title: Padding(
+          padding: const EdgeInsets.only(top: 20.0, left: 20),
+          child: RichText(
+            text: const TextSpan(
+              children: [
+                TextSpan(
+                  text: 'All ',
+                  style: TextStyle(
+                    color: AppColors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+                TextSpan(
+                  text: 'Requests',
+                  style: TextStyle(
+                    color: AppColors.primaryRed,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
         bottom: TabBar(
           dividerColor: AppColors.primaryRed.withAlpha(20),
           labelColor: AppColors.primaryRed,
@@ -45,7 +70,7 @@ class _RequestListingScreenState extends State<RequestListingScreen>
       body: TabBarView(
         controller: _tabController,
         // Custom widget for Sent tab
-        children: const [ 
+        children: const [
           ReceivedRequests(),
           SendRequests(),
         ],

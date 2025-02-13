@@ -69,40 +69,42 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                 ),
               ),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 40),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  const Text(
-                    'Phone Number Verification',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'An OTP has been send to you mobile number',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        '+91 99XXX XXX33',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 30),
-
-                  /// Insert the OTPWidget here
-                  OTPWidget(),
-
-                  // const SizedBox(height: 25),
-                ],
+            SafeArea(
+              child: Padding(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: 80),
+                    const Text(
+                      'Phone Number Verification',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
+                    const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'An OTP has been send to you mobile number',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        Text(
+                          '+91 99XXX XXX33',
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+              
+                    const SizedBox(height: 30),
+              
+                    /// Insert the OTPWidget here
+                    OTPWidget(),
+              
+                    // const SizedBox(height: 25),
+                  ],
+                ),
               ),
             ),
           ],

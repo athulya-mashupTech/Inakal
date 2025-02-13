@@ -36,7 +36,6 @@ class _ProfilePageState extends State<ProfilePage> {
               Center(
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
-                  // height: MediaQuery.of(context).size.height * 0.7,
                   child: PageView.builder(
                     itemCount: images.length,
                     controller: PageController(initialPage: index),
