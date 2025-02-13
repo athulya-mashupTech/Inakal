@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
+import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -15,6 +18,7 @@ class _EditProfileState extends State<EditProfile> {
   String selectedWeight = '60Kg';
   String selectedReligion = 'Hindu';
   String selectedCaste = 'Nair';
+  String selectedGender = 'Female';
   String selectedMotherTongue = 'Malayalam';
   String selectedMaritalStatus = 'Single';
   String selectedBirthStar = 'Virgo';
@@ -22,8 +26,15 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
   final TextEditingController _phNoController = TextEditingController();
+  final TextEditingController _dobController = TextEditingController();
+
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
+
+  final TextEditingController _occupationController = TextEditingController();
+  final TextEditingController _incomeController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
+  final TextEditingController _educationController = TextEditingController();
 
   @override
   void initState() {
@@ -31,6 +42,12 @@ class _EditProfileState extends State<EditProfile> {
     _fNameController.text = "Harsha";
     _sNameController.text = "Sreekanth";
     _phNoController.text = "9876543210";
+    _dobController.text = "27/08/2002";
+
+    _occupationController.text = "Software Developer";
+    _incomeController.text = "20";
+    _locationController.text = "Infopark, Kochi";
+    _educationController.text = "MCA";
   }
 
   @override
@@ -41,19 +58,85 @@ class _EditProfileState extends State<EditProfile> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-          const Center(
+          Center(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 15),
-                Text(
-                  "Edit Profile",
-                  style: TextStyle(color: AppColors.black, fontSize: 20),
+                const SizedBox(height: 16),
+                Center(
+                  child: RichText(
+                    text: const TextSpan(
+                      children: [
+                        TextSpan(
+                          text: 'Edit ',
+                          style: TextStyle(
+                            color: AppColors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'Profile',
+                          style: TextStyle(
+                            color: AppColors.primaryRed,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 24,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                SizedBox(height: 15),
-                CircleAvatar(
-                  backgroundImage: AssetImage("assets/vectors/harsha1.jpg"),
-                  radius: 80,
+                const SizedBox(
+                  height: 16,
+                ),
+                Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(100),
+                        border: Border.all(
+                          color: AppColors.primaryRed,
+                          width: 3,
+                        ),
+                      ),
+                      child: const CircleAvatar(
+                        backgroundImage:
+                            AssetImage("assets/vectors/harsha1.jpg"),
+                        radius: 80,
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 5,
+                      right: 5,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: AppColors.lightGrey,
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: AppColors.primaryRed,
+                            width: 3,
+                          ),
+                        ),
+                        width: 50,
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.edit,
+                            color: AppColors.primaryRed,
+                            size: 22,
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        const ImageUploadScreen()));
+                          },
+                          iconSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
@@ -118,7 +201,7 @@ class _EditProfileState extends State<EditProfile> {
                   const SizedBox(height: 12),
                   const Divider(),
                   const SizedBox(height: 12),
-                   const Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text("Phone Number", textAlign: TextAlign.start),
@@ -126,33 +209,72 @@ class _EditProfileState extends State<EditProfile> {
                           textAlign: TextAlign.end,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 18)),
-                     
                     ],
                   ),
                   const SizedBox(height: 12),
                   const Divider(),
                   const SizedBox(height: 12),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Date Of Birth", textAlign: TextAlign.start),
-                      Text("21/12/2025",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text("Date Of Birth", textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                            controller: _dobController,
+                            readOnly: true,
+                            decoration: null,
+                            onTap: () async {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                                if (pickedDate != null) {
+                                _dobController.text =
+                                  '${pickedDate.day<10 ? "0${pickedDate.day}" : "${pickedDate.day}"}/${pickedDate.month<10 ? "0${pickedDate.month}" : "${pickedDate.month}"}/${pickedDate.year}';
+                                }
+                            },
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 18)),
+                      ),
                     ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(
+                    height: 16,
+                  ),
                   const Divider(),
-                  const SizedBox(height: 12),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Gender", textAlign: TextAlign.start),
-                      Text("female",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text("Gender", textAlign: TextAlign.start),
+                      DropdownButton<String>(
+                        value: selectedGender,
+                        icon: const Iconify(
+                          Ic.round_arrow_drop_down,
+                          color: AppColors.primaryRed,
+                          size: 30,
+                        ),
+                        items: <String>['Male', 'Female', 'Others']
+                            .map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value,
+                                style: const TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          if (newValue != null) {
+                            setState(() {
+                              selectedGender = newValue;
+                            });
+                          }
+                        },
+                      ),
                     ],
                   ),
                   const SizedBox(height: 12),
@@ -480,57 +602,113 @@ class _EditProfileState extends State<EditProfile> {
           const SizedBox(height: 20),
           Container(
             color: AppColors.bgsoftpink,
-            child: const Padding(
-              padding: EdgeInsets.all(30.0),
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
               child: Column(
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Occupation", textAlign: TextAlign.start),
-                      Text("Software Developer",
+                      const Text("Occupation", textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                          controller: _occupationController,
                           textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                          decoration: null,
+                          onSubmitted: (value) {
+                            setState(() {
+                              _occupationController.text = value;
+                            });
+                          },
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Work Location", textAlign: TextAlign.start),
-                      Text("Infopark,Kochi",
+                      const Text("Work Location", textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                          controller: _locationController,
                           textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                          decoration: null,
+                          onSubmitted: (value) {
+                            setState(() {
+                              _locationController.text = value;
+                            });
+                          },
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Annual Income", textAlign: TextAlign.start),
-                      Text("20LPA",
-                          textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                      const Text("Annual Income", textAlign: TextAlign.start),
+                      Wrap(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.6,
+                            child: TextField(
+                              controller: _incomeController,
+                              textAlign: TextAlign.end,
+                              decoration: null,
+                              onSubmitted: (value) {
+                                setState(() {
+                                  _incomeController.text = value;
+                                });
+                              },
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 1.25),
+                            child: Text("LPA",
+                                textAlign: TextAlign.end,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 18)),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
-                  SizedBox(height: 12),
-                  Divider(),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
+                  const Divider(),
+                  const SizedBox(height: 12),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Highest Education", textAlign: TextAlign.start),
-                      Text("MCA",
+                      const Text("Highest Education",
+                          textAlign: TextAlign.start),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                          controller: _educationController,
                           textAlign: TextAlign.end,
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 18)),
+                          decoration: null,
+                          onSubmitted: (value) {
+                            setState(() {
+                              _educationController.text = value;
+                            });
+                          },
+                          style: const TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 18),
+                        ),
+                      ),
                     ],
                   ),
                 ],

@@ -29,6 +29,7 @@ class AppColors {
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
   static const Color bgsoftpink= Color(0xFFFFE7EA);
   static const Color errorRed = Color(0xFFBD2726); 
+  static const Color lightGrey = Color.fromARGB(255, 237, 230, 230);
 
 
 
