@@ -25,57 +25,50 @@ class PsychologistModel {
   static List<PsychologistModel> getSamplePsychologists() {
     return [
       PsychologistModel(
-        name: " DR Anaswara V",
+        name: "DR Anaswar Krishna",
         location: "New York, USA",
-        //description: "Clinical Psychologist",
         occupation: "Clinical Psychologist",
-        imagePath: "assets/vectors/anaswara.jpeg",
+        imagePath: "assets/vectors/suriya2.webp",
       ),
       PsychologistModel(
         name: "DR Midhun Murali",
         location: "London, UK",
-        //description: "Graphic designer with a love for illustrations.",
         occupation: "Clinical Psychologist",
-        imagePath: "assets/vectors/midhun.jpeg",
+        imagePath: "assets/vectors/suriya.jpeg",
         
       ),
       PsychologistModel(
-        name: "DR Dony Baby",
+        name: "DR Dora Biju",
         location: "Sydney, Australia",
-        //description: "Marketing expert with a focus on digital strategies.",
         occupation: "Clinical Psychologist",
-        imagePath: "assets/vectors/dony.jpeg",
+        imagePath: "assets/vectors/harsha1.jpg",
       ),
       PsychologistModel(
         name: "DR Athulya Ajayakumar",
         location: "stockholm, Sweden",
-        //description: "Graphic designer with a love for illustrations.",
         occupation: "clinical Psychologist",
-        imagePath: "assets/vectors/ath.jpeg"
+        imagePath: "assets/vectors/harsha2.jpg"
         
       ),
       PsychologistModel(
         name: "DR Sreenandha ",
         location: "Sydney, Australia",
-        //description: "Graphic designer with a love for illustrations.",
         occupation: "clinical Psychologist",
-        imagePath: "assets/vectors/sree.jpeg"
+        imagePath: "assets/vectors/harsha3.jpg"
         
       ),
       PsychologistModel(
-        name: "DR Aswin Vijay",
+        name: "DR Aswathy Achu",
         location: "Incheon, South Korea",
-        //description: "Graphic designer with a love for illustrations.",
         occupation: "clinical Psychologist",
-        imagePath: "assets/vectors/aswin.jpeg"
+        imagePath: "assets/vectors/harsha4.jpg"
         
       ),
       PsychologistModel(
-        name: "DR Chrisna Babu",
+        name: "DR Chris Babu",
         location: "Delhi, India",
-        //description: "Graphic designer with a love for illustrations.",
         occupation: "clinical Psychologist",
-        imagePath: "assets/vectors/chrisna.jpeg"
+        imagePath: "assets/vectors/vicky.jpg"
         
       ),
     ];

@@ -71,6 +71,27 @@ class _RegistrationFormState extends State<RegistrationForm> {
   }
 
   var isChecked = false;
+  
+  void _showNoInternetDialog() { // dialogbox when there is no network connection
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('No Internet Connection'),
+          content: Text('Internet connection is required to use this application.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
