@@ -46,11 +46,11 @@ class _NoInternetCheckerState extends State<NoInternetChecker> {
 
     showDialog(
       context: context,
-      barrierDismissible: false, // Prevent closing the dialog
+      barrierDismissible: false, 
       builder: (BuildContext context) {
         // ignore: deprecated_member_use
         return WillPopScope(
-          onWillPop: () async => false, // Prevent back button closing
+          onWillPop: () async => false, 
           child: AlertDialog(
             title: const Text("No Internet Connection"),
             content: const Text("Please check your internet connection and try again."),
@@ -60,7 +60,7 @@ class _NoInternetCheckerState extends State<NoInternetChecker> {
                 onPressed: () async {
                   bool hasInternet = await NetworkService.hasInternetConnection();
                   if (hasInternet) {
-                    Navigator.pop(context); // Close dialog if internet is back
+                    Navigator.pop(context); 
                     setState(() => _isOffline = false);
                   }
                 },
