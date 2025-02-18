@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
@@ -10,6 +12,7 @@ import 'package:inakal/features/drawer/screens/terms_conditions.dart';
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
+  /// Custom Dialog Box
   void _showConfirmationDialog({
     required BuildContext context,
     required String title,
@@ -19,29 +22,131 @@ class DrawerWidget extends StatelessWidget {
     showDialog(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: AppColors.white,
-          title: Text(title),
-          content: Text(content),
-          actions: [
-            Column(
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop(); 
-                  },
-                  child: const Text('Cancel'),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Positioned(
+                              top: 10,
+                              child: Transform.rotate(
+                                  angle: -0.5,
+                                  child: const Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: const Opacity(
+                                        opacity: 0.6,
+                                        child: Iconify(
+                                          Ph.butterfly_duotone,
+                                          size: 14,
+                                          color: AppColors.primaryRed,
+                                        ),
+                                      )))),
+                          Transform.rotate(
+                            angle: 0.5,
+                            child: const Align(
+                              child: Opacity(
+                                opacity: 0.6,
+                                child: Iconify(
+                                  Ph.butterfly_duotone,
+                                  size: 16,
+                                  color: AppColors.primaryRed,
+                                ),
+                              ),
+                              alignment: Alignment.topRight,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              content,
+                              style: const TextStyle(
+                                  fontSize: 16, color: Colors.black54),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.softPink.withOpacity(0.5),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text("Cancel"),
+                        ),
+                      ),
+
+                      Text(" | ", style: TextStyle(color: AppColors.black.withOpacity(0.1), fontSize: 20),),
+
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            onConfirm();
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text("Confirm",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop(); 
-                onConfirm(); 
-              },
-              child: const Text('Confirm'),
-            ),
-          ],
+          ),
         );
       },
     );
@@ -71,7 +176,8 @@ class DrawerWidget extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage: AssetImage("assets/vectors/harsha1.jpg"),
+                        backgroundImage:
+                            AssetImage("assets/vectors/harsha1.jpg"),
                       ),
                       SizedBox(width: 10),
                       Column(
@@ -79,11 +185,13 @@ class DrawerWidget extends StatelessWidget {
                         children: [
                           Text(
                             'Harsha Sreekanth',
-                            style: TextStyle(color: AppColors.white, fontSize: 18),
+                            style:
+                                TextStyle(color: AppColors.white, fontSize: 18),
                           ),
                           Text(
                             'INK3929',
-                            style: TextStyle(color: AppColors.white, fontSize: 14),
+                            style:
+                                TextStyle(color: AppColors.white, fontSize: 14),
                           ),
                         ],
                       ),
@@ -93,15 +201,13 @@ class DrawerWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ListTile(
                   title: const Text('Edit Profile',
-                  style: TextStyle(color: AppColors.white)),
+                   style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.edit, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EditProfile(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const EditProfile()));
                   },
                 ),
                 ListTile(
@@ -111,45 +217,42 @@ class DrawerWidget extends StatelessWidget {
                       const Icon(Icons.notifications, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Notifications(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const Notifications()
+                        )
+                        );
                   },
                 ),
                 ListTile(
                   title: const Text('Subscriptions',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(FontAwesomeIcons.boxOpen, color: AppColors.white),
+                  leading: const Icon(FontAwesomeIcons.boxOpen,
+                      color: AppColors.white),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const Subscriptions(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const Subscriptions()));
                   },
                 ),
                 ListTile(
                   title: const Text('Help & Support',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(FontAwesomeIcons.headset, color: AppColors.white),
-                  onTap: () {
-
-                  },
+                  leading: const Icon(FontAwesomeIcons.headset,
+                      color: AppColors.white),
+                  onTap: () {},
                 ),
                 ListTile(
                   title: const Text('Terms & Conditions',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(FontAwesomeIcons.fileSignature, color: AppColors.white),
+                  leading: const Icon(FontAwesomeIcons.fileSignature,
+                      color: AppColors.white),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TermsConditions(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const TermsConditions()));
                   },
                 ),
                 ListTile(
@@ -161,8 +264,7 @@ class DrawerWidget extends StatelessWidget {
                       context: context,
                       title: "Are you Sure?",
                       content: "Do you really want to logout from inakal.com?",
-                      onConfirm: () {
-                      },
+                      onConfirm: () {},
                     );
                   },
                 ),
@@ -174,9 +276,9 @@ class DrawerWidget extends StatelessWidget {
                     _showConfirmationDialog(
                       context: context,
                       title: "Are you Sure?",
-                      content: "Do you really want to delete your account from inakal?",
-                      onConfirm: () {
-                      },
+                      content:
+                          "Do you really want to delete your account from inakal?",
+                      onConfirm: () {},
                     );
                   },
                 ),
@@ -186,11 +288,9 @@ class DrawerWidget extends StatelessWidget {
                   leading: const Icon(Icons.info, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const AboutUs(),
-                      ),
-                    );
+                        context,
+                        MaterialPageRoute(
+                        builder: (context) => const AboutUs()));
                   },
                 ),
               ],
