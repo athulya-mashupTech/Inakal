@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'dart:io';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
-import 'package:inakal/features/registration/screens/registration_description.dart';
 import 'package:inakal/features/registration/screens/registration_password.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 
@@ -101,8 +99,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
               ),
             ),
           ),
-          
-           LightPinkGradient(),
+          LightPinkGradient(),
         ],
       ),
     );

@@ -71,7 +71,7 @@ class OnboardingPage2 extends StatelessWidget {
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 16,
-                //color: AppColors.black
+                
               ),
             ),
           ],

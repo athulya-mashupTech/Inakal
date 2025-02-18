@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/features/registration/screens/image_upload_screen.dart';
+import 'package:inakal/features/registration/screens/registration_password.dart';
 import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
@@ -14,7 +14,7 @@ class RegistrationHobbies extends StatefulWidget {
 
 class _RegistrationHobbiesState extends State<RegistrationHobbies> {
 
-  // List of available hobbies/interests.
+  
   final List<String> interests = [
     "Reading",
     "Photography",
@@ -37,6 +37,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
   ];
 
   final Set<String> selectedInterests = {};
+  
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
@@ -76,7 +77,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 30.0),
-
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Wrap(
@@ -99,7 +99,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ImageUploadScreen(),
+                      builder: (context) => RegistrationPassword(),
                     ),
                   );
                 },

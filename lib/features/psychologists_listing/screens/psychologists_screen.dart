@@ -57,9 +57,6 @@ class _PsychologistScreenState extends State<PsychologistScreen> {
                       color: AppColors.deepBlue),
                 ),
               ),
-              //const SizedBox(height: 8),
-          
-              // List of Profile Cards
               Expanded(
                   child: ListView.builder(
                       itemCount: psychologists.length,

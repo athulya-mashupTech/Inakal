@@ -10,6 +10,43 @@ import 'package:inakal/features/drawer/screens/terms_conditions.dart';
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
+  void _showConfirmationDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required VoidCallback onConfirm,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: AppColors.white,
+          title: Text(title),
+          content: Text(content),
+          actions: [
+            Column(
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop(); 
+                  },
+                  child: const Text('Cancel'),
+                ),
+              ],
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); 
+                onConfirm(); 
+              },
+              child: const Text('Confirm'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -41,7 +78,7 @@ class DrawerWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Harsha sreekanth',
+                            'Harsha Sreekanth',
                             style: TextStyle(color: AppColors.white, fontSize: 18),
                           ),
                           Text(
@@ -55,7 +92,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ListTile(
-                  title: const Text(' Edit Profile',
+                  title: const Text('Edit Profile',
                   style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.edit, color: AppColors.white),
                   onTap: () {
@@ -95,13 +132,15 @@ class DrawerWidget extends StatelessWidget {
                   },
                 ),
                 ListTile(
-                  title: const Text('Help & support',
+                  title: const Text('Help & Support',
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(FontAwesomeIcons.headset, color: AppColors.white),
-                  onTap: () {},
+                  onTap: () {
+
+                  },
                 ),
                 ListTile(
-                  title: const Text('Terms & conditions',
+                  title: const Text('Terms & Conditions',
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(FontAwesomeIcons.fileSignature, color: AppColors.white),
                   onTap: () {
@@ -117,16 +156,28 @@ class DrawerWidget extends StatelessWidget {
                   title: const Text('Logout',
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.logout, color: AppColors.white),
-                  onTap: () {},
+                  onTap: () {
+                    _showConfirmationDialog(
+                      context: context,
+                      title: "Are you Sure?",
+                      content: "Do you really want to logout from inakal.com?",
+                      onConfirm: () {
+                      },
+                    );
+                  },
                 ),
                 ListTile(
-                  title: const Text('Delete account',
+                  title: const Text('Delete Account',
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.delete, color: AppColors.white),
                   onTap: () {
-
-                    //alert to delete account
-                  
+                    _showConfirmationDialog(
+                      context: context,
+                      title: "Are you Sure?",
+                      content: "Do you really want to delete your account from inakal?",
+                      onConfirm: () {
+                      },
+                    );
                   },
                 ),
                 ListTile(
