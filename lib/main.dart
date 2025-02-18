@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/chat/screens/chat_screen.dart';
+import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
@@ -39,13 +40,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-          //  home: ChatScreen(),
+        //  home: ChatScreen(),
         // home: PsychologistScreen(),
-        home: BottomNavBarScreen()
+        // home: BottomNavBarScreen()
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
-        // home: const AboutUs(),
+        home: InboxScreen(),
         // home: CounsellorsScreen(),
         // home: RegistrationForm()
         // home: HomeScreen(),
