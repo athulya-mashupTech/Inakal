@@ -64,7 +64,7 @@ class AppColors {
     end: Alignment.topCenter,
   );
 
-   static const Gradient blueWhiteGradient = LinearGradient(
+  static const Gradient blueWhiteGradient = LinearGradient(
     colors: [
       Color(0xFFC6EEFF), // blue
       Color(0xFFFFFFFF), // White

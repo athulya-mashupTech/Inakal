@@ -107,7 +107,6 @@ class _InboxScreenState extends State<InboxScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     filteredUsers = allUsers;
   }
@@ -128,7 +127,6 @@ class _InboxScreenState extends State<InboxScreen> {
       body: Stack(
         children: [
           LightPinkGradient(),
-
           Positioned(
             bottom: 10,
             left: 0,
@@ -142,7 +140,6 @@ class _InboxScreenState extends State<InboxScreen> {
               ),
             ),
           ),
-
           Column(
             children: [
               // Top Filters of chats
@@ -164,7 +161,8 @@ class _InboxScreenState extends State<InboxScreen> {
                                   ? AppColors.white
                                   : AppColors.black),
                           label: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 5.0),
                             child: Text(filter),
                           ),
                           selected: selectedFilter == filter,
@@ -179,24 +177,24 @@ class _InboxScreenState extends State<InboxScreen> {
                 ),
               ),
 
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        SizedBox(height: 15),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: filteredUsers.length,
-                          itemBuilder: (context, index) {
-                            return InboxCard(user: filteredUsers[index]);
-                          },
-                        ),
-                        SizedBox(height: 15),
-                      ],
-                    ),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 15),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: filteredUsers.length,
+                        itemBuilder: (context, index) {
+                          return InboxCard(user: filteredUsers[index]);
+                        },
+                      ),
+                      SizedBox(height: 15),
+                    ],
                   ),
                 ),
+              ),
             ],
           ),
         ],
