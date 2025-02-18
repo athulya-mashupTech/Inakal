@@ -1,5 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
+import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/chat/screens/chat_screen.dart';
+import 'package:inakal/features/chat/screens/inbox_screen.dart';
+import 'package:inakal/features/drawer/screens/about_us.dart';
+import 'package:inakal/features/drawer/screens/edit_profile.dart';
+import 'package:inakal/features/drawer/screens/notifications.dart';
+import 'package:inakal/features/drawer/widgets/custom_icon.dart';
+import 'package:inakal/features/home/screens/filter_screen.dart';
+import 'package:inakal/features/login/screens/login_page.dart';
+import 'package:inakal/features/profile/screens/profile_screen.dart';
+import 'package:inakal/features/profile/screens/other_profile_screen.dart';
+import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
+import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
+import 'package:inakal/features/registration/screens/registration_description.dart';
+import 'package:inakal/features/registration/screens/registration_password.dart';
+import 'package:inakal/features/registration/screens/registrationform.dart';
+import 'package:inakal/features/requests/screens/request_listing_screen.dart';
+import 'package:inakal/features/requests/screens/send_requests.dart';
+import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
+import 'package:inakal/features/home/screens/home_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -11,14 +33,28 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Inakal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-      // home: MobileNoCheckScreen(),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+         home: ChatScreen(),
+        // home: PsychologistScreen(),
+        // home: BottomNavBarScreen()
+        // home: MatchesScreen(),
+        // home: ProfilePage(),
+        // home: Notifications()
+        // home: InboxScreen(),
+        // home: CounsellorsScreen(),
+        // home: RegistrationForm()
+        // home: HomeScreen(),
+        // home: const RegistrationPassword(),
+        // home: FilterScreen(),
+        // home: const RegistrationDescription(),
+        // home: EditProfile()
+        // home: LoginPage(),
     );
   }
 }

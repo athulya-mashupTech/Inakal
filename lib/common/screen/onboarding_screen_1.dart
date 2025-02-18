@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/onboardingpage.dart';
+import 'package:inakal/common/widgets/onboardingpage2.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:swipeable_button_view/swipeable_button_view.dart';
 
@@ -52,8 +54,8 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
         description:
             'Get pre-marital counseling from professionals to build a strong, happy future together.',
       ),
-      const OnboardingPage(
-        image: 'assets/vectors/onboarding3.jpg',
+      const OnboardingPage2(
+        image: 'assets/vectors/dotted_design3.png',
         title: 'Discover Love where your story begins.',
         description:
             'Join us to discover your ideal partner and ignite the sparks of romance in your journey.',
@@ -75,17 +77,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
 
             // Gradient at the bottom
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 100,
-                decoration: const BoxDecoration(
-                  gradient: AppColors.pinkWhiteGradient,
-                ),
-              ),
-            ),
+             LightPinkGradient(),
 
             // PageView for onboarding content
             Padding(
@@ -171,7 +163,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                           });
                         },
                         onFinish: () {
-                          // Navigate to the next screen after swipe
+                          // Navigate to the otp screen
                           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MobileNoCheckScreen()));
                         },
                       ),
