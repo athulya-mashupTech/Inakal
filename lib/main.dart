@@ -40,13 +40,13 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        //  home: ChatScreen(),
+         home: ChatScreen(),
         // home: PsychologistScreen(),
         // home: BottomNavBarScreen()
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
-        home: InboxScreen(),
+        // home: InboxScreen(),
         // home: CounsellorsScreen(),
         // home: RegistrationForm()
         // home: HomeScreen(),
