@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
-        home: EditProfile()
+        // home: EditProfile()
         // home: LoginPage(),
     );
   }
