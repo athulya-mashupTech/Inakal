@@ -3,6 +3,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/home/widgets/filter_button.dart';
 import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
 
@@ -221,7 +222,15 @@ class _FilterScreenState extends State<FilterScreen> {
                   }).toList(),
                 ),
               ),
-              const CustomButton(text: "Apply filters")
+               CustomButton(text: "Apply filters",onPressed: (){
+                  Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => HomeScreen()));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Filters applied')),
+                      );
+               },),
             ],
           ),
         ),
