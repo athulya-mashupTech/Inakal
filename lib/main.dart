@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-         home: ChatScreen(),
+        home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        //  home: ChatScreen(),
         // home: PsychologistScreen(),
         // home: BottomNavBarScreen()
         // home: MatchesScreen(),

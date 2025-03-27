@@ -159,7 +159,6 @@ class MatchesScreen extends StatelessWidget {
                       crossAxisCount: 2,
                       crossAxisSpacing: 20.0,
                       mainAxisSpacing: 20.0,
-                      childAspectRatio: 0.75,
                     ),
                     itemCount: matches.length,
                     itemBuilder: (context, index) {
