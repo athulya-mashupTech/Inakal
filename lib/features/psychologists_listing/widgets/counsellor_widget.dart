@@ -77,15 +77,15 @@ class CounsellorWidget extends StatelessWidget {
               ],
             ),
           ),
-          const Positioned(
-                  right: 10,
-                  bottom: 45,
-                  child: CircleAvatar(
-                    backgroundColor: AppColors.deepBlue,
-                    child: Icon(Icons.call, 
-                    color: AppColors.white),
-                  ),
-                ),
+          // const Positioned(
+          //         right: 10,
+          //         bottom: 45,
+          //         child: CircleAvatar(
+          //           backgroundColor: AppColors.deepBlue,
+          //           child: Icon(Icons.call, 
+          //           color: AppColors.white),
+          //         ),
+          //       ),
         ],
       ),
     );

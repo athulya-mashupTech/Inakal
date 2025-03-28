@@ -5,6 +5,7 @@ import 'package:iconify_flutter_plus/icons/mdi.dart'; // Material Design Icons
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
+import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
 import 'package:inakal/features/requests/screens/request_listing_screen.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
@@ -40,7 +41,7 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
         },
         children: [
           const HomeScreen(),
-          PsychologistScreen(),  
+          CounsellorsScreen(),  
           MatchesScreen(),
           const RequestListingScreen(),
           ProfilePage(),

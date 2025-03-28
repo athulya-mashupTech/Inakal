@@ -14,6 +14,7 @@ import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 import 'package:inakal/features/psychologists_listing/screens/psychologists_screen.dart';
+import 'package:inakal/features/registration/screens/image_upload_screen.dart';
 import 'package:inakal/features/registration/screens/registration_description.dart';
 import 'package:inakal/features/registration/screens/registration_password.dart';
 import 'package:inakal/features/registration/screens/registrationform.dart';
@@ -39,22 +40,24 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-        home: const MyHomePage(title: 'Inakal'),
+        // home: const MyHomePage(title: 'Inakal'),
         //  home: ChatScreen(),
         // home: PsychologistScreen(),
-        // home: BottomNavBarScreen()
+        home: BottomNavBarScreen()
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
         // home: InboxScreen(),
         // home: CounsellorsScreen(),
         // home: RegistrationForm()
-       //  home: HomeScreen(),
+        // home: HomeScreen(),
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
         // home: EditProfile()
         // home: LoginPage(),
+        // home:ImageUploadScreen()
+        
     );
   }
 }

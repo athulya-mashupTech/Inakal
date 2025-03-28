@@ -694,7 +694,7 @@ class _EditProfileState extends State<EditProfile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text("Annual Income",
-                            textAlign: TextAlign.start),
+                                textAlign: TextAlign.start),
                             Wrap(
                               children: [
                                 Container(
@@ -756,8 +756,6 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                 ),
               ]))),
-        ]
-        )
-        );
+        ]));
   }
 }

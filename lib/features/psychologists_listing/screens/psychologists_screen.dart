@@ -29,23 +29,8 @@ class _PsychologistScreenState extends State<PsychologistScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Custom Card with Icon
-              Padding(
-                
-                padding:  const EdgeInsets.only(top: 10, left: 10, right: 10),
-                child: PremaritalCard(
-            firstText: "Pre-Marital",
-            secondText: "Harmony",
-            topRightWidget: Image.asset(
-              'assets/vectors/arrow.png', 
-              fit: BoxFit.cover,
-            ),
-            backgroundColor: AppColors.deepBlue,
-          ),
-          
-              ),
+           
               const SizedBox(height: 16),
-          
               // Text Section
               const Padding(
                 padding: EdgeInsets.only(left: 30),
@@ -57,6 +42,7 @@ class _PsychologistScreenState extends State<PsychologistScreen> {
                       color: AppColors.deepBlue),
                 ),
               ),
+
               Expanded(
                   child: ListView.builder(
                       itemCount: psychologists.length,
