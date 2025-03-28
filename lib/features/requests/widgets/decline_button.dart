@@ -10,7 +10,7 @@ class DeclineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.42,
+        // width: MediaQuery.of(context).size.width * 0.42,
         height: 40,
         child: ElevatedButton(
           onPressed: onPressed ?? () {},

@@ -18,32 +18,32 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
   final List<Map<String, String>> matches = [
     {
       'name': 'Kalidas R',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/kalidas.jpeg',
     },
     {
       'name': 'Nirmal Pillai',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/nirmal.jpeg',
     },
     {
       'name': 'Suriya S',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/suriya.jpeg',
     },
     {
       'name': 'Shahid Thomas',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/shahid.jpeg',
     },
     {
       'name': 'Vishal S',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/tovi.jpg',
     },
     {
       'name': 'Ajith Kumar',
-      'location': 'Clinical psychologist',
+      'designation': 'Clinical psychologist',
       'image': 'assets/vectors/anirudh.jpg',
     },
   ];
@@ -58,6 +58,9 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
             padding: const EdgeInsets.all(12.0),
             child: Column(
               children: [
+                SizedBox(
+                  height: 20,
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: CustomButton(
@@ -154,6 +157,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                           )
                         ],
                       ),
+                      const SizedBox(height: 5),
                       Text(
                           "Connect with our trusted doctors and specialists effortlessly to find your Perfect Matches.",
                           style:
@@ -166,27 +170,18 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20.0,
-                      mainAxisSpacing: 20.0,
-                      childAspectRatio: 0.75,
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Wrap(
+                      spacing: 5.0,
+                      runSpacing: 5.0,
+                      children: matches.map((match) {
+                        return CounsellorWidget(
+                          image: match['image']!,
+                          name: match['name']!,
+                          designation: match['designation']!,
+                        );
+                      }).toList(),
                     ),
-                    itemCount: matches.length,
-                    itemBuilder: (context, index) {
-                      final match = matches[index];
-                      return CounsellorWidget(
-                        image: match['image']!,
-                        name: match['name']!,
-                        location: match['location']!,
-                      );
-                    },
-                  ),
                 ),
                 SizedBox(
                   height: 20,

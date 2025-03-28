@@ -65,9 +65,9 @@ class MatchesScreen extends StatelessWidget {
           SafeArea(
             child: SingleChildScrollView(
               child: Padding(
-                padding: const EdgeInsets.all(30.0),
+                padding: const EdgeInsets.all(25.0),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  // crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
                     Row(

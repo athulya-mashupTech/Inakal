@@ -75,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         "Related Profile",
@@ -85,7 +86,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                       ),
                       Text(
-                        "Related Profile",
+                        "Find Your Soulmate Among Our Handpicked Recommendations",
                         style: TextStyle(
                             // fontSize: 25,
                             // fontWeight: FontWeight.bold,

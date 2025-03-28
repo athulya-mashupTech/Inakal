@@ -10,7 +10,7 @@ class AcceptButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.42, // Button width
+        // width: MediaQuery.of(context).size.width * 0.42, // Button width
         height: 40, // Button height
         child: ElevatedButton(
           onPressed: onPressed ?? () {},
