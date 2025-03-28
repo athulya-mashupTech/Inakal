@@ -12,7 +12,6 @@ import 'package:inakal/features/drawer/screens/terms_conditions.dart';
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
 
-  /// Custom Dialog Box
   void _showConfirmationDialog({
     required BuildContext context,
     required String title,
@@ -29,14 +28,15 @@ class DrawerWidget extends StatelessWidget {
           child: Container(
             width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppColors.white,
               borderRadius: BorderRadius.circular(20),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 22.0, horizontal: 25),
                   child: Column(
                     children: [
                       Row(
@@ -90,7 +90,7 @@ class DrawerWidget extends StatelessWidget {
                             child: Text(
                               content,
                               style: const TextStyle(
-                                  fontSize: 16, color: Colors.black54),
+                                  fontSize: 16, color: AppColors.black),
                             ),
                           ),
                         ],
@@ -122,9 +122,12 @@ class DrawerWidget extends StatelessWidget {
                           child: const Text("Cancel"),
                         ),
                       ),
-
-                      Text(" | ", style: TextStyle(color: AppColors.black.withOpacity(0.1), fontSize: 20),),
-
+                      Text(
+                        " | ",
+                        style: TextStyle(
+                            color: AppColors.black.withOpacity(0.1),
+                            fontSize: 20),
+                      ),
                       Expanded(
                         child: TextButton(
                           onPressed: () {
@@ -201,13 +204,13 @@ class DrawerWidget extends StatelessWidget {
                 const SizedBox(height: 20),
                 ListTile(
                   title: const Text('Edit Profile',
-                   style: TextStyle(color: AppColors.white)),
+                      style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.edit, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const EditProfile()));
+                            builder: (context) => const EditProfile()));
                   },
                 ),
                 ListTile(
@@ -219,9 +222,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const Notifications()
-                        )
-                        );
+                        builder: (context) => const Notifications()));
                   },
                 ),
                 ListTile(
@@ -233,7 +234,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const Subscriptions()));
+                        builder: (context) => const Subscriptions()));
                   },
                 ),
                 ListTile(
@@ -290,7 +291,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const AboutUs()));
+                            builder: (context) => const AboutUs()));
                   },
                 ),
               ],
