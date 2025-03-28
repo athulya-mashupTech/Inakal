@@ -160,7 +160,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Text(
                                     "Harsha Sreekanth",
                                     style: TextStyle(
-                                        fontSize: 35,
+                                        fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         height: 1.1),
                                   ),

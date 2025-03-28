@@ -58,7 +58,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         borderRadius: BorderRadius.circular(10),
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            AppColors.grey, // This will apply the grayscale effect
+                            AppColors
+                                .grey, // This will apply the grayscale effect
                             BlendMode
                                 .saturation, // Apply the grayscale effect using saturation
                           ),
@@ -75,7 +76,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         child: Image.asset(
                           widget.image,
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.35,
+                          height: MediaQuery.of(context).size.width * 0.38,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -111,19 +112,19 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           Text(
                             "${widget.age} Year, ${widget.height}",
                             style: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
                             widget.religion,
                             style: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                           Text(
                             widget.role,
                             style: const TextStyle(
-                              fontSize: 14,
+                              fontSize: 12,
                             ),
                           ),
                         ],
@@ -157,48 +158,50 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                     fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(width: 10),
-                              widget.req_status == "Pending"
-                                  ? // Chat Button
-                                  Row(
-                                      children: [
-                                        Icon(
-                                          Icons.circle,
-                                          size: 10,
-                                          color: AppColors.grey.withAlpha(100),
-                                        ),
-                                        const SizedBox(width: 10,),
-                                        const Text(
-                                          "10 Jan 2025",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: AppColors.black,
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  : const SizedBox.shrink(),
+                              // widget.req_status == "Pending"
+                              //     ? // Chat Button
+                              //     Row(
+                              //         children: [
+                              //           Icon(
+                              //             Icons.circle,
+                              //             size: 10,
+                              //             color: AppColors.grey.withAlpha(100),
+                              //           ),
+                              //           const SizedBox(width: 10,),
+                              //           const Text(
+                              //             "10 Jan 2025",
+                              //             style: TextStyle(
+                              //               fontSize: 14,
+                              //               color: AppColors.black,
+                              //             ),
+                              //           ),
+                              //         ],
+                              //       )
+                              //     : const SizedBox.shrink(),
                             ],
                           ),
-                          const SizedBox(width: 10,),
-                          widget.req_status == "Pending"
-                              ? const Row(
-                                  children: [
-                                    Text(
-                                      "Expires on 15 Feb 2025",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: AppColors.primaryRed,
-                                      ),
-                                    ),
-                                    SizedBox(width: 3,),
-                                    Icon(
-                                      Icons.info_rounded,
-                                      size: 15,
-                                      color: AppColors.primaryRed,
-                                    ),
-                                  ],
-                                )
-                              : const SizedBox.shrink(),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          const Row(
+                            children: [
+                              Text(
+                                "Last seen on Today, 10:25AM",
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.primaryRed,
+                                ),
+                              ),
+                              SizedBox(
+                                width: 3,
+                              ),
+                              Icon(
+                                Icons.info_rounded,
+                                size: 15,
+                                color: AppColors.primaryRed,
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ],
@@ -242,8 +245,9 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          DeclineButton(text: "Decline"),
-                          AcceptButton(text: "Accept"),
+                          Expanded(child: DeclineButton(text: "Decline")),
+                          SizedBox(width: 10),
+                          Expanded(child: AcceptButton(text: "Accept")),
                         ],
                       ),
                     ],

@@ -69,7 +69,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                       child: Image.asset(
                         widget.image,
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.width * 0.27,
+                        height: MediaQuery.of(context).size.width * 0.30,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -79,7 +79,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                     child: Image.asset(
                       widget.image,
                       width: MediaQuery.of(context).size.width * 0.25,
-                      height: MediaQuery.of(context).size.width * 0.27,
+                      height: MediaQuery.of(context).size.width * 0.30,
                       fit: BoxFit.cover,
                     ),
                   ),
