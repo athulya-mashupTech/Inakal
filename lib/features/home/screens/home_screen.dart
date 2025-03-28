@@ -69,8 +69,34 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.symmetric(horizontal: 16.0),
               child: CompleteProfileCard(),
             ),
-            // Text("Home Page"),
-            const SizedBox(height: 10),
+            const SizedBox(height: 5),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Column(
+                    children: [
+                      Text(
+                        "Related Profile",
+                        style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            // color: AppColors.primaryRed
+                            ),
+                      ),
+                      Text(
+                        "Related Profile",
+                        style: TextStyle(
+                            // fontSize: 25,
+                            // fontWeight: FontWeight.bold,
+                            // // color: AppColors.primaryRed
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+            ),
+            const SizedBox(height: 5),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),

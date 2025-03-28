@@ -103,7 +103,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                       obscureText: !isPwdVisible,
                       validator: _validatePassword,
                     ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 5),
                     TextFieldWidget(
                       controller: _cpasswordController,
                       hintText: 'Confirm password',
@@ -140,7 +140,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                             fontSize: 21, fontWeight: FontWeight.bold)),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12.0, vertical: 6),
+                          horizontal: 12.0),
                       child: Row(
                         children: [
                           Checkbox(
@@ -153,14 +153,14 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                             focusColor: AppColors.black,
                             activeColor: AppColors.primaryRed,
                           ),
-                          const SizedBox(width: 8),
+                          // const SizedBox(width: 4),
                           const Expanded(
                             child: Text('I Agree to the Terms and Conditions'),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(height: 15),
+                    const SizedBox(height: 5),
                     CustomButton(
                       text: "Register",
                       onPressed: () {

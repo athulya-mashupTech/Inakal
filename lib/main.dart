@@ -40,7 +40,6 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
         useMaterial3: true,
       ),
-        // home: const MyHomePage(title: 'Inakal'),
         //  home: ChatScreen(),
         // home: PsychologistScreen(),
         home: BottomNavBarScreen()
