@@ -3,6 +3,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
@@ -40,7 +41,10 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 26,
               color: AppColors.primaryRed,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context,
+              MaterialPageRoute(builder: (context) =>  InboxScreen()));
+            },
           ),
         ),
         actions: [
@@ -103,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const OtherProfileScreen()));
+                          builder: (context) => const OtherProfileScreen()));
                     },
                     child: UserCard(
                         name: users[index].name,
@@ -111,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         image: users[index].image));
               },
             ),
-
             SizedBox(height: 20),
           ],
         ),

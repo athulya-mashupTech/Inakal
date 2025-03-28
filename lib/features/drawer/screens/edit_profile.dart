@@ -28,10 +28,8 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _sNameController = TextEditingController();
   final TextEditingController _phNoController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
-
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
-
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _incomeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
@@ -696,7 +694,7 @@ class _EditProfileState extends State<EditProfile> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             const Text("Annual Income",
-                            textAlign: TextAlign.start),
+                                textAlign: TextAlign.start),
                             Wrap(
                               children: [
                                 Container(
