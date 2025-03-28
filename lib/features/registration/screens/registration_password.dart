@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/registration/widgets/registration_loader.dart';
 import 'package:inakal/features/registration/widgets/text_field_widget.dart';
 
 class RegistrationPassword extends StatefulWidget {
@@ -61,12 +62,14 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(height: 20),
+                    const RegistrationLoader(progress: 4),
+                    const SizedBox(height: 30),
                     const Text(
                       "Confirm your password",
                       style: TextStyle(
-                        fontSize: 29.0,
+                        fontSize: 26.0,
                         fontWeight: FontWeight.bold,
                         color: AppColors.black,
                       ),
@@ -100,6 +103,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                       obscureText: !isPwdVisible,
                       validator: _validatePassword,
                     ),
+                    const SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _cpasswordController,
                       hintText: 'Confirm password',
@@ -125,7 +129,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                       },
                     ),
                     const SizedBox(height: 15),
-                    const Text("Agree the T&C and complete the ",
+                    const Text("Agree to the T&C and complete the ",
                         style: TextStyle(
                             fontSize: 16, fontWeight: FontWeight.normal)),
                     const Text("registration with the mobile number",
@@ -149,27 +153,32 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                             focusColor: AppColors.black,
                             activeColor: AppColors.primaryRed,
                           ),
-                          const SizedBox(height: 16),
-                          const Text('I Agree to the Terms and Conditions'),
+                          const SizedBox(width: 8),
+                          const Expanded(
+                            child: Text('I Agree to the Terms and Conditions'),
+                          ),
                         ],
                       ),
                     ),
+                    const SizedBox(height: 15),
                     CustomButton(
                       text: "Register",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           if (isChecked) {
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                builder: (context) =>
-                                const BottomNavBarScreen()));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const BottomNavBarScreen(),
+                              ),
+                            );
                           } else {
                             showSnackbar(context);
                           }
                         }
                       },
-                    )
+                    ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

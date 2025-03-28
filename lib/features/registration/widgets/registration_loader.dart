@@ -20,7 +20,7 @@ class _RegistrationLoaderState extends State<RegistrationLoader> {
           Radius.circular(20),
         ),
       ),
-      width: MediaQuery.of(context).size.width / 12 * 3,
+      width: MediaQuery.of(context).size.width / 12 * 4,
       child: Row(
         // mainAxisAlignment: MainAxisAlignment.center,
         children: [

@@ -11,7 +11,7 @@ class MobileNoCheckScreen extends StatefulWidget {
 }
 
 class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
-  //final TextEditingController _mobileController = TextEditingController();
+  final TextEditingController _mobileController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +64,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     ),
                     const SizedBox(height: 32),
                     IntlPhoneField(
+                      controller: _mobileController,
                       decoration: InputDecoration(
                         labelText: 'Mobile Number',
                         border: OutlineInputBorder(

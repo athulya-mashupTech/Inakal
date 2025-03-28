@@ -55,7 +55,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
         child: Form(
           child: ListView(
             children: [
-              const RegistrationLoader(progress: 2),
+              const RegistrationLoader(progress: 3),
               const SizedBox(height: 20),
            
               const Text(
