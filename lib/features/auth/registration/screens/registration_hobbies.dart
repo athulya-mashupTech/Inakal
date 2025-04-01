@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/features/registration/screens/registration_password.dart';
-import 'package:inakal/features/registration/widgets/registration_loader.dart';
+import 'package:inakal/features/auth/registration/screens/registration_password.dart';
+import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
+import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class RegistrationHobbies extends StatefulWidget {

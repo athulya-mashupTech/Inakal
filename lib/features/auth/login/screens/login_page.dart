@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/registration/widgets/text_field_widget.dart';
+import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginPage extends StatefulWidget {

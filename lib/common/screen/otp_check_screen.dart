@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/features/registration/screens/registrationform.dart';
+import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:pinput/pinput.dart';
 

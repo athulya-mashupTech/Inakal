@@ -7,7 +7,7 @@ import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
-import 'package:inakal/model/user.dart';
+import 'package:inakal/data_class/user.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

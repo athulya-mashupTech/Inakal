@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/requests/widgets/send_requests_card.dart'; // Your SendRequestsCard widget
-import 'package:inakal/model/user.dart'; // Your User model
+import 'package:inakal/data_class/user.dart'; // Your User model
 
 class SendRequests extends StatefulWidget {
   const SendRequests({super.key});

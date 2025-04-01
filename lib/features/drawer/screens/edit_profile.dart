@@ -6,7 +6,7 @@ import 'package:iconify_flutter_plus/icons/ic.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
-import 'package:inakal/features/registration/screens/image_upload_screen.dart';
+import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});

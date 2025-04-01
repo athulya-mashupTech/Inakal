@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/psychologists_listing/widgets/premarital_card.dart';
 import 'package:inakal/features/psychologists_listing/widgets/profile_card.dart';
-import 'package:inakal/model/psychologist_model.dart';
+import 'package:inakal/data_class/psychologist_model.dart';
 
 class PsychologistScreen extends StatefulWidget {
   const PsychologistScreen({super.key});

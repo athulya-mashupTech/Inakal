@@ -5,7 +5,7 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/home/widgets/filter_button.dart';
-import 'package:inakal/features/registration/widgets/custom_hobbies.dart';
+import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
 
 class FilterScreen extends StatefulWidget {
   const FilterScreen({super.key});
