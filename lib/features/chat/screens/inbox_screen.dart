@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/chat/widgets/inbox_card.dart';
-import 'package:inakal/model/user.dart';
+import 'package:inakal/data_class/user.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({super.key});

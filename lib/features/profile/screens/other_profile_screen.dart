@@ -4,7 +4,7 @@ import 'package:inakal/features/profile/widgets/other_profile_detail_card.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
 import 'package:inakal/features/requests/widgets/message_button.dart';
-import 'package:inakal/model/user.dart';
+import 'package:inakal/data_class/user.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   const OtherProfileScreen({super.key});

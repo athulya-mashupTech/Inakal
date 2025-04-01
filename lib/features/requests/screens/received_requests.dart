@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/requests/widgets/received_requests_card.dart';
-import 'package:inakal/model/user.dart';
+import 'package:inakal/data_class/user.dart';
 
 class ReceivedRequests extends StatefulWidget {
   const ReceivedRequests({super.key});

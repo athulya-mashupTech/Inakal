@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/registration/screens/registration_hobbies.dart';
-import 'package:inakal/features/registration/widgets/dropdown_feild.dart';
-import 'package:inakal/features/registration/widgets/registration_loader.dart';
-import 'package:inakal/features/registration/widgets/text_field_widget.dart';
+import 'package:inakal/features/auth/registration/screens/registration_hobbies.dart';
+import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
+import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
+import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 
 class RegistrationDescription extends StatefulWidget {
   const RegistrationDescription({super.key});

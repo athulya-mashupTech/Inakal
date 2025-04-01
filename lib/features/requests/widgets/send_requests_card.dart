@@ -207,17 +207,6 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
 
                     ],
                   ),
-
-                  // Text(
-                  //     description,
-                  //     style: const TextStyle(
-                  //       fontSize: 14,
-                  //       color: AppColors.psychotext,
-                  //     ),
-                  // ),
-
-                  // Buttons
-                  // const SizedBox(height: 8),
                 ],
               ),
             ),

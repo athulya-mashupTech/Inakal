@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:inakal/features/registration/screens/registration_description.dart';
-import 'package:inakal/features/registration/widgets/country_state_city.dart';
-import 'package:inakal/features/registration/widgets/registration_loader.dart';
+import 'package:inakal/features/auth/registration/screens/registration_description.dart';
+import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
+import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/features/registration/widgets/gender_selection.dart';
+import 'package:inakal/features/auth/registration/widgets/gender_selection.dart';
 import 'package:inakal/constants/app_constants.dart';
 import '../widgets/text_field_widget.dart';
 

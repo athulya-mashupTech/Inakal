@@ -5,8 +5,8 @@ import 'dart:io';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
-import 'package:inakal/features/registration/screens/registration_password.dart';
-import 'package:inakal/features/registration/widgets/registration_loader.dart';
+import 'package:inakal/features/auth/registration/screens/registration_password.dart';
+import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 
 class ImageUploadScreen extends StatefulWidget {
   const ImageUploadScreen({super.key});
