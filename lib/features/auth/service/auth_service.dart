@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
@@ -30,44 +31,55 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      print("fistname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
-      final response = await _sendPostRequest(
-        url: registerUrl, 
-        fields: {
-          "first_name": firtName,
-          "last_name": lastName,
-          "country_code": countryCode,
-          "phone": phone,
-          "email": email,
-          "address": address,
-          "district": district,
-          "state": state,
-          "country": country,
-          // "pincode": pincode,
-          // "dob": dob,
-          // "gender": gender,
-          // "religion": religion,
-          // "caste": caste,
-          // "birth_star": birthStar,
-          // "description": description,
-          // "hobbies": hobbies,
-          "password": password,
-        }
-      );
-      
+      print(
+          "fistname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
+      final response = await _sendPostRequest(url: registerUrl, fields: {
+        "first_name": firtName,
+        "last_name": lastName,
+        "country_code": countryCode,
+        "phone": phone,
+        "email": email,
+        "address": address,
+        "district": district,
+        "state": state,
+        "country": country,
+        // "pincode": pincode,
+        // "dob": dob,
+        // "gender": gender,
+        // "religion": religion,
+        // "caste": caste,
+        // "birth_star": birthStar,
+        // "description": description,
+        // "hobbies": hobbies,
+        "password": password,
+      });
+
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final registerModel = RegisterModel.fromJson(jsonResponse);
 
         if (registerModel.type == "success") {
-          _showSnackbar(context, "Registration successful: ${registerModel.message}");
+          _showSnackbar(
+              context, "Registration successful: ${registerModel.message}");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BottomNavBarScreen(),
+            ),
+          );
         } else {
           _showSnackbar(
               context, "Registration failed: ${registerModel.message}");
         }
 
         return registerModel;
+      } else if (response.statusCode == 400) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final registerModel = RegisterModel.fromJson(jsonResponse);
+        _showSnackbar(context, "Registration failed: ${registerModel.message}");
+        return null;
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");
         return null;
