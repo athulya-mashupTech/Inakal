@@ -55,23 +55,23 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return null;
   }
 
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    } else if (value.length < 8) {
-      return 'Password must be at least 8 characters';
-    } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
-      return 'Password must contain at least one uppercase letter';
-    } else if (!RegExp(r"[a-z]").hasMatch(value)) {
-      return 'Password must contain at least one lowercase letter';
-    } else if (!RegExp(r"[0-9]").hasMatch(value)) {
-      return 'Password must contain at least one digit';
-    }
-    return null;
-  }
+  // String? _validatePassword(String? value) {
+  //   if (value == null || value.isEmpty) {
+  //     return 'Password is required';
+  //   } else if (value.length < 8) {
+  //     return 'Password must be at least 8 characters';
+  //   } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
+  //     return 'Password must contain at least one uppercase letter';
+  //   } else if (!RegExp(r"[a-z]").hasMatch(value)) {
+  //     return 'Password must contain at least one lowercase letter';
+  //   } else if (!RegExp(r"[0-9]").hasMatch(value)) {
+  //     return 'Password must contain at least one digit';
+  //   }
+  //   return null;
+  // }
 
   var isChecked = false;
-  
+
   void _storeData() {
     UserRegistrationData.userFirstName = _firstNameController.text;
     UserRegistrationData.userLastName = _secondNameController.text;
@@ -162,7 +162,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   }
                 },
               ),
-
               const SizedBox(height: 15),
               GenderSelectionWidget(
                 selectedGender: selectedGender,
@@ -174,15 +173,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
               ),
               selectedGender == "error"
                   ? const Column(
-                    children: [
-                      SizedBox(height: 10),
-                      Text(
+                      children: [
+                        SizedBox(height: 10),
+                        Text(
                           "Gender is required",
-                          style: TextStyle(color: AppColors.errorRed, fontSize: 12),
+                          style: TextStyle(
+                              color: AppColors.errorRed, fontSize: 12),
                           textAlign: TextAlign.center,
                         ),
-                    ],
-                  )
+                      ],
+                    )
                   : const SizedBox(height: 10),
               const SizedBox(height: 17.0),
               CustomButton(
@@ -192,6 +192,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                   if (_formKey.currentState!.validate() &&
                       selectedGender != null &&
                       selectedGender != "error") {
+                    _storeData();
                     Navigator.push(
                       context,
                       MaterialPageRoute(

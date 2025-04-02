@@ -27,7 +27,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
     super.dispose();
   }
 
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
 
   final List<String> fruits = [
     'Apple',
@@ -155,6 +155,13 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
   ];
   List<String> availableCastes = [];
 
+  void _storeData() {
+    UserRegistrationData.userReligion = _religionController.text;
+    UserRegistrationData.userCaste = _casteController.text;
+    UserRegistrationData.userBirthStar = _birthStarController.text;
+    UserRegistrationData.userDescription = _descriptionController.text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -267,6 +274,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
               ),
               const SizedBox(height: 10),
               TextFormField(
+                controller: _descriptionController,
                 decoration: InputDecoration(
                   labelText: "Enter Description",
                   border: OutlineInputBorder(
@@ -291,6 +299,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                   text: "Continue",
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
+                      _storeData();
                       Navigator.push(
                         context,
                         MaterialPageRoute(

@@ -92,7 +92,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                       onPressed: () {
                         //Store the phone number and country code in the UserRegistrationData Class
                         _storeData();
-                        
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
