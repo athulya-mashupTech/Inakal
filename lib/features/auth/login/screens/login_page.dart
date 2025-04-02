@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
+import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class LoginPage extends StatefulWidget {
@@ -14,14 +15,23 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _loginpwdController = TextEditingController();
-  
+  String _countryCode = '';
+  String _phoneNumber = '';
+
+  void _loginUser() {
+    AuthService().loginUser(
+        countryCode: _countryCode.substring(1),
+        phone: _phoneNumber,
+        password: _loginpwdController.text,
+        context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.white,
       body: Stack(
         children: [
-
           Positioned(
             bottom: -100,
             child: Image.asset(
@@ -30,7 +40,6 @@ class _LoginPageState extends State<LoginPage> {
               fit: BoxFit.cover,
             ),
           ),
-
           Positioned(
             bottom: 0,
             left: 0,
@@ -42,7 +51,6 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
           ),
-
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
             child: Column(
@@ -68,17 +76,26 @@ class _LoginPageState extends State<LoginPage> {
                       borderSide: const BorderSide(),
                     ),
                   ),
+                  onChanged: (value) {
+                    setState(() {
+                      _countryCode = value.countryCode;
+                      _phoneNumber = value.number;
+                    });
+                  },
                   initialCountryCode: 'IN',
                 ),
                 const SizedBox(height: 10),
-                TextFieldWidget(controller: _loginpwdController, hintText: "Password"),
+                TextFieldWidget(
+                    controller: _loginpwdController, hintText: "Password"),
                 CustomButton(
-                  text: "Send OTP",
+                  text: "Login",
                   onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                        builder: (context) => const OTPValidateScreen()));
+                    _loginUser();
+
+                    // Navigator.push(
+                    //     context,
+                    //     MaterialPageRoute(
+                    //         builder: (context) => const OTPValidateScreen()));
                   },
                   color: AppColors.primaryRed,
                 ),
