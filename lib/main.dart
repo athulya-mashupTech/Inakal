@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
         //  home: ChatScreen(),
         // home: PsychologistScreen(),
         // home: BottomNavBarScreen()
-        home: const MyHomePage(title: 'Inakal'),
+        // home: const MyHomePage(title: 'Inakal'),
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()
@@ -55,7 +55,7 @@ class MyApp extends StatelessWidget {
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
         // home: EditProfile()
-        // home: LoginPage(),
+        home: LoginPage(),
         // home:ImageUploadScreen()
         
     );
