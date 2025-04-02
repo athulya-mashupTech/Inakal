@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
+import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
 
 class AuthService {
@@ -62,16 +63,49 @@ class AuthService {
         if (registerModel.type == "success") {
           _showSnackbar(context, "Registration successful: ${registerModel.message}");
         } else {
-          _showSnackbar(context, "Registration failed: ${registerModel.message}");
+          _showSnackbar(
+              context, "Registration failed: ${registerModel.message}");
         }
 
         return registerModel;
       } else {
         print("Error: ${response.statusCode} ${response.reasonPhrase}");
         return null;
-      } 
+      }
     } catch (e) {
       // Handle error
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  Future<LoginModel?> loginUser({
+    required String countryCode,
+    required String phone,
+    required String password,
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await _sendPostRequest(url: loginUrl, fields: {
+        "country_code": countryCode,
+        "phone": phone,
+        "password": password
+      });
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final loginModel = LoginModel.fromJson(jsonResponse);
+        if (loginModel.token != "") {
+          _showSnackbar(context, "Successfully Logined");
+        } else {
+          _showSnackbar(context, "login denied");
+        }
+        return loginModel;
+      } else {
+        print("Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
       print("Error: $e");
       return null;
     }
@@ -89,9 +123,9 @@ Future<http.StreamedResponse> _sendPostRequest({
 }
 
 // Method to show Snackbar
-  void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
-    );
-  }
+void _showSnackbar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: Text(message)),
+  );
+}
