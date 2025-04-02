@@ -72,6 +72,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   var isChecked = false;
   
+  void _storeData() {
+    UserRegistrationData.userFirstName = _firstNameController.text;
+    UserRegistrationData.userLastName = _secondNameController.text;
+    UserRegistrationData.userEmail = _emailController.text;
+    UserRegistrationData.userAddress = _addressController.text;
+    UserRegistrationData.userCountry = _countryController.text;
+    UserRegistrationData.userState = _stateController.text;
+    UserRegistrationData.userDistrict = _cityController.text;
+    UserRegistrationData.userPincode = _pincodeController.text;
+    UserRegistrationData.userDob = _dobController.text;
+    UserRegistrationData.userGender = selectedGender!;
+  }
 
   @override
   Widget build(BuildContext context) {
