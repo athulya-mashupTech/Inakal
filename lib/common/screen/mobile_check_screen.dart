@@ -11,7 +11,13 @@ class MobileNoCheckScreen extends StatefulWidget {
 }
 
 class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
-  final TextEditingController _mobileController = TextEditingController();
+  String _countryCode = '';
+  String _phoneNumber = '';
+
+  void _storeData() {
+    UserRegistrationData.userPhoneNumber = _phoneNumber;
+    UserRegistrationData.userCountryCode = _countryCode;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +30,6 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
           backgroundColor: AppColors.white,
           body: Stack(
             children: [
-              
               Positioned(
                 bottom: -100,
                 child: Image.asset(
@@ -33,7 +38,6 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   fit: BoxFit.cover,
                 ),
               ),
-      
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -54,7 +58,8 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     const Text(
                       'Phone Number Verification',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
                     const Text(
@@ -64,7 +69,6 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     ),
                     const SizedBox(height: 32),
                     IntlPhoneField(
-                      controller: _mobileController,
                       decoration: InputDecoration(
                         labelText: 'Mobile Number',
                         border: OutlineInputBorder(
@@ -72,17 +76,30 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                           borderSide: BorderSide(),
                         ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _countryCode = value.countryCode;
+                          _phoneNumber = value.number;
+                        });
+                      },
                       initialCountryCode: 'IN',
                     ),
                     const SizedBox(height: 10),
-      
+
                     // CustomButton(
                     CustomButton(
-                      text: "Send OTP", 
-                      onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context) => OTPValidateScreen()));}, 
+                      text: "Send OTP",
+                      onPressed: () {
+                        //Store the phone number and country code in the UserRegistrationData Class
+                        _storeData();
+                        
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => OTPValidateScreen()));
+                      },
                       color: AppColors.primaryRed,
                     ),
-      
                   ],
                 ),
               ),

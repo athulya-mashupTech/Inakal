@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
-import 'package:inakal/model/register_model.dart';
+import 'package:inakal/features/auth/model/register_model.dart';
 
 class AuthService {
   // Register Function
