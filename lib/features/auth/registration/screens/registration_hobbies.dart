@@ -13,8 +13,6 @@ class RegistrationHobbies extends StatefulWidget {
 }
 
 class _RegistrationHobbiesState extends State<RegistrationHobbies> {
-
-  
   final List<String> interests = [
     "Reading",
     "Photography",
@@ -37,7 +35,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
   ];
 
   final Set<String> selectedInterests = {};
-  
+
   void toggleInterest(String interest) {
     setState(() {
       if (selectedInterests.contains(interest)) {
@@ -47,6 +45,12 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
       }
     });
   }
+
+  _storeHobbies() {
+    String hobbiesString = selectedInterests.join(',');
+    UserRegistrationData.userHobbies = hobbiesString;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,7 +61,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
             children: [
               const RegistrationLoader(progress: 3),
               const SizedBox(height: 20),
-           
               const Text(
                 "Select upto 5 Hobbies",
                 style: TextStyle(
@@ -81,8 +84,8 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 padding: const EdgeInsets.all(16.0),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  spacing: 10, 
-                  runSpacing: 10, 
+                  spacing: 10,
+                  runSpacing: 10,
                   children: interests.map((interest) {
                     return InterestItem(
                       interest: interest,
@@ -92,10 +95,10 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   }).toList(),
                 ),
               ),
-
               CustomButton(
                 text: "Continue",
                 onPressed: () {
+                  _storeHobbies();
                   Navigator.push(
                     context,
                     MaterialPageRoute(

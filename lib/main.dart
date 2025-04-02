@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
       ),
         //  home: ChatScreen(),
         // home: PsychologistScreen(),
-        home: BottomNavBarScreen()
+        // home: BottomNavBarScreen()
+        home: const MyHomePage(title: 'Inakal'),
         // home: MatchesScreen(),
         // home: ProfilePage(),
         // home: Notifications()

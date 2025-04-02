@@ -29,8 +29,9 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
+      print("fistname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
       final response = await _sendPostRequest(
-        url: loginUrl, 
+        url: registerUrl, 
         fields: {
           "first_name": firtName,
           "last_name": lastName,
@@ -41,24 +42,24 @@ class AuthService {
           "district": district,
           "state": state,
           "country": country,
-          "pincode": pincode,
-          "dob": dob,
-          "gender": gender,
-          "religion": religion,
-          "caste": caste,
-          "birth_star": birthStar,
-          "description": description,
-          "hobbies": hobbies,
+          // "pincode": pincode,
+          // "dob": dob,
+          // "gender": gender,
+          // "religion": religion,
+          // "caste": caste,
+          // "birth_star": birthStar,
+          // "description": description,
+          // "hobbies": hobbies,
           "password": password,
         }
       );
-
+      
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final registerModel = RegisterModel.fromJson(jsonResponse);
 
-        if (registerModel.message == "success") {
+        if (registerModel.type == "success") {
           _showSnackbar(context, "Registration successful: ${registerModel.message}");
         } else {
           _showSnackbar(context, "Registration failed: ${registerModel.message}");
@@ -66,7 +67,7 @@ class AuthService {
 
         return registerModel;
       } else {
-        print("Error: ${response.statusCode}");
+        print("Error: ${response.statusCode} ${response.reasonPhrase}");
         return null;
       } 
     } catch (e) {
