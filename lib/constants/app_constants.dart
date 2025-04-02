@@ -72,6 +72,33 @@ class AppColors {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
-  
-
 }
+
+// User data constants for registration
+// This class is used to store user data during the registration process.
+class UserRegistrationData {
+  static String? userFirstName;
+  static String? userLastName;
+  static String? userEmail;
+
+  static String? userPhoneNumber;
+  static String? userCountryCode;
+
+  static String? userAddress;
+  static String? userDistrict;
+  static String? userState;
+  static String? userCountry;
+  static String? userPincode;
+  static String? userDob;
+  static String? userGender;
+
+  static String? userReligion;
+  static String? userCaste;
+  static String? userBirthStar;
+  static String? userDescription;
+
+  static String? userHobbies;
+
+  static String? userPassword;
+}
+
