@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/common/widgets/bottom_navigation.dart';
+import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
@@ -10,48 +11,30 @@ import 'package:inakal/features/auth/model/register_model.dart';
 class AuthService {
   // Register Function
   Future<RegisterModel?> registerUser({
-    required String firtName,
-    required String lastName,
-    required String countryCode,
-    required String phone,
-    required String email,
-    required String address,
-    required String district,
-    required String state,
-    required String country,
-    required String pincode,
-    required String dob,
-    required String gender,
-    required String religion,
-    required String caste,
-    required String birthStar,
-    required String description,
-    required String hobbies,
-    required String password,
     required BuildContext context,
   }) async {
     try {
       print(
-          "fistname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
+          "fistname: ${UserRegistrationData.userFirstName}, lastname: ${UserRegistrationData.userLastName}, countryCode: ${UserRegistrationData.userCountryCode}, phone: ${UserRegistrationData.userPhoneNumber}, email: ${UserRegistrationData.userEmail}, address: ${UserRegistrationData.userAddress}, district: ${UserRegistrationData.userDistrict}, state: ${UserRegistrationData.userState}, county: ${UserRegistrationData.userCountry}, password: ${UserRegistrationData.userPassword}");
       final response = await _sendPostRequest(url: registerUrl, fields: {
-        "first_name": firtName,
-        "last_name": lastName,
-        "country_code": countryCode,
-        "phone": phone,
-        "email": email,
-        "address": address,
-        "district": district,
-        "state": state,
-        "country": country,
-        // "pincode": pincode,
-        // "dob": dob,
-        // "gender": gender,
-        // "religion": religion,
-        // "caste": caste,
-        // "birth_star": birthStar,
-        // "description": description,
-        // "hobbies": hobbies,
-        "password": password,
+        "first_name": UserRegistrationData.userFirstName!,
+        "last_name": UserRegistrationData.userLastName!,
+        "country_code": UserRegistrationData.userCountryCode!,
+        "phone": UserRegistrationData.userPhoneNumber!,
+        "email": UserRegistrationData.userEmail!,
+        "address": UserRegistrationData.userAddress!,
+        "district": UserRegistrationData.userDistrict!,
+        "state": UserRegistrationData.userState!,
+        "country": UserRegistrationData.userCountry!,
+        // "pincode": UserRegistrationData.userPincode!,
+        // "dob": UserRegistrationData.userDob!,
+        // "gender": UserRegistrationData.userGender!,
+        // "religion": UserRegistrationData.userReligion!,
+        // "caste": UserRegistrationData.userCaste!,
+        // "birth_star": UserRegistrationData.userBirthStar!,
+        // "description": UserRegistrationData.userDescription!,
+        // "hobbies": UserRegistrationData.userHobbies!,
+        "password": UserRegistrationData.userPassword!,
       });
 
       if (response.statusCode == 200) {
@@ -109,11 +92,19 @@ class AuthService {
         final loginModel = LoginModel.fromJson(jsonResponse);
         if (loginModel.token != "") {
           _showSnackbar(context, "Successfully Logined");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const BottomNavBarScreen(),
+            ),
+          );
         } else {
           _showSnackbar(context, "login denied");
         }
+
         return loginModel;
       } else {
+        _showSnackbar(context, "Login failed. No user found.");
         print("Error: ${response.statusCode}");
         return null;
       }

@@ -3,6 +3,7 @@ import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class MobileNoCheckScreen extends StatefulWidget {
@@ -99,6 +100,35 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                                 builder: (context) => OTPValidateScreen()));
                       },
                       color: AppColors.primaryRed,
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text(
+                          'Already have an account? ',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    const LoginPage(),
+                              ),
+                            );
+                          },
+                          child: const Text(
+                            'Login',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: AppColors.primaryRed,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),

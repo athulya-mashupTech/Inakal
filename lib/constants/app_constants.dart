@@ -81,6 +81,7 @@ class UserRegistrationData {
   static String? userLastName;
   static String? userEmail;
 
+  static String? userProfileCreatedFor;
   static String? userPhoneNumber;
   static String? userCountryCode;
 
