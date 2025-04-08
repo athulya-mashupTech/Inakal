@@ -59,24 +59,6 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
 
   Future<RegisterModel?> _registerUser() async {
     return await AuthService().registerUser(
-        firtName: UserRegistrationData.userFirstName!,
-        lastName: UserRegistrationData.userLastName!,
-        countryCode: UserRegistrationData.userCountryCode!,
-        phone: UserRegistrationData.userPhoneNumber!,
-        email: UserRegistrationData.userEmail!,
-        address: UserRegistrationData.userAddress!,
-        district: UserRegistrationData.userDistrict!,
-        state: UserRegistrationData.userState!,
-        country: UserRegistrationData.userCountry!,
-        pincode: UserRegistrationData.userPincode!,
-        dob: UserRegistrationData.userDob!,
-        gender: UserRegistrationData.userGender!,
-        religion: UserRegistrationData.userReligion!,
-        caste: UserRegistrationData.userCaste!,
-        birthStar: UserRegistrationData.userBirthStar!,
-        description: UserRegistrationData.userDescription!,
-        hobbies: UserRegistrationData.userHobbies!,
-        password: UserRegistrationData.userPassword!,
         context: context);
   }
 
