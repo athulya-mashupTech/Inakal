@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
@@ -30,7 +29,7 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      print("fistname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
+      print("firstname: $firtName, lastname: $lastName, countryCode: $countryCode, phone: $phone, email: $email, address: $address, district: $district, state: $state, county: $country, password: $password");
       final response = await _sendPostRequest(
         url: registerUrl, 
         fields: {
