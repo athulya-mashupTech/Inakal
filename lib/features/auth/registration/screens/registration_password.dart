@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
@@ -53,12 +55,14 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  final RegistrationController regController = Get.find();
   void _storePassword() {
-    UserRegistrationData.userPassword = _passwordController.text;
+    regController.setPassword(_passwordController.text);
   }
 
   Future<RegisterModel?> _registerUser() async {
     return await AuthService().registerUser(
+        userData: regController.user.value,
         context: context);
   }
 
@@ -139,37 +143,37 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                         return null;
                       },
                     ),
-                    const SizedBox(height: 15),
-                    const Text("Agree to the T&C and complete the ",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal)),
-                    const Text("registration with the mobile number",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.normal)),
-                    const Text("+91 96XXX XXX99",
-                        style: TextStyle(
-                            fontSize: 21, fontWeight: FontWeight.bold)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: isChecked,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                isChecked = value ?? false;
-                              });
-                            },
-                            focusColor: AppColors.black,
-                            activeColor: AppColors.primaryRed,
-                          ),
-                          // const SizedBox(width: 4),
-                          const Expanded(
-                            child: Text('I Agree to the Terms and Conditions'),
-                          ),
-                        ],
-                      ),
-                    ),
+                    // const SizedBox(height: 15),
+                    // const Text("Agree to the T&C and complete the ",
+                    //     style: TextStyle(
+                    //         fontSize: 16, fontWeight: FontWeight.normal)),
+                    // const Text("registration with the mobile number",
+                    //     style: TextStyle(
+                    //         fontSize: 16, fontWeight: FontWeight.normal)),
+                    // const Text("+91 96XXX XXX99",
+                    //     style: TextStyle(
+                    //         fontSize: 21, fontWeight: FontWeight.bold)),
+                    // Padding(
+                    //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                    //   child: Row(
+                    //     children: [
+                    //       Checkbox(
+                    //         value: isChecked,
+                    //         onChanged: (bool? value) {
+                    //           setState(() {
+                    //             isChecked = value ?? false;
+                    //           });
+                    //         },
+                    //         focusColor: AppColors.black,
+                    //         activeColor: AppColors.primaryRed,
+                    //       ),
+                    //       // const SizedBox(width: 4),
+                    //       const Expanded(
+                    //         child: Text('I Agree to the Terms and Conditions'),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                     const SizedBox(height: 5),
                     CustomButton(
                       text: "Register",

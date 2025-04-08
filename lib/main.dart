@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/chat/screens/chat_screen.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
@@ -23,8 +25,9 @@ import 'package:inakal/features/requests/screens/send_requests.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 
-
 void main() {
+  // Register your controller globally
+  Get.put(RegistrationController());
   runApp(const MyApp());
 }
 
@@ -33,11 +36,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Inakal',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),   
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
         useMaterial3: true,
       ),
         //  home: ChatScreen(),
@@ -57,7 +60,6 @@ class MyApp extends StatelessWidget {
         home: EditProfile()
         // home: LoginPage(),
         // home:ImageUploadScreen()
-        
     );
   }
 }
