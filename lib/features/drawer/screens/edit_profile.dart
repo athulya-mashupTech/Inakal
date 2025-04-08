@@ -433,7 +433,8 @@ class _EditProfileState extends State<EditProfile> {
                     ),
                   ),
                 ),
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //  HeaderWidget(title: "Educat")
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 16),
