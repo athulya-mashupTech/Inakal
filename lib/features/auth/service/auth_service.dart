@@ -2,38 +2,54 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/common/widgets/bottom_navigation.dart';
-import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
+import 'package:inakal/features/auth/model/user_registration_data_model.dart';
 
 class AuthService {
   // Register Function
   Future<RegisterModel?> registerUser({
+    required UserRegistrationDataModel userData,
     required BuildContext context,
   }) async {
     try {
       print(
-          "fistname: ${UserRegistrationData.userFirstName}, lastname: ${UserRegistrationData.userLastName}, countryCode: ${UserRegistrationData.userCountryCode}, phone: ${UserRegistrationData.userPhoneNumber}, email: ${UserRegistrationData.userEmail}, address: ${UserRegistrationData.userAddress}, district: ${UserRegistrationData.userDistrict}, state: ${UserRegistrationData.userState}, county: ${UserRegistrationData.userCountry}, password: ${UserRegistrationData.userPassword}");
+          """fistname: ${userData.userFirstName},
+           lastname: ${userData.userLastName}, 
+           countryCode: ${userData.userCountryCode}, 
+           phone: ${userData.userPhoneNumber}, 
+           email: ${userData.userEmail}, 
+           address: ${userData.userAddress}, 
+           district: ${userData.userDistrict}, 
+           state: ${userData.userState}, 
+           country: ${userData.userCountry}, 
+           password: ${userData.userPassword}, 
+           religion: ${userData.userReligion}, 
+           caste: ${userData.userCaste}, 
+           birthstar: ${userData.userBirthStar}, 
+           description: ${userData.userDescription}, 
+           hobbies: ${userData.userHobbies}""");
+           
       final response = await _sendPostRequest(url: registerUrl, fields: {
-        "first_name": UserRegistrationData.userFirstName!,
-        "last_name": UserRegistrationData.userLastName!,
-        "country_code": UserRegistrationData.userCountryCode!,
-        "phone": UserRegistrationData.userPhoneNumber!,
-        "email": UserRegistrationData.userEmail!,
-        "address": UserRegistrationData.userAddress!,
-        "district": UserRegistrationData.userDistrict!,
-        "state": UserRegistrationData.userState!,
-        "country": UserRegistrationData.userCountry!,
-        // "pincode": UserRegistrationData.userPincode!,
-        // "dob": UserRegistrationData.userDob!,
-        // "gender": UserRegistrationData.userGender!,
-        // "religion": UserRegistrationData.userReligion!,
-        // "caste": UserRegistrationData.userCaste!,
-        // "birth_star": UserRegistrationData.userBirthStar!,
-        // "description": UserRegistrationData.userDescription!,
-        // "hobbies": UserRegistrationData.userHobbies!,
-        "password": UserRegistrationData.userPassword!,
+        "first_name": userData.userFirstName!,
+        "last_name": userData.userLastName!,
+        "country_code": userData.userCountryCode!,
+        "phone": userData.userPhoneNumber!,
+        "email": userData.userEmail!,
+        "address": userData.userAddress!,
+        "district": userData.userDistrict!,
+        "state": userData.userState!,
+        "country": userData.userCountry!,
+        // "pincode": userData.userPincode!,
+        // "dob": userData.userDob!,
+        // "gender": userData.userGender!,
+        // "religion": userData.userReligion!,
+        // "caste": userData.userCaste!,
+        // "birth_star": userData.userBirthStar!,
+        // "description": userData.userDescription!,
+        // "hobbies": userData.userHobbies!,
+        "password": userData.userPassword!,
       });
 
       if (response.statusCode == 200) {

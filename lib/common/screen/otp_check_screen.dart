@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/registration/screens/terms_and_conditions_screen.dart';
 import 'package:pinput/pinput.dart';
 
 class OTPValidateScreen extends StatefulWidget {
@@ -14,13 +14,13 @@ class OTPValidateScreen extends StatefulWidget {
 class _OTPValidateScreenState extends State<OTPValidateScreen> {
   final String _otp = '234567';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String _errorText = '';
+
   final defaultPinTheme = PinTheme(
     width: 56,
     height: 56,
     textStyle: const TextStyle(
-        fontSize: 20,
-        color: AppColors.otpblue,
-        fontWeight: FontWeight.w600),
+        fontSize: 20, color: AppColors.otpblue, fontWeight: FontWeight.w600),
     decoration: BoxDecoration(
       color: AppColors.white,
       border: Border.all(color: const Color.fromRGBO(234, 239, 243, 1)),
@@ -35,6 +35,8 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
       ],
     ),
   );
+
+  String _enteredOtp = '';
 
   @override
   Widget build(BuildContext context) {
@@ -71,22 +73,21 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
             ),
             SafeArea(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height: 80),
+                    const SizedBox(height: 80),
                     const Text(
                       'Phone Number Verification',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
                     const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'An OTP has been send to you mobile number',
+                          'An OTP has been sent to your mobile number',
                           style: TextStyle(fontSize: 16),
                         ),
                         Text(
@@ -96,13 +97,8 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                         ),
                       ],
                     ),
-              
                     const SizedBox(height: 30),
-              
-                    /// Insert the OTPWidget here
                     OTPWidget(),
-              
-                    // const SizedBox(height: 25),
                   ],
                 ),
               ),
@@ -115,54 +111,59 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
 
   Widget OTPWidget() {
     return Form(
-        key: formKey,
-        child: Column(
-          children: [
-            Pinput(
-              length: 6,
-              keyboardType: TextInputType.number,
-              defaultPinTheme: defaultPinTheme,
-              validator: (value) {
-               // print(value ?? "Nil");
-                return value == _otp ? null : "Invalid OTP";
-              },
-              onCompleted: (value) {
-                if (value == _otp) {
-                  //print("OTP Verified");
+      key: formKey,
+      child: Column(
+        children: [
+          Pinput(
+            length: 6,
+            keyboardType: TextInputType.number,
+            defaultPinTheme: defaultPinTheme,
+            onChanged: (value) {
+              setState(() {
+                _enteredOtp = value;
+                _errorText = '';
+              });
+            },
+          ),
+          if (_errorText.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(top: 10),
+              child: Text(
+                _errorText,
+                style: const TextStyle(color: AppColors.primaryRed),
+              ),
+            ),
+          const SizedBox(height: 10),
+          ResendOTP(),
+          Padding(
+            padding: const EdgeInsets.only(top: 12),
+            child: CustomButton(
+              text: "Verify OTP",
+              onPressed: () {
+                if (_enteredOtp.isEmpty || _enteredOtp.length < 6) {
+                  setState(() {
+                    _errorText = 'Please enter the 6-digit OTP';
+                  });
+                } else if (_enteredOtp != _otp) {
+                  setState(() {
+                    _errorText = 'Invalid OTP. Please try again.';
+                  });
+                } else {
+                  // OTP is correct
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegistrationForm()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const TermsAndConditionsScreen(),
+                    ),
+                  );
                 }
               },
-              errorBuilder: (errorText, pin) {
-                return Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    child: Text(
-                      errorText ?? "",
-                      style: const TextStyle(color: AppColors.primaryRed),
-                    ),
-                  ),
-                );
-              },
+              color: AppColors.primaryRed,
             ),
-            const SizedBox(height: 16),
-
-            /// Resend OTP
-            ResendOTP(),
-
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: CustomButton(text: "Verify OTP",
-              onPressed: () {
-                // Add your onPressed code here!
-                final result = formKey.currentState!.validate();
-              }, 
-              color: AppColors.primaryRed),
-            ),
-          ],
-        ));
+          ),
+        ],
+      ),
+    );
   }
 
   Widget ResendOTP() {

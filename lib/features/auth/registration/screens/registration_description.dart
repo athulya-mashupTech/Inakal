@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_hobbies.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
@@ -155,11 +157,14 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
   ];
   List<String> availableCastes = [];
 
+  final RegistrationController regController = Get.find();
   void _storeData() {
-    UserRegistrationData.userReligion = _religionController.text;
-    UserRegistrationData.userCaste = _casteController.text;
-    UserRegistrationData.userBirthStar = _birthStarController.text;
-    UserRegistrationData.userDescription = _descriptionController.text;
+    regController.setReligionDetails(
+      religion: _religionController.text,
+      caste: _casteController.text,
+      birthStar: _birthStarController.text,
+      description: _descriptionController.text,
+    );
   }
 
   @override
@@ -300,12 +305,11 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       _storeData();
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegistrationHobbies(),
-                        ),
-                      );
+                      Get.to(
+                      const RegistrationHobbies(),
+                      transition: Transition.rightToLeftWithFade,
+                      duration: const Duration(milliseconds: 800),
+                    );
                     }
                   }),
               const SizedBox(height: 20.0),

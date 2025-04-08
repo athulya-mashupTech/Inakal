@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
@@ -72,17 +74,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   var isChecked = false;
 
+  final RegistrationController regController = Get.find();
   void _storeData() {
-    UserRegistrationData.userFirstName = _firstNameController.text;
-    UserRegistrationData.userLastName = _secondNameController.text;
-    UserRegistrationData.userEmail = _emailController.text;
-    UserRegistrationData.userAddress = _addressController.text;
-    UserRegistrationData.userCountry = _countryController.text;
-    UserRegistrationData.userState = _stateController.text;
-    UserRegistrationData.userDistrict = _cityController.text;
-    UserRegistrationData.userPincode = _pincodeController.text;
-    UserRegistrationData.userDob = _dobController.text;
-    UserRegistrationData.userGender = selectedGender!;
+    regController.setBasicDetails(
+        firstName: _firstNameController.text,
+        lastName: _secondNameController.text,
+        email: _emailController.text,
+        address: _addressController.text,
+        country: _countryController.text,
+        state: _stateController.text,
+        district: _cityController.text,
+        pincode: _pincodeController.text,
+        dob: _dobController.text,
+        gender: selectedGender!);
   }
 
   @override
@@ -193,11 +197,10 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       selectedGender != null &&
                       selectedGender != "error") {
                     _storeData();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const RegistrationDescription(),
-                      ),
+                    Get.to(
+                      const RegistrationDescription(),
+                      transition: Transition.rightToLeftWithFade,
+                      duration: const Duration(milliseconds: 800),
                     );
                   } else {
                     setState(() {

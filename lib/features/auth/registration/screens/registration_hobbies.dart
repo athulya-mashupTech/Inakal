@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
@@ -46,9 +48,9 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
     });
   }
 
+  final RegistrationController regController = Get.find();
   _storeHobbies() {
-    String hobbiesString = selectedInterests.join(',');
-    UserRegistrationData.userHobbies = hobbiesString;
+    regController.setHobbies(selectedInterests.toList());
   }
 
   @override
@@ -99,12 +101,11 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 text: "Continue",
                 onPressed: () {
                   _storeHobbies();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RegistrationPassword(),
-                    ),
-                  );
+                  Get.to(
+                      const RegistrationPassword(),
+                      transition: Transition.rightToLeftWithFade,
+                      duration: const Duration(milliseconds: 800),
+                    );
                 },
               ),
             ],
