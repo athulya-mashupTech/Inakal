@@ -37,7 +37,7 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _casteController = TextEditingController();
   final TextEditingController _subcasteController = TextEditingController();
   final TextEditingController _mothertongueController = TextEditingController();
-  final TextEditingController _maritalStatusController = TextEditingController();
+  final TextEditingController _maritalStatusController =TextEditingController();
 
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
@@ -48,12 +48,47 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _weightController = TextEditingController();
   final TextEditingController _childController = TextEditingController();
   final TextEditingController _starsignController = TextEditingController();
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _stateController = TextEditingController();
+
+  final TextEditingController _highestEducationController =TextEditingController();
+  final TextEditingController _educationController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _incomeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
-  final TextEditingController _educationController = TextEditingController();
+
+  final TextEditingController _familyTypeController = TextEditingController();
+  final TextEditingController _mothersOccupationController =TextEditingController();
+  final TextEditingController _siblingsController = TextEditingController();
+  final TextEditingController _siblingsMaritalStatusController =TextEditingController();
+
+  final TextEditingController _pagegroup = TextEditingController();
+  final TextEditingController _pheightrange = TextEditingController();
+  final TextEditingController _preligion = TextEditingController();
+  final TextEditingController _pcaste = TextEditingController();
+  final TextEditingController _psmoking = TextEditingController();
+  final TextEditingController _pdrinking = TextEditingController();
+  final TextEditingController _pfood = TextEditingController();
+  final TextEditingController _pqualification = TextEditingController();
+  final TextEditingController _pscore = TextEditingController();
+
+  final TextEditingController _aboutmecontroller = TextEditingController();
+  final TextEditingController _smokinghabitcontroller= TextEditingController();
+  final TextEditingController _drinkinghabitcontroller = TextEditingController();
+  final TextEditingController _foodhabitcontroller = TextEditingController();
+  final TextEditingController _profileapprovalcontroller = TextEditingController();
+  final TextEditingController _profilecreatedcontroller = TextEditingController();
+  final TextEditingController _instalinkcontroller = TextEditingController();
+  final TextEditingController _fblinkcontroller = TextEditingController();
+  final TextEditingController _linkedlnlinkcontroller = TextEditingController();
+  final TextEditingController _youtubelinkcontroller = TextEditingController();
+
+
+
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _zipcodeController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   @override
   void initState() {
@@ -66,7 +101,7 @@ class _EditProfileState extends State<EditProfile> {
     _heightController.text = "5.6 ft";
     _weightController.text = "60 kg";
     _starsignController.text = "Virgo";
-    _occupationController.text = "Software Developer";
+    _occupationController.text = "Developer";
     _incomeController.text = "20";
     _locationController.text = "Infopark, Kochi";
     _educationController.text = "MCA";
@@ -78,6 +113,45 @@ class _EditProfileState extends State<EditProfile> {
     _subcasteController.text = "Nair";
     _mothertongueController.text = "Malayalam";
     _maritalStatusController.text = "Single";
+
+    _highestEducationController.text = "Postgraduate";
+    _occupationController.text = "Developer";
+    _incomeController.text = "5-10 LPA";
+    _locationController.text = "Infopark, Kochi";
+
+    _familyTypeController.text = "Nuclear";
+    _mothersOccupationController.text = "Housewife";
+    _siblingsController.text = "1";
+    _siblingsMaritalStatusController.text = "Single";
+
+    _pagegroup.text = "18-24";
+    _pheightrange.text = "5.0-6.0 ft";
+    _preligion.text = "Hindu";
+    _pcaste.text = "Nair";
+    _psmoking.text = "No";
+    _pdrinking.text = "No";
+    _pfood.text = "Vegetarian";
+    _pqualification.text = "Postgraduate";
+    _pscore.text = "50%";
+
+    _countryController.text = "India";
+    _stateController.text = "Kerala";
+    _districtController.text = "Ernakulam";
+    _cityController.text = "Kochi";
+    _zipcodeController.text = "682042";
+    _addressController.text = "Vanilla grove,Kolenchery";
+
+    _aboutmecontroller.text = "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";  
+    _smokinghabitcontroller.text = "No";
+    _drinkinghabitcontroller.text = "No";
+    _foodhabitcontroller.text = "Vegetarian";
+    _profileapprovalcontroller.text = "Approved";
+    _profilecreatedcontroller.text = "Friends";
+    _instalinkcontroller.text = "https://www.instagram.com/harsha_sreekanth/";
+    _fblinkcontroller.text = "https://www.facebook.com/harsha.sreekanth.1/";
+    _linkedlnlinkcontroller.text = "https://www.linkedin.com/in/harsha-sreekanth-123456789/";
+    _youtubelinkcontroller.text = "https://www.youtube.com/@harsha_sreekanth/";
+
   }
 
   @override
@@ -423,223 +497,460 @@ class _EditProfileState extends State<EditProfile> {
 
                         //Number of Children
                         DetailsRowWidget(
-                          label: "Number of Children", 
-                          valueWidget: EditableNumberWidget(controller: _childController)
-                        ),
-                        const SizedBox(height: 25,
+                            label: "Number of Children",
+                            valueWidget: EditableNumberWidget(
+                                controller: _childController)),
+                        const SizedBox(
+                          height: 25,
                         ),
                         CustomButton(text: "Save", onPressed: () {}),
                       ],
                     ),
                   ),
                 ),
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
-      //  HeaderWidget(title: "Educat")
-                const SizedBox(height: 20),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text("Living Address", textAlign: TextAlign.start),
-                ),
-                const SizedBox(height: 20),
+                HeaderWidget(title: "Educational and Professional Details"),
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
+
                 Container(
                   color: AppColors.bgsoftpink,
                   child: Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            EditProfleDropdown(
-                                label: "Country",
-                                items: const [
-                                  'India',
-                                  'Pakistan',
-                                  'Australia',
-                                  'London',
-                                  'Canada',
-                                  'Germany',
-                                  'Austria',
-                                  'others'
-                                ],
-                                controller: _countryController),
-                            const SizedBox(
-                              height: 16,
-                              width: 16,
-                            ),
-                            EditProfleDropdown(
-                                label: "State",
-                                items: const [
-                                  'India',
-                                  'Pakistan',
-                                  'Australia',
-                                  'London',
-                                  'Canada',
-                                  'Germany',
-                                  'Austria',
-                                  'others'
-                                ],
-                                controller: _stateController)
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        EditProfleDropdown(
-                            label: "State",
-                            items: const [
-                              'India',
-                              'Pakistan',
-                              'Australia',
-                              'London',
-                              'Canada',
-                              'Germany',
-                              'Austria',
-                              'others'
-                            ],
-                            controller: _stateController),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 14),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text("Professional & Educational Details",
-                      textAlign: TextAlign.start),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  color: AppColors.bgsoftpink,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Occupation",
-                                textAlign: TextAlign.start),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
+                        //highest education
+                        DetailsRowWidget(
+                            label: "Highest Education",
+                            valueWidget: EditDropdownWidget(
+                                controller: _highestEducationController,
+                                values: [
+                                  "Matriculate",
+                                  "Plus Two",
+                                  "Undergraduate",
+                                  "Postgraduate",
+                                  "PhD"
+                                ])),
+                        const Divider(),
+                        const SizedBox(height: 15),
+
+                        //Educational details
+                        DetailsRowWidget(
+                            label: "Educational Details",
+                            valueWidget: EditableTextWidget(
+                                controller: _educationController)),
+                        const Divider(),
+                        const SizedBox(height: 15),
+
+                        //occupation
+                        DetailsRowWidget(
+                            label: "Occupation",
+                            valueWidget: EditDropdownWidget(
                                 controller: _occupationController,
-                                textAlign: TextAlign.end,
-                                decoration: null,
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _occupationController.text = value;
-                                  });
-                                },
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
+                                values: [
+                                  "Engineer",
+                                  "Developer",
+                                  "lecturer",
+                                  "Doctor",
+                                  "Driver"
+                                ])),
                         const Divider(),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Work Location",
-                                textAlign: TextAlign.start),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
-                                controller: _locationController,
-                                textAlign: TextAlign.end,
-                                decoration: null,
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _locationController.text = value;
-                                  });
-                                },
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 15),
+
+                        //income
+                        DetailsRowWidget(
+                            label: "Annual Income",
+                            valueWidget: EditDropdownWidget(
+                                controller: _incomeController,
+                                values: [
+                                  "1-5 LPA",
+                                  "5-10 LPA",
+                                  "10-15 LPA",
+                                  "15-20 LPA",
+                                  "Above 20LPA"
+                                ])),
                         const Divider(),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Annual Income",
-                                textAlign: TextAlign.start),
-                            Wrap(
-                              children: [
-                                Container(
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.6,
-                                  child: TextField(
-                                    controller: _incomeController,
-                                    textAlign: TextAlign.end,
-                                    decoration: null,
-                                    onSubmitted: (value) {
-                                      setState(() {
-                                        _incomeController.text = value;
-                                      });
-                                    },
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                ),
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 1.25),
-                                  child: Text("LPA",
-                                      textAlign: TextAlign.end,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Highest Education",
-                                textAlign: TextAlign.start),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
-                                controller: _educationController,
-                                textAlign: TextAlign.end,
-                                decoration: null,
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _educationController.text = value;
-                                  });
-                                },
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
+                        const SizedBox(height: 15),
+
+                        //worklocation
+                        DetailsRowWidget(
+                            label: "Work Location",
+                            valueWidget: EditableTextWidget(
+                                controller: _locationController)),
+                        const SizedBox(height: 15),
+                        CustomButton(text: "Save")
                       ],
                     ),
                   ),
                 ),
-                const SizedBox(height: 12),
-                const Divider(),
-                const SizedBox(height: 12),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text("Phone Number", textAlign: TextAlign.start),
-                    Text("9876543210",
-                        textAlign: TextAlign.end,
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 18)),
-                  ],
-                ),
+
+////////////////////////////////////////////////////////////////////////////////
+
+                HeaderWidget(title: "Family Details"),
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+                Container(
+                    color: AppColors.bgsoftpink,
+                    child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: [
+                          //Family Type
+                          DetailsRowWidget(
+                              label: "Family Type",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _familyTypeController,
+                                  values: ["Nuclear", "Joint Family"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //Mothers occupation
+                          DetailsRowWidget(
+                              label: "Mothers occupation",
+                              valueWidget: EditableTextWidget(
+                                  controller: _mothersOccupationController)),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //Number of siblings
+                          DetailsRowWidget(
+                              label: "Number of Siblings",
+                              valueWidget: EditableNumberWidget(
+                                  controller: _siblingsController)),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //Sibling Marital Status
+                          DetailsRowWidget(
+                            label: "Sibling Marital Status",
+                            valueWidget: EditDropdownWidget(
+                                controller: _siblingsMaritalStatusController,
+                                values: [
+                                  'Single',
+                                  'Married',
+                                  'Divorced',
+                                  'Widowed'
+                                ]),
+                          ),
+                        ]))),
+
+////////////////////////////////////////////////////////////////////////////////
+
+                HeaderWidget(title: "Partners Preferences"),
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+                Container(
+                    color: AppColors.bgsoftpink,
+                    child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: [
+                          //Prefered Age group
+                          DetailsRowWidget(
+                              label: "Prefered Age group",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pagegroup,
+                                  values: [
+                                    "18-24",
+                                    "24-29",
+                                    "29-35",
+                                    "35 to more"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered height range
+                          DetailsRowWidget(
+                              label: "Prefered Height Range",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pheightrange,
+                                  values: [
+                                    "5.0-6.0 ft",
+                                    "6.0-6.5 ft",
+                                    "6.5-7.0 ft"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered religion
+                          DetailsRowWidget(
+                              label: "Prefered Religion",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _preligion,
+                                  values: [
+                                    "Hindu",
+                                    "Muslim",
+                                    "Christian",
+                                    "Others"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered caste
+                          DetailsRowWidget(
+                              label: "Prefered Caste",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pcaste,
+                                  values: [
+                                    "Nair",
+                                    "RC",
+                                    "LC",
+                                    "Ezhava",
+                                    "Others"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered smoking habit
+                          DetailsRowWidget(
+                              label: "Prefered Smoking Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _psmoking,
+                                  values: ["Yes", "No"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered drinking habit
+                          DetailsRowWidget(
+                              label: "Prefered Drinking Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pdrinking,
+                                  values: ["Yes", "No"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered food habit
+                          DetailsRowWidget(
+                              label: "Prefered Food Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pfood,
+                                  values: [
+                                    "Vegetarian",
+                                    "Non-Vegeterian",
+                                    "Vegan",
+                                    "Others"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //prefered qualification
+                          DetailsRowWidget(
+                              label: "Prefered Qualification",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _pqualification,
+                                  values: [
+                                    "Matriculate",
+                                    "Plus Two",
+                                    "Undergraduate",
+                                    "Postgraduate",
+                                    "Others"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //score
+                          DetailsRowWidget(
+                              label: "Score",
+                              valueWidget: EditableNumberWidget(
+                                controller: _pscore,
+                              )),
+                          const SizedBox(height: 15),
+                        ]))),
+
+////////////////////////////////////////////////////////////////////////////////
+
+                HeaderWidget(title: "Address"),
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+                Container(
+                    color: AppColors.bgsoftpink,
+                    child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: [
+                          //Address
+                          DetailsRowWidget(
+                              label: "Address",
+                              valueWidget: EditableTextWidget(
+                                controller: _addressController,
+                              )),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //state
+                          DetailsRowWidget(
+                              label: "State",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _stateController,
+                                  values: [
+                                    "Kerala",
+                                    "Tamil Nadu",
+                                    "Karnataka",
+                                    "Andhra Pradesh"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //District
+                          DetailsRowWidget(
+                              label: "District",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _districtController,
+                                  values: [
+                                    "Ernakulam",
+                                    "Kochi",
+                                    "Kollam",
+                                    "Palakkad"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //country
+                          DetailsRowWidget(
+                              label: "Country",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _countryController,
+                                  values: ["India", "USA", "UK", "Canada"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //zipcode
+                          DetailsRowWidget(
+                              label: "ZipCode",
+                              valueWidget: EditableTextWidget(
+                                controller: _zipcodeController,
+                              )),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //city
+                          DetailsRowWidget(
+                              label: "CurrentCity",
+                              valueWidget: EditableTextWidget(
+                                controller: _cityController,
+                              )),
+                          
+                          const SizedBox(height: 15),
+                          CustomButton(text: "Save", onPressed: () {}),
+                          const SizedBox(height: 15),
+                        ]))),
+
+
+
+////////////////////////////////////////////////////////////////////////////////
+
+                HeaderWidget(title: "Additional Details"),
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+                Container(
+                    color: AppColors.bgsoftpink,
+                    child: Padding(
+                        padding: const EdgeInsets.all(30.0),
+                        child: Column(children: [
+
+                          //About Me
+                          DetailsRowWidget(
+                              label: "About Me",
+                              valueWidget: EditableTextWidget(
+                                  controller: _aboutmecontroller)),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+
+                         //smoking habit
+                          DetailsRowWidget(
+                              label: "Smoking Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _smokinghabitcontroller,
+                                  values: ["Yes", "No"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //drinking habit
+                          DetailsRowWidget(
+                              label: "Drinking Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _drinkinghabitcontroller,
+                                  values: ["Yes", "No"])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                          //food habit
+                          DetailsRowWidget(
+                              label: "Food Habit",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _foodhabitcontroller,
+                                  values: [
+                                    "Vegetarian",
+                                    "Non-Vegeterian",
+                                    "Vegan",
+                                    "Others"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                           //profile approved
+                          DetailsRowWidget(
+                              label: "Profile Approved",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _profileapprovalcontroller,
+                                  values: [
+                                    "Approved","Not Approved"
+                                  ])),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+
+                         //profile created by
+                          DetailsRowWidget(
+                              label: "Profile Created By",
+                              valueWidget: EditDropdownWidget(
+                                  controller: _profilecreatedcontroller,
+                                  values: [
+                                    "Self",
+                                    "Parents",
+                                    "Relatives",
+                                    "Friends"
+                                  ])),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
+                           //Instagram Link
+                          DetailsRowWidget(
+                              label: "Instagram Link",
+                              valueWidget: EditableTextWidget(
+                                  controller: _instalinkcontroller)),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+
+                            //Facebook Link
+                          DetailsRowWidget(
+                              label: "Facebook Link",
+                              valueWidget: EditableTextWidget(
+                                  controller: _fblinkcontroller)),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+
+                            //Linkedln Link
+                          DetailsRowWidget(
+                              label: "Linkedln Link",
+                              valueWidget: EditableTextWidget(
+                                  controller: _linkedlnlinkcontroller)),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+
+                            //Youtube Link
+                          DetailsRowWidget(
+                              label: "Youtube  Link",
+                              valueWidget: EditableTextWidget(
+                                  controller: _youtubelinkcontroller)),
+                                  const Divider(),
+                          const SizedBox(height: 15),
+                          CustomButton(text: "Save", onPressed: () {}),
+                          const SizedBox(height: 15),
+
+                        ])))
+
+
               ]))),
         ]));
   }
