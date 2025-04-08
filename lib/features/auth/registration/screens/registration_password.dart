@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
@@ -56,26 +57,8 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
     UserRegistrationData.userPassword = _passwordController.text;
   }
 
-  void _registerUser() {
-    AuthService().registerUser(
-        firtName: UserRegistrationData.userFirstName!,
-        lastName: UserRegistrationData.userLastName!,
-        countryCode: UserRegistrationData.userCountryCode!,
-        phone: UserRegistrationData.userPhoneNumber!,
-        email: UserRegistrationData.userEmail!,
-        address: UserRegistrationData.userAddress!,
-        district: UserRegistrationData.userDistrict!,
-        state: UserRegistrationData.userState!,
-        country: UserRegistrationData.userCountry!,
-        pincode: UserRegistrationData.userPincode!,
-        dob: UserRegistrationData.userDob!,
-        gender: UserRegistrationData.userGender!,
-        religion: UserRegistrationData.userReligion!,
-        caste: UserRegistrationData.userCaste!,
-        birthStar: UserRegistrationData.userBirthStar!,
-        description: UserRegistrationData.userDescription!,
-        hobbies: UserRegistrationData.userHobbies!,
-        password: UserRegistrationData.userPassword!,
+  Future<RegisterModel?> _registerUser() async {
+    return await AuthService().registerUser(
         context: context);
   }
 
