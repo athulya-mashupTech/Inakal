@@ -3,10 +3,17 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/details_row_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_dropdown_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_number_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_text_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/header_widget.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -21,13 +28,26 @@ class _EditProfileState extends State<EditProfile> {
   String selectedCaste = 'Nair';
   String selectedGender = 'Female';
   String selectedMotherTongue = 'Malayalam';
+  String selectedsubcaste = 'Nair';
   String selectedMaritalStatus = 'Single';
   String selectedBirthStar = 'Virgo';
 
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _religionController = TextEditingController();
+  final TextEditingController _casteController = TextEditingController();
+  final TextEditingController _subcasteController = TextEditingController();
+  final TextEditingController _mothertongueController = TextEditingController();
+  final TextEditingController _maritalStatusController = TextEditingController();
+
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phNoController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _heightController = TextEditingController();
+  final TextEditingController _weightController = TextEditingController();
+  final TextEditingController _childController = TextEditingController();
+  final TextEditingController _starsignController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
@@ -40,13 +60,24 @@ class _EditProfileState extends State<EditProfile> {
     super.initState();
     _fNameController.text = "Harsha";
     _sNameController.text = "Sreekanth";
+    _emailController.text = "ath12@gamil.com";
     _phNoController.text = "9876543210";
     _dobController.text = "27/08/2002";
-
+    _heightController.text = "5.6 ft";
+    _weightController.text = "60 kg";
+    _starsignController.text = "Virgo";
     _occupationController.text = "Software Developer";
     _incomeController.text = "20";
     _locationController.text = "Infopark, Kochi";
     _educationController.text = "MCA";
+    _childController.text = "0";
+
+    _genderController.text = "Female";
+    _religionController.text = "Hindu";
+    _casteController.text = "Nair";
+    _subcasteController.text = "Nair";
+    _mothertongueController.text = "Malayalam";
+    _maritalStatusController.text = "Single";
   }
 
   @override
@@ -156,86 +187,84 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 14),
-                const Padding(
-                  padding: EdgeInsets.only(left: 16),
-                  child: Text("Personal Details", textAlign: TextAlign.start),
-                ),
-                const SizedBox(height: 15),
+
+///////////////////////////////Profile Image Done////////
+
+                HeaderWidget(title: "Profile Details"),
+
+/////////////////////////////////////////////////////////////////
                 Container(
-                  color: AppColors.bgsoftpink,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Firstname", textAlign: TextAlign.start),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
-                                controller: _fNameController,
+                    color: AppColors.bgsoftpink,
+                    child: Padding(
+                      padding: const EdgeInsets.all(30.0),
+                      child: Column(
+                        children: [
+                          //First Name
+                          DetailsRowWidget(
+                              label: "First Name",
+                              valueWidget: EditableTextWidget(
+                                  controller: _fNameController)),
+
+                          const SizedBox(height: 12),
+                          const Divider(),
+                          const SizedBox(height: 12),
+
+                          //Second Name
+                          DetailsRowWidget(
+                              label: "Second Name",
+                              valueWidget: EditableTextWidget(
+                                  controller: _sNameController)),
+
+                          const SizedBox(height: 12),
+                          const Divider(),
+                          const SizedBox(height: 12),
+                          //Email
+                          DetailsRowWidget(
+                              label: "Email",
+                              valueWidget: EditableTextWidget(
+                                  controller: _sNameController)),
+
+                          const SizedBox(height: 12),
+                          const Divider(),
+                          const SizedBox(height: 12),
+
+                          //Phone Number
+                          DetailsRowWidget(
+                            label: "Phone Number",
+                            valueWidget: Container(
+                              width: MediaQuery.of(context).size.width * 0.45,
+                              child: IntlPhoneField(
+                                controller: _phNoController,
                                 textAlign: TextAlign.end,
-                                decoration: null,
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _fNameController.text = value;
-                                  });
-                                },
                                 style: const TextStyle(
                                     fontWeight: FontWeight.bold, fontSize: 18),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Secondname",
-                                textAlign: TextAlign.start),
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
-                                controller: _sNameController,
-                                textAlign: TextAlign.end,
-                                decoration: null,
-                                onSubmitted: (value) {
-                                  setState(() {
-                                    _sNameController.text = value;
-                                  });
+                                initialCountryCode: "IN",
+                                textAlignVertical: TextAlignVertical.center,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none, // Remove border
+                                  enabledBorder: InputBorder
+                                      .none, // Remove underline when enabled
+                                  focusedBorder: InputBorder
+                                      .none, // Remove underline when focused
+                                  counterText: '', // Hide character counter
+                                  isDense:
+                                      true, // Reduce padding// Tight layout
+                                ),
+                                onChanged: (phone) {
+                                  print(phone.completeNumber);
                                 },
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
                               ),
                             ),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
-                        const Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Phone Number", textAlign: TextAlign.start),
-                            Text("9876543210",
-                                textAlign: TextAlign.end,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18)),
-                          ],
-                        ),
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Date Of Birth",
-                                textAlign: TextAlign.start),
-                            Container(
+                          ),
+
+                          const SizedBox(height: 12),
+                          const Divider(),
+                          const SizedBox(height: 12),
+
+                          //Date of Birth
+                          DetailsRowWidget(
+                            label: "Date of Birth",
+                            valueWidget: Container(
                               width: MediaQuery.of(context).size.width * 0.6,
                               child: TextField(
                                   controller: _dobController,
@@ -260,309 +289,152 @@ class _EditProfileState extends State<EditProfile> {
                                       fontWeight: FontWeight.bold,
                                       fontSize: 18)),
                             ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16,
-                        ),
-                        const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Gender", textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedGender,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>['Male', 'Female', 'Others']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedGender = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+                          ),
+
+                          const SizedBox(height: 16),
+                          const Divider(),
+
+                          DetailsRowWidget(
+                              label: "Gender",
+                              valueWidget: EditDropdownWidget(
+                                controller: _genderController,
+                                values: ["Male", "Female", "Others"],
+                              )),
+                          SizedBox(height: 11),
+                          CustomButton(text: "Save", onPressed: () {}),
+                          const SizedBox(height: 10),
+                        ],
+                      ),
+                    )),
+
+////////////////////////////////////////////////////////////////////////////////
+
+                HeaderWidget(title: "Personal Details"),
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+                Container(
+                  color: AppColors.bgsoftpink,
+                  child: Padding(
+                    padding: const EdgeInsets.all(30.0),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 12),
+                        //Height
+                        DetailsRowWidget(
+                            label: "Height",
+                            valueWidget: EditableTextWidget(
+                                controller: _heightController)),
+
                         const SizedBox(height: 12),
                         const Divider(),
                         const SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Height", textAlign: TextAlign.start),
-                            Row(
-                              children: [
-                                const Text("6’65”ft",
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                Column(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Iconify(
-                                          Ic.round_arrow_drop_up,
-                                          color: AppColors.primaryRed,
-                                          size: 30,
-                                        )),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Iconify(
-                                          Ic.round_arrow_drop_down,
-                                          color: AppColors.primaryRed,
-                                          size: 30,
-                                        ))
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+
+                        //Weight
+                        DetailsRowWidget(
+                            label: "Weight",
+                            valueWidget: EditableTextWidget(
+                                controller: _weightController)),
+                        SizedBox(height: 12),
                         const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Weight", textAlign: TextAlign.start),
-                            Row(
-                              children: [
-                                const Text("60Kg",
-                                    textAlign: TextAlign.end,
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18)),
-                                Column(
-                                  children: [
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Iconify(
-                                          Ic.round_arrow_drop_up,
-                                          color: AppColors.primaryRed,
-                                          size: 30,
-                                        )),
-                                    IconButton(
-                                        onPressed: () {},
-                                        icon: const Iconify(
-                                          Ic.round_arrow_drop_down,
-                                          color: AppColors.primaryRed,
-                                          size: 30,
-                                        ))
-                                  ],
-                                )
-                              ],
-                            ),
-                          ],
-                        ),
+
+                        //Religion
+                        DetailsRowWidget(
+                            label: "Religion",
+                            valueWidget: EditDropdownWidget(
+                                controller: _religionController,
+                                values: [
+                                  'Hindu',
+                                  'Muslim',
+                                  'Christian',
+                                  'Buddhist'
+                                ])),
+
                         const Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Religion", textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedReligion,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>[
-                                'Hindu',
-                                'Muslim',
-                                'Christian',
-                                'Buddhist'
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(
-                                    value,
-                                    style: const TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18),
-                                  ),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedReligion = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
+                        const SizedBox(height: 15),
+
+                        //Caste
+                        DetailsRowWidget(
+                            label: "Caste",
+                            valueWidget: EditDropdownWidget(
+                                controller: _casteController,
+                                values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+
+                        const SizedBox(height: 12),
+                        const Divider(),
+                        SizedBox(height: 12),
+
+                        //Sub Caste
+                        DetailsRowWidget(
+                            label: "Sub Caste",
+                            valueWidget: EditDropdownWidget(
+                                controller: _subcasteController,
+                                values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+
+                        const SizedBox(height: 12),
+                        const Divider(),
+                        SizedBox(height: 12),
+
+                        //Star Sign
+                        DetailsRowWidget(
+                          label: "Star Sign",
+                          valueWidget: EditableTextWidget(
+                              controller: _starsignController),
                         ),
+
+                        SizedBox(height: 12),
                         const Divider(),
                         const SizedBox(
                           height: 15,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Caste", textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedCaste,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>['Nair', 'Ezhava', 'LC', 'RC']
-                                  .map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedCaste = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
+
+                        //Mother Tongue
+                        DetailsRowWidget(
+                            label: "Mother Tongue",
+                            valueWidget: EditDropdownWidget(
+                                controller: _mothertongueController,
+                                values: [
+                                  'Malayalam',
+                                  'Tamil',
+                                  'Hindi',
+                                  'Telugu'
+                                ])),
+
                         const Divider(),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Mother Tongue",
-                                textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedMotherTongue,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>[
-                                'Malayalam',
-                                'Tamil',
-                                'Hindi',
-                                'Telugu'
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedMotherTongue = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                        const Divider(),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Marital Status",
-                                textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedMaritalStatus,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>[
+                        const SizedBox(height: 15),
+
+                        //Marital Status
+                        DetailsRowWidget(
+                          label: "Marital Status",
+                          valueWidget: EditDropdownWidget(
+                              controller: _maritalStatusController,
+                              values: [
                                 'Single',
+                                'Married',
                                 'Divorced',
-                                'Widowed',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedMaritalStatus = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
+                                'Widowed'
+                              ]),
                         ),
+
+                        //write languages known code
+                        const SizedBox(height: 12),
                         const Divider(),
-                        const SizedBox(
-                          height: 15,
+                        const SizedBox(height: 12),
+
+                        //Number of Children
+                        DetailsRowWidget(
+                          label: "Number of Children", 
+                          valueWidget: EditableNumberWidget(controller: _childController)
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text("Birth Star",
-                                textAlign: TextAlign.start),
-                            DropdownButton<String>(
-                              value: selectedBirthStar,
-                              icon: const Iconify(
-                                Ic.round_arrow_drop_down,
-                                color: AppColors.primaryRed,
-                                size: 30,
-                              ),
-                              items: <String>[
-                                'Capricon',
-                                'Virgo',
-                                'Cancer',
-                              ].map((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 18)),
-                                );
-                              }).toList(),
-                              onChanged: (String? newValue) {
-                                if (newValue != null) {
-                                  setState(() {
-                                    selectedBirthStar = newValue;
-                                  });
-                                }
-                              },
-                            ),
-                          ],
+                        const SizedBox(height: 25,
                         ),
-                        const SizedBox(height: 14),
+                        CustomButton(text: "Save", onPressed: () {}),
                       ],
                     ),
                   ),
                 ),
+//////////////////////////////////////////////////////////////////////////////////////////////////////////
+      //  HeaderWidget(title: "Educat")
                 const SizedBox(height: 20),
                 const Padding(
                   padding: EdgeInsets.only(left: 16),
@@ -754,6 +626,19 @@ class _EditProfileState extends State<EditProfile> {
                       ],
                     ),
                   ),
+                ),
+                const SizedBox(height: 12),
+                const Divider(),
+                const SizedBox(height: 12),
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text("Phone Number", textAlign: TextAlign.start),
+                    Text("9876543210",
+                        textAlign: TextAlign.end,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                  ],
                 ),
               ]))),
         ]));

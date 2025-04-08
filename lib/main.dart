@@ -43,23 +43,23 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
         useMaterial3: true,
       ),
-      //  home: ChatScreen(),
-      // home: PsychologistScreen(),
-      // home: BottomNavBarScreen()
-      home: const MyHomePage(title: 'Inakal'),
-      // home: MatchesScreen(),
-      // home: ProfilePage(),
-      // home: Notifications()
-      // home: InboxScreen(),
-      // home: CounsellorsScreen(),
-      // home: RegistrationForm()
-      // home: HomeScreen(),
-      // home: const RegistrationPassword(),
-      // home: FilterScreen(),
-      // home: const RegistrationDescription(),
-      // home: EditProfile()
-      // home: LoginPage(),
-      // home:ImageUploadScreen()
+        //  home: ChatScreen(),
+        // home: PsychologistScreen(),
+        // home: BottomNavBarScreen()
+        // home: const MyHomePage(title: 'Inakal'),
+        // home: MatchesScreen(),
+        // home: ProfilePage(),
+        // home: Notifications()
+        // home: InboxScreen(),
+        // home: CounsellorsScreen(),
+        // home: RegistrationForm()
+        // home: HomeScreen(),
+        // home: const RegistrationPassword(),
+        // home: FilterScreen(),
+        // home: const RegistrationDescription(),
+        home: EditProfile()
+        // home: LoginPage(),
+        // home:ImageUploadScreen()
     );
   }
 }
