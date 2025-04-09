@@ -38,45 +38,36 @@ class _EditProfileState extends State<EditProfile> {
     'Hindi',
     'Tamil',
   ];
-  String selectedWeight = '60Kg';
-  String selectedReligion = 'Hindu';
-  String selectedCaste = 'Nair';
-  String selectedGender = 'Female';
-  String selectedMotherTongue = 'Malayalam';
-  String selectedsubcaste = 'Nair';
-  String selectedMaritalStatus = 'Single';
-  String selectedBirthStar = 'Virgo';
 
-  final TextEditingController _genderController = TextEditingController();
-  final TextEditingController _religionController = TextEditingController();
-  final TextEditingController _casteController = TextEditingController();
-  final TextEditingController _subcasteController = TextEditingController();
-  final TextEditingController _mothertongueController = TextEditingController();
-  final TextEditingController _maritalStatusController = TextEditingController();
 
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phNoController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+
   final TextEditingController _heightController = TextEditingController();
   final TextEditingController _weightController = TextEditingController();
-  final TextEditingController _childController = TextEditingController();
+  final TextEditingController _religionController = TextEditingController();
+  final TextEditingController _casteController = TextEditingController();
+  final TextEditingController _subcasteController = TextEditingController();
   final TextEditingController _starsignController = TextEditingController();
+  final TextEditingController _mothertongueController = TextEditingController();
+  final TextEditingController _maritalStatusController = TextEditingController();
+  final TextEditingController _childController = TextEditingController();
 
-  final TextEditingController _highestEducationController =
-      TextEditingController();
+  final TextEditingController _highestEducationController = TextEditingController();
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _incomeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
   final TextEditingController _familyTypeController = TextEditingController();
-  final TextEditingController _mothersOccupationController =
-      TextEditingController();
+  final TextEditingController _mothersOccupationController = TextEditingController();
+  final TextEditingController _fathersOccupationController = TextEditingController();
   final TextEditingController _siblingsController = TextEditingController();
-  final TextEditingController _siblingsMaritalStatusController =
-      TextEditingController();
+  final TextEditingController _siblingsMaritalStatusController = TextEditingController();
 
   final TextEditingController _pagegroup = TextEditingController();
   final TextEditingController _pheightrange = TextEditingController();
@@ -88,27 +79,36 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _pqualification = TextEditingController();
   final TextEditingController _pscore = TextEditingController();
 
+  final TextEditingController _addressController = TextEditingController();
+  final TextEditingController _stateController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
+  final TextEditingController _countryController = TextEditingController();
+  final TextEditingController _zipcodeController = TextEditingController();
+  final TextEditingController _cityController = TextEditingController();
+  
+
   final TextEditingController _aboutmecontroller = TextEditingController();
   final TextEditingController _smokinghabitcontroller = TextEditingController();
-  final TextEditingController _drinkinghabitcontroller =
-      TextEditingController();
+  final TextEditingController _drinkinghabitcontroller = TextEditingController();
   final TextEditingController _foodhabitcontroller = TextEditingController();
-  final TextEditingController _profileapprovalcontroller =
-      TextEditingController();
-  final TextEditingController _profilecreatedcontroller =
-      TextEditingController();
+  final TextEditingController _profileapprovalcontroller = TextEditingController();
+  final TextEditingController _profilecreatedcontroller = TextEditingController();
   final TextEditingController _instalinkcontroller = TextEditingController();
   final TextEditingController _fblinkcontroller = TextEditingController();
   final TextEditingController _linkedlnlinkcontroller = TextEditingController();
   final TextEditingController _youtubelinkcontroller = TextEditingController();
 
-  final TextEditingController _countryController = TextEditingController();
-  final TextEditingController _stateController = TextEditingController();
-  final TextEditingController _districtController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
-  final TextEditingController _zipcodeController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-
+  String selectedWeight = '60Kg';
+  String selectedReligion = 'Hindu';
+  String selectedCaste = 'Nair';
+  String selectedGender = 'Female';
+  String selectedMotherTongue = 'Malayalam';
+  String selectedsubcaste = 'Nair';
+  String selectedMaritalStatus = 'Single';
+  String selectedBirthStar = 'Virgo';
+  
+  
+  
   @override
   void initState() {
     super.initState();
@@ -140,6 +140,7 @@ class _EditProfileState extends State<EditProfile> {
 
     _familyTypeController.text = "Nuclear";
     _mothersOccupationController.text = "Housewife";
+    _fathersOccupationController.text = "Businessman";
     _siblingsController.text = "1";
     _siblingsMaritalStatusController.text = "Single";
 
@@ -159,7 +160,6 @@ class _EditProfileState extends State<EditProfile> {
     _cityController.text = "Kochi";
     _zipcodeController.text = "682042";
     _addressController.text = "Vanilla grove,Kolenchery";
-
     _aboutmecontroller.text =
         "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";
     _smokinghabitcontroller.text = "No";
@@ -704,6 +704,15 @@ class _EditProfileState extends State<EditProfile> {
                                   controller: _mothersOccupationController)),
                           const Divider(),
                           const SizedBox(height: 15),
+
+                          // Fathers occupation
+                          DetailsRowWidget(
+                              label: "Fathers occupation",
+                              valueWidget: EditableTextWidget(
+                                  controller: _fathersOccupationController)),
+                          const Divider(),
+                          const SizedBox(height: 15),
+
 
                           //Number of siblings
                           DetailsRowWidget(
