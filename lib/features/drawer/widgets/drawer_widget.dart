@@ -5,6 +5,7 @@ import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
+import 'package:inakal/features/drawer/screens/gallery_page.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
@@ -214,6 +215,17 @@ class DrawerWidget extends StatelessWidget {
                   },
                 ),
                 ListTile(
+                  title: const Text('Gallery',
+                      style: TextStyle(color: AppColors.white)),
+                  leading: const Icon(Icons.image, color: AppColors.white),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GalleryPage()));
+                  },
+                ),
+                ListTile(
                   title: const Text('Notifications',
                       style: TextStyle(color: AppColors.white)),
                   leading:
@@ -294,6 +306,7 @@ class DrawerWidget extends StatelessWidget {
                             builder: (context) => const AboutUs()));
                   },
                 ),
+                SizedBox(height: 20),
               ],
             ),
           )
