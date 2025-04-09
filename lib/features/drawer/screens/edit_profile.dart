@@ -632,6 +632,8 @@ class _EditProfileState extends State<EditProfile> {
                                   'Widowed'
                                 ]),
                           ),
+                          SizedBox(height: 12),
+                          CustomButton(text: "Save")
                         ]))),
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -755,11 +757,12 @@ class _EditProfileState extends State<EditProfile> {
                                 controller: _pscore,
                               )),
                           const SizedBox(height: 15),
+                          CustomButton(text: "Save")
                         ]))),
 
 ////////////////////////////////////////////////////////////////////////////////
 
-                HeaderWidget(title: "Address"),
+                HeaderWidget(title: "Location Details"),
 
 /////////////////////////////////////////////////////////////////////////////////////
 
@@ -853,7 +856,8 @@ class _EditProfileState extends State<EditProfile> {
                           DetailsRowWidget(
                               label: "About Me",
                               valueWidget: EditableTextWidget(
-                                  controller: _aboutmecontroller)),
+                                  controller: _aboutmecontroller,
+                                  justify: true,)),
                                   const Divider(),
                           const SizedBox(height: 15),
 
@@ -942,8 +946,7 @@ class _EditProfileState extends State<EditProfile> {
                           DetailsRowWidget(
                               label: "Youtube  Link",
                               valueWidget: EditableTextWidget(
-                                  controller: _youtubelinkcontroller)),
-                                  const Divider(),
+                                  controller: _youtubelinkcontroller,)),
                           const SizedBox(height: 15),
                           CustomButton(text: "Save", onPressed: () {}),
                           const SizedBox(height: 15),
