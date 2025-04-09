@@ -10,7 +10,7 @@ class DetailsRowWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(label, textAlign: TextAlign.start),
+        Expanded(child: Text(label, textAlign: TextAlign.start)),
         valueWidget
       ],
     );

@@ -12,7 +12,7 @@ class _EditableNumberWidgetState extends State<EditableNumberWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.6,
+      width: MediaQuery.of(context).size.width * 0.5,
       child: TextField(
         keyboardType: TextInputType.number,
         controller: widget.controller,
