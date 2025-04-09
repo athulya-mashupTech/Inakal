@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get/utils.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/config.dart';
@@ -29,7 +30,9 @@ class AuthService {
            caste: ${userData.userCaste}, 
            birthstar: ${userData.userBirthStar}, 
            description: ${userData.userDescription}, 
-           hobbies: ${userData.userHobbies}""");
+           hobbies: ${userData.userHobbies}
+           profileCreatedFor: ${userData.userProfileCreatedFor},
+           maritalStatus: ${userData.maritalStatus}""");
            
       final response = await _sendPostRequest(url: registerUrl, fields: {
         "first_name": userData.userFirstName!,
@@ -49,6 +52,8 @@ class AuthService {
         // "birth_star": userData.userBirthStar!,
         // "description": userData.userDescription!,
         // "hobbies": userData.userHobbies!,
+        // "marital_status": userData.maritalStatus!,
+        // "profile_created_for": userData.userProfileCreatedFor!,
         "password": userData.userPassword!,
       });
 

@@ -21,7 +21,6 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
 
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _cpasswordController = TextEditingController();
-  bool isChecked = false;
   bool isPwdVisible = false;
   bool isCPwdVisible = false;
 
@@ -45,14 +44,6 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
       return 'Password must contain at least one digit';
     }
     return null;
-  }
-
-  void showSnackbar(BuildContext context) {
-    const snackBar = SnackBar(
-      content: Text('Please accept the Terms & Conditions'),
-      duration: Duration(seconds: 3),
-    );
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
   final RegistrationController regController = Get.find();
@@ -179,19 +170,13 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                       text: "Register",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          if (isChecked) {
                             _storePassword();
                             _registerUser();
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //     builder: (context) =>
-                            //         const BottomNavBarScreen(),
-                            //   ),
-                            // );
-                          } else {
-                            showSnackbar(context);
-                          }
+                            Get.to(
+                              BottomNavBarScreen(),
+                              transition: Transition.rightToLeftWithFade,
+                              duration: const Duration(milliseconds: 800),
+                            );
                         }
                       },
                     ),

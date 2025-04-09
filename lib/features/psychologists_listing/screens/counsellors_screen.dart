@@ -17,37 +17,82 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
   var bcolor = AppColors.deepBlue;
   final List<Map<String, String>> matches = [
     {
-      'name': 'Kalidas R',
+      'name': 'Mohan',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/kalidas.jpeg',
+      'image': 'assets/doctors/Mohan.jpg',
     },
     {
-      'name': 'Nirmal Pillai',
+      'name': 'Jasmine',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/nirmal.jpeg',
+      'image': 'assets/doctors/Jasmine.jpg',
     },
     {
-      'name': 'Suriya S',
+      'name': 'Ansari',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/suriya.jpeg',
+      'image': 'assets/doctors/Ansari.jpg',
     },
     {
-      'name': 'Shahid Thomas',
+      'name': 'Luzy',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/shahid.jpeg',
+      'image': 'assets/doctors/Luzy.jpg',
     },
     {
-      'name': 'Vishal S',
+      'name': 'Nishi',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/tovi.jpg',
+      'image': 'assets/doctors/Nishi.jpg',
     },
     {
-      'name': 'Ajith Kumar',
+      'name': 'Kammappa',
       'designation': 'Clinical psychologist',
-      'image': 'assets/vectors/anirudh.jpg',
+      'image': 'assets/doctors/Kammappa.jpg',
     },
   ];
-  
+
+  void _showConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Confirm Booking?', style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.w500),),
+          content: Text('Do you want to confirm your appointment?'),
+          backgroundColor: AppColors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius:
+                BorderRadius.circular(12),
+          ),
+          actions: [
+            TextButton(
+              child: Text('Cancel', style: TextStyle(color: Colors.black),),
+              onPressed: () {
+                Navigator.of(dialogContext).pop(); // Close the dialog
+              },
+            ),
+            ElevatedButton(
+              child: Text('Confirm', selectionColor: AppColors.black,),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.lightpink,
+                foregroundColor: AppColors.black,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              onPressed: () {
+                setState(() {
+                  btext = "Your appointment is scheduled";
+                  bcolor = AppColors.freshGreen;
+                });
+                Navigator.of(dialogContext).pop(); // Close the dialog
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Appointment Booked!')),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,10 +111,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                   child: CustomButton(
                     text: btext,
                     onPressed: () {
-                      setState(() {
-                        btext = "Your appointment is scheduled";
-                        bcolor = AppColors.freshGreen;
-                      });
+                      _showConfirmationDialog(context);
                     },
                     color: bcolor,
                     icon: Icons.calendar_month,
@@ -172,16 +214,16 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Wrap(
-                      spacing: 5.0,
-                      runSpacing: 5.0,
-                      children: matches.map((match) {
-                        return CounsellorWidget(
-                          image: match['image']!,
-                          name: match['name']!,
-                          designation: match['designation']!,
-                        );
-                      }).toList(),
-                    ),
+                    spacing: 5.0,
+                    runSpacing: 5.0,
+                    children: matches.map((match) {
+                      return CounsellorWidget(
+                        image: match['image']!,
+                        name: match['name']!,
+                        designation: match['designation']!,
+                      );
+                    }).toList(),
+                  ),
                 ),
                 SizedBox(
                   height: 20,

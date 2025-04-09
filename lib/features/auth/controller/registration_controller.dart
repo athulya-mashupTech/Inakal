@@ -15,6 +15,7 @@ class RegistrationController extends GetxController {
     required String pincode,
     required String dob,
     required String gender,
+    required String maritalStatus,
   }) {
     user.update((val) {
       val?.userFirstName = firstName;
@@ -27,6 +28,7 @@ class RegistrationController extends GetxController {
       val?.userPincode = pincode;
       val?.userDob = dob;
       val?.userGender = gender;
+      val?.maritalStatus = maritalStatus;
     });
   }
 
@@ -46,7 +48,14 @@ class RegistrationController extends GetxController {
 
   void setHobbies(List<String> hobbies) {
     user.update((val) {
-      val?.userHobbies = hobbies.join(','); // Convert list to comma-separated string
+      val?.userHobbies =
+          hobbies.join(','); // Convert list to comma-separated string
+    });
+  }
+
+  void setProfileCreatedFor(String profileCreatedFor) {
+    user.update((val) {
+      val?.userProfileCreatedFor = profileCreatedFor;
     });
   }
 
