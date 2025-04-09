@@ -326,7 +326,7 @@ class _EditProfileState extends State<EditProfile> {
                           DetailsRowWidget(
                             label: "Phone Number",
                             valueWidget: Container(
-                              width: MediaQuery.of(context).size.width * 0.45,
+                              width: MediaQuery.of(context).size.width * 0.5,
                               child: IntlPhoneField(
                                 controller: _phNoController,
                                 textAlign: TextAlign.end,
