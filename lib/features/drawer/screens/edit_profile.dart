@@ -8,11 +8,14 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
+import 'package:inakal/features/drawer/widgets/add_hobbie_widget.dart';
+import 'package:inakal/features/drawer/widgets/details_column_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/details_row_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_dropdown_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_number_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_text_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/header_widget.dart';
+import 'package:inakal/features/drawer/widgets/option_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class EditProfile extends StatefulWidget {
@@ -23,6 +26,18 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  List<String> hobbies = [
+    'Reading',
+    'Photography',
+    'Traveling',
+    'Cooking',
+  ];
+  List<String> languages = [
+    'English',
+    'Malayalam',
+    'Hindi',
+    'Tamil',
+  ];
   String selectedWeight = '60Kg';
   String selectedReligion = 'Hindu';
   String selectedCaste = 'Nair';
@@ -37,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _casteController = TextEditingController();
   final TextEditingController _subcasteController = TextEditingController();
   final TextEditingController _mothertongueController = TextEditingController();
-  final TextEditingController _maritalStatusController =TextEditingController();
+  final TextEditingController _maritalStatusController = TextEditingController();
 
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
@@ -49,16 +64,19 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _childController = TextEditingController();
   final TextEditingController _starsignController = TextEditingController();
 
-  final TextEditingController _highestEducationController =TextEditingController();
+  final TextEditingController _highestEducationController =
+      TextEditingController();
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _incomeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
   final TextEditingController _familyTypeController = TextEditingController();
-  final TextEditingController _mothersOccupationController =TextEditingController();
+  final TextEditingController _mothersOccupationController =
+      TextEditingController();
   final TextEditingController _siblingsController = TextEditingController();
-  final TextEditingController _siblingsMaritalStatusController =TextEditingController();
+  final TextEditingController _siblingsMaritalStatusController =
+      TextEditingController();
 
   final TextEditingController _pagegroup = TextEditingController();
   final TextEditingController _pheightrange = TextEditingController();
@@ -71,17 +89,18 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _pscore = TextEditingController();
 
   final TextEditingController _aboutmecontroller = TextEditingController();
-  final TextEditingController _smokinghabitcontroller= TextEditingController();
-  final TextEditingController _drinkinghabitcontroller = TextEditingController();
+  final TextEditingController _smokinghabitcontroller = TextEditingController();
+  final TextEditingController _drinkinghabitcontroller =
+      TextEditingController();
   final TextEditingController _foodhabitcontroller = TextEditingController();
-  final TextEditingController _profileapprovalcontroller = TextEditingController();
-  final TextEditingController _profilecreatedcontroller = TextEditingController();
+  final TextEditingController _profileapprovalcontroller =
+      TextEditingController();
+  final TextEditingController _profilecreatedcontroller =
+      TextEditingController();
   final TextEditingController _instalinkcontroller = TextEditingController();
   final TextEditingController _fblinkcontroller = TextEditingController();
   final TextEditingController _linkedlnlinkcontroller = TextEditingController();
   final TextEditingController _youtubelinkcontroller = TextEditingController();
-
-
 
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
@@ -141,7 +160,8 @@ class _EditProfileState extends State<EditProfile> {
     _zipcodeController.text = "682042";
     _addressController.text = "Vanilla grove,Kolenchery";
 
-    _aboutmecontroller.text = "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";  
+    _aboutmecontroller.text =
+        "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";
     _smokinghabitcontroller.text = "No";
     _drinkinghabitcontroller.text = "No";
     _foodhabitcontroller.text = "Vegetarian";
@@ -149,9 +169,9 @@ class _EditProfileState extends State<EditProfile> {
     _profilecreatedcontroller.text = "Friends";
     _instalinkcontroller.text = "https://www.instagram.com/harsha_sreekanth/";
     _fblinkcontroller.text = "https://www.facebook.com/harsha.sreekanth.1/";
-    _linkedlnlinkcontroller.text = "https://www.linkedin.com/in/harsha-sreekanth-123456789/";
+    _linkedlnlinkcontroller.text =
+        "https://www.linkedin.com/in/harsha-sreekanth-123456789/";
     _youtubelinkcontroller.text = "https://www.youtube.com/@harsha_sreekanth/";
-
   }
 
   @override
@@ -392,6 +412,7 @@ class _EditProfileState extends State<EditProfile> {
                   child: Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 12),
                         //Height
@@ -489,8 +510,80 @@ class _EditProfileState extends State<EditProfile> {
                                 'Widowed'
                               ]),
                         ),
+                        const SizedBox(height: 15),
+                        const Divider(),
+                        const SizedBox(height: 15),
 
                         //write languages known code
+                        DetailsColumnWidget(
+                            label: "Languages Known",
+                            valueWidget: Wrap(
+                              spacing: 8.0,
+                              runSpacing: 8.0,
+                              children: [
+                                ...languages.map((language) {
+                                  return OptionWidget(
+                                    label: language,
+                                    icon: Icons.close,
+                                    onPressed: () {
+                                      setState(() {
+                                        languages.remove(language);
+                                      });
+                                    },
+                                  );
+                                }).toList(),
+                                // Add Language Button
+                                AddHobbieWidget(
+                                  label: "Add",
+                                  icon: Icons.add,
+                                  onPressed: () async {
+                                    final newLanguage =
+                                        await showDialog<String>(
+                                      context: context,
+                                      builder: (context) {
+                                        final TextEditingController
+                                            _controller =
+                                            TextEditingController();
+                                        return AlertDialog(
+                                          title: Text("Add Language"),
+                                          content: TextField(
+                                            controller: _controller,
+                                            decoration: InputDecoration(
+                                              hintText: "Enter your language",
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.pop(context),
+                                              child: Text("Cancel"),
+                                            ),
+                                            ElevatedButton(
+                                              onPressed: () {
+                                                final language =
+                                                    _controller.text.trim();
+                                                if (language.isNotEmpty) {
+                                                  Navigator.pop(
+                                                      context, language);
+                                                }
+                                              },
+                                              child: Text("Add"),
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
+
+                                    if (newLanguage != null &&
+                                        newLanguage.isNotEmpty) {
+                                      setState(() {
+                                        languages.add(newLanguage);
+                                      });
+                                    }
+                                  }, // Can be empty since the outer GestureDetector handles it
+                                )
+                              ],
+                            )),
                         const SizedBox(height: 12),
                         const Divider(),
                         const SizedBox(height: 12),
@@ -832,13 +925,11 @@ class _EditProfileState extends State<EditProfile> {
                               valueWidget: EditableTextWidget(
                                 controller: _cityController,
                               )),
-                          
+
                           const SizedBox(height: 15),
                           CustomButton(text: "Save", onPressed: () {}),
                           const SizedBox(height: 15),
                         ]))),
-
-
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -850,110 +941,184 @@ class _EditProfileState extends State<EditProfile> {
                     color: AppColors.bgsoftpink,
                     child: Padding(
                         padding: const EdgeInsets.all(30.0),
-                        child: Column(children: [
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //About Me
+                              DetailsRowWidget(
+                                  label: "About Me",
+                                  valueWidget: EditableTextWidget(
+                                    controller: _aboutmecontroller,
+                                    justify: true,
+                                  )),
+                              const Divider(),
+                              const SizedBox(height: 15),
+                              DetailsColumnWidget(
+                                label: "Hobbies",
+                                valueWidget: Wrap(
+                                  spacing: 8.0,
+                                  runSpacing: 8.0,
+                                  children: [
+                                    ...hobbies.map((hobby) {
+                                      return OptionWidget(
+                                        label: hobby,
+                                        icon: Icons.close,
+                                        onPressed: () {
+                                          setState(() {
+                                            hobbies.remove(hobby);
+                                          });
+                                        },
+                                      );
+                                    }).toList(),
+                                    // Add Hobby Button
+                                    AddHobbieWidget(
+                                      label: "Add",
+                                      icon: Icons.add,
+                                      onPressed: () async {
+                                        final newHobby =
+                                            await showDialog<String>(
+                                          context: context,
+                                          builder: (context) {
+                                            final TextEditingController
+                                                _controller =
+                                                TextEditingController();
+                                            return AlertDialog(
+                                              title: Text("Add Hobby"),
+                                              content: TextField(
+                                                controller: _controller,
+                                                decoration: InputDecoration(
+                                                  hintText: "Enter your hobby",
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          context), // cancel
+                                                  child: Text("Cancel"),
+                                                ),
+                                                ElevatedButton(
+                                                  onPressed: () {
+                                                    final hobby =
+                                                        _controller.text.trim();
+                                                    if (hobby.isNotEmpty) {
+                                                      Navigator.pop(
+                                                          context, hobby);
+                                                    }
+                                                  },
+                                                  child: Text("Add"),
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
 
-                          //About Me
-                          DetailsRowWidget(
-                              label: "About Me",
-                              valueWidget: EditableTextWidget(
-                                  controller: _aboutmecontroller,
-                                  justify: true,)),
-                                  const Divider(),
-                          const SizedBox(height: 15),
+                                        if (newHobby != null &&
+                                            newHobby.isNotEmpty) {
+                                          setState(() {
+                                            hobbies.add(newHobby);
+                                          });
+                                        }
+                                      }, // Can be empty since the outer GestureDetector handles it
+                                    )
+                                  ],
+                                ),
+                              ),
+                               const SizedBox(height: 15),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                         //smoking habit
-                          DetailsRowWidget(
-                              label: "Smoking Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _smokinghabitcontroller,
-                                  values: ["Yes", "No"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                              //smoking habit
+                              DetailsRowWidget(
+                                  label: "Smoking Habit",
+                                  valueWidget: EditDropdownWidget(
+                                      controller: _smokinghabitcontroller,
+                                      values: ["Yes", "No"])),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                          //drinking habit
-                          DetailsRowWidget(
-                              label: "Drinking Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _drinkinghabitcontroller,
-                                  values: ["Yes", "No"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                              //drinking habit
+                              DetailsRowWidget(
+                                  label: "Drinking Habit",
+                                  valueWidget: EditDropdownWidget(
+                                      controller: _drinkinghabitcontroller,
+                                      values: ["Yes", "No"])),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                          //food habit
-                          DetailsRowWidget(
-                              label: "Food Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _foodhabitcontroller,
-                                  values: [
-                                    "Vegetarian",
-                                    "Non-Vegeterian",
-                                    "Vegan",
-                                    "Others"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                              //food habit
+                              DetailsRowWidget(
+                                  label: "Food Habit",
+                                  valueWidget: EditDropdownWidget(
+                                      controller: _foodhabitcontroller,
+                                      values: [
+                                        "Vegetarian",
+                                        "Non-Vegeterian",
+                                        "Vegan",
+                                        "Others"
+                                      ])),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                           //profile approved
-                          DetailsRowWidget(
-                              label: "Profile Approved",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _profileapprovalcontroller,
-                                  values: [
-                                    "Approved","Not Approved"
-                                  ])),
-                                  const Divider(),
-                          const SizedBox(height: 15),
+                              //profile approved
+                              DetailsRowWidget(
+                                  label: "Profile Approved",
+                                  valueWidget: EditDropdownWidget(
+                                      controller: _profileapprovalcontroller,
+                                      values: ["Approved", "Not Approved"])),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                         //profile created by
-                          DetailsRowWidget(
-                              label: "Profile Created By",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _profilecreatedcontroller,
-                                  values: [
-                                    "Self",
-                                    "Parents",
-                                    "Relatives",
-                                    "Friends"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                              //profile created by
+                              DetailsRowWidget(
+                                  label: "Profile Created By",
+                                  valueWidget: EditDropdownWidget(
+                                      controller: _profilecreatedcontroller,
+                                      values: [
+                                        "Self",
+                                        "Parents",
+                                        "Relatives",
+                                        "Friends"
+                                      ])),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                           //Instagram Link
-                          DetailsRowWidget(
-                              label: "Instagram Link",
-                              valueWidget: EditableTextWidget(
-                                  controller: _instalinkcontroller)),
-                                  const Divider(),
-                          const SizedBox(height: 15),
+                              //Instagram Link
+                              DetailsRowWidget(
+                                  label: "Instagram Link",
+                                  valueWidget: EditableTextWidget(
+                                      controller: _instalinkcontroller)),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                            //Facebook Link
-                          DetailsRowWidget(
-                              label: "Facebook Link",
-                              valueWidget: EditableTextWidget(
-                                  controller: _fblinkcontroller)),
-                                  const Divider(),
-                          const SizedBox(height: 15),
+                              //Facebook Link
+                              DetailsRowWidget(
+                                  label: "Facebook Link",
+                                  valueWidget: EditableTextWidget(
+                                      controller: _fblinkcontroller)),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                            //Linkedln Link
-                          DetailsRowWidget(
-                              label: "Linkedln Link",
-                              valueWidget: EditableTextWidget(
-                                  controller: _linkedlnlinkcontroller)),
-                                  const Divider(),
-                          const SizedBox(height: 15),
+                              //Linkedln Link
+                              DetailsRowWidget(
+                                  label: "Linkedln Link",
+                                  valueWidget: EditableTextWidget(
+                                      controller: _linkedlnlinkcontroller)),
+                              const Divider(),
+                              const SizedBox(height: 15),
 
-                            //Youtube Link
-                          DetailsRowWidget(
-                              label: "Youtube  Link",
-                              valueWidget: EditableTextWidget(
-                                  controller: _youtubelinkcontroller,)),
-                          const SizedBox(height: 15),
-                          CustomButton(text: "Save", onPressed: () {}),
-                          const SizedBox(height: 15),
+                              //Youtube Link
+                              DetailsRowWidget(
+                                  label: "Youtube  Link",
+                                  valueWidget: EditableTextWidget(
+                                    controller: _youtubelinkcontroller,
+                                  )),
+                              const SizedBox(height: 15),
+                              CustomButton(text: "Save", onPressed: () {}),
+                              const SizedBox(height: 20),
 
-                        ])))
-
-
+                              
+                            ])))
               ]))),
         ]));
   }
