@@ -4,6 +4,7 @@ import 'package:inakal/constants/app_constants.dart';
 class TextFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final String hintText;
+  final bool? readOnly;
   final TextInputType? keyboardType;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -15,6 +16,7 @@ class TextFieldWidget extends StatelessWidget {
   const TextFieldWidget({
     required this.controller,
     required this.hintText,
+    this.readOnly,
     this.keyboardType,
     this.suffixIcon,
     this.prefixIcon,
@@ -30,6 +32,7 @@ class TextFieldWidget extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10.0),
       child: TextFormField(
         controller: controller,
+        readOnly: readOnly ?? false,
         keyboardType: keyboardType,
         obscureText: obscureText,
         focusNode: focusNode,

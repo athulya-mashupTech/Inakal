@@ -8,6 +8,7 @@ import 'package:inakal/features/chat/screens/chat_screen.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
+import 'package:inakal/features/drawer/screens/gallery_page.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/widgets/custom_icon.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
@@ -45,7 +46,7 @@ class MyApp extends StatelessWidget {
       ),
         //  home: ChatScreen(),
         // home: PsychologistScreen(),
-        // home: BottomNavBarScreen()
+        home: BottomNavBarScreen()
         // home: const MyHomePage(title: 'Inakal'),
         // home: MatchesScreen(),
         // home: ProfilePage(),
@@ -57,8 +58,8 @@ class MyApp extends StatelessWidget {
         // home: const RegistrationPassword(),
         // home: FilterScreen(),
         // home: const RegistrationDescription(),
-        home: EditProfile()
-        // home: LoginPage(),
+        // home: EditProfile()
+        // home: GalleryPage(),
         // home:ImageUploadScreen()
     );
   }

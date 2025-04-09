@@ -3,6 +3,7 @@ class UserRegistrationDataModel {
   String? userLastName;
   String? userEmail;
 
+  String? maritalStatus;
   String? userProfileCreatedFor;
   String? userPhoneNumber;
   String? userCountryCode;
@@ -43,6 +44,7 @@ class UserRegistrationDataModel {
     this.userDescription,
     this.userHobbies,
     this.userPassword,
+    this.maritalStatus
   });
 
   Map<String, dynamic> toJson() {
@@ -66,6 +68,7 @@ class UserRegistrationDataModel {
       'userDescription': userDescription,
       'userHobbies': userHobbies,
       'userPassword': userPassword,
+      'maritalStatus': maritalStatus
     };
   }
 
@@ -90,6 +93,7 @@ class UserRegistrationDataModel {
       userDescription: json['userDescription'],
       userHobbies: json['userHobbies'],
       userPassword: json['userPassword'],
+      maritalStatus: json['maritalStatus'],
     );
   }
 }

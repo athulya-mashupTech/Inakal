@@ -37,6 +37,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
   ];
 
   final Set<String> selectedInterests = {};
+  final TextEditingController customHobbyController = TextEditingController();
 
   void toggleInterest(String interest) {
     setState(() {
@@ -44,11 +45,33 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
         selectedInterests.remove(interest);
       } else if (selectedInterests.length < 5) {
         selectedInterests.add(interest);
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("You can only select up to 5 hobbies.")),
+        );
       }
     });
   }
 
+  void addCustomHobby() {
+    final hobby = customHobbyController.text.trim();
+    if (hobby.isNotEmpty && !interests.contains(hobby)) {
+      setState(() {
+        interests.add(hobby);
+        if (selectedInterests.length < 5) {
+          selectedInterests.add(hobby);
+        }
+        customHobbyController.clear();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Enter a unique hobby.")),
+      );
+    }
+  }
+
   final RegistrationController regController = Get.find();
+
   _storeHobbies() {
     regController.setHobbies(selectedInterests.toList());
   }
@@ -81,7 +104,10 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 30.0),
+
+              const SizedBox(height: 5),
+
+              // Hobbies selection grid
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Wrap(
@@ -97,17 +123,60 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   }).toList(),
                 ),
               ),
+              const SizedBox(height: 10),
+              const Text(
+                "Didn't find your hobby? Add it here",
+                style: TextStyle(
+                  fontSize: 16.0,
+                  color: AppColors.black,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+
+
+              // Custom hobby input
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: TextField(
+                  controller: customHobbyController,
+                  decoration: InputDecoration(
+                    hintText: "Enter your hobby",
+                    contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 20.0, vertical: 16.0), // 👈 Inner padding
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                          color: AppColors.primaryRed, width: 1.5),
+                      borderRadius: BorderRadius.circular(30.0),
+                    ),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        addCustomHobby();
+                      },
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 15),
+
+              // Continue Button
               CustomButton(
                 text: "Continue",
                 onPressed: () {
                   _storeHobbies();
                   Get.to(
-                      const RegistrationPassword(),
-                      transition: Transition.rightToLeftWithFade,
-                      duration: const Duration(milliseconds: 800),
-                    );
+                    const RegistrationPassword(),
+                    transition: Transition.rightToLeftWithFade,
+                    duration: const Duration(milliseconds: 800),
+                  );
                 },
               ),
+              SizedBox(height: 20.0),
             ],
           ),
         ),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class SendRequestsCard extends StatefulWidget {
@@ -44,7 +46,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: switch (widget.req_status) {
-            "Accepted" => AppColors.freshGreen.withAlpha(70),
+            "Accepted" => AppColors.freshGreen.withAlpha(100),
             "Pending" => AppColors.goldenYellow.withAlpha(70),
             "Rejected" => AppColors.grey.withAlpha(70),
             _ => AppColors.black.withAlpha(70),
@@ -151,11 +153,12 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                     switch (widget.req_status) {
                                       "Accepted" => "Request Accepted",
                                       "Pending" => "Request Pending",
-                                      "Rejected" => "Request Pending",
+                                      "Rejected" => "Not Interested",
                                       _ => "Unknown",
                                     },
                                     style: TextStyle(
                                       fontSize: 14,
+                                      fontWeight: FontWeight.bold,
                                       color: switch (widget.req_status) {
                                         "Accepted" => AppColors.freshGreen,
                                         "Pending" => AppColors.goldenYellow,
@@ -196,10 +199,10 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                               backgroundColor: AppColors.freshGreen,
                               shape: const CircleBorder(),
                             ),
-                            child: const Icon(
-                              Icons.chat,
-                              color: AppColors.white,
-                            ),
+                            child: Iconify(
+                                Ph.chat_circle_dots_fill,
+                                color: AppColors.white,
+                                size: 20),
                           ),
                         ],
                       )

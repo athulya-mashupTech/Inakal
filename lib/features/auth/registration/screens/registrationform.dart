@@ -3,10 +3,12 @@ import 'package:get/get.dart';
 import 'package:inakal/features/auth/controller/registration_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
+import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/gender_selection.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:intl/intl.dart';
 import '../widgets/text_field_widget.dart';
 
 class RegistrationForm extends StatefulWidget {
@@ -28,6 +30,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _pincodeController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
+  final TextEditingController _maritalStatusController =
+      TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? selectedGender;
 
@@ -86,7 +90,29 @@ class _RegistrationFormState extends State<RegistrationForm> {
         district: _cityController.text,
         pincode: _pincodeController.text,
         dob: _dobController.text,
+        maritalStatus: _maritalStatusController.text,
         gender: selectedGender!);
+  }
+
+  String getHeadingText(String profileFor) {
+    switch (profileFor) {
+      case "Myself":
+        return "Let’s Get to Know You Better!";
+      case "Son":
+        return "Let’s Get to Know Your Son Better!";
+      case "Daughter":
+        return "Let’s Get to Know Your Daughter Better!";
+      case "Friend":
+        return "Let’s Get to Know Your Friend Better!";
+      case "Cousin":
+        return "Let’s Get to Know Your Cousin Better!";
+      case "Brother":
+        return "Let’s Get to Know Your Brother Better!";
+      case "Sister":
+        return "Let’s Get to Know Your Sister Better!";
+      default:
+        return "Let’s Get to Know You Better!";
+    }
   }
 
   @override
@@ -100,14 +126,17 @@ class _RegistrationFormState extends State<RegistrationForm> {
             children: [
               const RegistrationLoader(progress: 1),
               const SizedBox(height: 20),
-              const Text(
-                "What’s about you?",
-                style: TextStyle(
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.primaryRed,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                child: Text(
+                  getHeadingText(regController.user.value.userProfileCreatedFor!), // Replace with the actual profile created for value
+                  style: TextStyle(
+                    fontSize: 24.0,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primaryRed,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16.0),
               TextFieldWidget(
@@ -146,31 +175,18 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 validator: (value) =>
                     value!.isEmpty ? 'Pincode is required' : null,
               ),
-              TextFieldWidget(
-                controller: _dobController,
-                hintText: 'Date of Birth',
-                validator: (value) =>
-                    value!.isEmpty ? 'Date of birth is required' : null,
-                suffixIcon: const Icon(Icons.calendar_month),
-                onTap: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  DateTime? pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: DateTime.now(),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                  );
-                  if (pickedDate != null) {
-                    _dobController.text =
-                        '${pickedDate.toLocal()}'.split(' ')[0];
-                  }
-                },
-              ),
-              const SizedBox(height: 15),
+              const SizedBox(height: 10),
+              Center(child: Text("Gender")),
               GenderSelectionWidget(
                 selectedGender: selectedGender,
                 onGenderSelected: (gender) {
                   setState(() {
+                    // If gender is changed after selecting DOB, clear the DOB field
+                    if (selectedGender != null &&
+                        selectedGender != gender &&
+                        _dobController.text.isNotEmpty) {
+                      _dobController.clear();
+                    }
                     selectedGender = gender;
                   });
                 },
@@ -180,7 +196,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       children: [
                         SizedBox(height: 10),
                         Text(
-                          "Gender is required",
+                          "Select a gender",
                           style: TextStyle(
                               color: AppColors.errorRed, fontSize: 12),
                           textAlign: TextAlign.center,
@@ -188,6 +204,58 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       ],
                     )
                   : const SizedBox(height: 10),
+              const SizedBox(height: 10),
+              TextFieldWidget(
+                readOnly: true,
+                controller: _dobController,
+                hintText: 'Date of Birth',
+                validator: (value) =>
+                    value!.isEmpty ? 'Date of birth is required' : null,
+                suffixIcon: const Icon(Icons.calendar_month),
+                // readOnly: true,
+                onTap: () async {
+                  // Check if gender is selected
+                  if (selectedGender != "Male" && selectedGender != "Female") {
+                    setState(() {
+                      selectedGender = "error"; // trigger the gender error
+                    });
+                    return;
+                  }
+
+                  FocusScope.of(context).unfocus();
+
+                  // Calculate last valid date as per age rule
+                  DateTime today = DateTime.now();
+                  DateTime maxSelectableDate = selectedGender == "Male"
+                      ? DateTime(today.year - 21, today.month, today.day)
+                      : DateTime(today.year - 18, today.month, today.day);
+
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: maxSelectableDate,
+                    firstDate: DateTime(1900),
+                    lastDate: maxSelectableDate,
+                  );
+
+                  if (pickedDate != null) {
+                    String formattedDate =
+                        DateFormat('dd-MM-yyyy').format(pickedDate);
+                    _dobController.text = formattedDate;
+                  }
+                },
+              ),
+              DropdownWidget(
+                controller: _maritalStatusController,
+                label: "Marital Status",
+                items: const [
+                  "Single",
+                  "Married",
+                  "Divorced",
+                  "Widowed",
+                  "Separated",
+                  "Complicated"
+                ],
+              ),
               const SizedBox(height: 17.0),
               CustomButton(
                 text: "Continue",
