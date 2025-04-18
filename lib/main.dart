@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
@@ -27,12 +28,36 @@ import 'package:inakal/features/requests/screens/send_requests.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init(); // Initialize GetStorage
+  
   // Register your controller globally
   Get.put(AuthController());
   Get.put(UserDataController());
+
   runApp(const MyApp());
 }
+
+// class MyApp extends StatelessWidget {
+//   const MyApp({super.key});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     final box = GetStorage();
+//     final isLoggedIn = box.read('isLoggedIn') ?? false;
+
+//     return GetMaterialApp(
+//       title: 'Inakal',
+//       debugShowCheckedModeBanner: false,
+//       theme: ThemeData(
+//         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
+//         useMaterial3: true,
+//       ),
+//       home: isLoggedIn ? const BottomNavBarScreen() : SplashScreen(),
+//     );
+//   }
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

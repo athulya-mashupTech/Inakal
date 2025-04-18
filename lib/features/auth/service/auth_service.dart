@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/common/controller/user_data_controller.dart';
@@ -114,15 +115,22 @@ class AuthService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final loginModel = LoginModel.fromJson(jsonResponse);
+
+
         if (loginModel.token != "") {
           _showSnackbar(context, "Successfully Logined");
+
+           //Save login state
+        final box = GetStorage();
+       box.write('isLoggedIn', true);
+          
           final AuthController authController = Get.find();
           // Save Token and userId to SharedPreferences & GetX
           authController.saveAuthData(loginModel.token!, loginModel.userId!);
 
           // Save User data to Getx
           fetchUserDetails(authController.token.value);
-          
+
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -143,6 +151,23 @@ class AuthService {
       print("Error: $e");
       return null;
     }
+
+
+//     if (loginModel.token != "") {
+//   _showSnackbar(context, "Successfully Logged In");
+
+//   // Save login state
+//   final box = GetStorage();
+//   box.write('isLoggedIn', true);
+
+//   Navigator.pushReplacement(
+//     context,
+//     MaterialPageRoute(
+//       builder: (context) => const BottomNavBarScreen(),
+//     ),
+//   );
+// }
+
   }
 
   Future<void> fetchUserDetails(String token) async {
