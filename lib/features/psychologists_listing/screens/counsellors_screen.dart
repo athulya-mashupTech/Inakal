@@ -3,6 +3,8 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/psychologists_listing/model/psychologist_model.dart';
+import 'package:inakal/features/psychologists_listing/service/psychologist_service.dart';
 import 'package:inakal/features/psychologists_listing/widgets/counsellor_widget.dart';
 
 class CounsellorsScreen extends StatefulWidget {
@@ -13,8 +15,12 @@ class CounsellorsScreen extends StatefulWidget {
 }
 
 class _CounsellorsScreenState extends State<CounsellorsScreen> {
-  var btext = "Book your appointment";
-  var bcolor = AppColors.deepBlue;
+  var btext = "";
+  var bcolor = AppColors.primaryRed;
+  bool consultancy_required = false;
+  PsychologistModel? psychologistModelData;
+  bool isDoctorsLoading = true;
+
   final List<Map<String, String>> matches = [
     {
       'name': 'Mohan',
@@ -48,27 +54,94 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
     },
   ];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if (consultancy_required == false) {
+      btext = "Book your appointment";
+      bcolor = AppColors.deepBlue;
+    } else {
+      btext = "Your appointment is Pending";
+      bcolor = AppColors.freshGreen;
+    }
+    fetchAllDoctors();
+  }
+
+  Future<void> fetchAllDoctors() async {
+    await PsychologistService().getAllDoctors(context: context).then((value) {
+      if (value != null) {
+        setState(() {
+          psychologistModelData = value;
+        });
+      }
+    }).catchError((error) {
+      print("Error fetching doctors: $error");
+    });
+
+    setState(() {
+      isDoctorsLoading = false;
+    });
+  }
+
+  Future<void> bookAppointment() async {
+    await PsychologistService().bookAppointment(context).then((value) {
+      if (value != null) {
+        setState(() {
+          if (value.type == "success") {
+            btext = "Your appointment is scheduled";
+            bcolor = AppColors.freshGreen;
+            consultancy_required = true;
+          } else if (value.type == "warning") {
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Your appointment is Pending")),
+            );
+            btext = "Your appointment is Pending";
+            bcolor = AppColors.freshGreen;
+            consultancy_required = true;
+          } else {
+            // Handle error case
+            btext = "Error booking appointment";
+            bcolor = AppColors.errorRed;
+          }
+        });
+      }
+    }).catchError((error) {
+      print("Error booking appointment: $error");
+    });
+  }
+
   void _showConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text('Confirm Booking?', style: TextStyle(color: AppColors.primaryRed, fontWeight: FontWeight.w500),),
+          title: Text(
+            'Confirm Booking?',
+            style: TextStyle(
+                color: AppColors.primaryRed, fontWeight: FontWeight.w500),
+          ),
           content: Text('Do you want to confirm your appointment?'),
           backgroundColor: AppColors.white,
           shape: RoundedRectangleBorder(
-            borderRadius:
-                BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12),
           ),
           actions: [
             TextButton(
-              child: Text('Cancel', style: TextStyle(color: Colors.black),),
+              child: Text(
+                'Cancel',
+                style: TextStyle(color: Colors.black),
+              ),
               onPressed: () {
                 Navigator.of(dialogContext).pop(); // Close the dialog
               },
             ),
             ElevatedButton(
-              child: Text('Confirm', selectionColor: AppColors.black,),
+              child: Text(
+                'Confirm',
+                selectionColor: AppColors.black,
+              ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.lightpink,
                 foregroundColor: AppColors.black,
@@ -77,14 +150,8 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                 ),
               ),
               onPressed: () {
-                setState(() {
-                  btext = "Your appointment is scheduled";
-                  bcolor = AppColors.freshGreen;
-                });
-                Navigator.of(dialogContext).pop(); // Close the dialog
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text('Appointment Booked!')),
-                );
+                bookAppointment();
+                Navigator.of(dialogContext).pop();
               },
             ),
           ],
@@ -102,6 +169,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
           child: Padding(
             padding: const EdgeInsets.all(12.0),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
                   height: 20,
@@ -111,7 +179,11 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                   child: CustomButton(
                     text: btext,
                     onPressed: () {
-                      _showConfirmationDialog(context);
+                      if (consultancy_required == false) {
+                        _showConfirmationDialog(context);
+                      } else {
+                        bookAppointment();
+                      }
                     },
                     color: bcolor,
                     icon: Icons.calendar_month,
@@ -213,17 +285,25 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                 const SizedBox(height: 10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: Wrap(
-                    spacing: 5.0,
-                    runSpacing: 5.0,
-                    children: matches.map((match) {
-                      return CounsellorWidget(
-                        image: match['image']!,
-                        name: match['name']!,
-                        designation: match['designation']!,
-                      );
-                    }).toList(),
-                  ),
+                  child: isDoctorsLoading == true
+                      ? Center(
+                          child: CircularProgressIndicator(
+                            color: AppColors.primaryRed,
+                          ),
+                        )
+                      : Wrap(
+                          spacing: 5.0,
+                          runSpacing: 5.0,
+                          alignment: WrapAlignment.start,
+                          children: psychologistModelData!.doctors!
+                              .map((psychologist) {
+                            return CounsellorWidget(
+                              image: psychologist.image!,
+                              name: psychologist.name!,
+                              designation: psychologist.phone!,
+                            );
+                          }).toList(),
+                        ),
                 ),
                 SizedBox(
                   height: 20,

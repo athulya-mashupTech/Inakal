@@ -4,7 +4,7 @@ import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/controller/registration_controller.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
@@ -17,7 +17,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   String _countryCode = '';
   String _phoneNumber = '';
 
-  final RegistrationController regController = Get.find();
+  final AuthController regController = Get.find();
   void _storeData() {
     regController.setMobileNumber(_phoneNumber, _countryCode);
   }

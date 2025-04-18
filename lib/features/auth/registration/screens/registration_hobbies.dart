@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inakal/features/auth/controller/registration_controller.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/service/auth_service.dart';
 
 class RegistrationHobbies extends StatefulWidget {
   const RegistrationHobbies({super.key});
@@ -70,10 +73,15 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
     }
   }
 
-  final RegistrationController regController = Get.find();
+  final AuthController regController = Get.find();
 
   _storeHobbies() {
     regController.setHobbies(selectedInterests.toList());
+  }
+
+  Future<RegisterModel?> _registerUser() async {
+    return await AuthService()
+        .registerUser(userData: regController.user.value, context: context);
   }
 
   @override
@@ -84,7 +92,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
         child: Form(
           child: ListView(
             children: [
-              const RegistrationLoader(progress: 3),
+              const RegistrationLoader(progress: 4),
               const SizedBox(height: 20),
               const Text(
                 "Select upto 5 Hobbies",
@@ -134,7 +142,6 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
               ),
               const SizedBox(height: 5),
 
-
               // Custom hobby input
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -169,8 +176,9 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                 text: "Continue",
                 onPressed: () {
                   _storeHobbies();
+                  _registerUser();
                   Get.to(
-                    const RegistrationPassword(),
+                    const BottomNavBarScreen(),
                     transition: Transition.rightToLeftWithFade,
                     duration: const Duration(milliseconds: 800),
                   );

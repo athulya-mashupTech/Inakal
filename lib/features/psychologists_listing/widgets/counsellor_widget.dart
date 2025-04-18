@@ -33,7 +33,7 @@ class CounsellorWidget extends StatelessWidget {
                 SizedBox(
                   height: 150,
                   width: MediaQuery.of(context).size.width * 0.5 - 30,
-                  child: Image.asset(image, fit: BoxFit.cover)),
+                  child: Image.network(image, fit: BoxFit.cover)),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 12),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
@@ -18,6 +21,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<User> users = [];
+  // final userController = Get.find<UserDataController>();
+  
   @override
   void initState() {
     super.initState();
@@ -72,7 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 5),
             Align(
               alignment: Alignment.centerLeft,
-              child: const Padding(
+              child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

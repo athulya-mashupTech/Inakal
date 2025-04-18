@@ -1,10 +1,13 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/controller/registration_controller.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
+import 'package:inakal/features/auth/registration/screens/registrationform.dart';
+import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
@@ -23,6 +26,14 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
   final TextEditingController _cpasswordController = TextEditingController();
   bool isPwdVisible = false;
   bool isCPwdVisible = false;
+  bool _accepted = false;
+  final TextEditingController _profileCreatedForController =
+      TextEditingController();
+
+  initState() {
+    super.initState();
+    _profileCreatedForController.text = "Myself";
+  }
 
   @override
   void dispose() {
@@ -46,15 +57,10 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
     return null;
   }
 
-  final RegistrationController regController = Get.find();
+  final AuthController regController = Get.find();
   void _storePassword() {
     regController.setPassword(_passwordController.text);
-  }
-
-  Future<RegisterModel?> _registerUser() async {
-    return await AuthService().registerUser(
-        userData: regController.user.value,
-        context: context);
+    regController.setProfileCreatedFor(_profileCreatedForController.text);
   }
 
   @override
@@ -70,7 +76,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const RegistrationLoader(progress: 4),
+                    const RegistrationLoader(progress: 1),
                     const SizedBox(height: 30),
                     const Text(
                       "Confirm your password",
@@ -134,6 +140,89 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                         return null;
                       },
                     ),
+
+                    // Checkbox
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _accepted,
+                          onChanged: (value) {
+                            setState(() {
+                              _accepted = value!;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: RichText(
+                            text: TextSpan(
+                              style:
+                                  TextStyle(fontSize: 16, color: Colors.black),
+                              children: [
+                                TextSpan(text: 'I accept the '),
+                                TextSpan(
+                                  text: 'Terms and Conditions',
+                                  style: TextStyle(
+                                    color: AppColors.primaryRed,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: Text('Terms and Conditions'),
+                                          backgroundColor: AppColors.white,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                          ),
+                                          content: SingleChildScrollView(
+                                            child: Text(
+                                              '''You must be at least 18 years old to use this app. This platform is intended solely for matrimonial purposes and should not be used for any other intent.
+
+All personal data you provide must be truthful and accurate to ensure the safety and integrity of our community. While we aim to maintain a secure environment, we do not take responsibility for individual user interactions.
+
+Your data may be used to enhance and improve our services. Any form of harassment or abuse will result in the immediate suspension of your account.
+
+You have the right to delete your account at any time. Please note that we reserve the right to modify these terms and conditions without prior notice. Continued use of the platform signifies your acceptance of any updates to these terms.
+
+If you have any concerns or require clarification, please contact our support team.''',
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          actions: [
+                                            TextButton(
+                                              onPressed: () =>
+                                                  Navigator.of(context).pop(),
+                                              child: Text('Close'),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 5),
+                    DropdownWidget(
+                        label: "Profile Created for",
+                        items: [
+                          "Myself",
+                          "Son",
+                          "Daughter",
+                          "Friend",
+                          "Cousin",
+                          "Brother",
+                          "Sister"
+                        ],
+                        controller: _profileCreatedForController),
+
+                    const SizedBox(height: 10),
                     // const SizedBox(height: 15),
                     // const Text("Agree to the T&C and complete the ",
                     //     style: TextStyle(
@@ -170,13 +259,22 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                       text: "Register",
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          if (!_accepted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "Please accept the Terms and Conditions"),
+                              ),
+                            );
+                            return;
+                          } else {
                             _storePassword();
-                            _registerUser();
                             Get.to(
-                              BottomNavBarScreen(),
+                              RegistrationForm(),
                               transition: Transition.rightToLeftWithFade,
                               duration: const Duration(milliseconds: 800),
                             );
+                          }
                         }
                       },
                     ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/requests/model/request_user_details_model.dart';
+import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/send_requests_card.dart'; // Your SendRequestsCard widget
 import 'package:inakal/data_class/user.dart'; // Your User model
 
@@ -14,13 +16,24 @@ class _SendRequestsState extends State<SendRequests> {
   List<String> filters = ["All", "Accepted", "Pending"];
   String selectedFilter = "All";
   List<User> allUsers = [];
+  List<RequestUserDetailsModel?> allSentRequests = [];
   List<User> filteredUsers = [];
 
   @override
   void initState() {
     super.initState();
+    fetchSentRequests();
     allUsers = User.getSampleUsers(); // Populate with sample data
     filteredUsers = List.from(allUsers); // Initially, show all users
+  }
+
+  Future<void> fetchSentRequests() async {
+    await RequestService().getSentRequestUserDetails(context).then((value) {
+      setState(() {
+        allSentRequests = value;
+      });
+    });
+    print(allSentRequests.length);
   }
 
   void filterUsers(String filter) {
@@ -29,9 +42,11 @@ class _SendRequestsState extends State<SendRequests> {
       if (filter == "All") {
         filteredUsers = List.from(allUsers); // Show all users
       } else if (filter == "Accepted") {
-        filteredUsers = allUsers.where((user) => user.req_status == "Accepted").toList();
+        filteredUsers =
+            allUsers.where((user) => user.req_status == "Accepted").toList();
       } else if (filter == "Pending") {
-        filteredUsers = allUsers.where((user) => user.req_status == "Pending").toList();
+        filteredUsers =
+            allUsers.where((user) => user.req_status == "Pending").toList();
       }
     });
   }
@@ -58,7 +73,8 @@ class _SendRequestsState extends State<SendRequests> {
                 ),
                 selected: selectedFilter == filter,
                 onSelected: (bool selected) {
-                  filterUsers(filter); // Apply the filter when the chip is selected
+                  filterUsers(
+                      filter); // Apply the filter when the chip is selected
                 },
               );
             }).toList(),

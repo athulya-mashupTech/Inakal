@@ -149,7 +149,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                       child: SwipeableButtonView(
                         buttonText: "Get Started",
                         buttonWidget: const Icon(
-                          Icons.call,
+                          Icons.arrow_forward,
                           color: AppColors.primaryRed
                         ),
                         activeColor: AppColors.primaryRed,
