@@ -1,8 +1,36 @@
 import 'package:get/get.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class RegistrationController extends GetxController {
+class AuthController extends GetxController {
   var user = UserRegistrationDataModel().obs;
+  var token = ''.obs;
+  var userId = ''.obs;
+
+  // Save token & userId to SharedPreferences
+  Future<void> saveAuthData(String authToken, String id) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', authToken);
+    await prefs.setString('userId', id);
+
+    token.value = authToken;
+    userId.value = id;
+  }
+
+  Future<void> loadAuthData() async {
+    final prefs = await SharedPreferences.getInstance();
+    token.value = prefs.getString('token') ?? '';
+    userId.value = prefs.getString('userId') ?? '';
+  }
+
+  // Clear stored data (on logout)
+  Future<void> clearAuthData() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('token');
+    await prefs.remove('userId');
+    token.value = '';
+    userId.value = '';
+  }
 
   void setBasicDetails({
     required String firstName,

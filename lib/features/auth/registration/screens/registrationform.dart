@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inakal/features/auth/controller/registration_controller.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
@@ -78,7 +78,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
   var isChecked = false;
 
-  final RegistrationController regController = Get.find();
+  final AuthController regController = Get.find();
   void _storeData() {
     regController.setBasicDetails(
         firstName: _firstNameController.text,
@@ -124,12 +124,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
           key: _formKey,
           child: ListView(
             children: [
-              const RegistrationLoader(progress: 1),
+              const RegistrationLoader(progress: 2),
               const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Text(
-                  getHeadingText(regController.user.value.userProfileCreatedFor!), // Replace with the actual profile created for value
+                  getHeadingText(regController.user.value
+                      .userProfileCreatedFor!), // Replace with the actual profile created for value
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/screens/terms_and_conditions_screen.dart';
 import 'package:pinput/pinput.dart';
 
@@ -153,7 +154,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const TermsAndConditionsScreen(),
+                      builder: (context) => const RegistrationPassword(),
                     ),
                   );
                 }

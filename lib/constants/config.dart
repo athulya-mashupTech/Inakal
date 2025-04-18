@@ -2,6 +2,23 @@
 const baseUrl = "https://enakal.com/api/";
 
 //API endpoints
+
+//Login and Registration
 const loginUrl = "${baseUrl}login";
 const registerUrl = "${baseUrl}register";
-const profileUrl = "https://mocki.io/v1/6aa26f4d-1f8a-47a7-8a49-6cbedd69a94d";
+
+//User Profile
+const userProfileUrl = "${baseUrl}userProfile";
+
+//Counsellors Page
+const allDoctorsUrl = "${baseUrl}doctors";
+const bookAppointmentUrl = "${baseUrl}bookAppointment";
+
+//Profile Completion Status
+const profileCompletionStatusUrl = "${baseUrl}profileCompletionStatus";
+
+//Request Listing API's
+const receivedRequestsUrl = "${baseUrl}receivedRequest";
+const sentRequestsUrl = "${baseUrl}sentRequests";
+const userDetailsFetchUrl = "${baseUrl}get_user_data";
+
