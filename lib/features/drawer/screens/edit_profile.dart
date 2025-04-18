@@ -145,7 +145,7 @@ class _EditProfileState extends State<EditProfile> {
     _familyTypeController.text = userController.userData.value.user?.familyType ?? "";
     _mothersOccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
     _fathersOccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
-    _siblingsController.text = "1";
+    _siblingsController.text =userController.userData.value.user?.numberOfSiblings ?? "";
     _siblingsMaritalStatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
 
     _pagegroup.text = userController.userData.value.user?.preferredAgeRange ?? "";
@@ -164,18 +164,16 @@ class _EditProfileState extends State<EditProfile> {
     _cityController.text = userController.userData.value.user?.currentCity ?? "";
     _zipcodeController.text = userController.userData.value.user?.zipCode ?? "";
     _addressController.text = userController.userData.value.user?.address ?? "";
-    _aboutmecontroller.text =
-        "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";
+    _aboutmecontroller.text =userController.userData.value.user?.aboutMe ?? ""; 
     _smokinghabitcontroller.text = userController.userData.value.user?.smokingHabits ?? "";
-    _drinkinghabitcontroller.text = "No";
-    _foodhabitcontroller.text = "Vegetarian";
-    _profileapprovalcontroller.text = "Approved";
-    _profilecreatedcontroller.text = "Friends";
-    _instalinkcontroller.text = "https://www.instagram.com/harsha_sreekanth/";
-    _fblinkcontroller.text = "https://www.facebook.com/harsha.sreekanth.1/";
-    _linkedlnlinkcontroller.text =
-        "https://www.linkedin.com/in/harsha-sreekanth-123456789/";
-    _youtubelinkcontroller.text = "https://www.youtube.com/@harsha_sreekanth/";
+    _drinkinghabitcontroller.text = userController.userData.value.user?.drinkingHabits ?? "";
+    _foodhabitcontroller.text = userController.userData.value.user?.foodPreferences ?? "";
+    _profileapprovalcontroller.text = userController.userData.value.user?.profileApproved ?? "";
+    _profilecreatedcontroller.text = userController.userData.value.user?.profileCreatedBy ?? "";
+    _instalinkcontroller.text = userController.userData.value.user?.instagramLink ?? "";
+    _fblinkcontroller.text = userController.userData.value.user?.facebookLink ?? "";
+    _linkedlnlinkcontroller.text = userController.userData.value.user?.linkedinLink ?? "";
+    _youtubelinkcontroller.text = userController.userData.value.user?.youtubeLink ?? "";
   }
 
   @override
@@ -626,7 +624,8 @@ class _EditProfileState extends State<EditProfile> {
                                   "Plus Two",
                                   "Undergraduate",
                                   "Postgraduate",
-                                  "PhD"
+                                  "PhD",
+                                  "BTech"
                                 ])),
                         const Divider(),
                         const SizedBox(height: 15),
@@ -649,7 +648,8 @@ class _EditProfileState extends State<EditProfile> {
                                   "Developer",
                                   "lecturer",
                                   "Doctor",
-                                  "Driver"
+                                  "Driver",
+                                  "Business"
                                 ])),
                         const Divider(),
                         const SizedBox(height: 15),
@@ -660,10 +660,10 @@ class _EditProfileState extends State<EditProfile> {
                             valueWidget: EditDropdownWidget(
                                 controller: _incomeController,
                                 values: [
-                                  "1-5 LPA",
-                                  "5-10 LPA",
-                                  "10-15 LPA",
-                                  "15-20 LPA",
+                                  "1-5",
+                                  "5-10",
+                                  "10-16",
+                                  "15-20",
                                   "Above 20LPA"
                                 ])),
                         const Divider(),
@@ -697,7 +697,7 @@ class _EditProfileState extends State<EditProfile> {
                               label: "Family Type",
                               valueWidget: EditDropdownWidget(
                                   controller: _familyTypeController,
-                                  values: ["Nuclear", "Joint Family"])),
+                                  values: ["Nuclear", "Joint"])),
                           const Divider(),
                           const SizedBox(height: 15),
 
@@ -761,7 +761,7 @@ class _EditProfileState extends State<EditProfile> {
                                   values: [
                                     "18-24",
                                     "24-29",
-                                    "29-35",
+                                    "30-40",
                                     "35 to more"
                                   ])),
                           const Divider(),
@@ -775,7 +775,8 @@ class _EditProfileState extends State<EditProfile> {
                                   values: [
                                     "5.0-6.0 ft",
                                     "6.0-6.5 ft",
-                                    "6.5-7.0 ft"
+                                    "6.5-7.0 ft",
+                                    "160-173"
                                   ])),
                           const Divider(),
                           const SizedBox(height: 15),
@@ -786,7 +787,7 @@ class _EditProfileState extends State<EditProfile> {
                               valueWidget: EditDropdownWidget(
                                   controller: _preligion,
                                   values: [
-                                    "Hindu",
+                                    "hindu",
                                     "Muslim",
                                     "Christian",
                                     "Others"
@@ -814,7 +815,7 @@ class _EditProfileState extends State<EditProfile> {
                               label: "Prefered Smoking Habit",
                               valueWidget: EditDropdownWidget(
                                   controller: _psmoking,
-                                  values: ["Yes", "No"])),
+                                  values: ["Yes", "No","occasionally"])),
                           const Divider(),
                           const SizedBox(height: 15),
 
@@ -823,7 +824,7 @@ class _EditProfileState extends State<EditProfile> {
                               label: "Prefered Drinking Habit",
                               valueWidget: EditDropdownWidget(
                                   controller: _pdrinking,
-                                  values: ["Yes", "No"])),
+                                  values: ["Yes", "No","occasionally"])),
                           const Divider(),
                           const SizedBox(height: 15),
 
@@ -849,7 +850,7 @@ class _EditProfileState extends State<EditProfile> {
                                   values: [
                                     "Matriculate",
                                     "Plus Two",
-                                    "Undergraduate",
+                                    "graduate",
                                     "Postgraduate",
                                     "Others"
                                   ])),
@@ -909,7 +910,8 @@ class _EditProfileState extends State<EditProfile> {
                                     "Ernakulam",
                                     "Kochi",
                                     "Kollam",
-                                    "Palakkad"
+                                    "Palakkad",
+                                    "Kottayam"
                                   ])),
                           const Divider(),
                           const SizedBox(height: 15),
@@ -1078,7 +1080,7 @@ class _EditProfileState extends State<EditProfile> {
                                   label: "Profile Approved",
                                   valueWidget: EditDropdownWidget(
                                       controller: _profileapprovalcontroller,
-                                      values: ["Approved", "Not Approved"])),
+                                      values: ["0", "1"])),
                               const Divider(),
                               const SizedBox(height: 15),
 
