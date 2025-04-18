@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
-import 'package:inakal/features/profile/model/profile_model.dart';
-import 'package:inakal/features/profile/service/profile_service.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -17,7 +17,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isLoading = true;
+  bool isLoading = false;
+  final userController = Get.find<UserDataController>();
+
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String>? allImages = [];
   final List<String> images = [
@@ -27,25 +29,6 @@ class _ProfilePageState extends State<ProfilePage> {
     "assets/vectors/harsha4.jpg",
     "assets/vectors/harsha1.jpg"
   ];
-
-  ProfileModel? profileModelData;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchProfileData();
-    print("object $profileModelData");
-  }
-
-  Future<void> fetchProfileData() async {
-    await ProfileService().fetchProfileDetails(context: context).then((value) {
-      setState(() {
-        profileModelData = value;
-        allImages = value?.user?.images;
-        isLoading = false;
-      });
-    });
-  }
 
   void _showImageOverlay(int index) {
     showDialog(
@@ -162,8 +145,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                profileModelData?.user?.profileImage ?? "",
+                              child: Image.network(userController.userData.value.user?.image ??
+                                "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
                                 width: 160,
                                 height: 180,
                                 fit: BoxFit.cover,
@@ -177,40 +160,38 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    profileModelData?.user?.user_id != null
-                                        ? "#${profileModelData?.user?.user_id}"
-                                        : "Inakal ID Loading...",
+                                  Text(userController.userData.value.user?.id != null
+                                    ? "Inakal ID: ${userController.userData.value.user?.id}"
+                                    :"Inakal ID Loading...",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: AppColors.primaryRed),
                                   ),
                                   Text(
-                                    profileModelData?.user?.firstname != null
-                                        ? "${profileModelData?.user?.firstname} ${profileModelData?.user?.lastname}"
-                                        : "Name Loading...",
+                                    userController.userData.value.user?.firstName != null 
+                                    ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
+                                    : "Name Loading...",
                                     style: TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         height: 1.1),
                                   ),
-                                  Text(
-                                    profileModelData?.user?.location ??
-                                        "Location loading ...",
+                                  Text(userController.userData.value.user?.currentCity != null
+                                    ? "${userController.userData.value.user?.currentCity}, ${userController.userData.value.user?.district}"
+                                    : "Location loading ...",
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(height: 8),
-                                  Text(
-                                    profileModelData?.user?.job ??
-                                        "Job is Loading",
+                                  Text(userController.userData.value.user?.occupation != null
+                                    ? "${userController.userData.value.user?.occupation}"
+                                    : "Job is Loading...",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
                                   ),
-                                  Text(
-                                    profileModelData?.user?.religion != null
-                                        ? "${profileModelData?.user?.religion} ,${profileModelData?.user?.caste}"
-                                        : "Religion is loading",
+                                  Text(userController.userData.value.user?.religion != null
+                                    ? "${userController.userData.value.user?.religion}"
+                                    :"Religion is loading",
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -229,8 +210,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: AppColors.primaryRed,
                             size: 21,
                           ),
-                          Text(
-                            profileModelData?.user?.age ?? "Age is Loading",
+                          Text(userController.userData.value.user?.religion != null
+                          ? "${userController.userData.value.user?.religion}"
+                          : "Age is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -242,9 +224,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: AppColors.primaryRed,
                             size: 15,
                           ),
-                          Text(
-                            profileModelData?.user?.height ??
-                                "Height is Loading",
+                          Text(userController.userData.value.user?.height != null
+                            ? "${userController.userData.value.user?.height}"
+                            : "Height is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -253,9 +235,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           SizedBox(width: 12),
                           Iconify(Mdi.weight_lifter,
                               color: AppColors.primaryRed, size: 15),
-                          Text(
-                            profileModelData?.user?.weight ??
-                                "Weight is Loading",
+                          Text(userController.userData.value.user?.weight != null
+                               ? "${userController.userData.value.user?.weight}"
+                               : "Weight is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -280,9 +262,9 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           SizedBox(height: 8),
-                          Text(
-                            profileModelData?.user?.description ??
-                                "Description is Loading",
+                          Text(userController.userData.value.user?.aboutMe != null
+                               ? "${userController.userData.value.user?.aboutMe}"
+                               : "Description is Loading",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.black,
