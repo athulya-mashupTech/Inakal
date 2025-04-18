@@ -7,6 +7,8 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
+import 'package:inakal/features/profile/model/profile_model.dart';
+import 'package:inakal/features/profile/service/profile_service.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,7 +17,9 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool isLoading = true;
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  List<String>? allImages = [];
   final List<String> images = [
     "assets/vectors/harsha1.jpg",
     "assets/vectors/harsha2.jpg",
@@ -23,6 +27,25 @@ class _ProfilePageState extends State<ProfilePage> {
     "assets/vectors/harsha4.jpg",
     "assets/vectors/harsha1.jpg"
   ];
+
+  ProfileModel? profileModelData;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchProfileData();
+    print("object $profileModelData");
+  }
+
+  Future<void> fetchProfileData() async {
+    await ProfileService().fetchProfileDetails(context: context).then((value) {
+      setState(() {
+        profileModelData = value;
+        allImages = value?.user?.images;
+        isLoading = false;
+      });
+    });
+  }
 
   void _showImageOverlay(int index) {
     showDialog(
@@ -37,11 +60,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: PageView.builder(
-                    itemCount: images.length,
+                    itemCount: allImages!.length,
                     controller: PageController(initialPage: index),
                     itemBuilder: (context, i) {
-                      return Image.asset(
-                        images[i],
+                      return Image.network(
+                        allImages![i],
                         fit: BoxFit.contain,
                       );
                     },
@@ -60,7 +83,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: const DrawerWidget(),
-      body: Stack(
+      body: isLoading == true 
+      ? Center(child: CircularProgressIndicator())
+      : Stack(
         children: [
           Stack(
             children: [
@@ -77,6 +102,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Container(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 20),
                     Row(
@@ -136,8 +162,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                'assets/vectors/harsha1.jpg',
+                              child: Image.network(
+                                profileModelData?.user?.profileImage ?? "",
                                 width: 160,
                                 height: 180,
                                 fit: BoxFit.cover,
@@ -145,38 +171,46 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           const SizedBox(width: 16),
-                          const Expanded(
+                          Expanded(
                             child: Padding(
                               padding: EdgeInsets.only(top: 20),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "#INK3929",
+                                    profileModelData?.user?.user_id != null
+                                        ? "#${profileModelData?.user?.user_id}"
+                                        : "Inakal ID Loading...",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: AppColors.primaryRed),
                                   ),
                                   Text(
-                                    "Harsha Sreekanth",
+                                    profileModelData?.user?.firstname != null
+                                        ? "${profileModelData?.user?.firstname} ${profileModelData?.user?.lastname}"
+                                        : "Name Loading...",
                                     style: TextStyle(
                                         fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         height: 1.1),
                                   ),
                                   Text(
-                                    "Perumbavoor, Kerala",
+                                    profileModelData?.user?.location ??
+                                        "Location loading ...",
                                     style: TextStyle(fontSize: 16),
                                   ),
                                   SizedBox(height: 8),
                                   Text(
-                                    "Fashion designer",
+                                    profileModelData?.user?.job ??
+                                        "Job is Loading",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    "Bhramin",
+                                    profileModelData?.user?.religion != null
+                                        ? "${profileModelData?.user?.religion} ,${profileModelData?.user?.caste}"
+                                        : "Religion is loading",
                                     style: TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -186,7 +220,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       ),
                     ),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.symmetric(horizontal: 10),
                       child: Row(
                         children: [
@@ -196,7 +230,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             size: 21,
                           ),
                           Text(
-                            "24 year",
+                            profileModelData?.user?.age ?? "Age is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -209,7 +243,8 @@ class _ProfilePageState extends State<ProfilePage> {
                             size: 15,
                           ),
                           Text(
-                            " 6’65",
+                            profileModelData?.user?.height ??
+                                "Height is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -219,7 +254,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           Iconify(Mdi.weight_lifter,
                               color: AppColors.primaryRed, size: 15),
                           Text(
-                            "52KG",
+                            profileModelData?.user?.weight ??
+                                "Weight is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
@@ -230,7 +266,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     const SizedBox(height: 10),
                     const CompleteProfileCard(),
-                    const Padding(
+                    Padding(
                       padding: EdgeInsets.only(top: 20, left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -245,7 +281,8 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           SizedBox(height: 8),
                           Text(
-                            "Creative and passionate fashion designer with an eye for detail and a love for crafting unique, elegant styles. Dedicated to blending traditional charm with modern trends, I find joy in designing outfits that inspire confidence and grace. Outside work, I enjoy exploring art, culture, and meaningful connections.",
+                            profileModelData?.user?.description ??
+                                "Description is Loading",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.black,
@@ -267,9 +304,10 @@ class _ProfilePageState extends State<ProfilePage> {
                           mainAxisSpacing: 10.0,
                           childAspectRatio: 1.3,
                         ),
-                        itemCount: images.length > 4 ? 4 : images.length,
+                        itemCount:
+                            allImages!.length > 4 ? 4 : allImages?.length,
                         itemBuilder: (context, index) {
-                          return images.length > 4
+                          return allImages!.length > 4
                               ? index == 3
                                   ? GestureDetector(
                                       onTap: () {
@@ -278,13 +316,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Stack(
                                         fit: StackFit.expand,
                                         children: [
-                                          ImageCard(image: images[index]),
+                                          ImageCard(image: allImages![index]),
                                           Container(
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
-                                              color:
-                                                  AppColors.black.withAlpha(150),
+                                              color: AppColors.black
+                                                  .withAlpha(150),
                                             ),
                                           ),
                                           Column(
@@ -299,7 +337,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 color: AppColors.white,
                                               ),
                                               Text(
-                                                "+${images.length - 3}",
+                                                "+${allImages!.length - 3}",
                                                 style: const TextStyle(
                                                     color: AppColors.white,
                                                     fontSize: 24),
@@ -310,13 +348,14 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ),
                                     )
                                   : GestureDetector(
-                                      child: ImageCard(image: images[index]),
+                                      child:
+                                          ImageCard(image: allImages![index]),
                                       onTap: () {
                                         _showImageOverlay(index);
                                       },
                                     )
                               : GestureDetector(
-                                  child: ImageCard(image: images[index]),
+                                  child: ImageCard(image: allImages![index]),
                                   onTap: () {
                                     _showImageOverlay(index);
                                   },

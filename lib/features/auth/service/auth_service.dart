@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get/utils.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/config.dart';
@@ -110,8 +110,13 @@ class AuthService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final loginModel = LoginModel.fromJson(jsonResponse);
+
+
         if (loginModel.token != "") {
           _showSnackbar(context, "Successfully Logined");
+           //Save login state
+        final box = GetStorage();
+       box.write('isLoggedIn', true);
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -132,6 +137,23 @@ class AuthService {
       print("Error: $e");
       return null;
     }
+
+
+//     if (loginModel.token != "") {
+//   _showSnackbar(context, "Successfully Logged In");
+
+//   // Save login state
+//   final box = GetStorage();
+//   box.write('isLoggedIn', true);
+
+//   Navigator.pushReplacement(
+//     context,
+//     MaterialPageRoute(
+//       builder: (context) => const BottomNavBarScreen(),
+//     ),
+//   );
+// }
+
   }
 }
 
