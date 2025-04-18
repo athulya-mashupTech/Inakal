@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
-import 'package:inakal/features/requests/widgets/send_requests_card.dart'; // Your SendRequestsCard widget
-import 'package:inakal/data_class/user.dart'; // Your User model
+import 'package:inakal/features/requests/widgets/send_requests_card.dart';
+import 'package:lottie/lottie.dart';
 
 class SendRequests extends StatefulWidget {
   const SendRequests({super.key});
@@ -15,22 +15,22 @@ class SendRequests extends StatefulWidget {
 class _SendRequestsState extends State<SendRequests> {
   List<String> filters = ["All", "Accepted", "Pending"];
   String selectedFilter = "All";
-  List<User> allUsers = [];
   List<RequestUserDetailsModel?> allSentRequests = [];
-  List<User> filteredUsers = [];
+  List<RequestUserDetailsModel?> filteredUsers = [];
+  bool isLoading = true;
 
   @override
   void initState() {
     super.initState();
     fetchSentRequests();
-    allUsers = User.getSampleUsers(); // Populate with sample data
-    filteredUsers = List.from(allUsers); // Initially, show all users
   }
 
   Future<void> fetchSentRequests() async {
     await RequestService().getSentRequestUserDetails(context).then((value) {
       setState(() {
         allSentRequests = value;
+        filteredUsers = allSentRequests;
+        isLoading = false;
       });
     });
     print(allSentRequests.length);
@@ -40,13 +40,14 @@ class _SendRequestsState extends State<SendRequests> {
     setState(() {
       selectedFilter = filter;
       if (filter == "All") {
-        filteredUsers = List.from(allUsers); // Show all users
+        filteredUsers = List.from(allSentRequests); // Show all users
       } else if (filter == "Accepted") {
-        filteredUsers =
-            allUsers.where((user) => user.req_status == "Accepted").toList();
+        filteredUsers = allSentRequests
+            .where((user) => user?.status == "Accepted")
+            .toList();
       } else if (filter == "Pending") {
         filteredUsers =
-            allUsers.where((user) => user.req_status == "Pending").toList();
+            allSentRequests.where((user) => user?.status == "pending").toList();
       }
     });
   }
@@ -80,25 +81,52 @@ class _SendRequestsState extends State<SendRequests> {
             }).toList(),
           ),
         ),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: filteredUsers.length,
-            itemBuilder: (context, index) {
-              return SendRequestsCard(
-                image: filteredUsers[index].image,
-                name: filteredUsers[index].name,
-                location: filteredUsers[index].location,
-                status: filteredUsers[index].status,
-                role: filteredUsers[index].role,
-                age: filteredUsers[index].age,
-                height: filteredUsers[index].height,
-                req_status: filteredUsers[index].req_status,
-                religion: filteredUsers[index].religion,
-              );
-            },
-          ),
-        ),
+        isLoading == true
+            ? const Center(
+                child: CircularProgressIndicator(),
+              )
+            : filteredUsers.isEmpty
+                ? Expanded(
+                  child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Lottie.asset(
+                              "assets/lottie/empty_data.json",
+                              width: MediaQuery.of(context).size.width * 0.6,
+                            ),
+                            
+                          const Text(
+                            "No Requests Found",
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                )
+                : Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: filteredUsers.length,
+                      itemBuilder: (context, index) {
+                        return SendRequestsCard(
+                          image: filteredUsers[index]?.image ?? "",
+                          name: filteredUsers[index]?.firstName != null
+                              ? "${filteredUsers[index]?.firstName} ${filteredUsers[index]?.lastName}"
+                              : "",
+                          location: filteredUsers[index]?.state ?? "",
+                          status: filteredUsers[index]?.status ?? "",
+                          role: filteredUsers[index]?.occupation ?? "",
+                          age: filteredUsers[index]?.dob ?? "",
+                          height: filteredUsers[index]?.height ?? "",
+                          req_status: filteredUsers[index]?.status ?? "",
+                          religion: filteredUsers[index]?.religion ?? "",
+                        );
+                      },
+                    ),
+                  ),
       ],
     );
   }

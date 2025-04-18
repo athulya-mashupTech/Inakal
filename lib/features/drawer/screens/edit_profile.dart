@@ -28,7 +28,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  
   final userController = Get.find<UserDataController>();
 
   List<String> hobbies = [
@@ -44,6 +43,14 @@ class _EditProfileState extends State<EditProfile> {
     'Tamil',
   ];
 
+  updatePersonalDetails() {
+    userController.userData.value.user?.firstName = _fNameController.text;
+    userController.userData.value.user?.lastName = _sNameController.text;
+    userController.userData.value.user?.email = _emailController.text;
+    userController.userData.value.user?.phone = _phNoController.text;
+    userController.userData.value.user?.dob = _dobController.text;
+    userController.userData.value.user;
+  }
 
   final TextEditingController _fNameController = TextEditingController();
   final TextEditingController _sNameController = TextEditingController();
@@ -59,20 +66,25 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _subcasteController = TextEditingController();
   final TextEditingController _starsignController = TextEditingController();
   final TextEditingController _mothertongueController = TextEditingController();
-  final TextEditingController _maritalStatusController = TextEditingController();
+  final TextEditingController _maritalStatusController =
+      TextEditingController();
   final TextEditingController _childController = TextEditingController();
 
-  final TextEditingController _highestEducationController = TextEditingController();
+  final TextEditingController _highestEducationController =
+      TextEditingController();
   final TextEditingController _educationController = TextEditingController();
   final TextEditingController _occupationController = TextEditingController();
   final TextEditingController _incomeController = TextEditingController();
   final TextEditingController _locationController = TextEditingController();
 
   final TextEditingController _familyTypeController = TextEditingController();
-  final TextEditingController _mothersOccupationController = TextEditingController();
-  final TextEditingController _fathersOccupationController = TextEditingController();
+  final TextEditingController _mothersOccupationController =
+      TextEditingController();
+  final TextEditingController _fathersOccupationController =
+      TextEditingController();
   final TextEditingController _siblingsController = TextEditingController();
-  final TextEditingController _siblingsMaritalStatusController = TextEditingController();
+  final TextEditingController _siblingsMaritalStatusController =
+      TextEditingController();
 
   final TextEditingController _pagegroup = TextEditingController();
   final TextEditingController _pheightrange = TextEditingController();
@@ -90,14 +102,16 @@ class _EditProfileState extends State<EditProfile> {
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _zipcodeController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
-  
 
   final TextEditingController _aboutmecontroller = TextEditingController();
   final TextEditingController _smokinghabitcontroller = TextEditingController();
-  final TextEditingController _drinkinghabitcontroller = TextEditingController();
+  final TextEditingController _drinkinghabitcontroller =
+      TextEditingController();
   final TextEditingController _foodhabitcontroller = TextEditingController();
-  final TextEditingController _profileapprovalcontroller = TextEditingController();
-  final TextEditingController _profilecreatedcontroller = TextEditingController();
+  final TextEditingController _profileapprovalcontroller =
+      TextEditingController();
+  final TextEditingController _profilecreatedcontroller =
+      TextEditingController();
   final TextEditingController _instalinkcontroller = TextEditingController();
   final TextEditingController _fblinkcontroller = TextEditingController();
   final TextEditingController _linkedlnlinkcontroller = TextEditingController();
@@ -111,62 +125,88 @@ class _EditProfileState extends State<EditProfile> {
   String selectedsubcaste = 'Nair';
   String selectedMaritalStatus = 'Single';
   String selectedBirthStar = 'Virgo';
-  
-  
-  
+
   @override
   void initState() {
     super.initState();
-    _fNameController.text = userController.userData.value.user?.firstName ?? "";  
+    _fNameController.text = userController.userData.value.user?.firstName ?? "";
     _sNameController.text = userController.userData.value.user?.lastName ?? "";
     _emailController.text = userController.userData.value.user?.email ?? "";
     _phNoController.text = userController.userData.value.user?.phone ?? "";
     _dobController.text = userController.userData.value.user?.dob ?? "";
-    _heightController.text = "${userController.userData.value.user?.height ?? 0} cm";
-    _weightController.text = "${userController.userData.value.user?.weight ?? 0} kg";
-    _starsignController.text = userController.userData.value.user?.starSign ?? "";
-    _occupationController.text = userController.userData.value.user?.occupation ?? "";
-    _incomeController.text = userController.userData.value.user?.annualIncome ?? "";
-    _educationController.text = userController.userData.value.user?.educationDetails ?? "";
-    _childController.text = userController.userData.value.user?.numberOfChildren ?? "";
+    _heightController.text =
+        "${userController.userData.value.user?.height ?? 0} cm";
+    _weightController.text =
+        "${userController.userData.value.user?.weight ?? 0} kg";
+    _starsignController.text =
+        userController.userData.value.user?.starSign ?? "";
+    _occupationController.text =
+        userController.userData.value.user?.occupation ?? "";
+    _incomeController.text =
+        userController.userData.value.user?.annualIncome ?? "";
+    _educationController.text =
+        userController.userData.value.user?.educationDetails ?? "";
+    _childController.text =
+        userController.userData.value.user?.numberOfChildren ?? "";
 
     _genderController.text = userController.userData.value.user?.gender ?? "";
-    _religionController.text = userController.userData.value.user?.religion ?? "";
+    _religionController.text =
+        userController.userData.value.user?.religion ?? "";
     _casteController.text = userController.userData.value.user?.caste ?? "";
-    _subcasteController.text = userController.userData.value.user?.subCaste ?? "";
-    _mothertongueController.text = userController.userData.value.user?.motherTongue ?? "";
-    _maritalStatusController.text = userController.userData.value.user?.maritalStatus ?? "";
+    _subcasteController.text =
+        userController.userData.value.user?.subCaste ?? "";
+    _mothertongueController.text =
+        userController.userData.value.user?.motherTongue ?? "";
+    _maritalStatusController.text =
+        userController.userData.value.user?.maritalStatus ?? "";
 
-    _highestEducationController.text = userController.userData.value.user?.highestEducation ?? "";
-    _occupationController.text = userController.userData.value.user?.occupation ?? "";
-    _incomeController.text = userController.userData.value.user?.annualIncome ?? "";
-    _locationController.text = userController.userData.value.user?.workLocation ?? "";
+    _highestEducationController.text =
+        userController.userData.value.user?.highestEducation ?? "";
+    _occupationController.text =
+        userController.userData.value.user?.occupation ?? "";
+    _incomeController.text =
+        userController.userData.value.user?.annualIncome ?? "";
+    _locationController.text =
+        userController.userData.value.user?.workLocation ?? "";
 
-    _familyTypeController.text = userController.userData.value.user?.familyType ?? "";
-    _mothersOccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
-    _fathersOccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
+    _familyTypeController.text =
+        userController.userData.value.user?.familyType ?? "";
+    _mothersOccupationController.text =
+        userController.userData.value.user?.mothersOccupation ?? "";
+    _fathersOccupationController.text =
+        userController.userData.value.user?.fathersOccupation ?? "";
     _siblingsController.text = "1";
-    _siblingsMaritalStatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
+    _siblingsMaritalStatusController.text =
+        userController.userData.value.user?.siblingsMaritalStatus ?? "";
 
-    _pagegroup.text = userController.userData.value.user?.preferredAgeRange ?? "";
-    _pheightrange.text = userController.userData.value.user?.preferredHeightRange ?? "";
-    _preligion.text = userController.userData.value.user?.preferredReligion ?? "";
+    _pagegroup.text =
+        userController.userData.value.user?.preferredAgeRange ?? "";
+    _pheightrange.text =
+        userController.userData.value.user?.preferredHeightRange ?? "";
+    _preligion.text =
+        userController.userData.value.user?.preferredReligion ?? "";
     _pcaste.text = userController.userData.value.user?.preferredCaste ?? "";
-    _psmoking.text = userController.userData.value.user?.preferredSmokingHabits ?? "";
-    _pdrinking.text = userController.userData.value.user?.preferredDrinkingHabits ?? "";
+    _psmoking.text =
+        userController.userData.value.user?.preferredSmokingHabits ?? "";
+    _pdrinking.text =
+        userController.userData.value.user?.preferredDrinkingHabits ?? "";
     _pfood.text = userController.userData.value.user?.foodPreferences ?? "";
-    _pqualification.text = userController.userData.value.user?.preferredQualification ?? "";
+    _pqualification.text =
+        userController.userData.value.user?.preferredQualification ?? "";
     _pscore.text = userController.userData.value.user?.score ?? "";
 
     _countryController.text = userController.userData.value.user?.country ?? "";
     _stateController.text = userController.userData.value.user?.state ?? "";
-    _districtController.text = userController.userData.value.user?.district ?? "";
-    _cityController.text = userController.userData.value.user?.currentCity ?? "";
+    _districtController.text =
+        userController.userData.value.user?.district ?? "";
+    _cityController.text =
+        userController.userData.value.user?.currentCity ?? "";
     _zipcodeController.text = userController.userData.value.user?.zipCode ?? "";
     _addressController.text = userController.userData.value.user?.address ?? "";
     _aboutmecontroller.text =
         "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";
-    _smokinghabitcontroller.text = userController.userData.value.user?.smokingHabits ?? "";
+    _smokinghabitcontroller.text =
+        userController.userData.value.user?.smokingHabits ?? "";
     _drinkinghabitcontroller.text = "No";
     _foodhabitcontroller.text = "Vegetarian";
     _profileapprovalcontroller.text = "Approved";
@@ -245,8 +285,9 @@ class _EditProfileState extends State<EditProfile> {
                               ),
                             ),
                             child: CircleAvatar(
-                              backgroundImage:
-                                  NetworkImage(userController.userData.value.user?.image ?? "assets/vectors/harsha1.jpg"),
+                              backgroundImage: NetworkImage(
+                                  userController.userData.value.user?.image ??
+                                      "assets/vectors/harsha1.jpg"),
                               radius: 80,
                             ),
                           ),
@@ -717,7 +758,6 @@ class _EditProfileState extends State<EditProfile> {
                           const Divider(),
                           const SizedBox(height: 15),
 
-
                           //Number of siblings
                           DetailsRowWidget(
                               label: "Number of Siblings",
@@ -1037,7 +1077,7 @@ class _EditProfileState extends State<EditProfile> {
                                   ],
                                 ),
                               ),
-                               const SizedBox(height: 15),
+                              const SizedBox(height: 15),
                               const Divider(),
                               const SizedBox(height: 15),
 
@@ -1129,8 +1169,6 @@ class _EditProfileState extends State<EditProfile> {
                               const SizedBox(height: 15),
                               CustomButton(text: "Save", onPressed: () {}),
                               const SizedBox(height: 20),
-
-                              
                             ])))
               ]))),
         ]));
