@@ -130,43 +130,43 @@ class _EditProfileState extends State<EditProfile> {
     _educationController.text = userController.userData.value.user?.educationDetails ?? "";
     _childController.text = userController.userData.value.user?.numberOfChildren ?? "";
 
-    _genderController.text = "Female";
-    _religionController.text = "Hindu";
-    _casteController.text = "Nair";
-    _subcasteController.text = "Nair";
-    _mothertongueController.text = "Malayalam";
-    _maritalStatusController.text = "Single";
+    _genderController.text = userController.userData.value.user?.gender ?? "";
+    _religionController.text = userController.userData.value.user?.religion ?? "";
+    _casteController.text = userController.userData.value.user?.caste ?? "";
+    _subcasteController.text = userController.userData.value.user?.subCaste ?? "";
+    _mothertongueController.text = userController.userData.value.user?.motherTongue ?? "";
+    _maritalStatusController.text = userController.userData.value.user?.maritalStatus ?? "";
 
-    _highestEducationController.text = "Postgraduate";
-    _occupationController.text = "Developer";
-    _incomeController.text = "5-10 LPA";
-    _locationController.text = "Infopark, Kochi";
+    _highestEducationController.text = userController.userData.value.user?.highestEducation ?? "";
+    _occupationController.text = userController.userData.value.user?.occupation ?? "";
+    _incomeController.text = userController.userData.value.user?.annualIncome ?? "";
+    _locationController.text = userController.userData.value.user?.workLocation ?? "";
 
-    _familyTypeController.text = "Nuclear";
-    _mothersOccupationController.text = "Housewife";
-    _fathersOccupationController.text = "Businessman";
+    _familyTypeController.text = userController.userData.value.user?.familyType ?? "";
+    _mothersOccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
+    _fathersOccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
     _siblingsController.text = "1";
-    _siblingsMaritalStatusController.text = "Single";
+    _siblingsMaritalStatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
 
-    _pagegroup.text = "18-24";
-    _pheightrange.text = "5.0-6.0 ft";
-    _preligion.text = "Hindu";
-    _pcaste.text = "Nair";
-    _psmoking.text = "No";
-    _pdrinking.text = "No";
-    _pfood.text = "Vegetarian";
-    _pqualification.text = "Postgraduate";
-    _pscore.text = "50%";
+    _pagegroup.text = userController.userData.value.user?.preferredAgeRange ?? "";
+    _pheightrange.text = userController.userData.value.user?.preferredHeightRange ?? "";
+    _preligion.text = userController.userData.value.user?.preferredReligion ?? "";
+    _pcaste.text = userController.userData.value.user?.preferredCaste ?? "";
+    _psmoking.text = userController.userData.value.user?.preferredSmokingHabits ?? "";
+    _pdrinking.text = userController.userData.value.user?.preferredDrinkingHabits ?? "";
+    _pfood.text = userController.userData.value.user?.foodPreferences ?? "";
+    _pqualification.text = userController.userData.value.user?.preferredQualification ?? "";
+    _pscore.text = userController.userData.value.user?.score ?? "";
 
-    _countryController.text = "India";
-    _stateController.text = "Kerala";
-    _districtController.text = "Ernakulam";
-    _cityController.text = "Kochi";
-    _zipcodeController.text = "682042";
-    _addressController.text = "Vanilla grove,Kolenchery";
+    _countryController.text = userController.userData.value.user?.country ?? "";
+    _stateController.text = userController.userData.value.user?.state ?? "";
+    _districtController.text = userController.userData.value.user?.district ?? "";
+    _cityController.text = userController.userData.value.user?.currentCity ?? "";
+    _zipcodeController.text = userController.userData.value.user?.zipCode ?? "";
+    _addressController.text = userController.userData.value.user?.address ?? "";
     _aboutmecontroller.text =
         "I am a software developer with 3 years of experience in Flutter development. I am passionate about coding and love to learn new technologies. I am looking for a partner who shares similar interests and values.";
-    _smokinghabitcontroller.text = "No";
+    _smokinghabitcontroller.text = userController.userData.value.user?.smokingHabits ?? "";
     _drinkinghabitcontroller.text = "No";
     _foodhabitcontroller.text = "Vegetarian";
     _profileapprovalcontroller.text = "Approved";
