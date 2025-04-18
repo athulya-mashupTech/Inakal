@@ -22,8 +22,8 @@ class _EditableTextWidgetState extends State<EditableTextWidget> {
         controller: widget.controller,
         textAlign: widget.justify != null ? TextAlign.justify : TextAlign.end,
         decoration: null,
-         minLines: 1,
-        maxLines: null, // Allows the field to grow based on content
+        minLines: 1,
+        maxLines: null,
         keyboardType: TextInputType.multiline,
         onSubmitted: (value) {
           setState(() {

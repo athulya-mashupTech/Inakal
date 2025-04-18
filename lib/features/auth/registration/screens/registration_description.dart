@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/controller/registration_controller.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registration_hobbies.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
@@ -157,7 +157,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
   ];
   List<String> availableCastes = [];
 
-  final RegistrationController regController = Get.find();
+  final AuthController regController = Get.find();
   void _storeData() {
     regController.setReligionDetails(
       religion: _religionController.text,
@@ -176,7 +176,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
           key: _formKey,
           child: ListView(
             children: [
-              const RegistrationLoader(progress: 2),
+              const RegistrationLoader(progress: 3),
               const SizedBox(height: 20),
               const Text(
                 "Add your details to know more !",
@@ -306,10 +306,10 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                     if (_formKey.currentState!.validate()) {
                       _storeData();
                       Get.to(
-                      const RegistrationHobbies(),
-                      transition: Transition.rightToLeftWithFade,
-                      duration: const Duration(milliseconds: 800),
-                    );
+                        const RegistrationHobbies(),
+                        transition: Transition.rightToLeftWithFade,
+                        duration: const Duration(milliseconds: 800),
+                      );
                     }
                   }),
               const SizedBox(height: 20.0),

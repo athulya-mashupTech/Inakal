@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ic.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
@@ -26,6 +28,9 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  
+  final userController = Get.find<UserDataController>();
+
   List<String> hobbies = [
     'Reading',
     'Photography',
@@ -112,19 +117,18 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
-    _fNameController.text = "Harsha";
-    _sNameController.text = "Sreekanth";
-    _emailController.text = "ath12@gamil.com";
-    _phNoController.text = "9876543210";
-    _dobController.text = "27/08/2002";
-    _heightController.text = "5.6 ft";
-    _weightController.text = "60 kg";
-    _starsignController.text = "Virgo";
-    _occupationController.text = "Developer";
-    _incomeController.text = "20";
-    _locationController.text = "Infopark, Kochi";
-    _educationController.text = "MCA";
-    _childController.text = "0";
+    _fNameController.text = userController.userData.value.user?.firstName ?? "";  
+    _sNameController.text = userController.userData.value.user?.lastName ?? "";
+    _emailController.text = userController.userData.value.user?.email ?? "";
+    _phNoController.text = userController.userData.value.user?.phone ?? "";
+    _dobController.text = userController.userData.value.user?.dob ?? "";
+    _heightController.text = "${userController.userData.value.user?.height ?? 0} cm";
+    _weightController.text = "${userController.userData.value.user?.weight ?? 0} kg";
+    _starsignController.text = userController.userData.value.user?.starSign ?? "";
+    _occupationController.text = userController.userData.value.user?.occupation ?? "";
+    _incomeController.text = userController.userData.value.user?.annualIncome ?? "";
+    _educationController.text = userController.userData.value.user?.educationDetails ?? "";
+    _childController.text = userController.userData.value.user?.numberOfChildren ?? "";
 
     _genderController.text = "Female";
     _religionController.text = "Hindu";
@@ -240,9 +244,9 @@ class _EditProfileState extends State<EditProfile> {
                                 width: 3,
                               ),
                             ),
-                            child: const CircleAvatar(
+                            child: CircleAvatar(
                               backgroundImage:
-                                  AssetImage("assets/vectors/harsha1.jpg"),
+                                  NetworkImage(userController.userData.value.user?.image ?? "assets/vectors/harsha1.jpg"),
                               radius: 80,
                             ),
                           ),
@@ -316,7 +320,7 @@ class _EditProfileState extends State<EditProfile> {
                           DetailsRowWidget(
                               label: "Email",
                               valueWidget: EditableTextWidget(
-                                  controller: _sNameController)),
+                                  controller: _emailController)),
 
                           const SizedBox(height: 12),
                           const Divider(),
