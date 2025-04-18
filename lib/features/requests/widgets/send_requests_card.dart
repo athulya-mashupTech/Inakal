@@ -39,7 +39,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
       decoration: BoxDecoration(
         color: switch (widget.req_status) {
           "Accepted" => AppColors.freshGreen.withAlpha(20),
-          "Pending" => AppColors.goldenYellow.withAlpha(20),
+          "pending" => AppColors.goldenYellow.withAlpha(20),
           "Rejected" => AppColors.grey.withAlpha(20),
           _ => AppColors.black.withAlpha(20),
         },
@@ -47,7 +47,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
         border: Border.all(
           color: switch (widget.req_status) {
             "Accepted" => AppColors.freshGreen.withAlpha(100),
-            "Pending" => AppColors.goldenYellow.withAlpha(70),
+            "pending" => AppColors.goldenYellow.withAlpha(70),
             "Rejected" => AppColors.grey.withAlpha(70),
             _ => AppColors.black.withAlpha(70),
           },
@@ -68,7 +68,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                         BlendMode
                             .saturation, // Apply the grayscale effect using saturation
                       ),
-                      child: Image.asset(
+                      child: Image.network(
                         widget.image,
                         width: MediaQuery.of(context).size.width * 0.25,
                         height: MediaQuery.of(context).size.width * 0.30,
@@ -78,7 +78,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                   )
                 : ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
+                    child: Image.network(
                       widget.image,
                       width: MediaQuery.of(context).size.width * 0.25,
                       height: MediaQuery.of(context).size.width * 0.30,
@@ -152,7 +152,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                   Text(
                                     switch (widget.req_status) {
                                       "Accepted" => "Request Accepted",
-                                      "Pending" => "Request Pending",
+                                      "pending" => "Request pending",
                                       "Rejected" => "Not Interested",
                                       _ => "Unknown",
                                     },
@@ -161,7 +161,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                       fontWeight: FontWeight.bold,
                                       color: switch (widget.req_status) {
                                         "Accepted" => AppColors.freshGreen,
-                                        "Pending" => AppColors.goldenYellow,
+                                        "pending" => AppColors.goldenYellow,
                                         "Rejected" => AppColors.darkRed,
                                         _ => AppColors.black,
                                       },
@@ -171,13 +171,13 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                   Icon(
                                       switch (widget.req_status) {
                                         "Accepted" => Icons.check,
-                                        "Pending" => Icons.warning_rounded,
+                                        "pending" => Icons.warning_rounded,
                                         "Rejected" => Icons.close,
                                         _ => Icons.error,
                                       },
                                       color: switch (widget.req_status) {
                                         "Accepted" => AppColors.freshGreen,
-                                        "Pending" => AppColors.goldenYellow,
+                                        "pending" => AppColors.goldenYellow,
                                         "Rejected" => AppColors.darkRed,
                                         _ => AppColors.black,
                                       },
