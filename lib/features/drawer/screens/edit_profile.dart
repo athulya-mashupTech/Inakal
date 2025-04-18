@@ -8,6 +8,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
 import 'package:inakal/features/drawer/widgets/add_hobbie_widget.dart';
@@ -43,13 +44,81 @@ class _EditProfileState extends State<EditProfile> {
     'Tamil',
   ];
 
-  updatePersonalDetails() {
+  updateProfileDetails() {
     userController.userData.value.user?.firstName = _fNameController.text;
     userController.userData.value.user?.lastName = _sNameController.text;
     userController.userData.value.user?.email = _emailController.text;
     userController.userData.value.user?.phone = _phNoController.text;
     userController.userData.value.user?.dob = _dobController.text;
-    userController.userData.value.user;
+    userController.userData.value.user?.gender = _genderController.text;
+  }
+
+  updateEducationAndProfessionalDetails() {
+    userController.userData.value.user?.highestEducation =
+        _highestEducationController.text;
+    userController.userData.value.user?.educationDetails =
+        _educationController.text;
+    userController.userData.value.user?.occupation = _occupationController.text;
+    userController.userData.value.user?.annualIncome = _incomeController.text;
+    userController.userData.value.user?.workLocation = _locationController.text;
+  }
+
+  updateFamilyDetails() {
+    userController.userData.value.user?.familyType = _familyTypeController.text;
+    userController.userData.value.user?.mothersOccupation =
+        _mothersOccupationController.text;
+    userController.userData.value.user?.fathersOccupation =
+        _fathersOccupationController.text;
+    userController.userData.value.user?.numberOfSiblings =
+        _siblingsController.text;
+    userController.userData.value.user?.siblingsMaritalStatus =
+        _siblingsMaritalStatusController.text;
+  }
+
+  updatePreferences() {
+    userController.userData.value.user?.preferredAgeRange = _pagegroup.text;
+    userController.userData.value.user?.preferredHeightRange =
+        _pheightrange.text;
+    userController.userData.value.user?.preferredReligion = _preligion.text;
+    userController.userData.value.user?.preferredCaste = _pcaste.text;
+    userController.userData.value.user?.preferredSmokingHabits = _psmoking.text;
+    userController.userData.value.user?.preferredDrinkingHabits =
+        _pdrinking.text;
+    userController.userData.value.user?.foodPreferences = _pfood.text;
+    userController.userData.value.user?.preferredQualification =
+        _pqualification.text;
+    userController.userData.value.user?.score = _pscore.text;
+  }
+
+  updateLocationDetails() {
+    userController.userData.value.user?.country = _countryController.text;
+    userController.userData.value.user?.state = _stateController.text;
+    userController.userData.value.user?.district = _districtController.text;
+    userController.userData.value.user?.zipCode = _zipcodeController.text;
+    userController.userData.value.user?.address = _addressController.text;
+    userController.userData.value.user?.currentCity = _cityController.text;
+  }
+
+  updateAdditionalDetails() {
+    userController.userData.value.user?.aboutMe = _aboutmecontroller.text;
+    // userController.userData.value.user?.hobbies = hobbies.
+    userController.userData.value.user?.smokingHabits =
+        _smokinghabitcontroller.text;
+    userController.userData.value.user?.drinkingHabits =
+        _drinkinghabitcontroller.text;
+    userController.userData.value.user?.foodPreferences =
+        _foodhabitcontroller.text;
+    userController.userData.value.user?.profileApproved =
+        _profileapprovalcontroller.text;
+    userController.userData.value.user?.profileCreatedBy =
+        _profilecreatedcontroller.text;
+    userController.userData.value.user?.instagramLink =
+        _instalinkcontroller.text;
+    userController.userData.value.user?.facebookLink = _fblinkcontroller.text;
+    userController.userData.value.user?.linkedinLink =
+        _linkedlnlinkcontroller.text;
+    userController.userData.value.user?.youtubeLink =
+        _youtubelinkcontroller.text;
   }
 
   final TextEditingController _fNameController = TextEditingController();
@@ -154,24 +223,39 @@ class _EditProfileState extends State<EditProfile> {
         userController.userData.value.user?.religion ?? "";
     _casteController.text = userController.userData.value.user?.caste ?? "";
 
-    _subcasteController.text = userController.userData.value.user?.subCaste ?? "";
-    _mothertongueController.text = userController.userData.value.user?.motherTongue ?? "";
-    _maritalStatusController.text = userController.userData.value.user?.maritalStatus ?? "";
+    _subcasteController.text =
+        userController.userData.value.user?.subCaste ?? "";
+    _mothertongueController.text =
+        userController.userData.value.user?.motherTongue ?? "";
+    _maritalStatusController.text =
+        userController.userData.value.user?.maritalStatus ?? "";
 
-    _highestEducationController.text = userController.userData.value.user?.highestEducation ?? "";
-    _occupationController.text = userController.userData.value.user?.occupation ?? "";
-    _incomeController.text = userController.userData.value.user?.annualIncome ?? "";
-    _locationController.text = userController.userData.value.user?.workLocation ?? "";
+    _highestEducationController.text =
+        userController.userData.value.user?.highestEducation ?? "";
+    _occupationController.text =
+        userController.userData.value.user?.occupation ?? "";
+    _incomeController.text =
+        userController.userData.value.user?.annualIncome ?? "";
+    _locationController.text =
+        userController.userData.value.user?.workLocation ?? "";
 
-    _familyTypeController.text = userController.userData.value.user?.familyType ?? "";
-    _mothersOccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
-    _fathersOccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
-    _siblingsController.text =userController.userData.value.user?.numberOfSiblings ?? "";
-    _siblingsMaritalStatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
+    _familyTypeController.text =
+        userController.userData.value.user?.familyType ?? "";
+    _mothersOccupationController.text =
+        userController.userData.value.user?.mothersOccupation ?? "";
+    _fathersOccupationController.text =
+        userController.userData.value.user?.fathersOccupation ?? "";
+    _siblingsController.text =
+        userController.userData.value.user?.numberOfSiblings ?? "";
+    _siblingsMaritalStatusController.text =
+        userController.userData.value.user?.siblingsMaritalStatus ?? "";
 
-    _pagegroup.text = userController.userData.value.user?.preferredAgeRange ?? "";
-    _pheightrange.text = userController.userData.value.user?.preferredHeightRange ?? "";
-    _preligion.text = userController.userData.value.user?.preferredReligion ?? "";
+    _pagegroup.text =
+        userController.userData.value.user?.preferredAgeRange ?? "";
+    _pheightrange.text =
+        userController.userData.value.user?.preferredHeightRange ?? "";
+    _preligion.text =
+        userController.userData.value.user?.preferredReligion ?? "";
 
     _pcaste.text = userController.userData.value.user?.preferredCaste ?? "";
     _psmoking.text =
@@ -192,17 +276,25 @@ class _EditProfileState extends State<EditProfile> {
     _zipcodeController.text = userController.userData.value.user?.zipCode ?? "";
     _addressController.text = userController.userData.value.user?.address ?? "";
 
-    _aboutmecontroller.text =userController.userData.value.user?.aboutMe ?? ""; 
-    _smokinghabitcontroller.text = userController.userData.value.user?.smokingHabits ?? "";
-    _drinkinghabitcontroller.text = userController.userData.value.user?.drinkingHabits ?? "";
-    _foodhabitcontroller.text = userController.userData.value.user?.foodPreferences ?? "";
-    _profileapprovalcontroller.text = userController.userData.value.user?.profileApproved ?? "";
-    _profilecreatedcontroller.text = userController.userData.value.user?.profileCreatedBy ?? "";
-    _instalinkcontroller.text = userController.userData.value.user?.instagramLink ?? "";
-    _fblinkcontroller.text = userController.userData.value.user?.facebookLink ?? "";
-    _linkedlnlinkcontroller.text = userController.userData.value.user?.linkedinLink ?? "";
-    _youtubelinkcontroller.text = userController.userData.value.user?.youtubeLink ?? "";
-
+    _aboutmecontroller.text = userController.userData.value.user?.aboutMe ?? "";
+    _smokinghabitcontroller.text =
+        userController.userData.value.user?.smokingHabits ?? "";
+    _drinkinghabitcontroller.text =
+        userController.userData.value.user?.drinkingHabits ?? "";
+    _foodhabitcontroller.text =
+        userController.userData.value.user?.foodPreferences ?? "";
+    _profileapprovalcontroller.text =
+        userController.userData.value.user?.profileApproved ?? "";
+    _profilecreatedcontroller.text =
+        userController.userData.value.user?.profileCreatedBy ?? "";
+    _instalinkcontroller.text =
+        userController.userData.value.user?.instagramLink ?? "";
+    _fblinkcontroller.text =
+        userController.userData.value.user?.facebookLink ?? "";
+    _linkedlnlinkcontroller.text =
+        userController.userData.value.user?.linkedinLink ?? "";
+    _youtubelinkcontroller.text =
+        userController.userData.value.user?.youtubeLink ?? "";
   }
 
   @override
@@ -427,7 +519,14 @@ class _EditProfileState extends State<EditProfile> {
                                 values: ["Male", "Female", "Others"],
                               )),
                           SizedBox(height: 11),
-                          CustomButton(text: "Save", onPressed: () {}),
+                          CustomButton(
+                              text: "Save",
+                              onPressed: () async {
+                                updateProfileDetails();
+                                await EditProfileService().updateProfileDetails(
+                                    userData: userController.userData.value,
+                                    context: context);
+                              }),
                           const SizedBox(height: 10),
                         ],
                       ),
@@ -705,7 +804,15 @@ class _EditProfileState extends State<EditProfile> {
                             valueWidget: EditableTextWidget(
                                 controller: _locationController)),
                         const SizedBox(height: 15),
-                        CustomButton(text: "Save")
+                        CustomButton(
+                            text: "Save",
+                            onPressed: () async {
+                              updateEducationAndProfessionalDetails();
+                              await EditProfileService()
+                                  .updateEducationAndProfessionalDetails(
+                                      userData: userController.userData.value,
+                                      context: context);
+                            }),
                       ],
                     ),
                   ),
@@ -768,7 +875,14 @@ class _EditProfileState extends State<EditProfile> {
                                 ]),
                           ),
                           SizedBox(height: 12),
-                          CustomButton(text: "Save")
+                          CustomButton(
+                              text: "Save",
+                              onPressed: () async {
+                                updateFamilyDetails();
+                                await EditProfileService().updateFamilyDetails(
+                                    userData: userController.userData.value,
+                                    context: context);
+                              }),
                         ]))),
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -844,7 +958,7 @@ class _EditProfileState extends State<EditProfile> {
                               label: "Prefered Smoking Habit",
                               valueWidget: EditDropdownWidget(
                                   controller: _psmoking,
-                                  values: ["Yes", "No","occasionally"])),
+                                  values: ["Yes", "No", "occasionally"])),
                           const Divider(),
                           const SizedBox(height: 15),
 
@@ -853,7 +967,7 @@ class _EditProfileState extends State<EditProfile> {
                               label: "Prefered Drinking Habit",
                               valueWidget: EditDropdownWidget(
                                   controller: _pdrinking,
-                                  values: ["Yes", "No","occasionally"])),
+                                  values: ["Yes", "No", "occasionally"])),
                           const Divider(),
                           const SizedBox(height: 15),
 
@@ -893,7 +1007,15 @@ class _EditProfileState extends State<EditProfile> {
                                 controller: _pscore,
                               )),
                           const SizedBox(height: 15),
-                          CustomButton(text: "Save")
+                          CustomButton(
+                              text: "Save",
+                              onPressed: () async {
+                                updatePreferences();
+                                await EditProfileService()
+                                    .updatePreferencenDetails(
+                                        userData: userController.userData.value,
+                                        context: context);
+                              }),
                         ]))),
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -971,7 +1093,15 @@ class _EditProfileState extends State<EditProfile> {
                               )),
 
                           const SizedBox(height: 15),
-                          CustomButton(text: "Save", onPressed: () {}),
+                          CustomButton(
+                              text: "Save",
+                              onPressed: () async {
+                                updateLocationDetails();
+                                await EditProfileService()
+                                    .updateLocationDetails(
+                                        userData: userController.userData.value,
+                                        context: context);
+                              }),
                           const SizedBox(height: 15),
                         ]))),
 
@@ -1158,7 +1288,13 @@ class _EditProfileState extends State<EditProfile> {
                                     controller: _youtubelinkcontroller,
                                   )),
                               const SizedBox(height: 15),
-                              CustomButton(text: "Save", onPressed: () {}),
+                              CustomButton(text: "Save", onPressed: () async{
+                                updateAdditionalDetails();
+                                await EditProfileService()
+                                    .updateAdditionalDetails(
+                                        userData: userController.userData.value,
+                                        context: context);
+                              }),
                               const SizedBox(height: 20),
                             ])))
               ]))),
