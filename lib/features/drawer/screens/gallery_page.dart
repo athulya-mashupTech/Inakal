@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/gallery_image_card.dart';
 import 'package:inakal/features/profile/widgets/Image_card.dart';
 
@@ -17,6 +19,9 @@ class GalleryPage extends StatefulWidget {
 
 class _GalleryPageState extends State<GalleryPage> {
   List<File?> images = List<File?>.filled(6, null);
+
+  GalleryImagesModel? galleryImages;
+  bool isLoading = true;
 
   final List<String> localImages = [
     "assets/vectors/harsha1.jpg",
@@ -35,6 +40,22 @@ class _GalleryPageState extends State<GalleryPage> {
         localImages.add("assets/vectors/harsha1.jpg");
       });
     }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _loadGalleryImages();
+  }
+
+  Future<void> _loadGalleryImages() async {
+    await GalleryService().getGalleryImages().then((value) {
+      setState(() {
+        galleryImages = value;
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -131,55 +152,64 @@ class _GalleryPageState extends State<GalleryPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 10.0,
-                        mainAxisSpacing: 10.0,
-                        childAspectRatio: 1.3,
-                      ),
-                      itemCount: localImages.length,
-                      itemBuilder: (context, index) {
-                        return Stack(
-                          children: [
-                            GalleryImageCard(
-                                image: localImages[index],
-                                onDelete: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => AlertDialog(
-                                      title: Text("Delete Image"),
-                                      content: Text(
-                                          "Are you sure you want to delete this image?"),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text("Cancel"),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              localImages.removeAt(index);
-                                            });
-                                            Navigator.pop(
-                                                context); // Close dialog after deleting
-                                          },
-                                          child: Text("Delete",
-                                              style:
-                                                  TextStyle(color: Colors.red)),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                          ],
-                        );
-                      },
-                    ),
+                    isLoading
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15.0),
+                              child: CircularProgressIndicator(),
+                            ),
+                          )
+                        : GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 1.3,
+                            ),
+                            itemCount: galleryImages?.gallery?.length ?? 0,
+                            itemBuilder: (context, index) {
+                              return Stack(
+                                children: [
+                                  GalleryImageCard(
+                                      image: galleryImages
+                                              ?.gallery?[index].image ??
+                                          "",
+                                      onDelete: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text("Delete Image"),
+                                            content: Text(
+                                                "Are you sure you want to delete this image?"),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () =>
+                                                    Navigator.pop(context),
+                                                child: Text("Cancel"),
+                                              ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    localImages.removeAt(index);
+                                                  });
+                                                  Navigator.pop(
+                                                      context); // Close dialog after deleting
+                                                },
+                                                child: Text("Delete",
+                                                    style: TextStyle(
+                                                        color: Colors.red)),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }),
+                                ],
+                              );
+                            },
+                          ),
                     const SizedBox(height: 16),
                     CustomButton(text: "Save Changes")
                   ],

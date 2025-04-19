@@ -22,3 +22,7 @@ const receivedRequestsUrl = "${baseUrl}receivedRequest";
 const sentRequestsUrl = "${baseUrl}sentRequests";
 const userDetailsFetchUrl = "${baseUrl}get_user_data";
 
+
+//Gallery API's
+const galleryImagesUrl = "${baseUrl}userGallery";
+
