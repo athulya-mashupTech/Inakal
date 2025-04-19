@@ -160,14 +160,14 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(userController.userData.value.user?.id != null
+                                  Obx(() => Text(userController.userData.value.user?.id != null
                                     ? "Inakal ID: ${userController.userData.value.user?.id}"
                                     :"Inakal ID Loading...",
                                     style: TextStyle(
                                         fontSize: 16,
                                         color: AppColors.primaryRed),
-                                  ),
-                                  Text(
+                                  )),
+                                  Obx(() => Text(
                                     userController.userData.value.user?.firstName != null 
                                     ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
                                     : "Name Loading...",
@@ -175,25 +175,25 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontSize: 32,
                                         fontWeight: FontWeight.bold,
                                         height: 1.1),
-                                  ),
-                                  Text(userController.userData.value.user?.currentCity != null
+                                  )),
+                                  Obx(() => Text(userController.userData.value.user?.currentCity != null
                                     ? "${userController.userData.value.user?.currentCity}, ${userController.userData.value.user?.district}"
                                     : "Location loading ...",
                                     style: TextStyle(fontSize: 16),
-                                  ),
+                                  )),
                                   SizedBox(height: 8),
-                                  Text(userController.userData.value.user?.occupation != null
+                                  Obx(() => Text(userController.userData.value.user?.occupation != null
                                     ? "${userController.userData.value.user?.occupation}"
                                     : "Job is Loading...",
                                     style: TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600),
-                                  ),
-                                  Text(userController.userData.value.user?.religion != null
+                                  )),
+                                  Obx(() => Text(userController.userData.value.user?.religion != null
                                     ? "${userController.userData.value.user?.religion}"
                                     :"Religion is loading",
                                     style: TextStyle(fontSize: 16),
-                                  ),
+                                  )),
                                 ],
                               ),
                             ),
@@ -210,39 +210,39 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: AppColors.primaryRed,
                             size: 21,
                           ),
-                          Text(userController.userData.value.user?.religion != null
+                          Obx(() => Text(userController.userData.value.user?.religion != null
                           ? "${userController.userData.value.user?.religion}"
                           : "Age is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
                             ),
-                          ),
+                          )),
                           SizedBox(width: 12),
                           Iconify(
                             Mdi.human_male_height_variant,
                             color: AppColors.primaryRed,
                             size: 15,
                           ),
-                          Text(userController.userData.value.user?.height != null
+                          Obx(() => Text(userController.userData.value.user?.height != null
                             ? "${userController.userData.value.user?.height}"
                             : "Height is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
                             ),
-                          ),
+                           ) ),
                           SizedBox(width: 12),
                           Iconify(Mdi.weight_lifter,
                               color: AppColors.primaryRed, size: 15),
-                          Text(userController.userData.value.user?.weight != null
+                          Obx(() => Text(userController.userData.value.user?.weight != null
                                ? "${userController.userData.value.user?.weight}"
                                : "Weight is Loading",
                             style: TextStyle(
                               fontSize: 18,
                               color: AppColors.black,
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     ),
@@ -262,14 +262,14 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ),
                           SizedBox(height: 8),
-                          Text(userController.userData.value.user?.aboutMe != null
+                          Obx(() => Text(userController.userData.value.user?.aboutMe != null
                                ? "${userController.userData.value.user?.aboutMe}"
                                : "Description is Loading",
                             style: TextStyle(
                               fontSize: 16,
                               color: AppColors.black,
                             ),
-                          ),
+                          )),
                         ],
                       ),
                     ),
