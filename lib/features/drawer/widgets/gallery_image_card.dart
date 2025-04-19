@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class GalleryImageCard extends StatelessWidget {
@@ -17,11 +18,15 @@ class GalleryImageCard extends StatelessWidget {
         // Image with rounded corners
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
-          child: Image.asset(
-            image,
+          child: CachedNetworkImage(
+            imageUrl: image,
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
+            placeholder: (context, url) => Center(
+              child: CircularProgressIndicator(), // or a custom loader
+            ),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
 
