@@ -42,6 +42,7 @@ class _EditDropdownWidgetState extends State<EditDropdownWidget> {
         if (newValue != null) {
           setState(() {
             selectedValue = newValue;
+            widget.controller.text = newValue;
           });
         }
       },

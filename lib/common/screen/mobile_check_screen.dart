@@ -25,14 +25,12 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   @override
   Widget build(BuildContext context) {
     return NoInternetChecker(
-      child: Container(
-        decoration: const BoxDecoration(
-          gradient: AppColors.pinkWhiteGradient,
-        ),
-        child: Scaffold(
-          backgroundColor: AppColors.white,
-          body: Stack(
+      child: Scaffold(
+        backgroundColor: AppColors.white,
+        body: SingleChildScrollView(
+          child: Stack(
             children: [
+            SizedBox(height: MediaQuery.of(context).size.height),
               Positioned(
                 bottom: -100,
                 child: Image.asset(
@@ -88,14 +86,14 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                       initialCountryCode: 'IN',
                     ),
                     const SizedBox(height: 10),
-
+                
                     // CustomButton(
                     CustomButton(
                       text: "Send OTP",
                       onPressed: () {
                         //Store the phone number and country code in the UserRegistrationData Class
                         _storeData();
-
+                
                         Navigator.push(
                             context,
                             MaterialPageRoute(

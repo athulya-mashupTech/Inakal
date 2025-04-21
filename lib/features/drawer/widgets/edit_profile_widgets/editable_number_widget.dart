@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class EditableNumberWidget extends StatefulWidget {
   final TextEditingController controller;
-  const EditableNumberWidget({super.key, required this.controller});
+  final bool? editable;
+  const EditableNumberWidget({super.key, required this.controller, this.editable});
 
   @override
   State<EditableNumberWidget> createState() => _EditableNumberWidgetState();
@@ -18,6 +19,7 @@ class _EditableNumberWidgetState extends State<EditableNumberWidget> {
         controller: widget.controller,
         textAlign: TextAlign.end,
         decoration: null,
+        enabled: widget.editable ?? true,
         onSubmitted: (value) {
           setState(() {
             widget.controller.text = value;

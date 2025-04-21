@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/profile/model/other_profile_model.dart';
+import 'package:inakal/features/profile/service/other_profile_service.dart';
 import 'package:inakal/features/profile/widgets/other_profile_detail_card.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
 import 'package:inakal/features/requests/widgets/message_button.dart';
-import 'package:inakal/data_class/user.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   const OtherProfileScreen({super.key});
@@ -14,13 +15,33 @@ class OtherProfileScreen extends StatefulWidget {
 }
 
 class _OtherProfileScreenState extends State<OtherProfileScreen> {
-  User userData = User.getUser();
+  OtherProfileModel? otherUserModel;
+  User userData = User();
+  bool isLoading = true;
+
   final List<String> imagePaths = [
     "assets/vectors/suriya.jpeg",
     "assets/vectors/suriya2.webp",
     "assets/vectors/suriya3.jpg",
   ];
   int currentIndex = 0;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getUserData();
+  }
+
+  Future<void> getUserData() async {
+    await OtherProfileService().getOtherProfile("3", context).then((value) {
+      setState(() {
+        otherUserModel = value;
+        userData = otherUserModel?.user ?? User();
+        isLoading = false;
+      });
+    });
+  }
 
   void _nextImage() {
     setState(() {
@@ -38,9 +59,13 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(userData.name),
+          title: Text(userData.firstName != null ? "${userData.firstName} ${userData.lastName}" : ""),
         ),
-        body: SingleChildScrollView(
+        body: isLoading
+        ? const Center(
+            child: CircularProgressIndicator(),
+          )
+        : SingleChildScrollView(
           child: Container(
             color: AppColors.white,
             child: Stack(
@@ -81,7 +106,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           children: List.generate(
                             imagePaths.length,
                             (index) => Container(
-                              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                              margin:
+                                  const EdgeInsets.symmetric(horizontal: 4.0),
                               width: currentIndex == index ? 10.0 : 8.0,
                               height: currentIndex == index ? 10.0 : 8.0,
                               decoration: BoxDecoration(
@@ -94,7 +120,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           ),
                         ),
                       ),
-
                       currentIndex != 0
                           ? Positioned(
                               left: 10,
@@ -105,16 +130,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                               ),
                             )
                           : Container(),
-                      currentIndex != imagePaths.length-1
-                      ? Positioned(
-                        right: 10,
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_forward_ios,
-                              color: Colors.white),
-                          onPressed: _nextImage,
-                        ),
-                      )
-                      : Container()
+                      currentIndex != imagePaths.length - 1
+                          ? Positioned(
+                              right: 10,
+                              child: IconButton(
+                                icon: const Icon(Icons.arrow_forward_ios,
+                                    color: Colors.white),
+                                onPressed: _nextImage,
+                              ),
+                            )
+                          : Container()
                     ],
                   ),
                   Padding(
@@ -127,7 +152,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            Text(userData.name,
+                            Text(userData.firstName != null ? "${userData.firstName} ${userData.lastName}" : "",
                                 style: const TextStyle(
                                     fontSize: 24, fontWeight: FontWeight.bold)),
                             const SizedBox(width: 5),
@@ -137,15 +162,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     fontWeight: FontWeight.bold,
                                     color: AppColors.grey)),
                             const SizedBox(width: 5),
-                            Text(userData.location,
+                            Text("${userData.district}, ${userData.state}",
                                 style: const TextStyle(fontSize: 16)),
                           ],
                         ),
-                        const Row(
+                        Row(
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            Text("INK3929", style: TextStyle(fontSize: 20)),
+                            Text("INK${userData.id}",
+                                style: TextStyle(fontSize: 20)),
                             SizedBox(width: 5),
                             Text("|",
                                 style: TextStyle(
@@ -159,18 +185,19 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           crossAxisAlignment: CrossAxisAlignment.baseline,
                           textBaseline: TextBaseline.alphabetic,
                           children: [
-                            const Text("Male", style: TextStyle(fontSize: 16)),
+                            Text(userData.gender ?? "",
+                                style: TextStyle(fontSize: 16)),
                             const SizedBox(width: 5),
                             const Text("|",
                                 style: TextStyle(
                                     fontSize: 24, color: AppColors.grey)),
                             const SizedBox(width: 5),
-                            Text("${userData.height}, ${userData.weight} Kg",
+                            Text("${userData.height}cm, ${userData.weight} Kg",
                                 style: const TextStyle(fontSize: 16)),
                           ],
                         ),
                         const SizedBox(height: 15),
-                        Text(userData.description,
+                        Text(userData.aboutMe ?? "",
                             style: const TextStyle(fontSize: 16)),
                       ],
                     ),
@@ -185,33 +212,26 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                 fontSize: 20, fontWeight: FontWeight.bold)),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  OtherProfileDetailCard(
-                                      title: "Height", value: userData.height),
-                                  OtherProfileDetailCard(
-                                      title: "Religion",
-                                      value: userData.religion),
-                                  const OtherProfileDetailCard(
-                                      title: "Mother Tongue", value: "Tamil"),
-                                ],
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  OtherProfileDetailCard(
-                                      title: "Weight", value: userData.weight),
-                                  const OtherProfileDetailCard(
-                                      title: "Caste", value: "Nair"),
-                                  OtherProfileDetailCard(
-                                      title: "Marital Status",
-                                      value: userData.status),
-                                ],
-                              )
+                              OtherProfileDetailCard(
+                                  title: "Height",
+                                  value: userData.height ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Weight",
+                                  value: userData.weight ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Religion",
+                                  value: userData.religion ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Caste", value: userData.caste ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Mother Tongue",
+                                  value: userData.motherTongue ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Marital Status",
+                                  value: userData.maritalStatus ?? ""),
                             ],
                           ),
                         ),
@@ -224,16 +244,18 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const OtherProfileDetailCard(
-                                  title: "Qualification",
-                                  value: "MSc Computer Science"),
                               OtherProfileDetailCard(
-                                  title: "Job", value: userData.role),
-                              const OtherProfileDetailCard(
-                                  title: "Income", value: "33 LPA"),
-                              const OtherProfileDetailCard(
+                                  title: "Qualification",
+                                  value: userData.highestEducation ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Job",
+                                  value: userData.occupation ?? ""),
+                              OtherProfileDetailCard(
+                                  title: "Income",
+                                  value: userData.annualIncome ?? ""),
+                              OtherProfileDetailCard(
                                   title: "Working Location",
-                                  value: "Infopark, Kochi"),
+                                  value: userData.workLocation ?? ""),
                             ],
                           ),
                         ),
@@ -241,20 +263,23 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                         const Text("Additional Details",
                             style: TextStyle(
                                 fontSize: 20, fontWeight: FontWeight.bold)),
-                        const Padding(
+                        Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               OtherProfileDetailCard(
-                                  title: "Smoking Habit", value: "No"),
+                                  title: "Smoking Habit",
+                                  value: userData.smokingHabits ?? ""),
                               OtherProfileDetailCard(
-                                  title: "Drinking Habit", value: "Yes"),
+                                  title: "Drinking Habit",
+                                  value: userData.drinkingHabits ?? ""),
                               OtherProfileDetailCard(
-                                  title: "Profile created by", value: "Sister"),
+                                  title: "Profile created by",
+                                  value: userData.profileCreatedBy ?? ""),
                               OtherProfileDetailCard(
                                   title: "Hobbies",
-                                  value: "Reading, Painting, Singing"),
+                                  value: userData.hobbies ?? ""),
                             ],
                           ),
                         ),
@@ -262,7 +287,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  userData.req_status == "Accepted"
+                  userData.status == "Accepted"
                       ? const MessageButton(text: "Message")
                       : const Padding(
                           padding: EdgeInsets.symmetric(horizontal: 25.0),

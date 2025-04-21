@@ -1,7 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/requests/service/request_service.dart';
 
 class SendRequestsCard extends StatefulWidget {
   final String image;
@@ -32,6 +35,11 @@ class SendRequestsCard extends StatefulWidget {
 }
 
 class _SendRequestsCardState extends State<SendRequestsCard> {
+
+  Future<void> deleteRequest() async {
+    await RequestService().deleteRequest("3", context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,159 +64,194 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
       ),
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Row(
+        child: Column(
           children: [
-            // Profile Image with Padding
-            widget.req_status == "Rejected"
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: ColorFiltered(
-                      colorFilter: const ColorFilter.mode(
-                        Colors.grey, // This will apply the grayscale effect
-                        BlendMode
-                            .saturation, // Apply the grayscale effect using saturation
+            Row(
+              children: [
+                // Profile Image with Padding
+                widget.req_status == "Rejected"
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: ColorFiltered(
+                          colorFilter: const ColorFilter.mode(
+                            Colors.grey, // This will apply the grayscale effect
+                            BlendMode
+                                .saturation, // Apply the grayscale effect using saturation
+                          ),
+                          child: Image.network(
+                            widget.image,
+                            width: MediaQuery.of(context).size.width * 0.25,
+                            height: MediaQuery.of(context).size.width * 0.30,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: CachedNetworkImage(
+                          imageUrl: widget.image,
+                          placeholder: (context, url) => Center(
+                            child:
+                                CircularProgressIndicator(), // or a custom loader
+                          ),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          height: MediaQuery.of(context).size.width * 0.30,
+                          fit: BoxFit.cover,
+                        ),
                       ),
-                      child: Image.network(
-                        widget.image,
-                        width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.width * 0.30,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      widget.image,
-                      width: MediaQuery.of(context).size.width * 0.25,
-                      height: MediaQuery.of(context).size.width * 0.30,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-            const SizedBox(width: 16),
+                const SizedBox(width: 16),
 
-            // Details Section
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
+                // Details Section
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // SizedBox(height: 5),
-                      // Name
-                      Text(
-                        widget.name,
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-
-                      Text(
-                        widget.location,
-                        style: const TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 8),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
                       Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // SizedBox(height: 5),
+                          // Name
                           Text(
-                            "${widget.age} Year, ${widget.height}",
+                            widget.name,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+
+                          Text(
+                            widget.location,
                             style: const TextStyle(
                               fontSize: 12,
                             ),
                           ),
-                          Text(
-                            widget.religion,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            widget.role,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            textBaseline: TextBaseline.ideographic,
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    switch (widget.req_status) {
-                                      "Accepted" => "Request Accepted",
-                                      "pending" => "Request pending",
-                                      "Rejected" => "Not Interested",
-                                      _ => "Unknown",
-                                    },
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                      color: switch (widget.req_status) {
-                                        "Accepted" => AppColors.freshGreen,
-                                        "pending" => AppColors.goldenYellow,
-                                        "Rejected" => AppColors.darkRed,
-                                        _ => AppColors.black,
-                                      },
-                                    ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  Icon(
-                                      switch (widget.req_status) {
-                                        "Accepted" => Icons.check,
-                                        "pending" => Icons.warning_rounded,
-                                        "Rejected" => Icons.close,
-                                        _ => Icons.error,
-                                      },
-                                      color: switch (widget.req_status) {
-                                        "Accepted" => AppColors.freshGreen,
-                                        "pending" => AppColors.goldenYellow,
-                                        "Rejected" => AppColors.darkRed,
-                                        _ => AppColors.black,
-                                      },
-                                      size: 20),
-                                ],
+                              Text(
+                                "${widget.age} Year, ${widget.height}",
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                widget.religion,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                              Text(
+                                widget.role,
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                ),
                               ),
                             ],
                           ),
+                          widget.req_status == "Accepted"
+                              ? Column(
+                                  children: [
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        // Chat button action here
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: AppColors.freshGreen,
+                                        shape: const CircleBorder(),
+                                      ),
+                                      child: Iconify(
+                                        Ph.chat_circle_dots_fill,
+                                        color: AppColors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                                    Text("Message",
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: AppColors.black,
+                                        )),
+                                  ],
+                                )
+                              : widget.req_status == "pending"
+                                  ? Column(
+                                      children: [
+                                        ElevatedButton(
+                                          onPressed: () async {
+                                            await deleteRequest();
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                AppColors.goldenYellow,
+                                            shape: const CircleBorder(),
+                                          ),
+                                          child: const Iconify(
+                                            Mdi.delete,
+                                            color: AppColors.white,
+                                            size: 20,
+                                          ),
+                                        ),
+                                        Text("Delete",
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: AppColors.black,
+                                            )),
+                                      ],
+                                    )
+                                  : const SizedBox.shrink()
                         ],
                       ),
-
-                      widget.req_status == "Accepted"
-                      ? // Chat Button
-                      Column(
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.freshGreen,
-                              shape: const CircleBorder(),
-                            ),
-                            child: Iconify(
-                                Ph.chat_circle_dots_fill,
-                                color: AppColors.white,
-                                size: 20),
-                          ),
-                        ],
-                      )
-                      : const SizedBox.shrink(),
-
                     ],
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.only(left: 8.0, right: 8, top: 8, bottom: 4),
+              child: Row(
+                children: [
+                  Icon(
+                      switch (widget.req_status) {
+                        "Accepted" => Icons.check,
+                        "pending" => Icons.warning_rounded,
+                        "Rejected" => Icons.close,
+                        _ => Icons.error,
+                      },
+                      color: switch (widget.req_status) {
+                        "Accepted" => AppColors.freshGreen,
+                        "pending" => AppColors.goldenYellow,
+                        "Rejected" => AppColors.darkRed,
+                        _ => AppColors.black,
+                      },
+                      size: 20),
+                  const SizedBox(width: 5),
+                  Text(
+                    switch (widget.req_status) {
+                      "Accepted" => "Request Accepted - You can chat now",
+                      "pending" => "Request Pending - Waiting for response",
+                      "Rejected" => "Not Interested - Find another match",
+                      _ => "Unknown",
+                    },
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: switch (widget.req_status) {
+                        "Accepted" => AppColors.freshGreen,
+                        "pending" => AppColors.goldenYellow,
+                        "Rejected" => AppColors.darkRed,
+                        _ => AppColors.black,
+                      },
+                    ),
                   ),
                 ],
               ),

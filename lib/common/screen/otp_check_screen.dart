@@ -41,12 +41,9 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: AppColors.pinkWhiteGradient,
-      ),
-      child: Scaffold(
-        body: Stack(
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Stack(
           children: [
             Container(
               height: MediaQuery.of(context).size.height,
