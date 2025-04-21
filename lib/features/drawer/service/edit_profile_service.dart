@@ -12,7 +12,6 @@ import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
 class EditProfileService {
   final AuthController authController = Get.find();
 
-
   // profile data update
   Future<UserDataUpdateModel?> updateProfileDetails({
     required UserDataModel userData,
@@ -49,6 +48,60 @@ class EditProfileService {
     }
   }
 
+  // Personal details update
+  Future<UserDataUpdateModel?> updatePersonalDetails({
+    required UserDataModel userData,
+    required BuildContext context,
+  }) async {
+    try {
+      print("${userData.user?.languagesKnown!}"
+          .split(',')
+          .map((lang) => {'"value"': '"${lang.trim()}"'})
+          .toList()
+          .toString());
+      print(
+          '[{"value":"English"}, {"value":"Malayalam"}, {"value":"Hindi"}, {"value":"Kannada"}]');
+      final response =
+          await _sendPostRequest(url: userPersonalUpdateUrl, fields: {
+        "height": userData.user!.height!,
+        "weight": userData.user!.weight!,
+        "religion": userData.user!.religion!,
+        "caste": userData.user!.caste!,
+        "sub_caste": userData.user!.subCaste!,
+        "star_sign": userData.user!.starSign!,
+        "mother_tongue": userData.user!.motherTongue!,
+        "marital_status": userData.user!.maritalStatus!,
+        "languages_known": "${userData.user?.languagesKnown!}"
+          .split(',')
+          .map((lang) => {'"value"': '"${lang.trim()}"'})
+          .toList()
+          .toString(),
+        "number_of_children": userData.user!.numberOfChildren!,
+      });
+      print(response.reasonPhrase);
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
+        if (userDataUpdateModel.type == "success") {
+          _showSnackbar(context, userDataUpdateModel.message!);
+        }
+        return userDataUpdateModel;
+      } else {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        print("Error: ${jsonResponse["message"]}");
+        _showSnackbar(
+            context, "Failed to update Personal Details. Please try again.");
+        return null;
+      }
+    } catch (e) {
+      print("Error in Personal Details Service: $e");
+      return null;
+    }
+  }
+
   // education and professional update
   Future<UserDataUpdateModel?> updateEducationAndProfessionalDetails({
     required UserDataModel userData,
@@ -74,7 +127,8 @@ class EditProfileService {
         return userDataUpdateModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(context, "Failed to update Educational and Professional Details. Please try again.");
+        _showSnackbar(context,
+            "Failed to update Educational and Professional Details. Please try again.");
         return null;
       }
     } catch (e) {
@@ -83,9 +137,8 @@ class EditProfileService {
     }
   }
 
-
 // family details update
- Future<UserDataUpdateModel?> updateFamilyDetails({
+  Future<UserDataUpdateModel?> updateFamilyDetails({
     required UserDataModel userData,
     required BuildContext context,
   }) async {
@@ -109,7 +162,8 @@ class EditProfileService {
         return userDataUpdateModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(context, "Failed to update Family Details. Please try again.");
+        _showSnackbar(
+            context, "Failed to update Family Details. Please try again.");
         return null;
       }
     } catch (e) {
@@ -119,7 +173,7 @@ class EditProfileService {
   }
 
 // Location details update
- Future<UserDataUpdateModel?> updateLocationDetails({
+  Future<UserDataUpdateModel?> updateLocationDetails({
     required UserDataModel userData,
     required BuildContext context,
   }) async {
@@ -144,7 +198,8 @@ class EditProfileService {
         return userDataUpdateModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(context, "Failed to update Location Details. Please try again.");
+        _showSnackbar(
+            context, "Failed to update Location Details. Please try again.");
         return null;
       }
     } catch (e) {
@@ -153,9 +208,8 @@ class EditProfileService {
     }
   }
 
-
 //Additional details update
- Future<UserDataUpdateModel?> updateAdditionalDetails({
+  Future<UserDataUpdateModel?> updateAdditionalDetails({
     required UserDataModel userData,
     required BuildContext context,
   }) async {
@@ -163,7 +217,11 @@ class EditProfileService {
       final response =
           await _sendPostRequest(url: userAdditionalDetailUpdateUrl, fields: {
         "about_me": userData.user!.aboutMe!,
-        "hobbies": userData.user!.hobbies!,
+        "hobbies": "${userData.user?.hobbies!}"
+          .split(',')
+          .map((lang) => {'"value"': '"${lang.trim()}"'})
+          .toList()
+          .toString(),
         "smoking_habits": userData.user!.smokingHabits!,
         "drinking_habits": userData.user!.drinkingHabits!,
         "food_preferences": userData.user!.foodPreferences!,
@@ -185,7 +243,8 @@ class EditProfileService {
         return userDataUpdateModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(context, "Failed to update Additional Details. Please try again.");
+        _showSnackbar(
+            context, "Failed to update Additional Details. Please try again.");
         return null;
       }
     } catch (e) {
@@ -194,12 +253,8 @@ class EditProfileService {
     }
   }
 
-
-
-
-
 // preference details update
- Future<UserDataUpdateModel?> updatePreferencenDetails({
+  Future<UserDataUpdateModel?> updatePreferencenDetails({
     required UserDataModel userData,
     required BuildContext context,
   }) async {
@@ -207,7 +262,7 @@ class EditProfileService {
       final response =
           await _sendPostRequest(url: userPreferenceUpdateUrl, fields: {
         "preferred_age": userData.user!.preferredAgeRange!,
-        "preferred_height_range":userData.user!.preferredHeightRange!,
+        "preferred_height_range": userData.user!.preferredHeightRange!,
         "preferred_religion": userData.user!.preferredReligion!,
         "preferred_caste": userData.user!.preferredCaste!,
         "preferred_smoking_habits": userData.user!.preferredSmokingHabits!,
@@ -227,7 +282,8 @@ class EditProfileService {
         return userDataUpdateModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(context, "Failed to update Preference Details. Please try again.");
+        _showSnackbar(
+            context, "Failed to update Preference Details. Please try again.");
         return null;
       }
     } catch (e) {
@@ -235,7 +291,6 @@ class EditProfileService {
       return null;
     }
   }
-
 
   // Helper method to send POST request
   Future<http.StreamedResponse> _sendPostRequest({

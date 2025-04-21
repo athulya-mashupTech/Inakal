@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fe.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/home/service/home_service.dart';
 
 class UserCard extends StatefulWidget {
   final String image;
@@ -19,6 +20,11 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
+  
+  Future<void> sendInterestToUser() async {
+    await HomeService().sentInterestToUser("3", context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -72,7 +78,6 @@ class _UserCardState extends State<UserCard> {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      
                       Text(
                         widget
                             .location, // Use the location from the constructor
@@ -93,11 +98,17 @@ class _UserCardState extends State<UserCard> {
                   child: Stack(
                     alignment: Alignment.center,
                     children: [
-                      Icon(Icons.circle, size: 60, color: AppColors.primaryRed,),
+                      Icon(
+                        Icons.circle,
+                        size: 60,
+                        color: AppColors.primaryRed,
+                      ),
                       IconButton(
-                        onPressed: () {}, 
-                        icon: Iconify(Fe.heart, size: 35, color: AppColors.white)
-                      )
+                          onPressed: () {
+                            sendInterestToUser();
+                          },
+                          icon: Iconify(Fe.heart,
+                              size: 35, color: AppColors.white))
                     ],
                   ),
                 ),

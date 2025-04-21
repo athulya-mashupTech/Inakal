@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/requests/model/delete_request_model.dart';
 import 'package:inakal/features/requests/model/received_request_model.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/model/sent_request_model.dart';
@@ -188,6 +189,34 @@ class RequestService {
     } catch (e) {
       print("Error fetching received requests: $e");
       return [];
+    }
+  }
+
+  Future<DeleteRequestModel?> deleteRequest(
+      String requestId, BuildContext context) async {
+    try {
+      final response = await _sendPostRequest(
+          url: deleteRequestUrl, fields: {"request_id": requestId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final deleteRequestModel = DeleteRequestModel.fromJson(jsonResponse);
+
+        if (deleteRequestModel.type == "success") {
+          _showSnackbar(context, deleteRequestModel.message!);
+          return deleteRequestModel;
+        } else {
+          _showSnackbar(context, deleteRequestModel.message!);
+          return null;
+        }
+      } else {
+        _showSnackbar(context, "Error deleting request");
+        return null;
+      }
+    } catch (e) {
+      print("Error deleting request: $e");
+      return null;
     }
   }
 

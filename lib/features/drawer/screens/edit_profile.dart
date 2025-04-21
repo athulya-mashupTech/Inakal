@@ -31,94 +31,87 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final userController = Get.find<UserDataController>();
 
-  List<String> hobbies = [
-    'Reading',
-    'Photography',
-    'Traveling',
-    'Cooking',
-  ];
-  List<String> languages = [
-    'English',
-    'Malayalam',
-    'Hindi',
-    'Tamil',
-  ];
+  List<String> hobbies = [];
+  List<String> languages = [];
 
-  updateProfileDetails() {
-    userController.userData.value.user?.firstName = _fNameController.text;
-    userController.userData.value.user?.lastName = _sNameController.text;
-    userController.userData.value.user?.email = _emailController.text;
-    userController.userData.value.user?.phone = _phNoController.text;
-    userController.userData.value.user?.dob = _dobController.text;
-    userController.userData.value.user?.gender = _genderController.text;
+  updateProfileDetails() async {
+    await userController.updateProfileDetails(
+      _fNameController.text,
+      _sNameController.text,
+      _emailController.text,
+      _phNoController.text,
+      _dobController.text,
+      _genderController.text,
+    );
   }
 
-  updateEducationAndProfessionalDetails() {
-    userController.userData.value.user?.highestEducation =
-        _highestEducationController.text;
-    userController.userData.value.user?.educationDetails =
-        _educationController.text;
-    userController.userData.value.user?.occupation = _occupationController.text;
-    userController.userData.value.user?.annualIncome = _incomeController.text;
-    userController.userData.value.user?.workLocation = _locationController.text;
+  updatePersonalDetails() async {
+    await userController.updatePersonalDetails(
+        _heightController.text,
+        _weightController.text,
+        _religionController.text,
+        _casteController.text,
+        _subcasteController.text,
+        _starsignController.text,
+        _mothertongueController.text,
+        _maritalStatusController.text,
+        languages.join(','),
+        _childController.text);
   }
 
-  updateFamilyDetails() {
-    userController.userData.value.user?.familyType = _familyTypeController.text;
-    userController.userData.value.user?.mothersOccupation =
-        _mothersOccupationController.text;
-    userController.userData.value.user?.fathersOccupation =
-        _fathersOccupationController.text;
-    userController.userData.value.user?.numberOfSiblings =
-        _siblingsController.text;
-    userController.userData.value.user?.siblingsMaritalStatus =
-        _siblingsMaritalStatusController.text;
+  updateEducationAndProfessionalDetails() async {
+    await userController.updateEduProfDetails(
+        _highestEducationController.text,
+        _educationController.text,
+        _occupationController.text,
+        _incomeController.text,
+        _locationController.text);
   }
 
-  updatePreferences() {
-    userController.userData.value.user?.preferredAgeRange = _pagegroup.text;
-    userController.userData.value.user?.preferredHeightRange =
-        _pheightrange.text;
-    userController.userData.value.user?.preferredReligion = _preligion.text;
-    userController.userData.value.user?.preferredCaste = _pcaste.text;
-    userController.userData.value.user?.preferredSmokingHabits = _psmoking.text;
-    userController.userData.value.user?.preferredDrinkingHabits =
-        _pdrinking.text;
-    userController.userData.value.user?.foodPreferences = _pfood.text;
-    userController.userData.value.user?.preferredQualification =
-        _pqualification.text;
-    userController.userData.value.user?.score = _pscore.text;
+  updateFamilyDetails() async {
+    await userController.updateFamilyDetails(
+        _familyTypeController.text,
+        _mothersOccupationController.text,
+        _fathersOccupationController.text,
+        _siblingsController.text,
+        _siblingsMaritalStatusController.text);
   }
 
-  updateLocationDetails() {
-    userController.userData.value.user?.country = _countryController.text;
-    userController.userData.value.user?.state = _stateController.text;
-    userController.userData.value.user?.district = _districtController.text;
-    userController.userData.value.user?.zipCode = _zipcodeController.text;
-    userController.userData.value.user?.address = _addressController.text;
-    userController.userData.value.user?.currentCity = _cityController.text;
+  updatePartnerPreferences() async {
+    await userController.updatePartnerPrefDetails(
+        _pagegroup.text,
+        _pheightrange.text,
+        _preligion.text,
+        _pcaste.text,
+        _psmoking.text,
+        _pdrinking.text,
+        _pfood.text,
+        _pqualification.text,
+        _pscore.text);
   }
 
-  updateAdditionalDetails() {
-    userController.userData.value.user?.aboutMe = _aboutmecontroller.text;
-    // userController.userData.value.user?.hobbies = hobbies.
-    userController.userData.value.user?.smokingHabits =
-        _smokinghabitcontroller.text;
-    userController.userData.value.user?.drinkingHabits =
-        _drinkinghabitcontroller.text;
-    userController.userData.value.user?.foodPreferences =
-        _foodhabitcontroller.text;
-    userController.userData.value.user?.profileApproved =
-        _profileapprovalcontroller.text;
-    userController.userData.value.user?.profileCreatedBy =
-        _profilecreatedcontroller.text;
-    userController.userData.value.user?.instagramLink =
-        _instalinkcontroller.text;
-    userController.userData.value.user?.facebookLink = _fblinkcontroller.text;
-    userController.userData.value.user?.linkedinLink =
-        _linkedlnlinkcontroller.text;
-    userController.userData.value.user?.youtubeLink =
-        _youtubelinkcontroller.text;
+  updateLocationDetails() async {
+    await userController.updateLocationDetails(
+        _countryController.text,
+        _stateController.text,
+        _districtController.text,
+        _zipcodeController.text,
+        _addressController.text,
+        _cityController.text);
+  }
+
+  updateAdditionalDetails() async {
+    await userController.updateAdditionalDetails(
+      _aboutmecontroller.text,
+      _smokinghabitcontroller.text,
+      _drinkinghabitcontroller.text,
+      _foodhabitcontroller.text,
+      _profileapprovalcontroller.text,
+      _profilecreatedcontroller.text,
+      _instalinkcontroller.text,
+      _fblinkcontroller.text,
+      _linkedlnlinkcontroller.text,
+      _youtubelinkcontroller.text);
   }
 
   final TextEditingController _fNameController = TextEditingController();
@@ -204,9 +197,9 @@ class _EditProfileState extends State<EditProfile> {
     _phNoController.text = userController.userData.value.user?.phone ?? "";
     _dobController.text = userController.userData.value.user?.dob ?? "";
     _heightController.text =
-        "${userController.userData.value.user?.height ?? 0} cm";
+        userController.userData.value.user?.height ?? "0.0";
     _weightController.text =
-        "${userController.userData.value.user?.weight ?? 0} kg";
+        userController.userData.value.user?.weight ?? "0.0";
     _starsignController.text =
         userController.userData.value.user?.starSign ?? "";
     _occupationController.text =
@@ -295,6 +288,10 @@ class _EditProfileState extends State<EditProfile> {
         userController.userData.value.user?.linkedinLink ?? "";
     _youtubelinkcontroller.text =
         userController.userData.value.user?.youtubeLink ?? "";
+
+    hobbies = "${userController.userData.value.user?.hobbies}".split(",");
+    languages =
+        "${userController.userData.value.user?.languagesKnown}".split(",");
   }
 
   @override
@@ -499,7 +496,7 @@ class _EditProfileState extends State<EditProfile> {
                                     );
                                     if (pickedDate != null) {
                                       _dobController.text =
-                                          '${pickedDate.day < 10 ? "0${pickedDate.day}" : "${pickedDate.day}"}/${pickedDate.month < 10 ? "0${pickedDate.month}" : "${pickedDate.month}"}/${pickedDate.year}';
+                                          '${pickedDate.year}-${pickedDate.month < 10 ? "0${pickedDate.month}" : "${pickedDate.month}"}-${pickedDate.day < 10 ? "0${pickedDate.day}" : "${pickedDate.day}"}';
                                     }
                                   },
                                   textAlign: TextAlign.end,
@@ -522,7 +519,7 @@ class _EditProfileState extends State<EditProfile> {
                           CustomButton(
                               text: "Save",
                               onPressed: () async {
-                                updateProfileDetails();
+                                await updateProfileDetails();
                                 await EditProfileService().updateProfileDetails(
                                     userData: userController.userData.value,
                                     context: context);
@@ -727,7 +724,14 @@ class _EditProfileState extends State<EditProfile> {
                         const SizedBox(
                           height: 25,
                         ),
-                        CustomButton(text: "Save", onPressed: () {}),
+                        CustomButton(
+                            text: "Save",
+                            onPressed: () async {
+                              updatePersonalDetails();
+                              await EditProfileService().updatePersonalDetails(
+                                  userData: userController.userData.value,
+                                  context: context);
+                            }),
                       ],
                     ),
                   ),
@@ -916,10 +920,10 @@ class _EditProfileState extends State<EditProfile> {
                               valueWidget: EditDropdownWidget(
                                   controller: _pheightrange,
                                   values: [
-                                    "5.0-6.0 ft",
-                                    "6.0-6.5 ft",
-                                    "6.5-7.0 ft",
-                                    "160-173"
+                                    "140-150",
+                                    "150-160",
+                                    "160-173",
+                                    "170-180"
                                   ])),
                           const Divider(),
                           const SizedBox(height: 15),
@@ -1004,13 +1008,14 @@ class _EditProfileState extends State<EditProfile> {
                           DetailsRowWidget(
                               label: "Score",
                               valueWidget: EditableNumberWidget(
+                                editable: false,
                                 controller: _pscore,
                               )),
                           const SizedBox(height: 15),
                           CustomButton(
                               text: "Save",
                               onPressed: () async {
-                                updatePreferences();
+                                updatePartnerPreferences();
                                 await EditProfileService()
                                     .updatePreferencenDetails(
                                         userData: userController.userData.value,
@@ -1288,13 +1293,16 @@ class _EditProfileState extends State<EditProfile> {
                                     controller: _youtubelinkcontroller,
                                   )),
                               const SizedBox(height: 15),
-                              CustomButton(text: "Save", onPressed: () async{
-                                updateAdditionalDetails();
-                                await EditProfileService()
-                                    .updateAdditionalDetails(
-                                        userData: userController.userData.value,
-                                        context: context);
-                              }),
+                              CustomButton(
+                                  text: "Save",
+                                  onPressed: () async {
+                                    updateAdditionalDetails();
+                                    await EditProfileService()
+                                        .updateAdditionalDetails(
+                                            userData:
+                                                userController.userData.value,
+                                            context: context);
+                                  }),
                               const SizedBox(height: 20),
                             ])))
               ]))),
