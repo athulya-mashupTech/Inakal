@@ -116,14 +116,13 @@ class AuthService {
         final jsonResponse = json.decode(responseBody);
         final loginModel = LoginModel.fromJson(jsonResponse);
 
-
         if (loginModel.token != "") {
           _showSnackbar(context, "Successfully Logined");
 
-           //Save login state
-        final box = GetStorage();
-       box.write('isLoggedIn', true);
-          
+          //Save login state
+          final box = GetStorage();
+          box.write('isLoggedIn', true);
+
           final AuthController authController = Get.find();
           // Save Token and userId to SharedPreferences & GetX
           authController.saveAuthData(loginModel.token!, loginModel.userId!);
@@ -131,12 +130,7 @@ class AuthService {
           // Save User data to Getx
           fetchUserDetails(authController.token.value);
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const BottomNavBarScreen(),
-            ),
-          );
+          Get.offAll(() => const BottomNavBarScreen());
         } else {
           _showSnackbar(context, "login denied");
         }
@@ -152,7 +146,6 @@ class AuthService {
       return null;
     }
 
-
 //     if (loginModel.token != "") {
 //   _showSnackbar(context, "Successfully Logged In");
 
@@ -167,7 +160,6 @@ class AuthService {
 //     ),
 //   );
 // }
-
   }
 
   Future<void> fetchUserDetails(String token) async {

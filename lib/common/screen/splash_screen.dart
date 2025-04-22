@@ -1,18 +1,38 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
+import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/common/screen/onboarding_screen_1.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
+import 'package:inakal/constants/config.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
+  final box = GetStorage();
+  bool isLoggedIn = false;
 
   @override
   void initState() {
     super.initState();
+
+    // Check if the user is logged in
+    isLoggedIn = box.read('isLoggedIn') ?? false;
+
+    if (isLoggedIn) {
+      fetchDataToGetx();
+    }
 
     // Initialize the animation controller for fade effect
     _animationController = AnimationController(
@@ -29,14 +49,46 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     _animationController.forward();
 
     // Navigate to Onboarding screen after the animation
-    _navigateToOnboarding();
+    _navigateToNextScreen();
   }
 
-  _navigateToOnboarding() async {
+  _navigateToNextScreen() async {
     await Future.delayed(Duration(seconds: 3), () {});
     Navigator.pushReplacement(
-      context, MaterialPageRoute(builder: (context) => OnboardingScreen1())
-    );
+        context,
+        MaterialPageRoute(
+            builder: (context) =>
+                isLoggedIn ? const BottomNavBarScreen() : OnboardingScreen1()));
+  }
+
+  Future<void> fetchDataToGetx() async {
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+
+    if (token != null && token.isNotEmpty) {
+      
+      final AuthController authController = Get.find();
+      await authController.loadAuthData();
+
+      final request = http.MultipartRequest('POST', Uri.parse(userProfileUrl));
+      final headers = {
+        'Authorization': 'Bearer $token',
+      };
+      request.headers.addAll(headers);
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+
+        final userModel = UserDataModel.fromJson(jsonResponse);
+
+        final userController = Get.find<UserDataController>();
+        userController.setUserData(userModel);
+      } else {
+        print("Failed to fetch user profile");
+      }
+    }
   }
 
   @override
