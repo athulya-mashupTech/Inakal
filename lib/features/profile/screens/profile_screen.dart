@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
@@ -7,7 +8,9 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
+import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 
@@ -17,7 +20,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool isLoading = false;
   final userController = Get.find<UserDataController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -29,6 +31,22 @@ class _ProfilePageState extends State<ProfilePage> {
     "assets/vectors/harsha4.jpg",
     "assets/vectors/harsha1.jpg"
   ];
+  GalleryImagesModel? galleryImagesModel;
+  bool isLoading = true;
+
+  Future<void> _loadProfileGallery() async {
+    await GalleryService().getGalleryImages().then((value) {
+      galleryImagesModel = value;
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
+
+  void initState() {
+    _loadProfileGallery();
+    super.initState();
+  }
 
   void _showImageOverlay(int index) {
     showDialog(
@@ -43,11 +61,11 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: PageView.builder(
-                    itemCount: allImages!.length,
+                    itemCount: galleryImagesModel?.gallery?.length,
                     controller: PageController(initialPage: index),
                     itemBuilder: (context, i) {
-                      return Image.network(
-                        allImages![i],
+                      return CachedNetworkImage(
+                       imageUrl: galleryImagesModel?.gallery?[i].image ?? "",
                         fit: BoxFit.contain,
                       );
                     },
@@ -81,246 +99,243 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       key: _scaffoldKey,
       endDrawer: const DrawerWidget(),
-      body: isLoading == true
-          ? Center(child: CircularProgressIndicator())
-          : Stack(
-              children: [
-                Stack(
+      body: Stack(
+        children: [
+          Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height,
+                color: AppColors.white,
+              ),
+              LightPinkGradient(),
+            ],
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      color: AppColors.white,
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(),
+                        Center(
+                          child: RichText(
+                            text: const TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'My ',
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: 'Profile',
+                                  style: TextStyle(
+                                    color: AppColors.primaryRed,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 24,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(
+                            Icons.widgets_rounded,
+                            size: 28,
+                          ),
+                          onPressed: () {
+                            _scaffoldKey.currentState!.openEndDrawer();
+                          },
+                          color: AppColors.primaryRed,
+                        ),
+                      ],
                     ),
-                    LightPinkGradient(),
-                  ],
-                ),
-                SafeArea(
-                  child: SingleChildScrollView(
-                    child: Container(
-                      padding: const EdgeInsets.all(20.0),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8.0, vertical: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              border: Border.all(
+                                color: AppColors.primaryRed,
+                                width: 3,
+                              ),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                userController.userData.value.user?.image ??
+                                    "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                                width: 160,
+                                height: 180,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 20),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Obx(() => Text(
+                                        userController
+                                                    .userData.value.user?.id !=
+                                                null
+                                            ? "Inakal ID: ${userController.userData.value.user?.id}"
+                                            : "Inakal ID Loading...",
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: AppColors.primaryRed),
+                                      )),
+                                  Obx(() => Text(
+                                        userController.userData.value.user
+                                                    ?.firstName !=
+                                                null
+                                            ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
+                                            : "Name Loading...",
+                                        style: TextStyle(
+                                            fontSize: 32,
+                                            fontWeight: FontWeight.bold,
+                                            height: 1.1),
+                                      )),
+                                  Obx(() => Text(
+                                        userController.userData.value.user
+                                                    ?.currentCity !=
+                                                null
+                                            ? "${userController.userData.value.user?.currentCity}, ${userController.userData.value.user?.district}"
+                                            : "Location loading ...",
+                                        style: TextStyle(fontSize: 16),
+                                      )),
+                                  SizedBox(height: 8),
+                                  Obx(() => Text(
+                                        userController.userData.value.user
+                                                    ?.occupation !=
+                                                null
+                                            ? "${userController.userData.value.user?.occupation}"
+                                            : "Job is Loading...",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w600),
+                                      )),
+                                  Obx(() => Text(
+                                        userController.userData.value.user
+                                                    ?.religion !=
+                                                null
+                                            ? "${userController.userData.value.user?.religion}"
+                                            : "Religion is loading",
+                                        style: TextStyle(fontSize: 16),
+                                      )),
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        children: [
+                          Iconify(
+                            Mdi.numbers,
+                            color: AppColors.primaryRed,
+                            size: 21,
+                          ),
+                          SizedBox(width: 5),
+                          Obx(() => Text(
+                                userController.userData.value.user?.dob != null
+                                    ? "${calculateAge(userController.userData.value.user?.dob ?? "")} Years"
+                                    : "...",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.black,
+                                ),
+                              )),
+                          SizedBox(width: 12),
+                          Iconify(
+                            Mdi.human_male_height_variant,
+                            color: AppColors.primaryRed,
+                            size: 15,
+                          ),
+                          SizedBox(width: 5),
+                          Obx(() => Text(
+                                userController.userData.value.user?.height !=
+                                        null
+                                    ? "${userController.userData.value.user?.height}"
+                                    : "...",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.black,
+                                ),
+                              )),
+                          SizedBox(width: 12),
+                          Iconify(Mdi.weight_lifter,
+                              color: AppColors.primaryRed, size: 15),
+                          SizedBox(width: 5),
+                          Obx(() => Text(
+                                userController.userData.value.user?.weight !=
+                                        null
+                                    ? "${userController.userData.value.user?.weight}"
+                                    : "...",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppColors.black,
+                                ),
+                              )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const CompleteProfileCard(),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20, left: 10),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 20),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Container(),
-                              Center(
-                                child: RichText(
-                                  text: const TextSpan(
-                                    children: [
-                                      TextSpan(
-                                        text: 'My ',
-                                        style: TextStyle(
-                                          color: AppColors.black,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                        ),
-                                      ),
-                                      TextSpan(
-                                        text: 'Profile',
-                                        style: TextStyle(
-                                          color: AppColors.primaryRed,
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 24,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                icon: const Icon(
-                                  Icons.widgets_rounded,
-                                  size: 28,
-                                ),
-                                onPressed: () {
-                                  _scaffoldKey.currentState!.openEndDrawer();
-                                },
-                                color: AppColors.primaryRed,
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8.0, vertical: 10),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    border: Border.all(
-                                      color: AppColors.primaryRed,
-                                      width: 3,
-                                    ),
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(12),
-                                    child: Image.network(
-                                      userController
-                                              .userData.value.user?.image ??
-                                          "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
-                                      width: 160,
-                                      height: 180,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 16),
-                                Expanded(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(top: 20),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Obx(() => Text(
-                                              userController.userData.value.user
-                                                          ?.id !=
-                                                      null
-                                                  ? "Inakal ID: ${userController.userData.value.user?.id}"
-                                                  : "Inakal ID Loading...",
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: AppColors.primaryRed),
-                                            )),
-                                        Obx(() => Text(
-                                              userController.userData.value.user
-                                                          ?.firstName !=
-                                                      null
-                                                  ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
-                                                  : "Name Loading...",
-                                              style: TextStyle(
-                                                  fontSize: 32,
-                                                  fontWeight: FontWeight.bold,
-                                                  height: 1.1),
-                                            )),
-                                        Obx(() => Text(
-                                              userController.userData.value.user
-                                                          ?.currentCity !=
-                                                      null
-                                                  ? "${userController.userData.value.user?.currentCity}, ${userController.userData.value.user?.district}"
-                                                  : "Location loading ...",
-                                              style: TextStyle(fontSize: 16),
-                                            )),
-                                        SizedBox(height: 8),
-                                        Obx(() => Text(
-                                              userController.userData.value.user
-                                                          ?.occupation !=
-                                                      null
-                                                  ? "${userController.userData.value.user?.occupation}"
-                                                  : "Job is Loading...",
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600),
-                                            )),
-                                        Obx(() => Text(
-                                              userController.userData.value.user
-                                                          ?.religion !=
-                                                      null
-                                                  ? "${userController.userData.value.user?.religion}"
-                                                  : "Religion is loading",
-                                              style: TextStyle(fontSize: 16),
-                                            )),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                              ],
+                          Text(
+                            'About Me',
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
                             ),
                           ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 10),
-                            child: Row(
-                              children: [
-                                Iconify(
-                                  Mdi.numbers,
-                                  color: AppColors.primaryRed,
-                                  size: 21,
+                          SizedBox(height: 8),
+                          Obx(() => Text(
+                                userController.userData.value.user?.aboutMe !=
+                                        null
+                                    ? "${userController.userData.value.user?.aboutMe}"
+                                    : "Description is Loading",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: AppColors.black,
                                 ),
-                                SizedBox(width: 5),
-                                Obx(() => Text(
-                                      userController.userData.value.user?.dob !=
-                                              null
-                                          ? "${calculateAge(userController.userData.value.user?.dob ?? "")} Years"
-                                          : "...",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.black,
-                                      ),
-                                    )),
-                                SizedBox(width: 12),
-                                Iconify(
-                                  Mdi.human_male_height_variant,
-                                  color: AppColors.primaryRed,
-                                  size: 15,
-                                ),
-                                SizedBox(width: 5),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.height !=
-                                              null
-                                          ? "${userController.userData.value.user?.height}"
-                                          : "...",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.black,
-                                      ),
-                                    )),
-                                SizedBox(width: 12),
-                                Iconify(Mdi.weight_lifter,
-                                    color: AppColors.primaryRed, size: 15),
-                                SizedBox(width: 5),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.weight !=
-                                              null
-                                          ? "${userController.userData.value.user?.weight}"
-                                          : "...",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: AppColors.black,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const CompleteProfileCard(),
-                          Padding(
-                            padding: EdgeInsets.only(top: 20, left: 10),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'About Me',
-                                  style: TextStyle(
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                    color: AppColors.black,
-                                  ),
-                                ),
-                                SizedBox(height: 8),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.aboutMe !=
-                                              null
-                                          ? "${userController.userData.value.user?.aboutMe}"
-                                          : "Description is Loading",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        color: AppColors.black,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          Padding(
+                              )),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    isLoading
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        : Padding(
                             padding:
                                 const EdgeInsets.symmetric(horizontal: 8.0),
                             child: GridView.builder(
@@ -334,9 +349,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                 childAspectRatio: 1.3,
                               ),
                               itemCount:
-                                  allImages!.length > 4 ? 4 : allImages?.length,
+                                  (galleryImagesModel?.gallery?.length ?? 0) > 4
+                                      ? 4
+                                      : galleryImagesModel?.gallery?.length,
                               itemBuilder: (context, index) {
-                                return allImages!.length > 4
+                                return (galleryImagesModel?.gallery?.length ??
+                                            0) >
+                                        4
                                     ? index == 3
                                         ? GestureDetector(
                                             onTap: () {
@@ -346,7 +365,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                               fit: StackFit.expand,
                                               children: [
                                                 ImageCard(
-                                                    image: allImages![index]),
+                                                    image: galleryImagesModel
+                                                            ?.gallery?[index]
+                                                            .image ??
+                                                        ""),
                                                 Container(
                                                   decoration: BoxDecoration(
                                                     borderRadius:
@@ -368,7 +390,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                       color: AppColors.white,
                                                     ),
                                                     Text(
-                                                      "+${allImages!.length - 3}",
+                                                      "+${(galleryImagesModel?.gallery?.length ?? 0) - 3}",
                                                       style: const TextStyle(
                                                           color:
                                                               AppColors.white,
@@ -381,14 +403,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                           )
                                         : GestureDetector(
                                             child: ImageCard(
-                                                image: allImages![index]),
+                                                image: galleryImagesModel
+                                                        ?.gallery?[index]
+                                                        .image ??
+                                                    ""),
                                             onTap: () {
                                               _showImageOverlay(index);
                                             },
                                           )
                                     : GestureDetector(
-                                        child:
-                                            ImageCard(image: allImages![index]),
+                                        child: ImageCard(
+                                            image: galleryImagesModel
+                                                    ?.gallery?[index].image ??
+                                                ""),
                                         onTap: () {
                                           _showImageOverlay(index);
                                         },
@@ -396,37 +423,37 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              children: [
-                                CustomButton(
-                                    text: "Edit Profile",
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const EditProfile()));
-                                    }),
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                const CustomButton(
-                                  text: "Logout",
-                                  color: AppColors.black,
-                                ),
-                              ],
-                            ),
+                    SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          CustomButton(
+                              text: "Edit Profile",
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EditProfile()));
+                              }),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const CustomButton(
+                            text: "Logout",
+                            color: AppColors.black,
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
+          ),
+        ],
+      ),
     );
   }
 }
