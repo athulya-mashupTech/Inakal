@@ -1,13 +1,16 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
@@ -20,6 +23,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final box = GetStorage();
+  bool isLoading = false;
   final userController = Get.find<UserDataController>();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -46,6 +51,148 @@ class _ProfilePageState extends State<ProfilePage> {
   void initState() {
     _loadProfileGallery();
     super.initState();
+  }
+
+  void _showConfirmationDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required VoidCallback onConfirm,
+  }) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Container(
+            width: MediaQuery.of(context).size.width * 0.7,
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 22.0, horizontal: 25),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            title,
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: AppColors.black,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Positioned(
+                              top: 10,
+                              child: Transform.rotate(
+                                  angle: -0.5,
+                                  child: const Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: const Opacity(
+                                        opacity: 0.6,
+                                        child: Iconify(
+                                          Ph.butterfly_duotone,
+                                          size: 14,
+                                          color: AppColors.primaryRed,
+                                        ),
+                                      )))),
+                          Transform.rotate(
+                            angle: 0.5,
+                            child: const Align(
+                              child: Opacity(
+                                opacity: 0.6,
+                                child: Iconify(
+                                  Ph.butterfly_duotone,
+                                  size: 16,
+                                  color: AppColors.primaryRed,
+                                ),
+                              ),
+                              alignment: Alignment.topRight,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              content,
+                              style: const TextStyle(
+                                  fontSize: 16, color: AppColors.black),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.softPink.withAlpha(50),
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(20),
+                      bottomRight: Radius.circular(20),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text("Cancel"),
+                        ),
+                      ),
+                      Text(
+                        " | ",
+                        style: TextStyle(
+                            color: AppColors.black.withAlpha(50), fontSize: 20),
+                      ),
+                      Expanded(
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            onConfirm();
+                          },
+                          style: TextButton.styleFrom(
+                            foregroundColor: AppColors.black,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                          ),
+                          child: const Text("Confirm",
+                              style: TextStyle(color: Colors.black)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   void _showImageOverlay(int index) {
@@ -423,26 +570,41 @@ class _ProfilePageState extends State<ProfilePage> {
                               },
                             ),
                           ),
-                    SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          CustomButton(
-                              text: "Edit Profile",
-                              onPressed: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const EditProfile()));
-                              }),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const CustomButton(
-                            text: "Logout",
-                            color: AppColors.black,
+                          SizedBox(height: 10),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                CustomButton(
+                                    text: "Edit Profile",
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const EditProfile()));
+                                    }),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                CustomButton(
+                                  text: "Logout",
+                                  color: AppColors.black,
+                                  onPressed: () {
+                                    _showConfirmationDialog(
+                                      context: context,
+                                      title: "Are you Sure?",
+                                      content:
+                                          "Do you really want to logout from inakal.com?",
+                                      onConfirm: () {
+                                        box.write('isLoggedIn', false);
+                                        Get.offAll(() => const LoginPage());
+                                      },
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/gallery_page.dart';
@@ -158,6 +161,8 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final box = GetStorage();
+    
     return Drawer(
       backgroundColor: AppColors.primaryRed,
       child: ListView(
@@ -219,10 +224,8 @@ class DrawerWidget extends StatelessWidget {
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(Icons.image, color: AppColors.white),
                   onTap: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GalleryPage()));
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => GalleryPage()));
                   },
                 ),
                 ListTile(
@@ -234,7 +237,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const Notifications()));
+                            builder: (context) => const Notifications()));
                   },
                 ),
                 ListTile(
@@ -246,7 +249,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const Subscriptions()));
+                            builder: (context) => const Subscriptions()));
                   },
                 ),
                 ListTile(
@@ -265,7 +268,7 @@ class DrawerWidget extends StatelessWidget {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                        builder: (context) => const TermsConditions()));
+                            builder: (context) => const TermsConditions()));
                   },
                 ),
                 ListTile(
@@ -277,7 +280,10 @@ class DrawerWidget extends StatelessWidget {
                       context: context,
                       title: "Are you Sure?",
                       content: "Do you really want to logout from inakal.com?",
-                      onConfirm: () {},
+                      onConfirm: () {
+                        box.write('isLoggedIn', false);
+                        Get.offAll(() => const LoginPage());
+                      },
                     );
                   },
                 ),
