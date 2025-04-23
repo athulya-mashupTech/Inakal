@@ -102,16 +102,16 @@ class _EditProfileState extends State<EditProfile> {
 
   updateAdditionalDetails() async {
     await userController.updateAdditionalDetails(
-      _aboutmecontroller.text,
-      _smokinghabitcontroller.text,
-      _drinkinghabitcontroller.text,
-      _foodhabitcontroller.text,
-      _profileapprovalcontroller.text,
-      _profilecreatedcontroller.text,
-      _instalinkcontroller.text,
-      _fblinkcontroller.text,
-      _linkedlnlinkcontroller.text,
-      _youtubelinkcontroller.text);
+        _aboutmecontroller.text,
+        _smokinghabitcontroller.text,
+        _drinkinghabitcontroller.text,
+        _foodhabitcontroller.text,
+        _profileapprovalcontroller.text,
+        _profilecreatedcontroller.text,
+        _instalinkcontroller.text,
+        _fblinkcontroller.text,
+        _linkedlnlinkcontroller.text,
+        _youtubelinkcontroller.text);
   }
 
   final TextEditingController _fNameController = TextEditingController();
@@ -983,7 +983,7 @@ class _EditProfileState extends State<EditProfile> {
                                   values: [
                                     "Vegetarian",
                                     "Non-Vegeterian",
-                                    "Vegan",
+                                    "vegan",
                                     "Others"
                                   ])),
                           const Divider(),
