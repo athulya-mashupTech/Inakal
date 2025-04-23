@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:inakal/constants/app_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 class GalleryImageCard extends StatelessWidget {
   final String image;
@@ -23,8 +25,12 @@ class GalleryImageCard extends StatelessWidget {
             fit: BoxFit.cover,
             width: double.infinity,
             height: double.infinity,
-            placeholder: (context, url) => Center(
-              child: CircularProgressIndicator(), // or a custom loader
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: AppColors.grey,
+              highlightColor: AppColors.lightGrey,
+              child: Container(
+                color: AppColors.grey,
+              ),
             ),
             errorWidget: (context, url, error) => const Icon(Icons.error),
           ),

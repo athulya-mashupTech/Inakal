@@ -16,6 +16,7 @@ import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ProfilePage extends StatefulWidget {
   @override
@@ -323,12 +324,20 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(12),
-                            child: Image.network(
-                              userController.userData.value.user?.image ??
+                            child: CachedNetworkImage(
+                              imageUrl: userController
+                                      .userData.value.user?.image ??
                                   "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
                               width: 160,
                               height: 180,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.grey,
+                                highlightColor: AppColors.lightGrey,
+                                child: Container(
+                                  color: AppColors.grey,
+                                ),
+                              ),
                             ),
                           ),
                         ),

@@ -14,6 +14,7 @@ import 'package:inakal/features/drawer/screens/gallery_page.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
+import 'package:shimmer/shimmer.dart';
 
 class DrawerWidget extends StatelessWidget {
   const DrawerWidget({Key? key}) : super(key: key);
@@ -186,10 +187,24 @@ class DrawerWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: CachedNetworkImageProvider(
-                          userController.userData.value.user?.image ?? "",
+                      ClipOval(
+                        child: CachedNetworkImage(
+                          imageUrl:
+                              userController.userData.value.user?.image ?? "",
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Shimmer.fromColors(
+                            baseColor: AppColors.grey,
+                            highlightColor: AppColors.lightGrey,
+                            child: Container(
+                              width: 50,
+                              height: 50,
+                              color: AppColors.grey,
+                            ),
+                          ),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
                       ),
                       SizedBox(width: 10),

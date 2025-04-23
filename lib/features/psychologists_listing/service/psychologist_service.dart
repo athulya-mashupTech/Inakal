@@ -17,9 +17,8 @@ class PsychologistService {
     required BuildContext context
     }) async {
     try {
-      final response = await _sendPostRequest(
+      final response = await _sendGetRequest(
         url: allDoctorsUrl,
-        fields: {},
       );
 
       if (response.statusCode == 200) {
@@ -82,6 +81,19 @@ class PsychologistService {
   }) async {
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields.addAll(fields);
+    final token = authController.token.value; // Get the token from AuthController
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    request.headers.addAll(headers);
+    return await request.send();
+  }
+
+  // Helper method to send Get request
+  Future<http.StreamedResponse> _sendGetRequest({
+    required String url,
+  }) async {
+    final request = http.MultipartRequest('GET', Uri.parse(url));
     final token = authController.token.value; // Get the token from AuthController
     final headers = {
       'Authorization': 'Bearer $token',
