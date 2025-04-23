@@ -13,8 +13,9 @@ class PsychologistService {
   final AuthController authController = Get.find();
   
   // Fetch All Doctors
-  Future<PsychologistModel?> getAllDoctors(
-      {required BuildContext context}) async {
+  Future<PsychologistModel?> getAllDoctors({
+    required BuildContext context
+    }) async {
     try {
       final response = await _sendPostRequest(
         url: allDoctorsUrl,
@@ -41,7 +42,9 @@ class PsychologistService {
   }
 
   // Book Appointment
-  Future<BookAppointmentModel> bookAppointment(BuildContext context) async {
+  Future<BookAppointmentModel> bookAppointment(
+    BuildContext context
+    ) async {
     try {
       final response =
           await _sendPostRequest(url: bookAppointmentUrl, fields: {});

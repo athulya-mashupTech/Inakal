@@ -33,6 +33,7 @@ class EditProfileService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
+        
         if (userDataUpdateModel.type == "success") {
           _showSnackbar(context, userDataUpdateModel.message!);
         }
