@@ -17,7 +17,7 @@ class RequestService {
   Future<List<RequestUserDetailsModel?>> getSentRequestUserDetails(
       BuildContext context) async {
     try {
-      final response = await _sendPostRequest(url: sentRequestsUrl, fields: {});
+      final response = await _sendGetRequest(url: sentRequestsUrl);
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -105,7 +105,7 @@ class RequestService {
   Future<List<RequestUserDetailsModel?>> getReceivedRequestUserDetails(
       BuildContext context) async {
     try {
-      final response = await _sendPostRequest(url: receivedRequestsUrl, fields: {});
+      final response = await _sendGetRequest(url: receivedRequestsUrl);
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -229,6 +229,19 @@ class RequestService {
     request.fields.addAll(fields);
     final token =
         authController.token.value; // Get the token from AuthController
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    request.headers.addAll(headers);
+    return await request.send();
+  }
+
+  // Helper method to send GET request
+  Future<http.StreamedResponse> _sendGetRequest({
+    required String url,
+  }) async {
+    final request = http.MultipartRequest('GET', Uri.parse(url));
+    final token = authController.token.value; // Get the token from AuthController
     final headers = {
       'Authorization': 'Bearer $token',
     };

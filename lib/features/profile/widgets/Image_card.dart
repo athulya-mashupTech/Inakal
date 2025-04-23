@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:inakal/constants/app_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ImageCard extends StatelessWidget {
   final String image;
@@ -20,8 +22,14 @@ class ImageCard extends StatelessWidget {
           child: CachedNetworkImage(
             imageUrl: image,
             fit: BoxFit.cover,
-          ),  
-        )
-    );
+            placeholder: (context, url) => Shimmer.fromColors(
+              baseColor: AppColors.grey,
+              highlightColor: AppColors.lightGrey,
+              child: Container(
+                color: AppColors.grey,
+              ),
+            ),
+          ),
+        ));
   }
 }

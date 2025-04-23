@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:shimmer/shimmer.dart';
 
 class CounsellorWidget extends StatelessWidget {
   final String image;
@@ -33,7 +35,17 @@ class CounsellorWidget extends StatelessWidget {
                 SizedBox(
                   height: 150,
                   width: MediaQuery.of(context).size.width * 0.5 - 30,
-                  child: Image.network(image, fit: BoxFit.cover)),
+                  child: CachedNetworkImage(
+                    imageUrl: image, 
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) => Shimmer.fromColors(
+                      baseColor: AppColors.grey,
+                      highlightColor: AppColors.lightGrey,
+                      child: Container(
+                        color: AppColors.grey,
+                      ),
+                    ),
+                  )),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
