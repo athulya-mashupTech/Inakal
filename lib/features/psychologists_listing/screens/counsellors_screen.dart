@@ -15,44 +15,14 @@ class CounsellorsScreen extends StatefulWidget {
 }
 
 class _CounsellorsScreenState extends State<CounsellorsScreen> {
+  
   var btext = "";
   var bcolor = AppColors.primaryRed;
   bool consultancy_required = false;
   PsychologistModel? psychologistModelData;
   bool isDoctorsLoading = true;
 
-  final List<Map<String, String>> matches = [
-    {
-      'name': 'Mohan',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Mohan.jpg',
-    },
-    {
-      'name': 'Jasmine',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Jasmine.jpg',
-    },
-    {
-      'name': 'Ansari',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Ansari.jpg',
-    },
-    {
-      'name': 'Luzy',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Luzy.jpg',
-    },
-    {
-      'name': 'Nishi',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Nishi.jpg',
-    },
-    {
-      'name': 'Kammappa',
-      'designation': 'Clinical psychologist',
-      'image': 'assets/doctors/Kammappa.jpg',
-    },
-  ];
+
 
   @override
   void initState() {
