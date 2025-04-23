@@ -25,7 +25,14 @@ class _SendRequestsState extends State<SendRequests> {
     fetchSentRequests();
   }
 
+  Future<void> deleteRequest(String req_id) async {
+    await RequestService().deleteRequest(req_id, context);
+  }
+
   Future<void> fetchSentRequests() async {
+    setState(() {
+      isLoading = true;
+    });
     await RequestService().getSentRequestUserDetails(context).then((value) {
       setState(() {
         allSentRequests = value;
@@ -87,15 +94,14 @@ class _SendRequestsState extends State<SendRequests> {
               )
             : filteredUsers.isEmpty
                 ? Expanded(
-                  child: Center(
+                    child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Lottie.asset(
-                              "assets/lottie/empty_data.json",
-                              width: MediaQuery.of(context).size.width * 0.6,
-                            ),
-                            
+                            "assets/lottie/empty_data.json",
+                            width: MediaQuery.of(context).size.width * 0.6,
+                          ),
                           const Text(
                             "No Requests Found",
                             style: TextStyle(
@@ -105,7 +111,7 @@ class _SendRequestsState extends State<SendRequests> {
                         ],
                       ),
                     ),
-                )
+                  )
                 : Expanded(
                     child: ListView.builder(
                       shrinkWrap: true,
@@ -123,6 +129,12 @@ class _SendRequestsState extends State<SendRequests> {
                           height: filteredUsers[index]?.height ?? "",
                           req_status: filteredUsers[index]?.status ?? "",
                           religion: filteredUsers[index]?.religion ?? "",
+                          req_id: filteredUsers[index]?.requestId ?? "",
+                          onTap: () async {
+                            await deleteRequest(
+                                filteredUsers[index]?.requestId ?? "");
+                            await fetchSentRequests();
+                          },
                         );
                       },
                     ),

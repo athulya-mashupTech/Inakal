@@ -300,7 +300,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                             return CounsellorWidget(
                               image: psychologist.image!,
                               name: psychologist.name!,
-                              designation: psychologist.phone!,
+                              designation: "Clinical Psychologist" // psychologist.phone!,
                             );
                           }).toList(),
                         ),

@@ -75,7 +75,7 @@ class RequestService {
 
               // Combine user details with match status
               return RequestUserDetailsModel?.fromJson(
-                  userJson['user'], request.status!);
+                  userJson['user'], request.status!, request.id!);
             } else {
               // Handle failed user fetch
               throw Exception(
@@ -163,7 +163,7 @@ class RequestService {
 
               // Combine user details with match status
               return RequestUserDetailsModel?.fromJson(
-                  userJson['user'], request.status!);
+                  userJson['user'], request.status!, request.id!);
             } else {
               // Handle failed user fetch
               throw Exception(
