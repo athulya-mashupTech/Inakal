@@ -16,6 +16,8 @@ class SendRequestsCard extends StatefulWidget {
   final String religion;
   final String role;
   final String req_status;
+  final String req_id;
+  final void Function()? onTap;
 
   const SendRequestsCard({
     super.key,
@@ -28,6 +30,8 @@ class SendRequestsCard extends StatefulWidget {
     required this.height,
     required this.req_status,
     required this.religion,
+    required this.req_id,
+    required this.onTap,
   });
 
   @override
@@ -37,7 +41,22 @@ class SendRequestsCard extends StatefulWidget {
 class _SendRequestsCardState extends State<SendRequestsCard> {
 
   Future<void> deleteRequest() async {
-    await RequestService().deleteRequest("3", context);
+    await RequestService().deleteRequest(widget.req_id, context);
+  }
+
+  int calculateAge(String birthDateString) {
+    DateTime birthDate = DateTime.parse(birthDateString);
+    DateTime today = DateTime.now();
+
+    int age = today.year - birthDate.year;
+
+    // Check if the birthday has occurred yet this year
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
+      age--;
+    }
+
+    return age;
   }
 
   @override
@@ -139,7 +158,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "${widget.age} Year, ${widget.height}",
+                                "${calculateAge(widget.age)} Year, ${widget.height} cm",
                                 style: const TextStyle(
                                   fontSize: 12,
                                 ),
@@ -186,9 +205,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                   ? Column(
                                       children: [
                                         ElevatedButton(
-                                          onPressed: () async {
-                                            await deleteRequest();
-                                          },
+                                          onPressed: widget.onTap,
                                           style: ElevatedButton.styleFrom(
                                             backgroundColor:
                                                 AppColors.goldenYellow,

@@ -11,6 +11,7 @@ class RequestUserDetailsModel {
   final String occupation;
   final String lastSeen;
   final String status;
+  final String? requestId;
 
   RequestUserDetailsModel({
     required this.image,
@@ -25,9 +26,10 @@ class RequestUserDetailsModel {
     required this.occupation,
     required this.lastSeen,
     required this.status,
+    required this.requestId,
   });
 
-  factory RequestUserDetailsModel.fromJson(Map<String, dynamic> json, String status) {
+  factory RequestUserDetailsModel.fromJson(Map<String, dynamic> json, String status, String? requestId) {
     return RequestUserDetailsModel(
       image: json['image'] ?? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
       firstName: json['first_name'] ?? "First Name",
@@ -40,6 +42,7 @@ class RequestUserDetailsModel {
       caste: json['caste'],
       occupation: json['occupation'],
       lastSeen: json['last_seen'],
+      requestId: requestId,
       status: status,
     );
   }

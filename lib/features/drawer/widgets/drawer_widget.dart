@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
@@ -162,7 +164,8 @@ class DrawerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final box = GetStorage();
-    
+    final userController = Get.find<UserDataController>();
+
     return Drawer(
       backgroundColor: AppColors.primaryRed,
       child: ListView(
@@ -178,27 +181,29 @@ class DrawerWidget extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10.0),
             child: Column(
               children: [
-                const Padding(
+                Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage:
-                            AssetImage("assets/vectors/harsha1.jpg"),
+                        backgroundImage: CachedNetworkImageProvider(
+                          userController.userData.value.user?.image ?? "",
+                        ),
                       ),
                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Harsha Sreekanth',
+                            "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}" ??
+                                'N/A',
                             style:
                                 TextStyle(color: AppColors.white, fontSize: 18),
                           ),
                           Text(
-                            'INK3929',
+                            'INK${userController.userData.value.user?.id}',
                             style:
                                 TextStyle(color: AppColors.white, fontSize: 14),
                           ),
