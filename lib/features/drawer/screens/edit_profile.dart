@@ -255,7 +255,7 @@ class _EditProfileState extends State<EditProfile> {
         userController.userData.value.user?.preferredSmokingHabits ?? "";
     _pdrinking.text =
         userController.userData.value.user?.preferredDrinkingHabits ?? "";
-    _pfood.text = userController.userData.value.user?.foodPreferences ?? "";
+    _pfood.text = userController.userData.value.user?.preferredFoodPreferences ?? "";
     _pqualification.text =
         userController.userData.value.user?.preferredQualification ?? "";
     _pscore.text = userController.userData.value.user?.score ?? "";
