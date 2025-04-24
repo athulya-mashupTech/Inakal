@@ -255,7 +255,8 @@ class _EditProfileState extends State<EditProfile> {
         userController.userData.value.user?.preferredSmokingHabits ?? "";
     _pdrinking.text =
         userController.userData.value.user?.preferredDrinkingHabits ?? "";
-    _pfood.text = userController.userData.value.user?.preferredFoodPreferences ?? "";
+    _pfood.text =
+        userController.userData.value.user?.preferredFoodPreferences ?? "";
     _pqualification.text =
         userController.userData.value.user?.preferredQualification ?? "";
     _pscore.text = userController.userData.value.user?.score ?? "";
@@ -331,7 +332,7 @@ class _EditProfileState extends State<EditProfile> {
                                 text: 'Edit ',
                                 style: TextStyle(
                                   color: AppColors.black,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 24,
                                 ),
                               ),
@@ -339,7 +340,7 @@ class _EditProfileState extends State<EditProfile> {
                                 text: 'Profile',
                                 style: TextStyle(
                                   color: AppColors.primaryRed,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w500,
                                   fontSize: 24,
                                 ),
                               ),
@@ -402,909 +403,919 @@ class _EditProfileState extends State<EditProfile> {
                     ],
                   ),
                 ),
+                SizedBox(
+                  height: 20,
+                ),
 
 ///////////////////////////////Profile Image Done////////
 
-                HeaderWidget(title: "Profile Details"),
+////////////////////////////////Profile Details/////////////////////////////////
+                ExpansionTile(
+                  tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  collapsedBackgroundColor: AppColors.bgsoftpink.withAlpha(90),
+                  backgroundColor: AppColors.bgsoftpink,
+                  title: const Text(
+                    "Profile Details",
+                    style: TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                  ),
+                  childrenPadding: const EdgeInsets.all(30.0),
+                  children: [
+                    //First Name
+                    DetailsRowWidget(
+                        label: "First Name",
+                        valueWidget:
+                            EditableTextWidget(controller: _fNameController)),
 
-/////////////////////////////////////////////////////////////////
-                Container(
-                    color: AppColors.bgsoftpink,
-                    child: Padding(
-                      padding: const EdgeInsets.all(30.0),
-                      child: Column(
-                        children: [
-                          //First Name
-                          DetailsRowWidget(
-                              label: "First Name",
-                              valueWidget: EditableTextWidget(
-                                  controller: _fNameController)),
+                    const SizedBox(height: 12),
+                    const Divider(),
+                    const SizedBox(height: 12),
 
-                          const SizedBox(height: 12),
-                          const Divider(),
-                          const SizedBox(height: 12),
+                    //Second Name
+                    DetailsRowWidget(
+                        label: "Second Name",
+                        valueWidget:
+                            EditableTextWidget(controller: _sNameController)),
 
-                          //Second Name
-                          DetailsRowWidget(
-                              label: "Second Name",
-                              valueWidget: EditableTextWidget(
-                                  controller: _sNameController)),
+                    const SizedBox(height: 12),
+                    const Divider(),
+                    const SizedBox(height: 12),
+                    //Email
+                    DetailsRowWidget(
+                        label: "Email",
+                        valueWidget:
+                            EditableTextWidget(controller: _emailController)),
 
-                          const SizedBox(height: 12),
-                          const Divider(),
-                          const SizedBox(height: 12),
-                          //Email
-                          DetailsRowWidget(
-                              label: "Email",
-                              valueWidget: EditableTextWidget(
-                                  controller: _emailController)),
+                    const SizedBox(height: 12),
+                    const Divider(),
+                    const SizedBox(height: 12),
 
-                          const SizedBox(height: 12),
-                          const Divider(),
-                          const SizedBox(height: 12),
-
-                          //Phone Number
-                          DetailsRowWidget(
-                            label: "Phone Number",
-                            valueWidget: Container(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              child: IntlPhoneField(
-                                controller: _phNoController,
-                                textAlign: TextAlign.end,
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold, fontSize: 18),
-                                initialCountryCode: "IN",
-                                textAlignVertical: TextAlignVertical.center,
-                                decoration: const InputDecoration(
-                                  border: InputBorder.none, // Remove border
-                                  enabledBorder: InputBorder
-                                      .none, // Remove underline when enabled
-                                  focusedBorder: InputBorder
-                                      .none, // Remove underline when focused
-                                  counterText: '', // Hide character counter
-                                  isDense:
-                                      true, // Reduce padding// Tight layout
-                                ),
-                                onChanged: (phone) {
-                                  print(phone.completeNumber);
-                                },
-                              ),
-                            ),
+                    //Phone Number
+                    DetailsRowWidget(
+                      label: "Phone Number",
+                      valueWidget: Container(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: IntlPhoneField(
+                          controller: _phNoController,
+                          textAlign: TextAlign.end,
+                          style: const TextStyle(
+                              fontWeight: FontWeight.w500, fontSize: 16),
+                          initialCountryCode: "IN",
+                          textAlignVertical: TextAlignVertical.center,
+                          decoration: const InputDecoration(
+                            border: InputBorder.none, // Remove border
+                            enabledBorder: InputBorder
+                                .none, // Remove underline when enabled
+                            focusedBorder: InputBorder
+                                .none, // Remove underline when focused
+                            counterText: '', // Hide character counter
+                            isDense: true, // Reduce padding// Tight layout
                           ),
-
-                          const SizedBox(height: 12),
-                          const Divider(),
-                          const SizedBox(height: 12),
-
-                          //Date of Birth
-                          DetailsRowWidget(
-                            label: "Date of Birth",
-                            valueWidget: Container(
-                              width: MediaQuery.of(context).size.width * 0.6,
-                              child: TextField(
-                                  controller: _dobController,
-                                  readOnly: true,
-                                  decoration: null,
-                                  onTap: () async {
-                                    FocusScope.of(context)
-                                        .requestFocus(FocusNode());
-                                    DateTime? pickedDate = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(1900),
-                                      lastDate: DateTime.now(),
-                                    );
-                                    if (pickedDate != null) {
-                                      _dobController.text =
-                                          '${pickedDate.year}-${pickedDate.month < 10 ? "0${pickedDate.month}" : "${pickedDate.month}"}-${pickedDate.day < 10 ? "0${pickedDate.day}" : "${pickedDate.day}"}';
-                                    }
-                                  },
-                                  textAlign: TextAlign.end,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18)),
-                            ),
-                          ),
-
-                          const SizedBox(height: 16),
-                          const Divider(),
-
-                          DetailsRowWidget(
-                              label: "Gender",
-                              valueWidget: EditDropdownWidget(
-                                controller: _genderController,
-                                values: ["Male", "Female", "Others"],
-                              )),
-                          SizedBox(height: 11),
-                          CustomButton(
-                              text: "Save",
-                              onPressed: () async {
-                                await updateProfileDetails();
-                                await EditProfileService().updateProfileDetails(
-                                    userData: userController.userData.value,
-                                    context: context);
-                              }),
-                          const SizedBox(height: 10),
-                        ],
+                          onChanged: (phone) {
+                            print(phone.completeNumber);
+                          },
+                        ),
                       ),
-                    )),
+                    ),
 
-////////////////////////////////////////////////////////////////////////////////
+                    const SizedBox(height: 12),
+                    const Divider(),
+                    const SizedBox(height: 12),
 
-                HeaderWidget(title: "Personal Details"),
+                    //Date of Birth
+                    DetailsRowWidget(
+                      label: "Date of Birth",
+                      valueWidget: Container(
+                        width: MediaQuery.of(context).size.width * 0.6,
+                        child: TextField(
+                            controller: _dobController,
+                            readOnly: true,
+                            decoration: null,
+                            onTap: () async {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                _dobController.text =
+                                    '${pickedDate.year}-${pickedDate.month < 10 ? "0${pickedDate.month}" : "${pickedDate.month}"}-${pickedDate.day < 10 ? "0${pickedDate.day}" : "${pickedDate.day}"}';
+                              }
+                            },
+                            textAlign: TextAlign.end,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w500, fontSize: 16)),
+                      ),
+                    ),
 
-/////////////////////////////////////////////////////////////////////////////////////
+                    const SizedBox(height: 16),
+                    const Divider(),
 
-                Container(
-                  color: AppColors.bgsoftpink,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 12),
-                        //Height
-                        DetailsRowWidget(
-                            label: "Height",
-                            valueWidget: EditableTextWidget(
-                                controller: _heightController)),
+                    DetailsRowWidget(
+                        label: "Gender",
+                        valueWidget: EditDropdownWidget(
+                          controller: _genderController,
+                          values: ["Male", "Female", "Others"],
+                        )),
+                    SizedBox(height: 11),
+                    CustomButton(
+                        text: "Save",
+                        onPressed: () async {
+                          await updateProfileDetails();
+                          await EditProfileService().updateProfileDetails(
+                              userData: userController.userData.value,
+                              context: context);
+                        }),
+                    const SizedBox(height: 10),
+                  ],
+                ),
 
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
+////////////////////////////////Profile Details/////////////////////////////////
+SizedBox(height: 2),
+////////////////////////////////Personal Details////////////////////////////////
 
-                        //Weight
-                        DetailsRowWidget(
-                            label: "Weight",
-                            valueWidget: EditableTextWidget(
-                                controller: _weightController)),
-                        SizedBox(height: 12),
-                        const Divider(),
-
-                        //Religion
-                        DetailsRowWidget(
-                            label: "Religion",
-                            valueWidget: EditDropdownWidget(
-                                controller: _religionController,
-                                values: [
-                                  'Hindu',
-                                  'Muslim',
-                                  'Christian',
-                                  'Buddhist'
-                                ])),
-
-                        const Divider(),
-                        const SizedBox(height: 15),
-
-                        //Caste
-                        DetailsRowWidget(
-                            label: "Caste",
-                            valueWidget: EditDropdownWidget(
-                                controller: _casteController,
-                                values: ['Nair', 'Ezhava', 'LC', 'Others'])),
-
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        SizedBox(height: 12),
-
-                        //Sub Caste
-                        DetailsRowWidget(
-                            label: "Sub Caste",
-                            valueWidget: EditDropdownWidget(
-                                controller: _subcasteController,
-                                values: ['Nair', 'Ezhava', 'LC', 'Others'])),
-
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        SizedBox(height: 12),
-
-                        //Star Sign
-                        DetailsRowWidget(
-                          label: "Star Sign",
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Personal Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                    ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //Height
+                      DetailsRowWidget(
+                          label: "Height",
                           valueWidget: EditableTextWidget(
-                              controller: _starsignController),
-                        ),
+                              controller: _heightController)),
 
-                        SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(
-                          height: 15,
-                        ),
+                      const SizedBox(height: 12),
+                      const Divider(),
+                      const SizedBox(height: 12),
 
-                        //Mother Tongue
-                        DetailsRowWidget(
-                            label: "Mother Tongue",
-                            valueWidget: EditDropdownWidget(
-                                controller: _mothertongueController,
-                                values: [
-                                  'Malayalam',
-                                  'Tamil',
-                                  'Hindi',
-                                  'Telugu'
-                                ])),
+                      //Weight
+                      DetailsRowWidget(
+                          label: "Weight",
+                          valueWidget: EditableTextWidget(
+                              controller: _weightController)),
+                      SizedBox(height: 12),
+                      const Divider(),
 
-                        const Divider(),
-                        const SizedBox(height: 15),
-
-                        //Marital Status
-                        DetailsRowWidget(
-                          label: "Marital Status",
+                      //Religion
+                      DetailsRowWidget(
+                          label: "Religion",
                           valueWidget: EditDropdownWidget(
-                              controller: _maritalStatusController,
+                              controller: _religionController,
                               values: [
-                                'Single',
-                                'Married',
-                                'Divorced',
-                                'Widowed'
-                              ]),
-                        ),
-                        const SizedBox(height: 15),
-                        const Divider(),
-                        const SizedBox(height: 15),
+                                'Hindu',
+                                'Muslim',
+                                'Christian',
+                                'Buddhist'
+                              ])),
 
-                        //write languages known code
-                        DetailsColumnWidget(
-                            label: "Languages Known",
-                            valueWidget: Wrap(
-                              spacing: 8.0,
-                              runSpacing: 8.0,
-                              children: [
-                                ...languages.map((language) {
-                                  return OptionWidget(
-                                    label: language,
-                                    icon: Icons.close,
-                                    onPressed: () {
-                                      setState(() {
-                                        languages.remove(language);
-                                      });
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //Caste
+                      DetailsRowWidget(
+                          label: "Caste",
+                          valueWidget: EditDropdownWidget(
+                              controller: _casteController,
+                              values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+
+                      const SizedBox(height: 12),
+                      const Divider(),
+                      SizedBox(height: 12),
+
+                      //Sub Caste
+                      DetailsRowWidget(
+                          label: "Sub Caste",
+                          valueWidget: EditDropdownWidget(
+                              controller: _subcasteController,
+                              values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+
+                      const SizedBox(height: 12),
+                      const Divider(),
+                      SizedBox(height: 12),
+
+                      //Star Sign
+                      DetailsRowWidget(
+                        label: "Star Sign",
+                        valueWidget:
+                            EditableTextWidget(controller: _starsignController),
+                      ),
+
+                      SizedBox(height: 12),
+                      const Divider(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+
+                      //Mother Tongue
+                      DetailsRowWidget(
+                          label: "Mother Tongue",
+                          valueWidget: EditDropdownWidget(
+                              controller: _mothertongueController,
+                              values: [
+                                'Malayalam',
+                                'Tamil',
+                                'Hindi',
+                                'Telugu'
+                              ])),
+
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //Marital Status
+                      DetailsRowWidget(
+                        label: "Marital Status",
+                        valueWidget: EditDropdownWidget(
+                            controller: _maritalStatusController,
+                            values: [
+                              'Single',
+                              'Married',
+                              'Divorced',
+                              'Widowed'
+                            ]),
+                      ),
+                      const SizedBox(height: 15),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //write languages known code
+                      DetailsColumnWidget(
+                          label: "Languages Known",
+                          valueWidget: Wrap(
+                            spacing: 8.0,
+                            runSpacing: 8.0,
+                            children: [
+                              ...languages.map((language) {
+                                return OptionWidget(
+                                  label: language,
+                                  icon: Icons.close,
+                                  onPressed: () {
+                                    setState(() {
+                                      languages.remove(language);
+                                    });
+                                  },
+                                );
+                              }).toList(),
+                              // Add Language Button
+                              AddHobbieWidget(
+                                label: "Add",
+                                icon: Icons.add,
+                                onPressed: () async {
+                                  final newLanguage = await showDialog<String>(
+                                    context: context,
+                                    builder: (context) {
+                                      final TextEditingController _controller =
+                                          TextEditingController();
+                                      return AlertDialog(
+                                        title: Text("Add Language"),
+                                        content: TextField(
+                                          controller: _controller,
+                                          decoration: InputDecoration(
+                                            hintText: "Enter your language",
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text("Cancel"),
+                                          ),
+                                          ElevatedButton(
+                                            onPressed: () {
+                                              final language =
+                                                  _controller.text.trim();
+                                              if (language.isNotEmpty) {
+                                                Navigator.pop(
+                                                    context, language);
+                                              }
+                                            },
+                                            child: Text("Add"),
+                                          ),
+                                        ],
+                                      );
                                     },
                                   );
-                                }).toList(),
-                                // Add Language Button
-                                AddHobbieWidget(
-                                  label: "Add",
-                                  icon: Icons.add,
-                                  onPressed: () async {
-                                    final newLanguage =
-                                        await showDialog<String>(
-                                      context: context,
-                                      builder: (context) {
-                                        final TextEditingController
-                                            _controller =
-                                            TextEditingController();
-                                        return AlertDialog(
-                                          title: Text("Add Language"),
-                                          content: TextField(
-                                            controller: _controller,
-                                            decoration: InputDecoration(
-                                              hintText: "Enter your language",
-                                            ),
-                                          ),
-                                          actions: [
-                                            TextButton(
-                                              onPressed: () =>
-                                                  Navigator.pop(context),
-                                              child: Text("Cancel"),
-                                            ),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                final language =
-                                                    _controller.text.trim();
-                                                if (language.isNotEmpty) {
-                                                  Navigator.pop(
-                                                      context, language);
-                                                }
-                                              },
-                                              child: Text("Add"),
-                                            ),
-                                          ],
-                                        );
-                                      },
-                                    );
 
-                                    if (newLanguage != null &&
-                                        newLanguage.isNotEmpty) {
-                                      setState(() {
-                                        languages.add(newLanguage);
-                                      });
-                                    }
-                                  }, // Can be empty since the outer GestureDetector handles it
-                                )
-                              ],
-                            )),
-                        const SizedBox(height: 12),
-                        const Divider(),
-                        const SizedBox(height: 12),
+                                  if (newLanguage != null &&
+                                      newLanguage.isNotEmpty) {
+                                    setState(() {
+                                      languages.add(newLanguage);
+                                    });
+                                  }
+                                }, // Can be empty since the outer GestureDetector handles it
+                              )
+                            ],
+                          )),
+                      const SizedBox(height: 12),
+                      const Divider(),
+                      const SizedBox(height: 12),
 
-                        //Number of Children
-                        DetailsRowWidget(
-                            label: "Number of Children",
-                            valueWidget: EditableNumberWidget(
-                                controller: _childController)),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        CustomButton(
-                            text: "Save",
-                            onPressed: () async {
-                              updatePersonalDetails();
-                              await EditProfileService().updatePersonalDetails(
-                                  userData: userController.userData.value,
-                                  context: context);
-                            }),
-                      ],
+                      //Number of Children
+                      DetailsRowWidget(
+                          label: "Number of Children",
+                          valueWidget: EditableNumberWidget(
+                              controller: _childController)),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updatePersonalDetails();
+                            await EditProfileService().updatePersonalDetails(
+                                userData: userController.userData.value,
+                                context: context);
+                          }),
+                    ]),
+
+//////////////////////////////////////////////////////////////////////////////////////////////////
+SizedBox(height: 2),
+//////////////////////////Educational and Professional Details////////////////////////////////////
+
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Educational & Professional Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
                     ),
-                  ),
-                ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //highest education
+                      DetailsRowWidget(
+                          label: "Highest Education",
+                          valueWidget: EditDropdownWidget(
+                              controller: _highestEducationController,
+                              values: [
+                                "Matriculate",
+                                "Plus Two",
+                                "Undergraduate",
+                                "Postgraduate",
+                                "PhD",
+                                "BTech"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-//////////////////////////////////////////////////////////////////////////////////////////////////////////
-                HeaderWidget(title: "Educational and Professional Details"),
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
+                      //Educational details
+                      DetailsRowWidget(
+                          label: "Educational Details",
+                          valueWidget: EditableTextWidget(
+                              controller: _educationController)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                Container(
-                  color: AppColors.bgsoftpink,
-                  child: Padding(
-                    padding: const EdgeInsets.all(30.0),
-                    child: Column(
-                      children: [
-                        //highest education
-                        DetailsRowWidget(
-                            label: "Highest Education",
-                            valueWidget: EditDropdownWidget(
-                                controller: _highestEducationController,
-                                values: [
-                                  "Matriculate",
-                                  "Plus Two",
-                                  "Undergraduate",
-                                  "Postgraduate",
-                                  "PhD",
-                                  "BTech"
-                                ])),
-                        const Divider(),
-                        const SizedBox(height: 15),
+                      //occupation
+                      DetailsRowWidget(
+                          label: "Occupation",
+                          valueWidget: EditDropdownWidget(
+                              controller: _occupationController,
+                              values: [
+                                "Engineer",
+                                "Developer",
+                                "lecturer",
+                                "Doctor",
+                                "Driver",
+                                "Business"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                        //Educational details
-                        DetailsRowWidget(
-                            label: "Educational Details",
-                            valueWidget: EditableTextWidget(
-                                controller: _educationController)),
-                        const Divider(),
-                        const SizedBox(height: 15),
+                      //income
+                      DetailsRowWidget(
+                          label: "Annual Income",
+                          valueWidget: EditDropdownWidget(
+                              controller: _incomeController,
+                              values: [
+                                "1-5",
+                                "5-10",
+                                "10-16",
+                                "15-20",
+                                "Above 20LPA"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                        //occupation
-                        DetailsRowWidget(
-                            label: "Occupation",
-                            valueWidget: EditDropdownWidget(
-                                controller: _occupationController,
-                                values: [
-                                  "Engineer",
-                                  "Developer",
-                                  "lecturer",
-                                  "Doctor",
-                                  "Driver",
-                                  "Business"
-                                ])),
-                        const Divider(),
-                        const SizedBox(height: 15),
-
-                        //income
-                        DetailsRowWidget(
-                            label: "Annual Income",
-                            valueWidget: EditDropdownWidget(
-                                controller: _incomeController,
-                                values: [
-                                  "1-5",
-                                  "5-10",
-                                  "10-16",
-                                  "15-20",
-                                  "Above 20LPA"
-                                ])),
-                        const Divider(),
-                        const SizedBox(height: 15),
-
-                        //worklocation
-                        DetailsRowWidget(
-                            label: "Work Location",
-                            valueWidget: EditableTextWidget(
-                                controller: _locationController)),
-                        const SizedBox(height: 15),
-                        CustomButton(
-                            text: "Save",
-                            onPressed: () async {
-                              updateEducationAndProfessionalDetails();
-                              await EditProfileService()
-                                  .updateEducationAndProfessionalDetails(
-                                      userData: userController.userData.value,
-                                      context: context);
-                            }),
-                      ],
-                    ),
-                  ),
-                ),
-
-////////////////////////////////////////////////////////////////////////////////
-
-                HeaderWidget(title: "Family Details"),
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-                Container(
-                    color: AppColors.bgsoftpink,
-                    child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(children: [
-                          //Family Type
-                          DetailsRowWidget(
-                              label: "Family Type",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _familyTypeController,
-                                  values: ["Nuclear", "Joint"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //Mothers occupation
-                          DetailsRowWidget(
-                              label: "Mothers occupation",
-                              valueWidget: EditableTextWidget(
-                                  controller: _mothersOccupationController)),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          // Fathers occupation
-                          DetailsRowWidget(
-                              label: "Fathers occupation",
-                              valueWidget: EditableTextWidget(
-                                  controller: _fathersOccupationController)),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //Number of siblings
-                          DetailsRowWidget(
-                              label: "Number of Siblings",
-                              valueWidget: EditableNumberWidget(
-                                  controller: _siblingsController)),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //Sibling Marital Status
-                          DetailsRowWidget(
-                            label: "Sibling Marital Status",
-                            valueWidget: EditDropdownWidget(
-                                controller: _siblingsMaritalStatusController,
-                                values: [
-                                  'Single',
-                                  'Married',
-                                  'Divorced',
-                                  'Widowed'
-                                ]),
-                          ),
-                          SizedBox(height: 12),
-                          CustomButton(
-                              text: "Save",
-                              onPressed: () async {
-                                updateFamilyDetails();
-                                await EditProfileService().updateFamilyDetails(
+                      //worklocation
+                      DetailsRowWidget(
+                          label: "Work Location",
+                          valueWidget: EditableTextWidget(
+                              controller: _locationController)),
+                      const SizedBox(height: 15),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updateEducationAndProfessionalDetails();
+                            await EditProfileService()
+                                .updateEducationAndProfessionalDetails(
                                     userData: userController.userData.value,
                                     context: context);
-                              }),
-                        ]))),
+                          }),
+                    ]),
 
-////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////
+SizedBox(height: 2),
+/////////////////////////////Family Details/////////////////////////////////////////
 
-                HeaderWidget(title: "Partners Preferences"),
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Family Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                    ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //Family Type
+                      DetailsRowWidget(
+                          label: "Family Type",
+                          valueWidget: EditDropdownWidget(
+                              controller: _familyTypeController,
+                              values: ["Nuclear", "Joint"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-/////////////////////////////////////////////////////////////////////////////////////
+                      //Mothers occupation
+                      DetailsRowWidget(
+                          label: "Mothers occupation",
+                          valueWidget: EditableTextWidget(
+                              controller: _mothersOccupationController)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                Container(
-                    color: AppColors.bgsoftpink,
-                    child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(children: [
-                          //Prefered Age group
-                          DetailsRowWidget(
-                              label: "Prefered Age group",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pagegroup,
-                                  values: [
-                                    "18-24",
-                                    "24-29",
-                                    "30-40",
-                                    "35 to more"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      // Fathers occupation
+                      DetailsRowWidget(
+                          label: "Fathers occupation",
+                          valueWidget: EditableTextWidget(
+                              controller: _fathersOccupationController)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //prefered height range
-                          DetailsRowWidget(
-                              label: "Prefered Height Range",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pheightrange,
-                                  values: [
-                                    "140-150",
-                                    "150-160",
-                                    "160-173",
-                                    "170-180"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      //Number of siblings
+                      DetailsRowWidget(
+                          label: "Number of Siblings",
+                          valueWidget: EditableNumberWidget(
+                              controller: _siblingsController)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //prefered religion
-                          DetailsRowWidget(
-                              label: "Prefered Religion",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _preligion,
-                                  values: [
-                                    "hindu",
-                                    "Muslim",
-                                    "Christian",
-                                    "Others"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      //Sibling Marital Status
+                      DetailsRowWidget(
+                        label: "Sibling Marital Status",
+                        valueWidget: EditDropdownWidget(
+                            controller: _siblingsMaritalStatusController,
+                            values: [
+                              'Single',
+                              'Married',
+                              'Divorced',
+                              'Widowed'
+                            ]),
+                      ),
+                      SizedBox(height: 12),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updateFamilyDetails();
+                            await EditProfileService().updateFamilyDetails(
+                                userData: userController.userData.value,
+                                context: context);
+                          }),
+                    ]),
 
-                          //prefered caste
-                          DetailsRowWidget(
-                              label: "Prefered Caste",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pcaste,
-                                  values: [
-                                    "Nair",
-                                    "RC",
-                                    "LC",
-                                    "Ezhava",
-                                    "Others"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+///////////////////////////////////////////////////////////////////////////////////////////////
+SizedBox(height: 2),
+/////////////////////////////////Partners Preferences//////////////////////////////////////////
 
-                          //prefered smoking habit
-                          DetailsRowWidget(
-                              label: "Prefered Smoking Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _psmoking,
-                                  values: ["Yes", "No", "occasionally"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Partners Preferences",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                    ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //Prefered Age group
+                      DetailsRowWidget(
+                          label: "Prefered Age group",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pagegroup,
+                              values: [
+                                "18-24",
+                                "24-29",
+                                "30-40",
+                                "35 to more"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //prefered drinking habit
-                          DetailsRowWidget(
-                              label: "Prefered Drinking Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pdrinking,
-                                  values: ["Yes", "No", "occasionally"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      //prefered height range
+                      DetailsRowWidget(
+                          label: "Prefered Height Range",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pheightrange,
+                              values: [
+                                "140-150",
+                                "150-160",
+                                "160-173",
+                                "170-180"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //prefered food habit
-                          DetailsRowWidget(
-                              label: "Prefered Food Habit",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pfood,
-                                  values: [
-                                    "Vegetarian",
-                                    "Non-Vegeterian",
-                                    "vegan",
-                                    "Others"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      //prefered religion
+                      DetailsRowWidget(
+                          label: "Prefered Religion",
+                          valueWidget: EditDropdownWidget(
+                              controller: _preligion,
+                              values: [
+                                "hindu",
+                                "Muslim",
+                                "Christian",
+                                "Others"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //prefered qualification
-                          DetailsRowWidget(
-                              label: "Prefered Qualification",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _pqualification,
-                                  values: [
-                                    "Matriculate",
-                                    "Plus Two",
-                                    "graduate",
-                                    "Postgraduate",
-                                    "Others"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
+                      //prefered caste
+                      DetailsRowWidget(
+                          label: "Prefered Caste",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pcaste,
+                              values: [
+                                "Nair",
+                                "RC",
+                                "LC",
+                                "Ezhava",
+                                "Others"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                          //score
-                          DetailsRowWidget(
-                              label: "Score",
-                              valueWidget: EditableNumberWidget(
-                                editable: false,
-                                controller: _pscore,
-                              )),
-                          const SizedBox(height: 15),
-                          CustomButton(
-                              text: "Save",
+                      //prefered smoking habit
+                      DetailsRowWidget(
+                          label: "Prefered Smoking Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _psmoking,
+                              values: ["Yes", "No", "occasionally"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //prefered drinking habit
+                      DetailsRowWidget(
+                          label: "Prefered Drinking Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pdrinking,
+                              values: ["Yes", "No", "occasionally"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //prefered food habit
+                      DetailsRowWidget(
+                          label: "Prefered Food Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pfood,
+                              values: [
+                                "Vegetarian",
+                                "Non-Vegeterian",
+                                "vegan",
+                                "Others"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //prefered qualification
+                      DetailsRowWidget(
+                          label: "Prefered Qualification",
+                          valueWidget: EditDropdownWidget(
+                              controller: _pqualification,
+                              values: [
+                                "Matriculate",
+                                "Plus Two",
+                                "graduate",
+                                "Postgraduate",
+                                "Others"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //score
+                      DetailsRowWidget(
+                          label: "Score",
+                          valueWidget: EditableNumberWidget(
+                            editable: false,
+                            controller: _pscore,
+                          )),
+                      const SizedBox(height: 15),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updatePartnerPreferences();
+                            await EditProfileService().updatePreferencenDetails(
+                                userData: userController.userData.value,
+                                context: context);
+                          }),
+                    ]),
+
+////////////////////////////////////////////////////////////////////////////////////////////
+SizedBox(height: 2),
+///////////////////////////////////Location Details////////////////////////////////////////
+
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Location Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                    ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //Address
+                      DetailsRowWidget(
+                          label: "Address",
+                          valueWidget: EditableTextWidget(
+                            controller: _addressController,
+                          )),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //state
+                      DetailsRowWidget(
+                          label: "State",
+                          valueWidget: EditDropdownWidget(
+                              controller: _stateController,
+                              values: [
+                                "Kerala",
+                                "Tamil Nadu",
+                                "Karnataka",
+                                "Andhra Pradesh"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //District
+                      DetailsRowWidget(
+                          label: "District",
+                          valueWidget: EditDropdownWidget(
+                              controller: _districtController,
+                              values: [
+                                "Ernakulam",
+                                "Kochi",
+                                "Kollam",
+                                "Palakkad",
+                                "Kottayam"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //country
+                      DetailsRowWidget(
+                          label: "Country",
+                          valueWidget: EditDropdownWidget(
+                              controller: _countryController,
+                              values: ["India", "USA", "UK", "Canada"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //zipcode
+                      DetailsRowWidget(
+                          label: "ZipCode",
+                          valueWidget: EditableTextWidget(
+                            controller: _zipcodeController,
+                          )),
+                      const Divider(),
+                      const SizedBox(height: 15),
+
+                      //city
+                      DetailsRowWidget(
+                          label: "CurrentCity",
+                          valueWidget: EditableTextWidget(
+                            controller: _cityController,
+                          )),
+
+                      const SizedBox(height: 15),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updateLocationDetails();
+                            await EditProfileService().updateLocationDetails(
+                                userData: userController.userData.value,
+                                context: context);
+                          }),
+                      const SizedBox(height: 15),
+                    ]),
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+SizedBox(height: 2),
+/////////////////////////////Additional Details///////////////////////////////////////////////
+
+                ExpansionTile(
+                    tilePadding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    collapsedBackgroundColor:
+                        AppColors.bgsoftpink.withAlpha(90),
+                    backgroundColor: AppColors.bgsoftpink,
+                    title: const Text(
+                      "Additional Details",
+                      style:
+                          TextStyle(fontWeight: FontWeight.w500, fontSize: 16),
+                    ),
+                    childrenPadding: const EdgeInsets.all(30.0),
+                    children: [
+                      //About Me
+                      DetailsRowWidget(
+                          label: "About Me",
+                          valueWidget: EditableTextWidget(
+                            controller: _aboutmecontroller,
+                            justify: true,
+                          )),
+                      const Divider(),
+                      const SizedBox(height: 15),
+                      DetailsColumnWidget(
+                        label: "Hobbies",
+                        valueWidget: Wrap(
+                          spacing: 8.0,
+                          runSpacing: 8.0,
+                          children: [
+                            ...hobbies.map((hobby) {
+                              return OptionWidget(
+                                label: hobby,
+                                icon: Icons.close,
+                                onPressed: () {
+                                  setState(() {
+                                    hobbies.remove(hobby);
+                                  });
+                                },
+                              );
+                            }).toList(),
+                            // Add Hobby Button
+                            AddHobbieWidget(
+                              label: "Add",
+                              icon: Icons.add,
                               onPressed: () async {
-                                updatePartnerPreferences();
-                                await EditProfileService()
-                                    .updatePreferencenDetails(
-                                        userData: userController.userData.value,
-                                        context: context);
-                              }),
-                        ]))),
-
-////////////////////////////////////////////////////////////////////////////////
-
-                HeaderWidget(title: "Location Details"),
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-                Container(
-                    color: AppColors.bgsoftpink,
-                    child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(children: [
-                          //Address
-                          DetailsRowWidget(
-                              label: "Address",
-                              valueWidget: EditableTextWidget(
-                                controller: _addressController,
-                              )),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //state
-                          DetailsRowWidget(
-                              label: "State",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _stateController,
-                                  values: [
-                                    "Kerala",
-                                    "Tamil Nadu",
-                                    "Karnataka",
-                                    "Andhra Pradesh"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //District
-                          DetailsRowWidget(
-                              label: "District",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _districtController,
-                                  values: [
-                                    "Ernakulam",
-                                    "Kochi",
-                                    "Kollam",
-                                    "Palakkad",
-                                    "Kottayam"
-                                  ])),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //country
-                          DetailsRowWidget(
-                              label: "Country",
-                              valueWidget: EditDropdownWidget(
-                                  controller: _countryController,
-                                  values: ["India", "USA", "UK", "Canada"])),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //zipcode
-                          DetailsRowWidget(
-                              label: "ZipCode",
-                              valueWidget: EditableTextWidget(
-                                controller: _zipcodeController,
-                              )),
-                          const Divider(),
-                          const SizedBox(height: 15),
-
-                          //city
-                          DetailsRowWidget(
-                              label: "CurrentCity",
-                              valueWidget: EditableTextWidget(
-                                controller: _cityController,
-                              )),
-
-                          const SizedBox(height: 15),
-                          CustomButton(
-                              text: "Save",
-                              onPressed: () async {
-                                updateLocationDetails();
-                                await EditProfileService()
-                                    .updateLocationDetails(
-                                        userData: userController.userData.value,
-                                        context: context);
-                              }),
-                          const SizedBox(height: 15),
-                        ]))),
-
-////////////////////////////////////////////////////////////////////////////////
-
-                HeaderWidget(title: "Additional Details"),
-
-/////////////////////////////////////////////////////////////////////////////////////
-
-                Container(
-                    color: AppColors.bgsoftpink,
-                    child: Padding(
-                        padding: const EdgeInsets.all(30.0),
-                        child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              //About Me
-                              DetailsRowWidget(
-                                  label: "About Me",
-                                  valueWidget: EditableTextWidget(
-                                    controller: _aboutmecontroller,
-                                    justify: true,
-                                  )),
-                              const Divider(),
-                              const SizedBox(height: 15),
-                              DetailsColumnWidget(
-                                label: "Hobbies",
-                                valueWidget: Wrap(
-                                  spacing: 8.0,
-                                  runSpacing: 8.0,
-                                  children: [
-                                    ...hobbies.map((hobby) {
-                                      return OptionWidget(
-                                        label: hobby,
-                                        icon: Icons.close,
-                                        onPressed: () {
-                                          setState(() {
-                                            hobbies.remove(hobby);
-                                          });
-                                        },
-                                      );
-                                    }).toList(),
-                                    // Add Hobby Button
-                                    AddHobbieWidget(
-                                      label: "Add",
-                                      icon: Icons.add,
-                                      onPressed: () async {
-                                        final newHobby =
-                                            await showDialog<String>(
-                                          context: context,
-                                          builder: (context) {
-                                            final TextEditingController
-                                                _controller =
-                                                TextEditingController();
-                                            return AlertDialog(
-                                              title: Text("Add Hobby"),
-                                              content: TextField(
-                                                controller: _controller,
-                                                decoration: InputDecoration(
-                                                  hintText: "Enter your hobby",
-                                                ),
-                                              ),
-                                              actions: [
-                                                TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(
-                                                          context), // cancel
-                                                  child: Text("Cancel"),
-                                                ),
-                                                ElevatedButton(
-                                                  onPressed: () {
-                                                    final hobby =
-                                                        _controller.text.trim();
-                                                    if (hobby.isNotEmpty) {
-                                                      Navigator.pop(
-                                                          context, hobby);
-                                                    }
-                                                  },
-                                                  child: Text("Add"),
-                                                ),
-                                              ],
-                                            );
+                                final newHobby = await showDialog<String>(
+                                  context: context,
+                                  builder: (context) {
+                                    final TextEditingController _controller =
+                                        TextEditingController();
+                                    return AlertDialog(
+                                      title: Text("Add Hobby"),
+                                      content: TextField(
+                                        controller: _controller,
+                                        decoration: InputDecoration(
+                                          hintText: "Enter your hobby",
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context), // cancel
+                                          child: Text("Cancel"),
+                                        ),
+                                        ElevatedButton(
+                                          onPressed: () {
+                                            final hobby =
+                                                _controller.text.trim();
+                                            if (hobby.isNotEmpty) {
+                                              Navigator.pop(context, hobby);
+                                            }
                                           },
-                                        );
+                                          child: Text("Add"),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
 
-                                        if (newHobby != null &&
-                                            newHobby.isNotEmpty) {
-                                          setState(() {
-                                            hobbies.add(newHobby);
-                                          });
-                                        }
-                                      }, // Can be empty since the outer GestureDetector handles it
-                                    )
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 15),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                                if (newHobby != null && newHobby.isNotEmpty) {
+                                  setState(() {
+                                    hobbies.add(newHobby);
+                                  });
+                                }
+                              }, // Can be empty since the outer GestureDetector handles it
+                            )
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 15),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //smoking habit
-                              DetailsRowWidget(
-                                  label: "Smoking Habit",
-                                  valueWidget: EditDropdownWidget(
-                                      controller: _smokinghabitcontroller,
-                                      values: ["Yes", "No"])),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //smoking habit
+                      DetailsRowWidget(
+                          label: "Smoking Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _smokinghabitcontroller,
+                              values: ["Yes", "No"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //drinking habit
-                              DetailsRowWidget(
-                                  label: "Drinking Habit",
-                                  valueWidget: EditDropdownWidget(
-                                      controller: _drinkinghabitcontroller,
-                                      values: ["Yes", "No"])),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //drinking habit
+                      DetailsRowWidget(
+                          label: "Drinking Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _drinkinghabitcontroller,
+                              values: ["Yes", "No"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //food habit
-                              DetailsRowWidget(
-                                  label: "Food Habit",
-                                  valueWidget: EditDropdownWidget(
-                                      controller: _foodhabitcontroller,
-                                      values: [
-                                        "Vegetarian",
-                                        "Non-Vegeterian",
-                                        "Vegan",
-                                        "Others"
-                                      ])),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //food habit
+                      DetailsRowWidget(
+                          label: "Food Habit",
+                          valueWidget: EditDropdownWidget(
+                              controller: _foodhabitcontroller,
+                              values: [
+                                "Vegetarian",
+                                "Non-Vegeterian",
+                                "Vegan",
+                                "Others"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //profile approved
-                              DetailsRowWidget(
-                                  label: "Profile Approved",
-                                  valueWidget: EditDropdownWidget(
-                                      controller: _profileapprovalcontroller,
-                                      values: ["0", "1"])),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //profile approved
+                      DetailsRowWidget(
+                          label: "Profile Approved",
+                          valueWidget: EditDropdownWidget(
+                              controller: _profileapprovalcontroller,
+                              values: ["0", "1"])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //profile created by
-                              DetailsRowWidget(
-                                  label: "Profile Created By",
-                                  valueWidget: EditDropdownWidget(
-                                      controller: _profilecreatedcontroller,
-                                      values: [
-                                        "Self",
-                                        "Parents",
-                                        "Relatives",
-                                        "Friends"
-                                      ])),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //profile created by
+                      DetailsRowWidget(
+                          label: "Profile Created By",
+                          valueWidget: EditDropdownWidget(
+                              controller: _profilecreatedcontroller,
+                              values: [
+                                "Self",
+                                "Parents",
+                                "Relatives",
+                                "Friends"
+                              ])),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //Instagram Link
-                              DetailsRowWidget(
-                                  label: "Instagram Link",
-                                  valueWidget: EditableTextWidget(
-                                      controller: _instalinkcontroller)),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //Instagram Link
+                      DetailsRowWidget(
+                          label: "Instagram Link",
+                          valueWidget: EditableTextWidget(
+                              controller: _instalinkcontroller)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //Facebook Link
-                              DetailsRowWidget(
-                                  label: "Facebook Link",
-                                  valueWidget: EditableTextWidget(
-                                      controller: _fblinkcontroller)),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //Facebook Link
+                      DetailsRowWidget(
+                          label: "Facebook Link",
+                          valueWidget: EditableTextWidget(
+                              controller: _fblinkcontroller)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //Linkedln Link
-                              DetailsRowWidget(
-                                  label: "Linkedln Link",
-                                  valueWidget: EditableTextWidget(
-                                      controller: _linkedlnlinkcontroller)),
-                              const Divider(),
-                              const SizedBox(height: 15),
+                      //Linkedln Link
+                      DetailsRowWidget(
+                          label: "Linkedln Link",
+                          valueWidget: EditableTextWidget(
+                              controller: _linkedlnlinkcontroller)),
+                      const Divider(),
+                      const SizedBox(height: 15),
 
-                              //Youtube Link
-                              DetailsRowWidget(
-                                  label: "Youtube  Link",
-                                  valueWidget: EditableTextWidget(
-                                    controller: _youtubelinkcontroller,
-                                  )),
-                              const SizedBox(height: 15),
-                              CustomButton(
-                                  text: "Save",
-                                  onPressed: () async {
-                                    updateAdditionalDetails();
-                                    await EditProfileService()
-                                        .updateAdditionalDetails(
-                                            userData:
-                                                userController.userData.value,
-                                            context: context);
-                                  }),
-                              const SizedBox(height: 20),
-                            ])))
+                      //Youtube Link
+                      DetailsRowWidget(
+                          label: "Youtube  Link",
+                          valueWidget: EditableTextWidget(
+                            controller: _youtubelinkcontroller,
+                          )),
+                      const SizedBox(height: 15),
+                      CustomButton(
+                          text: "Save",
+                          onPressed: () async {
+                            updateAdditionalDetails();
+                            await EditProfileService().updateAdditionalDetails(
+                                userData: userController.userData.value,
+                                context: context);
+                          }),
+                      const SizedBox(height: 20),
+                    ]),
               ]))),
         ]));
   }

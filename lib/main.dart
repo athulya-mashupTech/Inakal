@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
+import 'package:inakal/common/screen/test_page.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
@@ -73,7 +74,7 @@ class MyApp extends StatelessWidget {
       ),
       // home: ChatScreen(),
       // home: PsychologistScreen(),
-      // home: BottomNavBarScreen()
+      // home: ProfileApp(),
       home: const MyHomePage(title: 'Inakal'),
       // home: MatchesScreen(),
       // home: ProfilePage(),

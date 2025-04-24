@@ -187,7 +187,7 @@ class DrawerWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      ClipOval(
+                      Obx(() => ClipOval(
                         child: CachedNetworkImage(
                           imageUrl:
                               userController.userData.value.user?.image ?? "",
@@ -206,22 +206,22 @@ class DrawerWidget extends StatelessWidget {
                           errorWidget: (context, url, error) =>
                               Icon(Icons.error),
                         ),
-                      ),
+                      )),
                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          Obx(() => Text(
                             "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}" ??
                                 'N/A',
                             style:
                                 TextStyle(color: AppColors.white, fontSize: 18),
-                          ),
-                          Text(
+                          )),
+                          Obx(() => Text(
                             'INK${userController.userData.value.user?.id}',
                             style:
                                 TextStyle(color: AppColors.white, fontSize: 14),
-                          ),
+                          )),
                         ],
                       ),
                     ],
