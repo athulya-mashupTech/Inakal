@@ -33,7 +33,7 @@ class Requests {
   String? toClientId;
   String? assignedBy;
   String? assignedById;
-  Null? remarks;
+  // String? remarks;
   String? status;
   String? createdAt;
 
@@ -43,7 +43,7 @@ class Requests {
       this.toClientId,
       this.assignedBy,
       this.assignedById,
-      this.remarks,
+      // this.remarks,
       this.status,
       this.createdAt});
 
@@ -53,7 +53,7 @@ class Requests {
     toClientId = json['to_client_id'];
     assignedBy = json['assigned_by'];
     assignedById = json['assigned_by_id'];
-    remarks = json['remarks'];
+    // remarks = json['remarks'];
     status = json['status'];
     createdAt = json['created_at'];
   }
@@ -65,7 +65,7 @@ class Requests {
     data['to_client_id'] = this.toClientId;
     data['assigned_by'] = this.assignedBy;
     data['assigned_by_id'] = this.assignedById;
-    data['remarks'] = this.remarks;
+    // data['remarks'] = this.remarks;
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     return data;

@@ -11,7 +11,7 @@ class GalleryService {
   final AuthController authController = Get.find();
 
   // Get all gallery images from server
-  Future<GalleryImagesModel?> getGalleryImages() async {
+  Future<GalleryImagesModel?> getGalleryImages(BuildContext context) async {
     try {
       final response =
           await _sendPostRequest(url: galleryImagesUrl, fields: {});
@@ -19,6 +19,7 @@ class GalleryService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
+        print("Message ${jsonResponse["message"]}");
         final galleryModel = GalleryImagesModel.fromJson(jsonResponse);
 
         if (galleryModel.type == "success") {
@@ -26,11 +27,22 @@ class GalleryService {
           return galleryModel;
         } else {
           print("Error: ${galleryModel.message}");
-          return null;
+          return GalleryImagesModel(
+            type: "error",
+            message: galleryModel.message,
+            gallery: [],
+          );
         }
       } else {
         print("Error: ${response.statusCode}");
-        return null;
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+          _showSnackbar(context, jsonResponse["message"] ?? "");
+        return GalleryImagesModel(
+            type: "error",
+            message: jsonResponse["message"],
+            gallery: [],
+          );
       }
     } catch (e) {
       print("Error: $e");

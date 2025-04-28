@@ -77,7 +77,7 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
             ),
 
             // Gradient at the bottom
-             LightPinkGradient(),
+            LightPinkGradient(),
 
             // PageView for onboarding content
             Padding(
@@ -136,41 +136,51 @@ class _OnboardingScreen1State extends State<OnboardingScreen1> {
                 ),
               ),
 
-            // Swipeable Button on the last page
-            if (_currentPage == onboardingPages.length - 1)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 70),
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 40),
+            AnimatedOpacity(
+              duration: const Duration(milliseconds: 400),
+              opacity: _currentPage == onboardingPages.length - 1 ? 1.0 : 0.0,
+              curve: Curves.easeInOut,
+              child: IgnorePointer(
+                ignoring: _currentPage != onboardingPages.length - 1,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SwipeableButtonView(
-                        buttonText: "Get Started",
-                        buttonWidget: const Icon(
-                          Icons.arrow_forward,
-                          color: AppColors.primaryRed
-                        ),
-                        activeColor: AppColors.primaryRed,
-                        isFinished: isFinished,
-                        onWaitingProcess: () {
-                          // Simulate a delay for the button action
-                          Future.delayed(const Duration(seconds: 2), () {
-                            setState(() {
-                              isFinished = true;
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 16.0, vertical: 40),
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: SwipeableButtonView(
+                          buttonText: "Get Started",
+                          buttonWidget: const Icon(
+                            Icons.arrow_forward,
+                            color: AppColors.primaryRed,
+                          ),
+                          activeColor: AppColors.primaryRed,
+                          isFinished: isFinished,
+                          onWaitingProcess: () {
+                            Future.delayed(const Duration(seconds: 2), () {
+                              setState(() {
+                                isFinished = true;
+                              });
                             });
-                          });
-                        },
-                        onFinish: () {
-                          // Navigate to the otp screen
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MobileNoCheckScreen()));
-                        },
+                          },
+                          onFinish: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MobileNoCheckScreen(),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
+            )
           ],
         ),
       ),
