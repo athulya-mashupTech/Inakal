@@ -50,7 +50,7 @@ class _GalleryPageState extends State<GalleryPage> {
   }
 
   Future<void> _loadGalleryImages() async {
-    await GalleryService().getGalleryImages().then((value) {
+    await GalleryService().getGalleryImages(context).then((value) {
       setState(() {
         galleryImages = value;
         isLoading = false;
@@ -61,30 +61,31 @@ class _GalleryPageState extends State<GalleryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              bottom: -100,
-              child: Image.asset(
-                'assets/vectors/dotted_design1.png',
-                width: MediaQuery.of(context).size.width,
-                fit: BoxFit.cover,
+      backgroundColor: AppColors.white,
+      body: Stack(
+        children: [
+          Positioned(
+            bottom: -100,
+            child: Image.asset(
+              'assets/vectors/dotted_design1.png',
+              width: MediaQuery.of(context).size.width,
+              fit: BoxFit.cover,
+            ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height),
+          Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              height: 100,
+              decoration: const BoxDecoration(
+                gradient: AppColors.pinkWhiteGradient,
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height),
-            Positioned(
-              bottom: 0,
-              left: 0,
-              right: 0,
-              child: Container(
-                height: 100,
-                decoration: const BoxDecoration(
-                  gradient: AppColors.pinkWhiteGradient,
-                ),
-              ),
-            ),
-            SingleChildScrollView(
+          ),
+          SafeArea(
+            child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(30.0),
                 child: Column(
@@ -159,6 +160,18 @@ class _GalleryPageState extends State<GalleryPage> {
                               child: CircularProgressIndicator(),
                             ),
                           )
+                        : galleryImages?.gallery?.length == 0 
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15.0),
+                              child: Column(
+                                children: [
+                                  Text("No Images Uploaded", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                                  Text("You have not uploaded any images yet!"),
+                                ],
+                              ),
+                            ),
+                          )
                         : GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
@@ -216,8 +229,8 @@ class _GalleryPageState extends State<GalleryPage> {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

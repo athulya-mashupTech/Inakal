@@ -41,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   bool isLoading = true;
 
   Future<void> _loadProfileGallery() async {
-    await GalleryService().getGalleryImages().then((value) {
+    await GalleryService().getGalleryImages(context).then((value) {
       galleryImagesModel = value;
       setState(() {
         isLoading = false;
@@ -328,7 +328,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               imageUrl: userController
                                       .userData.value.user?.image ??
                                   "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
-                              width: 160,
+                              width: MediaQuery.of(context).size.width * 0.4,
                               height: 180,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => Shimmer.fromColors(
@@ -344,7 +344,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(width: 16),
                         Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.only(top: 16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -482,75 +482,99 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 20),
                   isLoading
                       ? Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: Center(child: CircularProgressIndicator()),
+                          child: Column(
+                            children: [
+                              const SizedBox(height: 20),
+                              Center(child: CircularProgressIndicator()),
+                              SizedBox(height: 10),
+                            ],
+                          ),
                         )
-                      : Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount:
-                                (galleryImagesModel?.gallery?.length ?? 0) > 4
-                                    ? 4
-                                    : galleryImagesModel?.gallery?.length,
-                            itemBuilder: (context, index) {
-                              return (galleryImagesModel?.gallery?.length ??
-                                          0) >
-                                      4
-                                  ? index == 3
-                                      ? GestureDetector(
-                                          onTap: () {
-                                            _showImageOverlay(3);
-                                          },
-                                          child: Stack(
-                                            fit: StackFit.expand,
-                                            children: [
-                                              ImageCard(
+                      : Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10.0,
+                                  mainAxisSpacing: 10.0,
+                                  childAspectRatio: 1.3,
+                                ),
+                                itemCount:
+                                    (galleryImagesModel?.gallery?.length ?? 0) >
+                                            4
+                                        ? 4
+                                        : galleryImagesModel?.gallery?.length,
+                                itemBuilder: (context, index) {
+                                  return (galleryImagesModel?.gallery?.length ??
+                                              0) >
+                                          4
+                                      ? index == 3
+                                          ? GestureDetector(
+                                              onTap: () {
+                                                _showImageOverlay(3);
+                                              },
+                                              child: Stack(
+                                                fit: StackFit.expand,
+                                                children: [
+                                                  ImageCard(
+                                                      image: galleryImagesModel
+                                                              ?.gallery?[index]
+                                                              .image ??
+                                                          ""),
+                                                  Container(
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color: AppColors.black
+                                                          .withAlpha(150),
+                                                    ),
+                                                  ),
+                                                  Column(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .center,
+                                                    children: [
+                                                      const Icon(
+                                                        Icons.image_outlined,
+                                                        size: 35,
+                                                        color: AppColors.white,
+                                                      ),
+                                                      Text(
+                                                        "+${(galleryImagesModel?.gallery?.length ?? 0) - 3}",
+                                                        style: const TextStyle(
+                                                            color:
+                                                                AppColors.white,
+                                                            fontSize: 24),
+                                                      )
+                                                    ],
+                                                  )
+                                                ],
+                                              ),
+                                            )
+                                          : GestureDetector(
+                                              child: ImageCard(
                                                   image: galleryImagesModel
                                                           ?.gallery?[index]
                                                           .image ??
                                                       ""),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: AppColors.black
-                                                      .withAlpha(150),
-                                                ),
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.image_outlined,
-                                                    size: 35,
-                                                    color: AppColors.white,
-                                                  ),
-                                                  Text(
-                                                    "+${(galleryImagesModel?.gallery?.length ?? 0) - 3}",
-                                                    style: const TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 24),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        )
+                                              onTap: () {
+                                                _showImageOverlay(index);
+                                              },
+                                            )
                                       : GestureDetector(
                                           child: ImageCard(
                                               image: galleryImagesModel
@@ -559,20 +583,13 @@ class _ProfilePageState extends State<ProfilePage> {
                                           onTap: () {
                                             _showImageOverlay(index);
                                           },
-                                        )
-                                  : GestureDetector(
-                                      child: ImageCard(
-                                          image: galleryImagesModel
-                                                  ?.gallery?[index].image ??
-                                              ""),
-                                      onTap: () {
-                                        _showImageOverlay(index);
-                                      },
-                                    );
-                            },
-                          ),
+                                        );
+                                },
+                              ),
+                            ),
+                            SizedBox(height: 10),
+                          ],
                         ),
-                  SizedBox(height: 10),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(

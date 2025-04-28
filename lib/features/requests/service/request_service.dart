@@ -45,6 +45,9 @@ class RequestService {
               if (userJson['user']['first_name'] == null || userJson['user']['first_name'] == "") {
                 userJson['user']['first_name'] = "N/A";
               }
+              if (userJson['user']['height'] == null || userJson['user']['height'] == "") {
+                userJson['user']['height'] = "N/A";
+              }
               if (userJson['user']['last_name'] == null || userJson['user']['last_name'] == "") {
                 userJson['user']['last_name'] = "N/A";
               }
@@ -119,10 +122,10 @@ class RequestService {
           List<Future<RequestUserDetailsModel?>> userDetailsFutures =
               receivedRequestModel.requests!.map((request) async {
             // Call the user details fetch API
-            print("ID: ${request.toClientId!}");
+            print("ID: ${request.fromClientId!}");
             final userDetailsResponse = await _sendPostRequest(
               url: userDetailsFetchUrl,
-              fields: {"userid": request.toClientId!},
+              fields: {"userid": request.fromClientId!},
             );
 
             if (userDetailsResponse.statusCode == 200) {
@@ -143,7 +146,7 @@ class RequestService {
                 userJson['user']['state'] = "N/A";
               }
               if (userJson['user']['dob'] == null || userJson['user']['dob'] == "") {
-                userJson['user']['dob'] = "N/A";
+                userJson['user']['dob'] = "1998-05-27";
               }
               if (userJson['user']['religion'] == null || userJson['user']['religion'] == "") {
                 userJson['user']['religion'] = "N/A";

@@ -33,6 +33,22 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
+
+  int calculateAge(String birthDateString) {
+    DateTime birthDate = DateTime.parse(birthDateString);
+    DateTime today = DateTime.now();
+
+    int age = today.year - birthDate.year;
+
+    // Check if the birthday has occurred yet this year
+    if (today.month < birthDate.month ||
+        (today.month == birthDate.month && today.day < birthDate.day)) {
+      age--;
+    }
+
+    return age;
+  }
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -63,7 +79,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                             BlendMode
                                 .saturation, // Apply the grayscale effect using saturation
                           ),
-                          child: Image.asset(
+                          child: Image.network(
                             widget.image,
                             width: MediaQuery.of(context).size.width * 0.3,
                             height: MediaQuery.of(context).size.width * 0.35,
@@ -73,10 +89,10 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       )
                     : ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
+                        child: Image.network(
                           widget.image,
                           width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.38,
+                          height: MediaQuery.of(context).size.width * 0.4,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -94,6 +110,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          height: 1.2
                         ),
                       ),
 
@@ -101,6 +118,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         widget.location,
                         style: const TextStyle(
                           fontSize: 12,
+                          height: 1.2
                         ),
                       ),
 
@@ -110,7 +128,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "${widget.age} Year, ${widget.height}",
+                            "${calculateAge(widget.age)} Year, ${widget.height} cm",
                             style: const TextStyle(
                               fontSize: 12,
                             ),
@@ -186,19 +204,11 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           const Row(
                             children: [
                               Text(
-                                "Last seen on Today, 10:25AM",
+                                "Last seen Today, 10:25AM",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.primaryRed,
                                 ),
-                              ),
-                              SizedBox(
-                                width: 3,
-                              ),
-                              Icon(
-                                Icons.info_rounded,
-                                size: 15,
-                                color: AppColors.primaryRed,
                               ),
                             ],
                           )

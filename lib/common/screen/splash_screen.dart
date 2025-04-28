@@ -28,6 +28,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     // Check if the user is logged in
+    box.write('isLoggedIn', false);
     isLoggedIn = box.read('isLoggedIn') ?? false;
 
     if (isLoggedIn) {
