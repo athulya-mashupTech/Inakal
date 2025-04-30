@@ -166,8 +166,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                             children: [
                               Text(
                                 switch (widget.req_status) {
-                                  "Accepted" => "You both liked eachother",
-                                  "Pending" => "He liked your Profile",
+                                  "accepted" => "Both liked eachother",
+                                  "pending" => "He liked your Profile",
                                   _ => "He liked your Profile",
                                 },
                                 style: const TextStyle(
@@ -204,7 +204,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           const Row(
                             children: [
                               Text(
-                                "Last seen Today, 10:25AM",
+                                "Last seen on 30/12/2025",
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: AppColors.primaryRed,
@@ -222,7 +222,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
 
             const SizedBox(height: 10),
 
-            widget.req_status == "Accepted"
+            widget.req_status == "accepted"
                 ? const Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [

@@ -32,30 +32,38 @@ class _SendRequestsState extends State<SendRequests> {
   Future<void> fetchSentRequests() async {
     setState(() {
       isLoading = true;
+      filteredUsers.clear();
     });
+
     await RequestService().getSentRequestUserDetails(context).then((value) {
       setState(() {
         allSentRequests = value;
-        filteredUsers = allSentRequests;
+        applyFilter();
         isLoading = false;
       });
     });
+
     print(allSentRequests.length);
+  }
+
+  void applyFilter() {
+    if (selectedFilter == "All") {
+      filteredUsers = List.from(allSentRequests);
+    } else if (selectedFilter == "Accepted") {
+      filteredUsers = allSentRequests
+          .where((user) => user?.status == "Accepted")
+          .toList();
+    } else if (selectedFilter == "Pending") {
+      filteredUsers = allSentRequests
+          .where((user) => user?.status == "pending")
+          .toList();
+    }
   }
 
   void filterUsers(String filter) {
     setState(() {
       selectedFilter = filter;
-      if (filter == "All") {
-        filteredUsers = List.from(allSentRequests); // Show all users
-      } else if (filter == "Accepted") {
-        filteredUsers = allSentRequests
-            .where((user) => user?.status == "Accepted")
-            .toList();
-      } else if (filter == "Pending") {
-        filteredUsers =
-            allSentRequests.where((user) => user?.status == "pending").toList();
-      }
+      applyFilter();
     });
   }
 
@@ -81,20 +89,17 @@ class _SendRequestsState extends State<SendRequests> {
                 ),
                 selected: selectedFilter == filter,
                 onSelected: (bool selected) {
-                  filterUsers(
-                      filter); // Apply the filter when the chip is selected
+                  filterUsers(filter);
                 },
               );
             }).toList(),
           ),
         ),
-        isLoading == true
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : filteredUsers.isEmpty
-                ? Expanded(
-                    child: Center(
+        Expanded(
+          child: isLoading && filteredUsers.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : filteredUsers.isEmpty
+                  ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -104,41 +109,39 @@ class _SendRequestsState extends State<SendRequests> {
                           ),
                           const Text(
                             "No Requests Found",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ],
                       ),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: fetchSentRequests,
+                      child: ListView.builder(
+                        itemCount: filteredUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = filteredUsers[index];
+                          return SendRequestsCard(
+                            image: user?.image ?? "",
+                            name: user?.firstName != null
+                                ? "${user?.firstName} ${user?.lastName}"
+                                : "",
+                            location: user?.state ?? "",
+                            status: user?.status ?? "",
+                            role: user?.occupation ?? "",
+                            age: user?.dob ?? "",
+                            height: user?.height ?? "",
+                            req_status: user?.status ?? "",
+                            religion: user?.religion ?? "",
+                            req_id: user?.requestId ?? "",
+                            onTap: () async {
+                              await deleteRequest(user?.requestId ?? "");
+                              await fetchSentRequests();
+                            },
+                          );
+                        },
+                      ),
                     ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        return SendRequestsCard(
-                          image: filteredUsers[index]?.image ?? "",
-                          name: filteredUsers[index]?.firstName != null
-                              ? "${filteredUsers[index]?.firstName} ${filteredUsers[index]?.lastName}"
-                              : "",
-                          location: filteredUsers[index]?.state ?? "",
-                          status: filteredUsers[index]?.status ?? "",
-                          role: filteredUsers[index]?.occupation ?? "",
-                          age: filteredUsers[index]?.dob ?? "",
-                          height: filteredUsers[index]?.height ?? "",
-                          req_status: filteredUsers[index]?.status ?? "",
-                          religion: filteredUsers[index]?.religion ?? "",
-                          req_id: filteredUsers[index]?.requestId ?? "",
-                          onTap: () async {
-                            await deleteRequest(
-                                filteredUsers[index]?.requestId ?? "");
-                            await fetchSentRequests();
-                          },
-                        );
-                      },
-                    ),
-                  ),
+        ),
       ],
     );
   }
