@@ -12,6 +12,7 @@ class TextFieldWidget extends StatelessWidget {
   final FocusNode? focusNode;
   final bool obscureText;
   final String? Function(String?)? validator;
+  final String? errorText;
 
   const TextFieldWidget({
     required this.controller,
@@ -23,7 +24,7 @@ class TextFieldWidget extends StatelessWidget {
     this.onTap,
     this.obscureText = false,
     this.validator,
-    super.key, this.focusNode,
+    super.key, this.focusNode, this.errorText,
   });
 
   @override
@@ -38,6 +39,7 @@ class TextFieldWidget extends StatelessWidget {
         focusNode: focusNode,
         decoration: InputDecoration(
             hintText: hintText,
+             errorText: errorText,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(30.0),
             ),
