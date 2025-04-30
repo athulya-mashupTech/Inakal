@@ -3,7 +3,6 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/received_requests_card.dart';
-import 'package:inakal/data_class/user.dart';
 import 'package:lottie/lottie.dart';
 
 class ReceivedRequests extends StatefulWidget {
@@ -27,30 +26,40 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
   }
 
   Future<void> fetchReceivedRequests() async {
+    setState(() {
+      isLoading = true;
+      filteredUsers.clear();
+    });
+
     await RequestService().getReceivedRequestUserDetails(context).then((value) {
       setState(() {
         allReceivedRequests = value;
-        filteredUsers = allReceivedRequests;
+        applyFilter();
         isLoading = false;
       });
     });
-    print(allReceivedRequests.length);
+  }
+
+  void applyFilter() {
+    if (selectedFilter == "All") {
+      filteredUsers = allReceivedRequests
+          .where((user) => user?.status == "accepted" || user?.status == "pending")
+          .toList();
+    } else if (selectedFilter == "Accepted") {
+      filteredUsers = allReceivedRequests
+          .where((user) => user?.status == "accepted")
+          .toList();
+    } else if (selectedFilter == "Pending") {
+      filteredUsers = allReceivedRequests
+          .where((user) => user?.status == "pending")
+          .toList();
+    }
   }
 
   void filterUsers(String filter) {
     setState(() {
       selectedFilter = filter;
-      if (filter == "All") {
-        filteredUsers = List.from(allReceivedRequests); // Show all users
-      } else if (filter == "Accepted") {
-        filteredUsers = allReceivedRequests
-            .where((user) => user?.status == "Accepted")
-            .toList();
-      } else if (filter == "Pending") {
-        filteredUsers = allReceivedRequests
-            .where((user) => user?.status == "pending")
-            .toList();
-      }
+      applyFilter();
     });
   }
 
@@ -76,20 +85,17 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                 ),
                 selected: selectedFilter == filter,
                 onSelected: (bool selected) {
-                  filterUsers(
-                      filter); // Apply the filter when the chip is selected
+                  filterUsers(filter);
                 },
               );
             }).toList(),
           ),
         ),
-        isLoading == true
-            ? const Center(
-                child: CircularProgressIndicator(),
-              )
-            : filteredUsers.isEmpty
-                ? Expanded(
-                    child: Center(
+        Expanded(
+          child: isLoading && filteredUsers.isEmpty
+              ? const Center(child: CircularProgressIndicator())
+              : filteredUsers.isEmpty
+                  ? Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -99,35 +105,34 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                           ),
                           const Text(
                             "No Requests Found",
-                            style: TextStyle(
-                              fontSize: 18,
-                            ),
+                            style: TextStyle(fontSize: 18),
                           ),
                         ],
                       ),
+                    )
+                  : RefreshIndicator(
+                      onRefresh: fetchReceivedRequests,
+                      child: ListView.builder(
+                        itemCount: filteredUsers.length,
+                        itemBuilder: (context, index) {
+                          final user = filteredUsers[index];
+                          return ReceivedRequestsCard(
+                            image: user?.image ?? "",
+                            name: user?.firstName != null
+                                ? "${user?.firstName} ${user?.lastName}"
+                                : "",
+                            location: user?.state ?? "",
+                            status: user?.status ?? "",
+                            role: user?.occupation ?? "",
+                            age: user?.dob ?? "",
+                            height: user?.height ?? "",
+                            req_status: user?.status ?? "",
+                            religion: user?.religion ?? "",
+                          );
+                        },
+                      ),
                     ),
-                  )
-                : Expanded(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: filteredUsers.length,
-                      itemBuilder: (context, index) {
-                        return ReceivedRequestsCard(
-                          image: filteredUsers[index]?.image ?? "",
-                          name: filteredUsers[index]?.firstName != null
-                              ? "${filteredUsers[index]?.firstName} ${filteredUsers[index]?.lastName}"
-                              : "",
-                          location: filteredUsers[index]?.state ?? "",
-                          status: filteredUsers[index]?.status ?? "",
-                          role: filteredUsers[index]?.occupation ?? "",
-                          age: filteredUsers[index]?.dob ?? "",
-                          height: filteredUsers[index]?.height ?? "",
-                          req_status: filteredUsers[index]?.status ?? "",
-                          religion: filteredUsers[index]?.religion ?? "",
-                        );
-                      },
-                    ),
-                  ),
+        ),
       ],
     );
   }
