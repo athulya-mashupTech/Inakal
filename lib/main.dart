@@ -7,6 +7,7 @@ import 'package:inakal/common/screen/test_page.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/login/screens/forgot_password.dart';
 import 'package:inakal/features/chat/screens/chat_screen.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
@@ -75,7 +76,8 @@ class MyApp extends StatelessWidget {
       // home: ChatScreen(),
       // home: PsychologistScreen(),
       // home: ProfileApp(),
-      home: const MyHomePage(title: 'Inakal'),
+      // home: const MyHomePage(title: 'Inakal'),
+         home: ForgotPassword(),
       // home: MatchesScreen(),
       // home: ProfilePage(),
       // home: Notifications()

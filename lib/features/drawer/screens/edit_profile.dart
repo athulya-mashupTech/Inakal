@@ -33,6 +33,652 @@ class _EditProfileState extends State<EditProfile> {
 
   List<String> hobbies = [];
   List<String> languages = [];
+  List<String> availableOccupations = [
+    "Government Employee",
+    "Private Employee",
+    "Self Employed",
+    "Business",
+    "Engineer",
+    "Doctor",
+    "Lawyer",
+    "Teacher",
+    "Professor",
+    "Banker",
+    "Accountant",
+    "Artist",
+    "Consultant",
+    "IT Professional",
+    "Nurse",
+    "Pharmacist",
+    "Architect",
+    "Scientist",
+    "Retired",
+    "Student",
+    "Unemployed",
+    "Other"
+  ];
+  List<String> annualIncomeRange = [
+    "1 Lakh-3 Lakhs",
+    "3 Lakhs-5 Lakhs",
+    "5 Lakhs-7 Lakhs",
+    "7 Lakhs-10 Lakhs",
+    "10 Lakhs-15 Lakhs",
+    "15 Lakhs-20 Lakhs",
+    "20 Lakhs-30 Lakhs",
+    "30 Lakhs-50 Lakhs",
+    "50 Lakhs-75 Lakhs",
+    "75 Lakhs-1 Crore",
+    "1 Crore-2 Crores",
+    "More than 2 Crores"
+  ];
+  List<String> availableEducation = [
+    "PhD",
+    "Post Doctoral",
+    "MD",
+    "MBBS",
+    "B Tech",
+    "MBA",
+    "MSc",
+    "MTech",
+    "MA",
+    "MPhil",
+    "Diploma",
+    "Graduate",
+    "Post Graduate",
+    "High School",
+    "Intermediate",
+    "MS",
+    "Mch",
+    "DM",
+    "BDS",
+    "MDS",
+    "BPT",
+    "MPT",
+    "BAMS",
+    "BHMS",
+    "BPEd",
+    "MPed",
+    "LLB",
+    "BA",
+    "BSc",
+    "BCom",
+    "MCom",
+    "ACCA",
+    "CA",
+    "TTC",
+    "Nursing",
+    "BEd",
+    "CMA",
+    "ITI",
+    "MEd",
+    "BPharm",
+    "MPharm",
+    "Pharm D",
+    "Other"
+  ];
+  List<String> ageRange = [
+    "18-30",
+    "25-35",
+    "30-40",
+    "35-45",
+    "40-50",
+    "45-55",
+    "50-60",
+    "55-65"
+  ];
+  List<String> heightRange = [
+    "4'0\"-4'5\" (121-137 cm)",
+    "4'5\"-4'10\" (137-147 cm)",
+    "4'10\"-5'3\" (147-160 cm)",
+    "5'3\"-5'8\" (160-173 cm)",
+    "5'8\"-6'1\" (173-185 cm)",
+    "6'1\"-6'6\" (185-198 cm)",
+    "6'6\"-7'0\" (198-213 cm)",
+  ];
+  List<String> availableLanguages = [
+    "English",
+    "Hindi",
+    "Malayalam",
+    "Tamil",
+    "Telugu",
+    "Bengali",
+    "Marathi",
+    "Gujarati",
+    "Kannada",
+    "Punjabi",
+    "Urdu",
+    "Odia",
+    "Assamese",
+    "Maithili",
+    "Sanskrit",
+    "Dogri",
+    "Manipuri",
+    "Kashmiri",
+    "Sindhi",
+    "Santali",
+    "Nepali",
+    "Bhojpuri",
+    "Konkani",
+    "Rajasthani",
+    "Bodo",
+    "Tulu",
+  ];
+  final Map<String, Map<String, List<String>>> religionCasteData = {
+    "Hindu": {
+      "Brahmin": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "Nair": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "Ezhava": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "SC": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "ST": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "Don't wish to specify": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+      "select Caste": ["select Sub Caste"],
+      "Others": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Ambalavasi",
+        "Iyer",
+        "Namboothiri",
+        "Chakkala Nair",
+        "Chettiar",
+        "Dhevara",
+        "Ezhuthedan",
+        "Ezhava",
+        "Ezhavathi",
+        "Kshathreeyn",
+        "Mannan",
+        "Velan",
+        "Vannan",
+        "Nadar",
+        "Nair",
+        "Nambiar",
+        "Panicker",
+        "Pulaya",
+        "Cheruman",
+        "SC",
+        "ST",
+        "Thandan",
+        "Theeya",
+        "Vanika vaisiya",
+        "Vanika chettiar",
+        "Varriar",
+        "Veera saiva",
+        "Vellada pillai",
+        "Moosad",
+        "Kurup",
+        "Pothuval",
+        "Veluthedathu nair",
+        "Velakkithala nair",
+        "Viswakarma",
+        "Gold smith",
+        "Carpenter",
+        "Black smith",
+        "Inter caste",
+        "Others"
+      ],
+    },
+    "Muslim": {
+      "Shafi": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "Hanafi": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "Sunni": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "Salafi": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "Don't wish to specify": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "Others": [
+        "Don't wish to specify",
+        "select Sub Caste",
+      ],
+      "select Caste": [
+        "select Sub Caste",
+        "select Sub Caste",
+      ],
+    },
+    "Christian": {
+      "Marthoma": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Jacobite": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Orthodox": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Catholic": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "CSI": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Knanaya": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "RC": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Penthacost": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "Don't wish to specify": [
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Syrian",
+        "Roman",
+        "Latin",
+        "Malankara",
+        "Nadar",
+        "Syro malabar",
+        "SDA",
+        "Church of God",
+        "Born again",
+        "Others"
+      ],
+      "select Caste": ["select Sub Caste"],
+    },
+    "Inter Religion": {
+      "Don't wish to specify": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "Others": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "select Caste": ["select Sub Caste"],
+    },
+    "Non Religious": {
+      "Don't wish to specify": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "Others": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "select Caste": ["select Sub Caste"],
+    },
+    "Other": {
+      "Don't wish to specify": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "Others": [
+        "select Sub Caste","Don't wish to specify", "Others"],
+      "select Caste": ["select Sub Caste"],
+    },
+  };
+  List<String> casteList = [];
+  List<String> subCasteList = [];
+
+  void religionChanged(String value) {
+    setState(() {
+      _religionController.text = value;
+      casteList = religionCasteData[value]?.keys.toList() ?? [];
+      subCasteList = [];
+      _casteController.text = "select Caste";
+      _subcasteController.text = "select Sub Caste";
+    });
+  }
+
+  void casteChanged(String value) {
+    setState(() {
+      _casteController.text = value;
+      subCasteList = religionCasteData[selectedReligion]?[selectedCaste] ?? [];
+      _subcasteController.text = "select Sub Caste";
+    });
+  }
+
+  void subCasteChanged(String value) {
+    setState(() {
+      _religionController.text = value;
+      casteList = religionCasteData[value]?.keys.toList() ?? [];
+      subCasteList = [];
+      // _casteController.clear();
+      // _subcasteController.clear();
+    });
+  }
 
   updateProfileDetails() async {
     await userController.updateProfileDetails(
@@ -293,6 +939,12 @@ class _EditProfileState extends State<EditProfile> {
     hobbies = "${userController.userData.value.user?.hobbies}".split(",");
     languages =
         "${userController.userData.value.user?.languagesKnown}".split(",");
+
+    casteList =
+        religionCasteData[_religionController.text]?.keys.toList() ?? [];
+    subCasteList = religionCasteData[_religionController.text]
+            ?[_casteController.text] ??
+        [];
   }
 
   @override
@@ -516,7 +1168,7 @@ class _EditProfileState extends State<EditProfile> {
                         label: "Gender",
                         valueWidget: EditDropdownWidget(
                           controller: _genderController,
-                          values: ["Male", "Female", "Others"],
+                          values: ["Male", "Female"],
                         )),
                     SizedBox(height: 11),
                     CustomButton(
@@ -532,7 +1184,7 @@ class _EditProfileState extends State<EditProfile> {
                 ),
 
 ////////////////////////////////Profile Details/////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 ////////////////////////////////Personal Details////////////////////////////////
 
                 ExpansionTile(
@@ -557,46 +1209,41 @@ SizedBox(height: 2),
                       const Divider(),
                       const SizedBox(height: 12),
 
-                      //Weight
+                      // Religion
                       DetailsRowWidget(
-                          label: "Weight",
-                          valueWidget: EditableTextWidget(
-                              controller: _weightController)),
-                      SizedBox(height: 12),
-                      const Divider(),
-
-                      //Religion
-                      DetailsRowWidget(
-                          label: "Religion",
-                          valueWidget: EditDropdownWidget(
-                              controller: _religionController,
-                              values: [
-                                'Hindu',
-                                'Muslim',
-                                'Christian',
-                                'Buddhist'
-                              ])),
+                        label: "Religion",
+                        valueWidget: EditDropdownWidget(
+                          controller: _religionController,
+                          values: religionCasteData.keys.toList(),
+                          onChanged: (religionChanged),
+                        ),
+                      ),
 
                       const Divider(),
                       const SizedBox(height: 15),
 
-                      //Caste
+// Caste
                       DetailsRowWidget(
-                          label: "Caste",
-                          valueWidget: EditDropdownWidget(
-                              controller: _casteController,
-                              values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+                        label: "Caste",
+                        valueWidget: EditDropdownWidget(
+                          controller: _casteController,
+                          values: casteList,
+                          onChanged: (casteChanged),
+                        ),
+                      ),
 
                       const SizedBox(height: 12),
                       const Divider(),
                       SizedBox(height: 12),
 
-                      //Sub Caste
+// Sub Caste
                       DetailsRowWidget(
-                          label: "Sub Caste",
-                          valueWidget: EditDropdownWidget(
-                              controller: _subcasteController,
-                              values: ['Nair', 'Ezhava', 'LC', 'Others'])),
+                        label: "Sub Caste",
+                        valueWidget: EditDropdownWidget(
+                          controller: _subcasteController,
+                          values: subCasteList,
+                        ),
+                      ),
 
                       const SizedBox(height: 12),
                       const Divider(),
@@ -620,12 +1267,7 @@ SizedBox(height: 2),
                           label: "Mother Tongue",
                           valueWidget: EditDropdownWidget(
                               controller: _mothertongueController,
-                              values: [
-                                'Malayalam',
-                                'Tamil',
-                                'Hindi',
-                                'Telugu'
-                              ])),
+                              values: availableLanguages)),
 
                       const Divider(),
                       const SizedBox(height: 15),
@@ -639,7 +1281,8 @@ SizedBox(height: 2),
                               'Single',
                               'Married',
                               'Divorced',
-                              'Widowed'
+                              'Widowed',
+                              'Widower'
                             ]),
                       ),
                       const SizedBox(height: 15),
@@ -737,7 +1380,7 @@ SizedBox(height: 2),
                     ]),
 
 //////////////////////////////////////////////////////////////////////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 //////////////////////////Educational and Professional Details////////////////////////////////////
 
                 ExpansionTile(
@@ -757,14 +1400,7 @@ SizedBox(height: 2),
                           label: "Highest Education",
                           valueWidget: EditDropdownWidget(
                               controller: _highestEducationController,
-                              values: [
-                                "Matriculate",
-                                "Plus Two",
-                                "Undergraduate",
-                                "Postgraduate",
-                                "PhD",
-                                "BTech"
-                              ])),
+                              values: availableEducation)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -781,14 +1417,7 @@ SizedBox(height: 2),
                           label: "Occupation",
                           valueWidget: EditDropdownWidget(
                               controller: _occupationController,
-                              values: [
-                                "Engineer",
-                                "Developer",
-                                "lecturer",
-                                "Doctor",
-                                "Driver",
-                                "Business"
-                              ])),
+                              values: availableOccupations)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -797,13 +1426,7 @@ SizedBox(height: 2),
                           label: "Annual Income",
                           valueWidget: EditDropdownWidget(
                               controller: _incomeController,
-                              values: [
-                                "1-5",
-                                "5-10",
-                                "10-16",
-                                "15-20",
-                                "Above 20LPA"
-                              ])),
+                              values: annualIncomeRange)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -825,7 +1448,7 @@ SizedBox(height: 2),
                     ]),
 
 ////////////////////////////////////////////////////////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 /////////////////////////////Family Details/////////////////////////////////////////
 
                 ExpansionTile(
@@ -882,7 +1505,6 @@ SizedBox(height: 2),
                               'Single',
                               'Married',
                               'Divorced',
-                              'Widowed'
                             ]),
                       ),
                       SizedBox(height: 12),
@@ -897,7 +1519,7 @@ SizedBox(height: 2),
                     ]),
 
 ///////////////////////////////////////////////////////////////////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 /////////////////////////////////Partners Preferences//////////////////////////////////////////
 
                 ExpansionTile(
@@ -916,13 +1538,7 @@ SizedBox(height: 2),
                       DetailsRowWidget(
                           label: "Prefered Age group",
                           valueWidget: EditDropdownWidget(
-                              controller: _pagegroup,
-                              values: [
-                                "18-24",
-                                "24-29",
-                                "30-40",
-                                "35 to more"
-                              ])),
+                              controller: _pagegroup, values: ageRange)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -930,13 +1546,7 @@ SizedBox(height: 2),
                       DetailsRowWidget(
                           label: "Prefered Height Range",
                           valueWidget: EditDropdownWidget(
-                              controller: _pheightrange,
-                              values: [
-                                "140-150",
-                                "150-160",
-                                "160-173",
-                                "170-180"
-                              ])),
+                              controller: _pheightrange, values: heightRange)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -974,7 +1584,7 @@ SizedBox(height: 2),
                           label: "Prefered Smoking Habit",
                           valueWidget: EditDropdownWidget(
                               controller: _psmoking,
-                              values: ["Yes", "No", "occasionally"])),
+                              values: ["Yes", "No", "occasionally", "Any"])),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -983,7 +1593,7 @@ SizedBox(height: 2),
                           label: "Prefered Drinking Habit",
                           valueWidget: EditDropdownWidget(
                               controller: _pdrinking,
-                              values: ["Yes", "No", "occasionally"])),
+                              values: ["Yes", "No", "occasionally", "Any"])),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -996,7 +1606,7 @@ SizedBox(height: 2),
                                 "Vegetarian",
                                 "Non-Vegeterian",
                                 "vegan",
-                                "Others"
+                                "Any"
                               ])),
                       const Divider(),
                       const SizedBox(height: 15),
@@ -1006,13 +1616,7 @@ SizedBox(height: 2),
                           label: "Prefered Qualification",
                           valueWidget: EditDropdownWidget(
                               controller: _pqualification,
-                              values: [
-                                "Matriculate",
-                                "Plus Two",
-                                "graduate",
-                                "Postgraduate",
-                                "Others"
-                              ])),
+                              values: availableEducation)),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -1035,7 +1639,7 @@ SizedBox(height: 2),
                     ]),
 
 ////////////////////////////////////////////////////////////////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 ///////////////////////////////////Location Details////////////////////////////////////////
 
                 ExpansionTile(
@@ -1126,7 +1730,7 @@ SizedBox(height: 2),
                     ]),
 
 //////////////////////////////////////////////////////////////////////////////////////////////
-SizedBox(height: 2),
+                SizedBox(height: 2),
 /////////////////////////////Additional Details///////////////////////////////////////////////
 
                 ExpansionTile(
@@ -1225,7 +1829,7 @@ SizedBox(height: 2),
                           label: "Smoking Habit",
                           valueWidget: EditDropdownWidget(
                               controller: _smokinghabitcontroller,
-                              values: ["Yes", "No"])),
+                              values: ["Yes", "No", "Occasionally", "Any"])),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -1234,7 +1838,7 @@ SizedBox(height: 2),
                           label: "Drinking Habit",
                           valueWidget: EditDropdownWidget(
                               controller: _drinkinghabitcontroller,
-                              values: ["Yes", "No"])),
+                              values: ["Yes", "No", "Occasionally", "Any"])),
                       const Divider(),
                       const SizedBox(height: 15),
 
@@ -1247,7 +1851,7 @@ SizedBox(height: 2),
                                 "Vegetarian",
                                 "Non-Vegeterian",
                                 "Vegan",
-                                "Others"
+                                "Any"
                               ])),
                       const Divider(),
                       const SizedBox(height: 15),
@@ -1268,9 +1872,16 @@ SizedBox(height: 2),
                               controller: _profilecreatedcontroller,
                               values: [
                                 "Self",
-                                "Parents",
-                                "Relatives",
-                                "Friends"
+                                "Friend",
+                                "Father",
+                                "Mother",
+                                "Brother",
+                                "Sister",
+                                "Grand Parents",
+                                "Uncle",
+                                "Aunt",
+                                "Local Guardian",
+                                "Distant Relative"
                               ])),
                       const Divider(),
                       const SizedBox(height: 15),

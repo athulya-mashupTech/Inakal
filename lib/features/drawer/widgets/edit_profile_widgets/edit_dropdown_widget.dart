@@ -6,7 +6,8 @@ import 'package:inakal/constants/app_constants.dart';
 class EditDropdownWidget extends StatefulWidget {
   final TextEditingController controller;
   final List<String> values;
-  const EditDropdownWidget({super.key, required this.controller, required this.values});
+  final void Function(String)? onChanged;
+  const EditDropdownWidget({super.key, required this.controller, required this.values, this.onChanged});
 
   @override
   State<EditDropdownWidget> createState() => _EditDropdownWidgetState();
@@ -40,6 +41,7 @@ class _EditDropdownWidgetState extends State<EditDropdownWidget> {
       }).toList(),
       onChanged: (String? newValue) {
         if (newValue != null) {
+          widget.onChanged?.call(newValue);
           setState(() {
             selectedValue = newValue;
             widget.controller.text = newValue;
