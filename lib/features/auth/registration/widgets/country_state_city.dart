@@ -33,7 +33,7 @@ class _CountryStateCityWidgetState extends State<CountryStateCityWidget> {
             dialogColor: Colors.grey.shade200,
             textFieldDecoration: InputDecoration(
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(5),
               ),
               focusedBorder: OutlineInputBorder(
                 borderSide:
