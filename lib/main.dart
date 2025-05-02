@@ -76,8 +76,8 @@ class MyApp extends StatelessWidget {
       // home: ChatScreen(),
       // home: PsychologistScreen(),
       // home: ProfileApp(),
-      // home: const MyHomePage(title: 'Inakal'),
-         home: ForgotPassword(),
+      home: const MyHomePage(title: 'Inakal'),
+        //  home: ForgotPassword(),
       // home: MatchesScreen(),
       // home: ProfilePage(),
       // home: Notifications()

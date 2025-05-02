@@ -49,16 +49,18 @@ class AuthService {
         "district": userData.userDistrict!,
         "state": userData.userState!,
         "country": userData.userCountry!,
+
         // "pincode": userData.userPincode!,
         // "dob": userData.userDob!,
         // "gender": userData.userGender!,
-        // "religion": userData.userReligion!,
-        // "caste": userData.userCaste!,
-        // "birth_star": userData.userBirthStar!,
-        // "description": userData.userDescription!,
-        // "hobbies": userData.userHobbies!,
-        // "marital_status": userData.maritalStatus!,
-        // "profile_created_for": userData.userProfileCreatedFor!,
+        "religion": userData.userReligion!,
+        "caste": userData.userCaste!,
+        "star_sign": userData.userBirthStar!,
+        "about_me": userData.userDescription!,
+        "hobbies": userData.userHobbies!,
+        "marital_status": userData.maritalStatus!,
+        "profile_created_for": userData.userProfileCreatedFor!,
+
         "password": userData.userPassword!,
       });
 
