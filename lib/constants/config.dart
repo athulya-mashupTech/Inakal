@@ -36,7 +36,7 @@ const userPreferenceUpdateUrl = "${baseUrl}updatePartnerPrefs";
 const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
 
 // Other Profile API's
-const otherProfileUrl = "${baseUrl}otherUserDetails";
+const otherProfileUrl = "${baseUrl}get_user_data"; //otherUserDetails
 const sendInterestUrl = "${baseUrl}sendInterest";
 
 //Related Profile API's

@@ -2,13 +2,20 @@ class OtherProfileModel {
   User? user;
   String? message;
   String? type;
+  List<Gallery>? gallery;
 
-  OtherProfileModel({this.user, this.message, this.type});
+  OtherProfileModel({this.user, this.message, this.type, this.gallery});
 
   OtherProfileModel.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     message = json['message'];
     type = json['type'];
+    if (json['gallery'] != null) {
+      gallery = <Gallery>[];
+      json['gallery'].forEach((v) {
+        gallery!.add(new Gallery.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -18,6 +25,9 @@ class OtherProfileModel {
     }
     data['message'] = this.message;
     data['type'] = this.type;
+    if (this.gallery != null) {
+      data['gallery'] = this.gallery!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -84,7 +94,6 @@ class User {
   String? foodPreferences;
   String? profileCompletedPercentage;
   String? membershipType;
-  String? profileApproved;
   String? profileCreatedBy;
   String? socialMediaLinks;
   String? instagramLink;
@@ -98,6 +107,12 @@ class User {
   String? preferredQualification;
   String? starSign;
   String? remarks;
+  String? profileVisibilty;
+  String? profileApproved;
+  String? verifyDp;
+  String? verifiedProfile;
+  String? otp;
+  String? otpTime;
 
   User(
       {this.id,
@@ -161,7 +176,6 @@ class User {
       this.foodPreferences,
       this.profileCompletedPercentage,
       this.membershipType,
-      this.profileApproved,
       this.profileCreatedBy,
       this.socialMediaLinks,
       this.instagramLink,
@@ -174,7 +188,13 @@ class User {
       this.assignedLeadId,
       this.preferredQualification,
       this.starSign,
-      this.remarks});
+      this.remarks,
+      this.profileVisibilty,
+      this.profileApproved,
+      this.verifyDp,
+      this.verifiedProfile,
+      this.otp,
+      this.otpTime});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -238,7 +258,6 @@ class User {
     foodPreferences = json['food_preferences'];
     profileCompletedPercentage = json['profile_completed_percentage'];
     membershipType = json['membership_type'];
-    profileApproved = json['profile_approved'];
     profileCreatedBy = json['profile_created_by'];
     socialMediaLinks = json['social_media_links'];
     instagramLink = json['instagram_link'];
@@ -252,6 +271,12 @@ class User {
     preferredQualification = json['preferred_qualification'];
     starSign = json['star_sign'];
     remarks = json['remarks'];
+    profileVisibilty = json['profile_visibilty'];
+    profileApproved = json['profile_approved'];
+    verifyDp = json['verify_dp'];
+    verifiedProfile = json['verified_profile'];
+    otp = json['otp'];
+    otpTime = json['otp_time'];
   }
 
   Map<String, dynamic> toJson() {
@@ -317,7 +342,6 @@ class User {
     data['food_preferences'] = this.foodPreferences;
     data['profile_completed_percentage'] = this.profileCompletedPercentage;
     data['membership_type'] = this.membershipType;
-    data['profile_approved'] = this.profileApproved;
     data['profile_created_by'] = this.profileCreatedBy;
     data['social_media_links'] = this.socialMediaLinks;
     data['instagram_link'] = this.instagramLink;
@@ -331,6 +355,40 @@ class User {
     data['preferred_qualification'] = this.preferredQualification;
     data['star_sign'] = this.starSign;
     data['remarks'] = this.remarks;
+    data['profile_visibilty'] = this.profileVisibilty;
+    data['profile_approved'] = this.profileApproved;
+    data['verify_dp'] = this.verifyDp;
+    data['verified_profile'] = this.verifiedProfile;
+    data['otp'] = this.otp;
+    data['otp_time'] = this.otpTime;
+    return data;
+  }
+}
+
+class Gallery {
+  String? id;
+  String? image;
+  String? isPublic;
+  String? uploadedAt;
+  String? clientId;
+
+  Gallery({this.id, this.image, this.isPublic, this.uploadedAt, this.clientId});
+
+  Gallery.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    image = json['image'];
+    isPublic = json['is_public'];
+    uploadedAt = json['uploaded_at'];
+    clientId = json['client_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['image'] = this.image;
+    data['is_public'] = this.isPublic;
+    data['uploaded_at'] = this.uploadedAt;
+    data['client_id'] = this.clientId;
     return data;
   }
 }

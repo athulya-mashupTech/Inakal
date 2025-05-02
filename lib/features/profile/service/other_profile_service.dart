@@ -13,14 +13,15 @@ class OtherProfileService {
   Future<OtherProfileModel?> getOtherProfile(
       String userId, BuildContext context) async {
     try {
-      final response =
-          await _sendPostRequest(url: otherProfileUrl, fields: {"userid": "3"});
+      final response = await _sendPostRequest(
+          url: otherProfileUrl, fields: {"userid": userId});
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final otherProfileModel = OtherProfileModel.fromJson(jsonResponse);
         if (otherProfileModel.type == "success") {
           _showSnackbar(context, otherProfileModel.message!);
+          print(otherProfileModel.gallery?.length);
         }
         return otherProfileModel;
       } else {
