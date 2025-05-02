@@ -74,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: InputDecoration(
                       labelText: 'Mobile Number',
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(25),
+                        borderRadius: BorderRadius.circular(5),
                         borderSide: const BorderSide(),
                       ),
                     ),

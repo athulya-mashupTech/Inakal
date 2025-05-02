@@ -73,7 +73,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                       decoration: InputDecoration(
                         labelText: 'Mobile Number',
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide(),
                         ),
                       ),
