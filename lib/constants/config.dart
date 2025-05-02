@@ -38,3 +38,6 @@ const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
 // Other Profile API's
 const otherProfileUrl = "${baseUrl}otherUserDetails";
 const sendInterestUrl = "${baseUrl}sendInterest";
+
+//Related Profile API's
+const relatedProfileUrl = "${baseUrl}relatedProfiles";

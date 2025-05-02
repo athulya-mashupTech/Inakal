@@ -283,11 +283,11 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                 decoration: InputDecoration(
                   labelText: "Enter Description",
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(30)),
+                      borderRadius: BorderRadius.circular(5)),
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(
                         color: AppColors.primaryRed, width: 1.5),
-                    borderRadius: BorderRadius.circular(30.0),
+                    borderRadius: BorderRadius.circular(5),
                   ),
                 ),
                 maxLines: null,

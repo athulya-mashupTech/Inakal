@@ -108,7 +108,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         labelText: 'Mobile Number',
                         errorText: _errorText.isNotEmpty ? _errorText : null,
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(25),
+                          borderRadius: BorderRadius.circular(5),
                           borderSide: const BorderSide(),
                         ),
                       ),

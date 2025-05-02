@@ -22,11 +22,11 @@ class DropdownWidget extends StatelessWidget {
      decoration: InputDecoration(
         labelText: label,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(5),
           ),
           focusedBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColors.primaryRed, width: 1.5),
-            borderRadius: BorderRadius.circular(30.0),
+            borderRadius: BorderRadius.circular(5),
           ),
          
         ),
@@ -42,7 +42,7 @@ class DropdownWidget extends StatelessWidget {
       validator: validator ??
       (value) => value == null || value.isEmpty ? '$label is required' : null,
       menuMaxHeight: 300, 
-      borderRadius: BorderRadius.circular(30.0), 
+      borderRadius: BorderRadius.circular(5), 
     );
   }
 }

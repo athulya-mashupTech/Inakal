@@ -37,11 +37,18 @@ class _UserCardState extends State<UserCard> {
           child: Stack(
             children: [
               // Background image
-              Image.asset(
+              Image.network(
                 widget.image, // You can change this to any image you'd like
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.network(
+                    "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                    fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: double.infinity);
+                },
               ),
 
               // Gradient overlay at the bottom

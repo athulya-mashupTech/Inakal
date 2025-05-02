@@ -41,12 +41,12 @@ class TextFieldWidget extends StatelessWidget {
             hintText: hintText,
              errorText: errorText,
             border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(5),
             ),
             focusedBorder: OutlineInputBorder(
               borderSide:
                   const BorderSide(color: AppColors.primaryRed, width: 1.5),
-              borderRadius: BorderRadius.circular(30.0),
+              borderRadius: BorderRadius.circular(5),
             ),
             suffixIcon: suffixIcon,
             prefixIcon: prefixIcon),

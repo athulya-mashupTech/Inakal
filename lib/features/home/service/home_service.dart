@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/home/model/related_profile_model.dart';
 import 'package:inakal/features/home/model/send_interest_model.dart';
 
 class HomeService {
@@ -35,6 +36,45 @@ class HomeService {
       print("Error: ${response.statusCode}");
       return null;
     }
+  }
+
+  Future<RelatedProfileModel?> getRelatedProfile(
+      {required BuildContext context}) async {
+    try {
+      final response = await _sendGetRequest(url: relatedProfileUrl);
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final relatedProfileModel = RelatedProfileModel.fromJson(jsonResponse);
+
+        if (relatedProfileModel.type == "success") {
+          _showSnackbar(context, "Related Profile Data Fetched");
+        } else {
+          _showSnackbar(context, "Related profile data fetching faied");
+        }
+        return relatedProfileModel;
+      } else {
+        _showSnackbar(context, "Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  // Helper method to send GET request
+  Future<http.StreamedResponse> _sendGetRequest({
+    required String url,
+  }) async {
+    final request = http.MultipartRequest('GET', Uri.parse(url));
+    final token =
+        authController.token.value; // Get the token from AuthController
+    final headers = {
+      'Authorization': 'Bearer $token',
+    };
+    request.headers.addAll(headers);
+    return await request.send();
   }
 
   // Helper method to send POST request

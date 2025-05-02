@@ -7,10 +7,13 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
+import 'package:inakal/features/home/model/related_profile_model.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
+import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/data_class/user.dart';
+import 'package:inakal/features/psychologists_listing/model/book_appointment_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,13 +23,25 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<User> users = [];
+  RelatedProfileModel? relatedProfileModel;
+  bool isLoading = true;
   // final userController = Get.find<UserDataController>();
-  
+
   @override
   void initState() {
     super.initState();
-    users = User.getSampleUsers();
+    fetchRelatedProfiles();
+  }
+
+  Future<void> fetchRelatedProfiles() async {
+    HomeService().getRelatedProfile(context: context).then((value) {
+      if (value != null) {
+        setState(() {
+          relatedProfileModel = value;
+          isLoading = false;
+        });
+      }
+    });
   }
 
   @override
@@ -48,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             onPressed: () {
               Navigator.push(context,
-              MaterialPageRoute(builder: (context) =>  InboxScreen()));
+                  MaterialPageRoute(builder: (context) => InboxScreen()));
             },
           ),
         ),
@@ -57,8 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10),
             child: IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const FilterScreen()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const FilterScreen()));
                 },
                 icon: const Icon(Icons.filter_alt_rounded,
                     color: AppColors.primaryRed)),
@@ -78,49 +95,63 @@ class _HomeScreenState extends State<HomeScreen> {
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Related Profile",
-                        style: TextStyle(
-                            fontSize: 25,
-                            fontWeight: FontWeight.bold,
-                            // color: AppColors.primaryRed
-                            ),
+                padding: EdgeInsets.symmetric(horizontal: 30),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Related Profile",
+                      style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.bold,
+                        // color: AppColors.primaryRed
                       ),
-                      Text(
-                        "Find Your Soulmate Among Our Handpicked Recommendations",
-                        style: TextStyle(
-                            // fontSize: 25,
-                            // fontWeight: FontWeight.bold,
-                            // // color: AppColors.primaryRed
-                            ),
-                      ),
-                    ],
-                  ),
+                    ),
+                    Text(
+                      "Find Your Soulmate Among Our Handpicked Recommendations",
+                      style: TextStyle(
+                          // fontSize: 25,
+                          // fontWeight: FontWeight.bold,
+                          // // color: AppColors.primaryRed
+                          ),
+                    ),
+                  ],
                 ),
+              ),
             ),
             const SizedBox(height: 5),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                          builder: (context) => const OtherProfileScreen()));
-                    },
-                    child: UserCard(
-                        name: users[index].name,
-                        location: users[index].location,
-                        image: users[index].image));
-              },
-            ),
+            isLoading
+                ? const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryRed,
+                    ),
+                  )
+                : relatedProfileModel?.relatedProfiles?.isEmpty ?? true
+                    ? const Center(
+                        child: Text("No Related Profiles Found"),
+                      )
+                    : ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: relatedProfileModel?.relatedProfiles?.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const OtherProfileScreen()));
+                              },
+                              child: UserCard(
+                                  name:
+                                      "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
+                                  location:
+                                      "${relatedProfileModel?.relatedProfiles?[index].district} ${relatedProfileModel?.relatedProfiles?[index].state}",
+                                  image:
+                                      "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                        },
+                      ),
             SizedBox(height: 20),
           ],
         ),
