@@ -52,19 +52,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.5,
-              decoration: BoxDecoration(
-                gradient: AppColors.pinkWhiteGradient,
+      backgroundColor: AppColors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                decoration: const BoxDecoration(
+                  gradient: AppColors.pinkWhiteGradient,
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
+            Positioned(
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
                 child: Column(
@@ -112,7 +124,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           borderSide: const BorderSide(),
                         ),
                       ),
-
+                  
                       onChanged: (value) {
                         setState(() {
                           _countryCode = value.countryCode;
@@ -155,8 +167,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

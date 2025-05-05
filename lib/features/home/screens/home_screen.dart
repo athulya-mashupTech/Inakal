@@ -147,7 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   name:
                                       "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
                                   location:
-                                      "${relatedProfileModel?.relatedProfiles?[index].district} ${relatedProfileModel?.relatedProfiles?[index].state}",
+                                      relatedProfileModel?.relatedProfiles?[index].state != null && relatedProfileModel?.relatedProfiles?[index].state != ""
+                                      ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
+                                      : "${relatedProfileModel?.relatedProfiles?[index].district}",
                                   image:
                                       "${relatedProfileModel?.relatedProfiles?[index].image}"));
                         },

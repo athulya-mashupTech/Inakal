@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart' show AppColors;
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
+
+import 'login_page.dart';
 
 class PasswordResetScreen extends StatefulWidget {
   const PasswordResetScreen({super.key});
@@ -45,6 +48,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Password reset successful")),
       );
+      Get.offAll(() => const LoginPage());
     }
   }
 
@@ -76,18 +80,31 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          SizedBox(
-            height: MediaQuery.of(context).size.height,
-            child: Container(
-              decoration: const BoxDecoration(
-                gradient: AppColors.pinkWhiteGradient,
+      backgroundColor: AppColors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.3,
+                decoration: const BoxDecoration(
+                  gradient: AppColors.pinkWhiteGradient,
+                ),
               ),
             ),
-          ),
-          SingleChildScrollView(
-            child: SafeArea(
+            Positioned(
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SafeArea(
               child: Padding(
                 padding: const EdgeInsets.all(24.0),
                 child: Column(
@@ -156,8 +173,8 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

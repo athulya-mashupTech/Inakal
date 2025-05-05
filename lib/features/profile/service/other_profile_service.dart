@@ -35,6 +35,24 @@ class OtherProfileService {
     }
   }
 
+  Future<String?> getRequestStatus(String clientId) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getRequestStatusUrl, fields: {"clientid": clientId});
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        return jsonResponse['status'];
+      } else {
+        print("Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error in fetching request status: $e");
+      return null;
+    }
+  }
+
   // Helper method to send POST request
   Future<http.StreamedResponse> _sendPostRequest({
     required String url,
