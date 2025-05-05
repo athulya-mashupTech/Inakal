@@ -12,15 +12,16 @@ class HomeService {
   final AuthController authController = Get.find();
 
   Future<SendInterestModel?> sentInterestToUser(
-      String interest_client_id, BuildContext context) async {
+      String interest_client_id, 
+      BuildContext context
+      ) async {
     final response = await _sendPostRequest(url: sendInterestUrl, fields: {
       "interest_client_id": interest_client_id,
     });
 
     if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
-      final jsonResponse = json.decode(
-          responseBody); // Assuming the response is already in JSON format
+      final jsonResponse = json.decode(responseBody); // Assuming the response is already in JSON format
       final sentInterestModel = SendInterestModel.fromJson(jsonResponse);
       if (sentInterestModel.type == "success") {
         // Show success message

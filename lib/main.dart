@@ -40,26 +40,6 @@ void main()async {
   runApp(const MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   const MyApp({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     final box = GetStorage();
-//     final isLoggedIn = box.read('isLoggedIn') ?? false;
-
-//     return GetMaterialApp(
-//       title: 'Inakal',
-//       debugShowCheckedModeBanner: false,
-//       theme: ThemeData(
-//         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
-//         useMaterial3: true,
-//       ),
-//       home: isLoggedIn ? const BottomNavBarScreen() : SplashScreen(),
-//     );
-//   }
-// }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
