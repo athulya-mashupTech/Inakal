@@ -7,6 +7,7 @@ import 'package:inakal/common/screen/onboarding_screen_1.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
+import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,14 +54,20 @@ class _SplashScreenState extends State<SplashScreen>
     _navigateToNextScreen();
   }
 
-  _navigateToNextScreen() async {
-    await Future.delayed(Duration(seconds: 3), () {});
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) =>
-                isLoggedIn ? const BottomNavBarScreen() : OnboardingScreen1()));
-  }
+
+_navigateToNextScreen() async {
+  await Future.delayed(const Duration(seconds: 3), () {});
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => NoInternetChecker(
+        child: isLoggedIn ? const BottomNavBarScreen() : OnboardingScreen1(),
+      ),
+    ),
+  );
+}
+
+  
 
   Future<void> fetchDataToGetx() async {
     final prefs = await SharedPreferences.getInstance();
@@ -156,3 +163,4 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 }
+

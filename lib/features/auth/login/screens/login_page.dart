@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       },
                       child: Text(
-                        'Forget Password?',
+                        'Forgot Password?',
                         style: TextStyle(
                           fontSize: 14,
                           color: AppColors.primaryRed,

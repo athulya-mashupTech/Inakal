@@ -142,6 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const OtherProfileScreen()));
                               },
                               child: UserCard(
+                                  clientId: relatedProfileModel?.relatedProfiles?[index].id ?? "",
                                   name:
                                       "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
                                   location:

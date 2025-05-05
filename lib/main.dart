@@ -32,7 +32,7 @@ import 'package:inakal/features/home/screens/home_screen.dart';
 void main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init(); // Initialize GetStorage
-  
+
   // Register your controller globally
   Get.put(AuthController());
   Get.put(UserDataController());
@@ -89,3 +89,6 @@ class _MyHomePageState extends State<MyHomePage> {
     return SplashScreen();
   }
 }
+
+
+
