@@ -1,10 +1,10 @@
-class DeleteRequestModel {
+class RequestActionModel {
   String? type;
   String? message;
 
-  DeleteRequestModel({this.type, this.message});
+  RequestActionModel({this.type, this.message});
 
-  DeleteRequestModel.fromJson(Map<String, dynamic> json) {
+  RequestActionModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
   }

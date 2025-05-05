@@ -39,6 +39,8 @@ const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
 const otherProfileUrl = "${baseUrl}get_user_data"; //otherUserDetails
 const sendInterestUrl = "${baseUrl}sendInterest";
 const getRequestStatusUrl = "${baseUrl}getRequestStatus";
+const acceptRequestUrl = "${baseUrl}acceptRequest";
+const rejectRequestUrl = "${baseUrl}rejectRequest";
 
 //Related Profile API's
 const relatedProfileUrl = "${baseUrl}relatedProfiles";

@@ -22,16 +22,19 @@ class DeclineButton extends StatelessWidget {
           // foregroundColor: AppColors.black, // Text color
           backgroundColor: AppColors.white, // Background color of button
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(Icons.close, color: AppColors.black), // Close icon
-            const SizedBox(width: 5,),
-            Text(
-              text,
-              style: const TextStyle(color: AppColors.black),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.close, color: AppColors.black), // Close icon
+              const SizedBox(width: 5,),
+              Text(
+                text,
+                style: const TextStyle(color: AppColors.black),
+              ),
+            ],
+          ),
         ),
       ),
     );

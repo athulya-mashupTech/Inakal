@@ -64,7 +64,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
       margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
       decoration: BoxDecoration(
         color: switch (widget.req_status) {
-          "Accepted" => AppColors.freshGreen.withAlpha(20),
+          "accepted" => AppColors.freshGreen.withAlpha(20),
           "pending" => AppColors.goldenYellow.withAlpha(20),
           "rejected" => AppColors.grey.withAlpha(20),
           _ => AppColors.black.withAlpha(20),
@@ -72,7 +72,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
         borderRadius: BorderRadius.circular(15),
         border: Border.all(
           color: switch (widget.req_status) {
-            "Accepted" => AppColors.freshGreen.withAlpha(100),
+            "accepted" => AppColors.freshGreen.withAlpha(100),
             "pending" => AppColors.goldenYellow.withAlpha(70),
             "rejected" => AppColors.grey.withAlpha(70),
             _ => AppColors.black.withAlpha(70),
@@ -190,7 +190,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                               ),
                             ],
                           ),
-                          widget.req_status == "Accepted"
+                          widget.req_status == "accepted"
                               ? Column(
                                   children: [
                                     ElevatedButton(
@@ -252,13 +252,13 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                 children: [
                   Icon(
                       switch (widget.req_status) {
-                        "Accepted" => Icons.check,
+                        "accepted" => Icons.check,
                         "pending" => Icons.warning_rounded,
                         "rejected" => Icons.close,
                         _ => Icons.error,
                       },
                       color: switch (widget.req_status) {
-                        "Accepted" => AppColors.freshGreen,
+                        "accepted" => AppColors.freshGreen,
                         "pending" => AppColors.goldenYellow,
                         "rejected" => AppColors.darkRed,
                         _ => AppColors.black,
@@ -267,7 +267,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                   const SizedBox(width: 5),
                   Text(
                     switch (widget.req_status) {
-                      "Accepted" => "Request Accepted - You can chat now",
+                      "accepted" => "Request Accepted - You can chat now",
                       "pending" => "Request Pending - Waiting for response",
                       "rejected" => "Not Interested - Find another match",
                       _ => "Unknown",
@@ -276,7 +276,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                       fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: switch (widget.req_status) {
-                        "Accepted" => AppColors.freshGreen,
+                        "accepted" => AppColors.freshGreen,
                         "pending" => AppColors.goldenYellow,
                         "rejected" => AppColors.darkRed,
                         _ => AppColors.black,

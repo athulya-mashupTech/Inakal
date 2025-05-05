@@ -139,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) =>
-                                            const OtherProfileScreen()));
+                                            OtherProfileScreen(id: relatedProfileModel!.relatedProfiles![index].id!)));
                               },
                               child: UserCard(
                                   clientId: relatedProfileModel?.relatedProfiles?[index].id ?? "",

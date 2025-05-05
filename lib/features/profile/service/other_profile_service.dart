@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/profile/model/other_profile_model.dart';
+import 'package:inakal/features/profile/model/request_status_model.dart';
 
 class OtherProfileService {
   final AuthController authController = Get.find();
@@ -42,7 +43,28 @@ class OtherProfileService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        return jsonResponse['status'];
+        final requestStatusModel = RequestStatusModel.fromJson(jsonResponse);
+        if (requestStatusModel.type == "success") {
+          if (requestStatusModel.sentStatus == "accepted") {
+            if (requestStatusModel.receivedStatus == "pending") {
+              return "acceptOrDecline";
+            } else {
+              return "message";
+            }
+          } else if (requestStatusModel.sentStatus == "pending") {
+            if (requestStatusModel.receivedStatus == "pending") {
+              return "acceptOrDecline";
+            } else {
+              return "waiting";
+            }
+          } else if (requestStatusModel.sentStatus == "rejected") {
+            return "rejected";
+          } else { 
+            return null;
+          }
+        } else {
+          return null;
+        }
       } else {
         print("Error: ${response.statusCode}");
         return null;
