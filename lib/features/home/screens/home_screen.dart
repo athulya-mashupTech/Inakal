@@ -12,8 +12,6 @@ import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
-import 'package:inakal/data_class/user.dart';
-import 'package:inakal/features/psychologists_listing/model/book_appointment_model.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
