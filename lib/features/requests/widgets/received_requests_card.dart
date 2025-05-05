@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
 import 'package:inakal/features/requests/widgets/message_button.dart';
 
 class ReceivedRequestsCard extends StatefulWidget {
+  final String req_id;
   final String image;
   final String name;
   final String location;
@@ -13,9 +15,9 @@ class ReceivedRequestsCard extends StatefulWidget {
   final String height;
   final String religion;
   final String role;
-  final String req_status;
+  String req_status;
 
-  const ReceivedRequestsCard({
+  ReceivedRequestsCard({
     super.key,
     required this.image,
     required this.name,
@@ -25,7 +27,8 @@ class ReceivedRequestsCard extends StatefulWidget {
     required this.age,
     required this.height,
     required this.req_status,
-    required this.religion,
+    required this.religion, 
+    required this.req_id,
   });
 
   @override
@@ -47,6 +50,26 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
     }
 
     return age;
+  }
+
+  Future<void> acceptRequest() async {
+    await RequestService().acceptRequest(widget.req_id, context).then((value){
+      if (value?.type == "success"){
+        setState(() {
+          widget.req_status = "accepted";
+        });
+      }
+    });
+  }
+
+  Future<void> rejectRequest() async {
+    await RequestService().rejectRequest(widget.req_id, context).then((value){
+      if (value?.type == "success"){
+        setState(() {
+          widget.req_status = "rejected";
+        });
+      }
+    });
   }
   
   @override
@@ -239,7 +262,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       MessageButton(text: "Message")
                     ],
                   )
-                : const Column(
+                : widget.req_status == "pending"
+                ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
@@ -255,10 +279,24 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(child: DeclineButton(text: "Decline")),
+                          Expanded(child: DeclineButton(text: "Decline", onPressed: rejectRequest,)),
                           SizedBox(width: 10),
-                          Expanded(child: AcceptButton(text: "Accept")),
+                          Expanded(child: AcceptButton(text: "Accept", onPressed: acceptRequest,)),
                         ],
+                      ),
+                    ],
+                  )
+                  : Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Text(
+                          "You have declined this request",
+                          style: TextStyle(
+                            fontSize: 13,
+                          ),
+                        ),
                       ),
                     ],
                   ),

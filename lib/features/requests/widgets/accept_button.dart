@@ -19,16 +19,19 @@ class AcceptButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(30.0),
               ),
               backgroundColor: AppColors.primaryRed),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.check, color: AppColors.white), 
-              SizedBox(width: 5,),
-              Text(
-                text,
-                style: const TextStyle(color: AppColors.white), 
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 3.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.check, color: AppColors.white), 
+                SizedBox(width: 5,),
+                Text(
+                  text,
+                  style: const TextStyle(color: AppColors.white), 
+                ),
+              ],
+            ),
           ),
         ),
       ),

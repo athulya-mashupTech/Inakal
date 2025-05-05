@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
-import 'package:inakal/features/requests/model/delete_request_model.dart';
+import 'package:inakal/features/requests/model/request_action_model.dart';
 import 'package:inakal/features/requests/model/received_request_model.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/model/sent_request_model.dart';
@@ -58,7 +58,7 @@ class RequestService {
                 userJson['user']['state'] = "N/A";
               }
               if (userJson['user']['dob'] == null || userJson['user']['dob'] == "") {
-                userJson['user']['dob'] = "N/A";
+                userJson['user']['dob'] = "0000-00-00";
               }
               if (userJson['user']['religion'] == null || userJson['user']['religion'] == "") {
                 userJson['user']['religion'] = "N/A";
@@ -116,7 +116,7 @@ class RequestService {
         final receivedRequestModel = ReceivedRequestModel.fromJson(jsonResponse);
 
         if (receivedRequestModel.type == "success") {
-          _showSnackbar(context, "Successfully fetched sent requests");
+          _showSnackbar(context, "Successfully fetched received requests");
 
           // API call to collect data for each user detail request
           List<Future<RequestUserDetailsModel?>> userDetailsFutures =
@@ -195,7 +195,7 @@ class RequestService {
     }
   }
 
-  Future<DeleteRequestModel?> deleteRequest(
+  Future<RequestActionModel?> deleteRequest(
       String requestId, BuildContext context) async {
     try {
       final response = await _sendPostRequest(
@@ -204,7 +204,7 @@ class RequestService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final deleteRequestModel = DeleteRequestModel.fromJson(jsonResponse);
+        final deleteRequestModel = RequestActionModel.fromJson(jsonResponse);
 
         if (deleteRequestModel.type == "success") {
           _showSnackbar(context, deleteRequestModel.message!);
@@ -215,6 +215,62 @@ class RequestService {
         }
       } else {
         _showSnackbar(context, "Error deleting request");
+        return null;
+      }
+    } catch (e) {
+      print("Error deleting request: $e");
+      return null;
+    }
+  }
+
+  Future<RequestActionModel?> acceptRequest(
+      String requestId, BuildContext context) async {
+    try {
+      final response = await _sendPostRequest(
+          url: acceptRequestUrl, fields: {"request_id": requestId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final acceptRequestModel = RequestActionModel.fromJson(jsonResponse);
+
+        if (acceptRequestModel.type == "success") {
+          _showSnackbar(context, acceptRequestModel.message!);
+          return acceptRequestModel;
+        } else {
+          _showSnackbar(context, acceptRequestModel.message!);
+          return null;
+        }
+      } else {
+        _showSnackbar(context, "Error accepting request");
+        return null;
+      }
+    } catch (e) {
+      print("Error deleting request: $e");
+      return null;
+    }
+  }
+
+  Future<RequestActionModel?> rejectRequest(
+      String requestId, BuildContext context) async {
+    try {
+      final response = await _sendPostRequest(
+          url: rejectRequestUrl, fields: {"request_id": requestId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final rejectRequestModel = RequestActionModel.fromJson(jsonResponse);
+
+        if (rejectRequestModel.type == "success") {
+          _showSnackbar(context, rejectRequestModel.message!);
+          return rejectRequestModel;
+        } else {
+          _showSnackbar(context, rejectRequestModel.message!);
+          return null;
+        }
+      } else {
+        _showSnackbar(context, "Error rejecting request");
         return null;
       }
     } catch (e) {

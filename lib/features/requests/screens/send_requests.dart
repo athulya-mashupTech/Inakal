@@ -51,7 +51,7 @@ class _SendRequestsState extends State<SendRequests> {
       filteredUsers = List.from(allSentRequests);
     } else if (selectedFilter == "Accepted") {
       filteredUsers = allSentRequests
-          .where((user) => user?.status == "Accepted")
+          .where((user) => user?.status == "accepted")
           .toList();
     } else if (selectedFilter == "Pending") {
       filteredUsers = allSentRequests
