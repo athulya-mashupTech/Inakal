@@ -39,7 +39,6 @@ class SendRequestsCard extends StatefulWidget {
 }
 
 class _SendRequestsCardState extends State<SendRequestsCard> {
-
   Future<void> deleteRequest() async {
     await RequestService().deleteRequest(widget.req_id, context);
   }
@@ -93,15 +92,23 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                         borderRadius: BorderRadius.circular(10),
                         child: ColorFiltered(
                           colorFilter: const ColorFilter.mode(
-                            AppColors.grey, // This will apply the grayscale effect
+                            AppColors
+                                .grey, // This will apply the grayscale effect
                             BlendMode
                                 .saturation, // Apply the grayscale effect using saturation
                           ),
-                          child: Image.network(
-                            widget.image,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.image,
                             width: MediaQuery.of(context).size.width * 0.25,
                             height: MediaQuery.of(context).size.width * 0.30,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => Center(
+                              child: CircularProgressIndicator(), // or a custom loader
+                            ),
+                            errorWidget: (context, url, error) => CachedNetworkImage(
+                              imageUrl: 'https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg',
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       )
@@ -114,7 +121,11 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                 CircularProgressIndicator(), // or a custom loader
                           ),
                           errorWidget: (context, url, error) =>
-                              const Icon(Icons.error),
+                              CachedNetworkImage(
+                            imageUrl:
+                                'https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg',
+                            fit: BoxFit.cover,
+                          ),
                           width: MediaQuery.of(context).size.width * 0.25,
                           height: MediaQuery.of(context).size.width * 0.30,
                           fit: BoxFit.cover,
@@ -149,7 +160,9 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                           ),
                         ],
                       ),
-                      widget.status == "rejected" ? const SizedBox(height: 5) : const SizedBox.shrink(),
+                      widget.status == "rejected"
+                          ? const SizedBox(height: 5)
+                          : const SizedBox.shrink(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.end,

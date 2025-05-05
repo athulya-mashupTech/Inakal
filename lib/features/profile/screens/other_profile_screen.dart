@@ -373,11 +373,15 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     padding:
                                         EdgeInsets.symmetric(horizontal: 25.0),
                                     child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
                                       children: [
-                                        DeclineButton(text: "Decline"),
-                                        AcceptButton(text: "Accept")
+                                        Expanded(
+                                            child:
+                                                DeclineButton(text: "Decline")),
+                                        const SizedBox(
+                                            width: 10), // Space between buttons
+                                        Expanded(
+                                            child:
+                                                AcceptButton(text: "Accept")),
                                       ],
                                     ),
                                   ),
