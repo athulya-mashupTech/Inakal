@@ -5,15 +5,19 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 
 class UserCard extends StatefulWidget {
+  final String clientId;
   final String image;
   final String name;
   final String location;
 
   const UserCard(
-      {required this.name,
-      required this.location,
-      super.key,
-      required this.image});
+      {
+        required this.name,
+        required this.location,
+        super.key,
+        required this.image, 
+        required this.clientId
+      });
 
   @override
   State<UserCard> createState() => _UserCardState();
@@ -22,7 +26,7 @@ class UserCard extends StatefulWidget {
 class _UserCardState extends State<UserCard> {
   
   Future<void> sendInterestToUser() async {
-    await HomeService().sentInterestToUser("1933", context);
+    await HomeService().sentInterestToUser(widget.clientId, context);
   }
 
   @override

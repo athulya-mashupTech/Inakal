@@ -58,7 +58,7 @@ class RequestService {
                 userJson['user']['state'] = "N/A";
               }
               if (userJson['user']['dob'] == null || userJson['user']['dob'] == "") {
-                userJson['user']['dob'] = "N/A";
+                userJson['user']['dob'] = "0000-00-00";
               }
               if (userJson['user']['religion'] == null || userJson['user']['religion'] == "") {
                 userJson['user']['religion'] = "N/A";
@@ -72,9 +72,9 @@ class RequestService {
               if (userJson['user']['last_seen'] == null || userJson['user']['last_seen'] == "") {
                 userJson['user']['last_seen'] = "N/A";
               }
-              if (true) { //userJson['user']['image'] == null || userJson['user']['image'] == "") {
-                userJson['user']['image'] = "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
-              }
+              // if (true) { //userJson['user']['image'] == null || userJson['user']['image'] == "") {
+              //   userJson['user']['image'] = "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
+              // }
 
               // Combine user details with match status
               return RequestUserDetailsModel?.fromJson(

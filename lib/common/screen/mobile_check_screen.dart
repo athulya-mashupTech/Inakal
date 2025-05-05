@@ -24,116 +24,114 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return NoInternetChecker(
-      child: Scaffold(
-        backgroundColor: AppColors.white,
-        body: SingleChildScrollView(
-          child: Stack(
-            children: [
-            SizedBox(height: MediaQuery.of(context).size.height),
-              Positioned(
-                bottom: -100,
-                child: Image.asset(
-                  'assets/vectors/dotted_design1.png',
-                  width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.cover,
+    return Scaffold(
+      backgroundColor: AppColors.white,
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+          SizedBox(height: MediaQuery.of(context).size.height),
+            Positioned(
+              bottom: -100,
+              child: Image.asset(
+                'assets/vectors/dotted_design1.png',
+                width: MediaQuery.of(context).size.width,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Container(
+                height: 100,
+                decoration: const BoxDecoration(
+                  gradient: AppColors.pinkWhiteGradient,
                 ),
               ),
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  height: 100,
-                  decoration: const BoxDecoration(
-                    gradient: AppColors.pinkWhiteGradient,
+            ),
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  const Text(
+                    'Phone Number Verification',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    const Text(
-                      'Phone Number Verification',
-                      textAlign: TextAlign.center,
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    const SizedBox(height: 16),
-                    const Text(
-                      'We\'ll need your phone number to send an OTP for verification.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 32),
-                    IntlPhoneField(
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: BorderSide(),
-                        ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'We\'ll need your phone number to send an OTP for verification.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 32),
+                  IntlPhoneField(
+                    decoration: InputDecoration(
+                      labelText: 'Mobile Number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5),
+                        borderSide: BorderSide(),
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _countryCode = value.countryCode;
-                          _phoneNumber = value.number;
-                        });
-                      },
-                      initialCountryCode: 'IN',
                     ),
-                    const SizedBox(height: 10),
-                
-                    // CustomButton(
-                    CustomButton(
-                      text: "Send OTP",
-                      onPressed: () {
-                        //Store the phone number and country code in the UserRegistrationData Class
-                        _storeData();
-                
-                        Navigator.push(
+                    onChanged: (value) {
+                      setState(() {
+                        _countryCode = value.countryCode;
+                        _phoneNumber = value.number;
+                      });
+                    },
+                    initialCountryCode: 'IN',
+                  ),
+                  const SizedBox(height: 10),
+              
+                  // CustomButton(
+                  CustomButton(
+                    text: "Send OTP",
+                    onPressed: () {
+                      //Store the phone number and country code in the UserRegistrationData Class
+                      _storeData();
+              
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OTPValidateScreen()));
+                    },
+                    color: AppColors.primaryRed,
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Text(
+                        'Already have an account? ',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => OTPValidateScreen()));
-                      },
-                      color: AppColors.primaryRed,
-                    ),
-                    SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
-                          'Already have an account? ',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const LoginPage(),
-                              ),
-                            );
-                          },
-                          child: const Text(
-                            'Login',
-                            style: TextStyle(
-                              fontSize: 16,
-                              color: AppColors.primaryRed,
-                              fontWeight: FontWeight.bold,
+                              builder: (context) => const LoginPage(),
                             ),
+                          );
+                        },
+                        child: const Text(
+                          'Login',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: AppColors.primaryRed,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -31,7 +31,7 @@ class RequestUserDetailsModel {
 
   factory RequestUserDetailsModel.fromJson(Map<String, dynamic> json, String status, String? requestId) {
     return RequestUserDetailsModel(
-      image: json['image'] ?? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+      image: json['image'],
       firstName: json['first_name'] ?? "First Name",
       lastName: json['last_name'] ?? "Last Name",
       district: json['district'],
