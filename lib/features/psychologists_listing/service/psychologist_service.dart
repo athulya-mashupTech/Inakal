@@ -9,13 +9,11 @@ import 'package:inakal/features/psychologists_listing/model/book_appointment_mod
 import 'package:inakal/features/psychologists_listing/model/psychologist_model.dart';
 
 class PsychologistService {
-
   final AuthController authController = Get.find();
-  
+
   // Fetch All Doctors
-  Future<PsychologistModel?> getAllDoctors({
-    required BuildContext context
-    }) async {
+  Future<PsychologistModel?> getAllDoctors(
+      {required BuildContext context}) async {
     try {
       final response = await _sendGetRequest(
         url: allDoctorsUrl,
@@ -41,9 +39,7 @@ class PsychologistService {
   }
 
   // Book Appointment
-  Future<BookAppointmentModel> bookAppointment(
-    BuildContext context
-    ) async {
+  Future<BookAppointmentModel> bookAppointment(BuildContext context) async {
     try {
       final response =
           await _sendPostRequest(url: bookAppointmentUrl, fields: {});
@@ -51,12 +47,14 @@ class PsychologistService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final bookAppointmentModel = BookAppointmentModel.fromJson(jsonResponse);
+        final bookAppointmentModel =
+            BookAppointmentModel.fromJson(jsonResponse);
 
         if (bookAppointmentModel.type == "success") {
           _showSnackbar(
               context,
-              bookAppointmentModel.message ?? "Appointment booked successfully");
+              bookAppointmentModel.message ??
+                  "Appointment booked successfully");
         }
         return bookAppointmentModel;
       } else {
@@ -81,7 +79,8 @@ class PsychologistService {
   }) async {
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields.addAll(fields);
-    final token = authController.token.value; // Get the token from AuthController
+    final token =
+        authController.token.value; // Get the token from AuthController
     final headers = {
       'Authorization': 'Bearer $token',
     };
@@ -94,7 +93,8 @@ class PsychologistService {
     required String url,
   }) async {
     final request = http.MultipartRequest('GET', Uri.parse(url));
-    final token = authController.token.value; // Get the token from AuthController
+    final token =
+        authController.token.value; // Get the token from AuthController
     final headers = {
       'Authorization': 'Bearer $token',
     };
@@ -104,9 +104,16 @@ class PsychologistService {
 
   // Method to show Snackbar
   void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+    Get.snackbar(
+      "Message",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 1),
     );
+
+    // ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    // ScaffoldMessenger.of(context).showSnackBar(
+    //   SnackBar(content: Text(message)),
+    // );
   }
 }

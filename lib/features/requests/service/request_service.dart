@@ -42,34 +42,44 @@ class RequestService {
               var userJson = json.decode(userBody);
               userJson['user']['last_seen'] = "N/A";
               print(userJson['user']['first_name']);
-              if (userJson['user']['first_name'] == null || userJson['user']['first_name'] == "") {
+              if (userJson['user']['first_name'] == null ||
+                  userJson['user']['first_name'] == "") {
                 userJson['user']['first_name'] = "N/A";
               }
-              if (userJson['user']['height'] == null || userJson['user']['height'] == "") {
+              if (userJson['user']['height'] == null ||
+                  userJson['user']['height'] == "") {
                 userJson['user']['height'] = "N/A";
               }
-              if (userJson['user']['last_name'] == null || userJson['user']['last_name'] == "") {
+              if (userJson['user']['last_name'] == null ||
+                  userJson['user']['last_name'] == "") {
                 userJson['user']['last_name'] = "N/A";
               }
-              if (userJson['user']['district'] == null || userJson['user']['district'] == "") {
+              if (userJson['user']['district'] == null ||
+                  userJson['user']['district'] == "") {
                 userJson['user']['district'] = "N/A";
               }
-              if (userJson['user']['state'] == null || userJson['user']['state'] == "") {
+              if (userJson['user']['state'] == null ||
+                  userJson['user']['state'] == "") {
                 userJson['user']['state'] = "N/A";
               }
-              if (userJson['user']['dob'] == null || userJson['user']['dob'] == "") {
+              if (userJson['user']['dob'] == null ||
+                  userJson['user']['dob'] == "") {
                 userJson['user']['dob'] = "0000-00-00";
               }
-              if (userJson['user']['religion'] == null || userJson['user']['religion'] == "") {
+              if (userJson['user']['religion'] == null ||
+                  userJson['user']['religion'] == "") {
                 userJson['user']['religion'] = "N/A";
               }
-              if (userJson['user']['caste'] == null || userJson['user']['caste'] == "") {
+              if (userJson['user']['caste'] == null ||
+                  userJson['user']['caste'] == "") {
                 userJson['user']['caste'] = "N/A";
               }
-              if (userJson['user']['occupation'] == null || userJson['user']['occupation'] == "") {
+              if (userJson['user']['occupation'] == null ||
+                  userJson['user']['occupation'] == "") {
                 userJson['user']['occupation'] = "N/A";
               }
-              if (userJson['user']['last_seen'] == null || userJson['user']['last_seen'] == "") {
+              if (userJson['user']['last_seen'] == null ||
+                  userJson['user']['last_seen'] == "") {
                 userJson['user']['last_seen'] = "N/A";
               }
               // if (true) { //userJson['user']['image'] == null || userJson['user']['image'] == "") {
@@ -113,7 +123,8 @@ class RequestService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final receivedRequestModel = ReceivedRequestModel.fromJson(jsonResponse);
+        final receivedRequestModel =
+            ReceivedRequestModel.fromJson(jsonResponse);
 
         if (receivedRequestModel.type == "success") {
           _showSnackbar(context, "Successfully fetched received requests");
@@ -133,35 +144,46 @@ class RequestService {
               var userJson = json.decode(userBody);
               userJson['user']['last_seen'] = "N/A";
               print(userJson['user']['first_name']);
-              if (userJson['user']['first_name'] == null || userJson['user']['first_name'] == "") {
+              if (userJson['user']['first_name'] == null ||
+                  userJson['user']['first_name'] == "") {
                 userJson['user']['first_name'] = "N/A";
               }
-              if (userJson['user']['last_name'] == null || userJson['user']['last_name'] == "") {
+              if (userJson['user']['last_name'] == null ||
+                  userJson['user']['last_name'] == "") {
                 userJson['user']['last_name'] = "N/A";
               }
-              if (userJson['user']['district'] == null || userJson['user']['district'] == "") {
+              if (userJson['user']['district'] == null ||
+                  userJson['user']['district'] == "") {
                 userJson['user']['district'] = "N/A";
               }
-              if (userJson['user']['state'] == null || userJson['user']['state'] == "") {
+              if (userJson['user']['state'] == null ||
+                  userJson['user']['state'] == "") {
                 userJson['user']['state'] = "N/A";
               }
-              if (userJson['user']['dob'] == null || userJson['user']['dob'] == "") {
+              if (userJson['user']['dob'] == null ||
+                  userJson['user']['dob'] == "") {
                 userJson['user']['dob'] = "1998-05-27";
               }
-              if (userJson['user']['religion'] == null || userJson['user']['religion'] == "") {
+              if (userJson['user']['religion'] == null ||
+                  userJson['user']['religion'] == "") {
                 userJson['user']['religion'] = "N/A";
               }
-              if (userJson['user']['caste'] == null || userJson['user']['caste'] == "") {
+              if (userJson['user']['caste'] == null ||
+                  userJson['user']['caste'] == "") {
                 userJson['user']['caste'] = "N/A";
               }
-              if (userJson['user']['occupation'] == null || userJson['user']['occupation'] == "") {
+              if (userJson['user']['occupation'] == null ||
+                  userJson['user']['occupation'] == "") {
                 userJson['user']['occupation'] = "N/A";
               }
-              if (userJson['user']['last_seen'] == null || userJson['user']['last_seen'] == "") {
+              if (userJson['user']['last_seen'] == null ||
+                  userJson['user']['last_seen'] == "") {
                 userJson['user']['last_seen'] = "N/A";
               }
-              if (true) { //userJson['user']['image'] == null || userJson['user']['image'] == "") {
-                userJson['user']['image'] = "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
+              if (true) {
+                //userJson['user']['image'] == null || userJson['user']['image'] == "") {
+                userJson['user']['image'] =
+                    "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
               }
 
               // Combine user details with match status
@@ -185,7 +207,8 @@ class RequestService {
       } else {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final message = jsonResponse['message'] ?? "Error fetching received requests"; 
+        final message =
+            jsonResponse['message'] ?? "Error fetching received requests";
         _showSnackbar(context, message);
         return [];
       }
@@ -300,7 +323,8 @@ class RequestService {
     required String url,
   }) async {
     final request = http.MultipartRequest('GET', Uri.parse(url));
-    final token = authController.token.value; // Get the token from AuthController
+    final token =
+        authController.token.value; // Get the token from AuthController
     final headers = {
       'Authorization': 'Bearer $token',
     };
@@ -310,9 +334,11 @@ class RequestService {
 
   // Method to show Snackbar
   void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+    Get.snackbar(
+      "Message",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 1),
     );
   }
 }

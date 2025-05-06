@@ -1,6 +1,13 @@
 //Base URL for all API calls
 const baseUrl = "https://enakal.com/api/";
 
+//Base URL for web
+const baseUrlWeb = "https://enakal.com/";
+
+//WebView Endpoints
+const aboutUsUrl = "${baseUrlWeb}about-us";
+const TermsAndConditionsUrl = "${baseUrlWeb}terms";
+
 //API endpoints
 
 //Login and Registration
