@@ -38,7 +38,7 @@ class _CountryStateCityWidgetState extends State<CountryStateCityWidget> {
               focusedBorder: OutlineInputBorder(
                 borderSide:
                     const BorderSide(color: AppColors.primaryRed, width: 1.5),
-                borderRadius: BorderRadius.circular(30.0),
+                borderRadius: BorderRadius.circular(5.0),
               ),
             )),
             widget.isChecked == true

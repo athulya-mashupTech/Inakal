@@ -59,7 +59,7 @@ class OtherProfileService {
             }
           } else if (requestStatusModel.sentStatus == "rejected") {
             return "rejected";
-          } else { 
+          } else {
             return null;
           }
         } else {
@@ -93,9 +93,11 @@ class OtherProfileService {
 
   // Method to show Snackbar
   void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+    Get.snackbar(
+      "Message",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 1),
     );
   }
 }

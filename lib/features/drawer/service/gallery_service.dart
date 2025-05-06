@@ -37,12 +37,12 @@ class GalleryService {
         print("Error: ${response.statusCode}");
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-          _showSnackbar(context, jsonResponse["message"] ?? "");
+        _showSnackbar(context, jsonResponse["message"] ?? "");
         return GalleryImagesModel(
-            type: "error",
-            message: jsonResponse["message"],
-            gallery: [],
-          );
+          type: "error",
+          message: jsonResponse["message"],
+          gallery: [],
+        );
       }
     } catch (e) {
       print("Error: $e");
@@ -68,9 +68,11 @@ class GalleryService {
 
   // Method to show Snackbar
   void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+    Get.snackbar(
+      "Message",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 1),
     );
   }
 }

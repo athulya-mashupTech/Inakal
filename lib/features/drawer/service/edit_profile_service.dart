@@ -33,7 +33,7 @@ class EditProfileService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
-        
+
         if (userDataUpdateModel.type == "success") {
           _showSnackbar(context, userDataUpdateModel.message!);
         }
@@ -73,10 +73,10 @@ class EditProfileService {
         "mother_tongue": userData.user!.motherTongue!,
         "marital_status": userData.user!.maritalStatus!,
         "languages_known": "${userData.user?.languagesKnown!}"
-          .split(',')
-          .map((lang) => {'"value"': '"${lang.trim()}"'})
-          .toList()
-          .toString(),
+            .split(',')
+            .map((lang) => {'"value"': '"${lang.trim()}"'})
+            .toList()
+            .toString(),
         "number_of_children": userData.user!.numberOfChildren!,
       });
       print(response.reasonPhrase);
@@ -219,10 +219,10 @@ class EditProfileService {
           await _sendPostRequest(url: userAdditionalDetailUpdateUrl, fields: {
         "about_me": userData.user!.aboutMe!,
         "hobbies": "${userData.user?.hobbies!}"
-          .split(',')
-          .map((lang) => {'"value"': '"${lang.trim()}"'})
-          .toList()
-          .toString(),
+            .split(',')
+            .map((lang) => {'"value"': '"${lang.trim()}"'})
+            .toList()
+            .toString(),
         "smoking_habits": userData.user!.smokingHabits!,
         "drinking_habits": userData.user!.drinkingHabits!,
         "food_preferences": userData.user!.foodPreferences!,
@@ -311,9 +311,11 @@ class EditProfileService {
 
   // Method to show Snackbar
   void _showSnackbar(BuildContext context, String message) {
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message)),
+    Get.snackbar(
+      "Message",
+      message,
+      snackPosition: SnackPosition.BOTTOM,
+      duration: const Duration(seconds: 1),
     );
   }
 }
