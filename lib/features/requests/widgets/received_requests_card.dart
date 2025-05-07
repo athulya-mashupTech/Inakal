@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
 import 'package:inakal/features/requests/widgets/message_button.dart';
 
 class ReceivedRequestsCard extends StatefulWidget {
+  final String client_id;
   final String req_id;
   final String image;
   final String name;
@@ -27,7 +29,8 @@ class ReceivedRequestsCard extends StatefulWidget {
     required this.age,
     required this.height,
     required this.req_status,
-    required this.religion, 
+    required this.religion,
+    required this.client_id,
     required this.req_id,
   });
 
@@ -36,7 +39,6 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
-
   int calculateAge(String birthDateString) {
     DateTime birthDate = DateTime.parse(birthDateString);
     DateTime today = DateTime.now();
@@ -53,8 +55,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   }
 
   Future<void> acceptRequest() async {
-    await RequestService().acceptRequest(widget.req_id, context).then((value){
-      if (value?.type == "success"){
+    await RequestService().acceptRequest(widget.req_id, context).then((value) {
+      if (value?.type == "success") {
         setState(() {
           widget.req_status = "accepted";
         });
@@ -63,245 +65,255 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   }
 
   Future<void> rejectRequest() async {
-    await RequestService().rejectRequest(widget.req_id, context).then((value){
-      if (value?.type == "success"){
+    await RequestService().rejectRequest(widget.req_id, context).then((value) {
+      if (value?.type == "success") {
         setState(() {
           widget.req_status = "rejected";
         });
       }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
-      decoration: BoxDecoration(
-        color: AppColors.primaryRed.withAlpha(10),
-        borderRadius: BorderRadius.circular(15),
-        border: Border.all(
-          color: AppColors.primaryRed.withAlpha(70),
-          width: 1.5,
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (context) => OtherProfileScreen(id: widget.client_id)));
+      },
+      child: Container(
+        margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
+        decoration: BoxDecoration(
+          color: AppColors.primaryRed.withAlpha(10),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(
+            color: AppColors.primaryRed.withAlpha(70),
+            width: 1.5,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                // Profile Image with Padding
-                widget.req_status == "Rejected"
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: ColorFiltered(
-                          colorFilter: const ColorFilter.mode(
-                            AppColors
-                                .grey, // This will apply the grayscale effect
-                            BlendMode
-                                .saturation, // Apply the grayscale effect using saturation
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  // Profile Image with Padding
+                  widget.req_status == "Rejected"
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
+                          child: ColorFiltered(
+                            colorFilter: const ColorFilter.mode(
+                              AppColors
+                                  .grey, // This will apply the grayscale effect
+                              BlendMode
+                                  .saturation, // Apply the grayscale effect using saturation
+                            ),
+                            child: Image.network(
+                              widget.image,
+                              width: MediaQuery.of(context).size.width * 0.3,
+                              height: MediaQuery.of(context).size.width * 0.35,
+                              fit: BoxFit.cover,
+                            ),
                           ),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(10),
                           child: Image.network(
                             widget.image,
                             width: MediaQuery.of(context).size.width * 0.3,
-                            height: MediaQuery.of(context).size.width * 0.35,
+                            height: MediaQuery.of(context).size.width * 0.4,
                             fit: BoxFit.cover,
                           ),
                         ),
-                      )
-                    : ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          widget.image,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          height: MediaQuery.of(context).size.width * 0.4,
-                          fit: BoxFit.cover,
+                  const SizedBox(width: 16),
+      
+                  // Details Section
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 5),
+                        // Name
+                        Text(
+                          widget.name,
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              height: 1.2),
                         ),
-                      ),
-                const SizedBox(width: 16),
-
-                // Details Section
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 5),
-                      // Name
-                      Text(
-                        widget.name,
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          height: 1.2
+      
+                        Text(
+                          widget.location,
+                          style: const TextStyle(fontSize: 12, height: 1.2),
                         ),
-                      ),
-
-                      Text(
-                        widget.location,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          height: 1.2
-                        ),
-                      ),
-
-                      const SizedBox(height: 5),
-
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${calculateAge(widget.age)} Year, ${widget.height} cm",
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            widget.religion,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                          Text(
-                            widget.role,
-                            style: const TextStyle(
-                              fontSize: 12,
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      // Text(
-                      //     description,
-                      //     style: const TextStyle(
-                      //       fontSize: 14,
-                      //       color: AppColors.psychotext,
-                      //     ),
-                      // ),
-
-                      // Buttons
-                      const SizedBox(height: 8),
-                      Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.ideographic,
-                            children: [
-                              Text(
-                                switch (widget.req_status) {
-                                  "accepted" => "Both liked eachother",
-                                  "pending" => "He liked your Profile",
-                                  _ => "He liked your Profile",
-                                },
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    color: AppColors.black,
-                                    fontWeight: FontWeight.bold),
+      
+                        const SizedBox(height: 5),
+      
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${calculateAge(widget.age)} Year, ${widget.height} cm",
+                              style: const TextStyle(
+                                fontSize: 12,
                               ),
-                              const SizedBox(width: 10),
-                              // widget.req_status == "Pending"
-                              //     ? // Chat Button
-                              //     Row(
-                              //         children: [
-                              //           Icon(
-                              //             Icons.circle,
-                              //             size: 10,
-                              //             color: AppColors.grey.withAlpha(100),
-                              //           ),
-                              //           const SizedBox(width: 10,),
-                              //           const Text(
-                              //             "10 Jan 2025",
-                              //             style: TextStyle(
-                              //               fontSize: 14,
-                              //               color: AppColors.black,
-                              //             ),
-                              //           ),
-                              //         ],
-                              //       )
-                              //     : const SizedBox.shrink(),
-                            ],
+                            ),
+                            Text(
+                              widget.religion,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                            Text(
+                              widget.role,
+                              style: const TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
+      
+                        // Text(
+                        //     description,
+                        //     style: const TextStyle(
+                        //       fontSize: 14,
+                        //       color: AppColors.psychotext,
+                        //     ),
+                        // ),
+      
+                        // Buttons
+                        const SizedBox(height: 8),
+                        Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.baseline,
+                              textBaseline: TextBaseline.ideographic,
+                              children: [
+                                Text(
+                                  switch (widget.req_status) {
+                                    "accepted" => "Both liked eachother",
+                                    "pending" => "He liked your Profile",
+                                    _ => "He liked your Profile",
+                                  },
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      color: AppColors.black,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                const SizedBox(width: 10),
+                                // widget.req_status == "Pending"
+                                //     ? // Chat Button
+                                //     Row(
+                                //         children: [
+                                //           Icon(
+                                //             Icons.circle,
+                                //             size: 10,
+                                //             color: AppColors.grey.withAlpha(100),
+                                //           ),
+                                //           const SizedBox(width: 10,),
+                                //           const Text(
+                                //             "10 Jan 2025",
+                                //             style: TextStyle(
+                                //               fontSize: 14,
+                                //               color: AppColors.black,
+                                //             ),
+                                //           ),
+                                //         ],
+                                //       )
+                                //     : const SizedBox.shrink(),
+                              ],
+                            ),
+                            const SizedBox(
+                              width: 10,
+                            ),
+                            const Row(
+                              children: [
+                                Text(
+                                  "Last seen on 30/12/2025",
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: AppColors.primaryRed,
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+      
+              const SizedBox(height: 10),
+      
+              widget.req_status == "accepted"
+                  ? const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Text(
+                            "Take the next step and contact him directly",
+                            style: TextStyle(
+                              fontSize: 13,
+                            ),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          const Row(
-                            children: [
-                              Text(
-                                "Last seen on 30/12/2025",
+                        ),
+                        SizedBox(height: 5),
+                        MessageButton(text: "Message")
+                      ],
+                    )
+                  : widget.req_status == "pending"
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Text(
+                                "Accept his interest to communicate further",
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.primaryRed,
+                                  fontSize: 13,
                                 ),
                               ),
-                            ],
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-
-            const SizedBox(height: 10),
-
-            widget.req_status == "accepted"
-                ? const Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Take the next step and contact him directly",
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: DeclineButton(
+                                  text: "Decline",
+                                  onPressed: rejectRequest,
+                                )),
+                                SizedBox(width: 10),
+                                Expanded(
+                                    child: AcceptButton(
+                                  text: "Accept",
+                                  onPressed: acceptRequest,
+                                )),
+                              ],
+                            ),
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Text(
+                                "You have declined this request",
+                                style: TextStyle(
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      MessageButton(text: "Message")
-                    ],
-                  )
-                : widget.req_status == "pending"
-                ? Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "Accept his interest to communicate further",
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 5),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: DeclineButton(text: "Decline", onPressed: rejectRequest,)),
-                          SizedBox(width: 10),
-                          Expanded(child: AcceptButton(text: "Accept", onPressed: acceptRequest,)),
-                        ],
-                      ),
-                    ],
-                  )
-                  : Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Text(
-                          "You have declined this request",
-                          style: TextStyle(
-                            fontSize: 13,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-            // : const CustomButton(text: "Message")
-          ],
+              // : const CustomButton(text: "Message")
+            ],
+          ),
         ),
       ),
     );
