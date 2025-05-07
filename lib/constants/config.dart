@@ -1,5 +1,6 @@
 //Base URL for all API calls
 const baseUrl = "https://enakal.com/api/";
+const authBaseUrl = "https://enakal.com/authapi/";
 
 //Base URL for web
 const baseUrlWeb = "https://enakal.com/";
@@ -11,8 +12,8 @@ const TermsAndConditionsUrl = "${baseUrlWeb}terms";
 //API endpoints
 
 //Login and Registration
-const loginUrl = "${baseUrl}login";
-const registerUrl = "${baseUrl}register";
+const loginUrl = "${authBaseUrl}login";
+const registerUrl = "${authBaseUrl}register";
 
 //User Profile
 const userProfileUrl = "${baseUrl}userProfile";

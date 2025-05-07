@@ -180,8 +180,7 @@ class RequestService {
                   userJson['user']['last_seen'] == "") {
                 userJson['user']['last_seen'] = "N/A";
               }
-              if (true) {
-                //userJson['user']['image'] == null || userJson['user']['image'] == "") {
+              if (userJson['user']['image'] == null || userJson['user']['image'] == "") {
                 userJson['user']['image'] =
                     "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
               }

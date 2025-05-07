@@ -127,7 +127,7 @@ class AuthService {
 
           final AuthController authController = Get.find();
           // Save Token and userId to SharedPreferences & GetX
-          authController.saveAuthData(loginModel.token!, loginModel.userId!);
+          await authController.saveAuthData(loginModel.token!, loginModel.userId!);
 
           // Save User data to Getx
           fetchUserDetails(authController.token.value);
