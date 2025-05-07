@@ -117,6 +117,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                         itemBuilder: (context, index) {
                           final user = filteredUsers[index];
                           return ReceivedRequestsCard(
+                            client_id: user?.clientID ?? "",
                             image: user?.image ?? "",
                             name: user?.firstName != null
                                 ? "${user?.firstName} ${user?.lastName}"

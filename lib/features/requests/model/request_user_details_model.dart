@@ -1,4 +1,5 @@
 class RequestUserDetailsModel {
+  final String clientID;
   final String image;
   final String firstName;
   final String lastName;
@@ -14,6 +15,7 @@ class RequestUserDetailsModel {
   final String? requestId;
 
   RequestUserDetailsModel({
+    required this.clientID,
     required this.image,
     required this.firstName,
     required this.lastName,
@@ -29,8 +31,10 @@ class RequestUserDetailsModel {
     required this.requestId,
   });
 
-  factory RequestUserDetailsModel.fromJson(Map<String, dynamic> json, String status, String? requestId) {
+  factory RequestUserDetailsModel.fromJson(
+      Map<String, dynamic> json, String status, String? requestId) {
     return RequestUserDetailsModel(
+      clientID: json['id'],
       image: json['image'],
       firstName: json['first_name'] ?? "First Name",
       lastName: json['last_name'] ?? "Last Name",
