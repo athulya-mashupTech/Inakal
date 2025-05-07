@@ -1,8 +1,10 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/fe.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/service/home_service.dart';
+import 'package:shimmer/shimmer.dart';
 
 class UserCard extends StatefulWidget {
   final String clientId;
@@ -41,18 +43,23 @@ class _UserCardState extends State<UserCard> {
           child: Stack(
             children: [
               // Background image
-              Image.network(
-                widget.image, // You can change this to any image you'd like
+              CachedNetworkImage(
+                imageUrl:  widget.image, // You can change this to any image you'd like
                 fit: BoxFit.cover,
                 width: double.infinity,
                 height: double.infinity,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.network(
-                    "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                placeholder: (context, url) => Shimmer.fromColors(
+                        baseColor: AppColors.grey,
+                        highlightColor: AppColors.lightGrey,
+                        child: Container(
+                          color: AppColors.grey,
+                        ),
+                      ),
+                errorWidget: (context, url, error) => CachedNetworkImage(
+                    imageUrl: "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
                     fit: BoxFit.cover,
                     width: double.infinity,
-                    height: double.infinity);
-                },
+                    height: double.infinity)
               ),
 
               // Gradient overlay at the bottom

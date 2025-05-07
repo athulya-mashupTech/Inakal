@@ -131,6 +131,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   }).toList(),
                 ),
               ),
+              
               const SizedBox(height: 10),
               const Text(
                 "Didn't find your hobby? Add it here",
