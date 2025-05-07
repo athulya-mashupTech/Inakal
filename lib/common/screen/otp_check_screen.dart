@@ -6,14 +6,14 @@ import 'package:inakal/features/auth/registration/screens/terms_and_conditions_s
 import 'package:pinput/pinput.dart';
 
 class OTPValidateScreen extends StatefulWidget {
-  const OTPValidateScreen({super.key});
+  String otp;
+  OTPValidateScreen({super.key, required this.otp});
 
   @override
   _OTPValidateScreenState createState() => _OTPValidateScreenState();
 }
 
 class _OTPValidateScreenState extends State<OTPValidateScreen> {
-  final String _otp = '234567';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String _errorText = '';
 
@@ -88,11 +88,11 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                           'An OTP has been sent to your mobile number',
                           style: TextStyle(fontSize: 16),
                         ),
-                        Text(
-                          '+91 99XXX XXX33',
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.bold),
-                        ),
+                        // Text(
+                        //   '+91 99XXX XXX33',
+                        //   style: TextStyle(
+                        //       fontSize: 16, fontWeight: FontWeight.bold),
+                        // ),
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -142,7 +142,7 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
                   setState(() {
                     _errorText = 'Please enter the 6-digit OTP';
                   });
-                } else if (_enteredOtp != _otp) {
+                } else if (_enteredOtp != widget.otp) {
                   setState(() {
                     _errorText = 'Invalid OTP. Please try again.';
                   });

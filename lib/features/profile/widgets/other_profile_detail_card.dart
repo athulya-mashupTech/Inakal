@@ -20,7 +20,7 @@ class OtherProfileDetailCard extends StatelessWidget {
         ),
         const SizedBox(width: 3),
         Text("$title -  ", style: const TextStyle(fontSize: 14)),
-        Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+        Expanded(child: Text(value, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600,))),
       ],
     );
   }

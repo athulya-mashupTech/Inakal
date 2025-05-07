@@ -121,6 +121,7 @@ class _SendRequestsState extends State<SendRequests> {
                         itemBuilder: (context, index) {
                           final user = filteredUsers[index];
                           return SendRequestsCard(
+                            clientId: user?.clientID ?? "",
                             image: user?.image ?? "",
                             name: user?.firstName != null
                                 ? "${user?.firstName} ${user?.lastName}"
