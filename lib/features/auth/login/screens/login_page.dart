@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/login/screens/forgot_password.dart';
+import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -128,7 +130,6 @@ class _LoginPageState extends State<LoginPage> {
                     text: "Login",
                     onPressed: () {
                       _loginUser();
-
                       // Navigator.push(
                       //     context,
                       //     MaterialPageRoute(
@@ -136,6 +137,40 @@ class _LoginPageState extends State<LoginPage> {
                     },
                     color: AppColors.primaryRed,
                   ),
+                  SizedBox(height: 15),
+                  /// Sign Up Option
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don’t have an account?  ",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => MobileNoCheckScreen()));
+                          },
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MobileNoCheckScreen()));
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  color: AppColors.primaryRed,
+                                  fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                 ],
               ),
             ),

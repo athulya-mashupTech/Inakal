@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/common/screen/otp_check_screen.dart';
+import 'package:inakal/common/services/mobile_number_check_service.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/app_constants.dart';
@@ -22,6 +23,11 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
     regController.setMobileNumber(_phoneNumber, _countryCode);
   }
 
+  Future<void> mobileVerification() async {
+    await MobileNumberCheckService().mobilenumberexists(
+        countryCode: _countryCode, PhoneNumber: _phoneNumber, context: context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +35,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-          SizedBox(height: MediaQuery.of(context).size.height),
+            SizedBox(height: MediaQuery.of(context).size.height),
             Positioned(
               bottom: -100,
               child: Image.asset(
@@ -58,8 +64,7 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   const Text(
                     'Phone Number Verification',
                     textAlign: TextAlign.center,
-                    style:
-                        TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 16),
                   const Text(
@@ -85,18 +90,14 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
-              
+
                   // CustomButton(
                   CustomButton(
                     text: "Send OTP",
                     onPressed: () {
                       //Store the phone number and country code in the UserRegistrationData Class
                       _storeData();
-              
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => OTPValidateScreen()));
+                      mobileVerification();
                     },
                     color: AppColors.primaryRed,
                   ),

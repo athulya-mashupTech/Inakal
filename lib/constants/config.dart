@@ -52,3 +52,6 @@ const rejectRequestUrl = "${baseUrl}rejectRequest";
 
 //Related Profile API's
 const relatedProfileUrl = "${baseUrl}relatedProfiles";
+
+//Mobile Number Verification API's
+const mobileNumberCheckUrl = "${authBaseUrl}checkMobileNumberExists";
