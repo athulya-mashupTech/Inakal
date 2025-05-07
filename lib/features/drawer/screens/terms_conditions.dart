@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -17,8 +16,6 @@ class _TermsConditionsState extends State<TermsConditions> {
   @override
   void initState() {
     super.initState();
-
-    
 
     _controller = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)

@@ -98,7 +98,8 @@ class HomeService {
       "Message",
       message,
       snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 1),
+      dismissDirection: DismissDirection.horizontal,
+      duration: const Duration(seconds: 3),
     );
   }
 }
