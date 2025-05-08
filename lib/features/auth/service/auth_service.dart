@@ -21,7 +21,7 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      print("""fistname: ${userData.userFirstName},
+      print("""firstname: ${userData.userFirstName},
            lastname: ${userData.userLastName}, 
            countryCode: ${userData.userCountryCode}, 
            phone: ${userData.userPhoneNumber}, 
@@ -162,6 +162,7 @@ class AuthService {
 //     ),
 //   );
 // }
+
   }
 
   Future<void> fetchUserDetails(String token) async {

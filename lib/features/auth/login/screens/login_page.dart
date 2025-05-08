@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
-import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/login/screens/forgot_password.dart';
-import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
