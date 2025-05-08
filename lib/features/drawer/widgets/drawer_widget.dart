@@ -107,7 +107,7 @@ class DrawerWidget extends StatelessWidget {
                 ),
                 Container(
                   decoration: BoxDecoration(
-                    color: AppColors.softPink.withOpacity(0.5),
+                    color: AppColors.softPink.withAlpha(100),
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(20),
                       bottomRight: Radius.circular(20),
@@ -132,12 +132,13 @@ class DrawerWidget extends StatelessWidget {
                       Text(
                         " | ",
                         style: TextStyle(
-                            color: AppColors.black.withOpacity(0.1),
+                            color: AppColors.black.withAlpha(10),
                             fontSize: 20),
                       ),
                       Expanded(
                         child: TextButton(
                           onPressed: () {
+                            // Clipboard.setData(ClipboardData(text: "inakal.com"));
                             Navigator.of(context).pop();
                             onConfirm();
                           },
@@ -188,40 +189,41 @@ class DrawerWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Obx(() => ClipOval(
-                        child: CachedNetworkImage(
-                          imageUrl:
-                              userController.userData.value.user?.image ?? "",
-                          width: 50,
-                          height: 50,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Shimmer.fromColors(
-                            baseColor: AppColors.grey,
-                            highlightColor: AppColors.lightGrey,
-                            child: Container(
+                            child: CachedNetworkImage(
+                              imageUrl:
+                                  userController.userData.value.user?.image ??
+                                      "",
                               width: 50,
                               height: 50,
-                              color: AppColors.grey,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.grey,
+                                highlightColor: AppColors.lightGrey,
+                                child: Container(
+                                  width: 50,
+                                  height: 50,
+                                  color: AppColors.grey,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
-                          ),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
-                        ),
-                      )),
+                          )),
                       SizedBox(width: 10),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Obx(() => Text(
-                            "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}" ??
-                                'N/A',
-                            style:
-                                TextStyle(color: AppColors.white, fontSize: 18),
-                          )),
+                                "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}" ??
+                                    'N/A',
+                                style: TextStyle(
+                                    color: AppColors.white, fontSize: 18),
+                              )),
                           Obx(() => Text(
-                            'INK${userController.userData.value.user?.id}',
-                            style:
-                                TextStyle(color: AppColors.white, fontSize: 14),
-                          )),
+                                'INK${userController.userData.value.user?.id}',
+                                style: TextStyle(
+                                    color: AppColors.white, fontSize: 14),
+                              )),
                         ],
                       ),
                     ],
@@ -277,7 +279,14 @@ class DrawerWidget extends StatelessWidget {
                       style: TextStyle(color: AppColors.white)),
                   leading: const Icon(FontAwesomeIcons.headset,
                       color: AppColors.white),
-                  onTap: () {},
+                  onTap: () {
+                    _showHelpAndSupportDialog(
+                      context: context,
+                      // title: "Contact Us",
+                      // content: "Having trouble or need support?",
+                      // onConfirm: () {},
+                    );
+                  },
                 ),
                 ListTile(
                   title: const Text('Terms & Conditions',
@@ -340,4 +349,104 @@ class DrawerWidget extends StatelessWidget {
       ),
     );
   }
+}
+void _showHelpAndSupportDialog({
+  required BuildContext context,
+}) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Container(
+          width: MediaQuery.of(context).size.width * 0.7,
+          decoration: BoxDecoration(
+            color: AppColors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Contact Us",
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: AppColors.primaryRed,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Positioned(
+                              top: 10,
+                              child: Transform.rotate(
+                                  angle: -0.5,
+                                  child: const Align(
+                                      alignment: Alignment.bottomRight,
+                                      child: const Opacity(
+                                        opacity: 0.6,
+                                        child: Iconify(
+                                          Ph.butterfly_duotone,
+                                          size: 14,
+                                          color: AppColors.primaryRed,
+                                        ),
+                                      )))),
+                          Transform.rotate(
+                            angle: 0.5,
+                            child: const Align(
+                              child: Opacity(
+                                opacity: 0.6,
+                                child: Iconify(
+                                  Ph.butterfly_duotone,
+                                  size: 16,
+                                  color: AppColors.primaryRed,
+                                ),
+                              ),
+                              alignment: Alignment.topRight,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              // Divider(thickness: 4,),
+              Container(
+                width: MediaQuery.of(context).size.width * 0.8,
+                decoration: BoxDecoration(
+                  color: AppColors.softPink.withAlpha(100),
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("email",style: TextStyle(color: AppColors.black)),
+                      Text("inakal@inakal.com",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Divider(),
+                       Text("Mobile Number",style: TextStyle(color: AppColors.black)),
+                      Text("+91 8943462525",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
 }
