@@ -132,8 +132,7 @@ class DrawerWidget extends StatelessWidget {
                       Text(
                         " | ",
                         style: TextStyle(
-                            color: AppColors.black.withAlpha(10),
-                            fontSize: 20),
+                            color: AppColors.black.withAlpha(10), fontSize: 20),
                       ),
                       Expanded(
                         child: TextButton(
@@ -350,6 +349,7 @@ class DrawerWidget extends StatelessWidget {
     );
   }
 }
+
 void _showHelpAndSupportDialog({
   required BuildContext context,
 }) {
@@ -370,7 +370,8 @@ void _showHelpAndSupportDialog({
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 22.0, horizontal: 25),
                 child: Column(
                   children: [
                     Row(
@@ -387,33 +388,33 @@ void _showHelpAndSupportDialog({
                         ),
                         SizedBox(width: 5),
                         Positioned(
-                              top: 10,
-                              child: Transform.rotate(
-                                  angle: -0.5,
-                                  child: const Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: const Opacity(
-                                        opacity: 0.6,
-                                        child: Iconify(
-                                          Ph.butterfly_duotone,
-                                          size: 14,
-                                          color: AppColors.primaryRed,
-                                        ),
-                                      )))),
-                          Transform.rotate(
-                            angle: 0.5,
-                            child: const Align(
-                              child: Opacity(
-                                opacity: 0.6,
-                                child: Iconify(
-                                  Ph.butterfly_duotone,
-                                  size: 16,
-                                  color: AppColors.primaryRed,
-                                ),
+                            top: 10,
+                            child: Transform.rotate(
+                                angle: -0.5,
+                                child: const Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: const Opacity(
+                                      opacity: 0.6,
+                                      child: Iconify(
+                                        Ph.butterfly_duotone,
+                                        size: 14,
+                                        color: AppColors.primaryRed,
+                                      ),
+                                    )))),
+                        Transform.rotate(
+                          angle: 0.5,
+                          child: const Align(
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: Iconify(
+                                Ph.butterfly_duotone,
+                                size: 16,
+                                color: AppColors.primaryRed,
                               ),
-                              alignment: Alignment.topRight,
                             ),
+                            alignment: Alignment.topRight,
                           ),
+                        ),
                       ],
                     ),
                   ],
@@ -434,11 +435,20 @@ void _showHelpAndSupportDialog({
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("email",style: TextStyle(color: AppColors.black)),
-                      Text("inakal@inakal.com",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("email", style: TextStyle(color: AppColors.black)),
+                      Text(
+                        "inakal@inakal.com",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                       Divider(),
-                       Text("Mobile Number",style: TextStyle(color: AppColors.black)),
-                      Text("+91 8943462525",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),
+                      Text("Mobile Number",
+                          style: TextStyle(color: AppColors.black)),
+                      Text(
+                        "+91 8943462525",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                     ],
                   ),
                 ),
