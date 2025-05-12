@@ -430,7 +430,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 5),
                         Obx(() => Text(
                               userController.userData.value.user?.height != null
-                                  ? "${userController.userData.value.user?.height}"
+                                  ? "${userController.userData.value.user?.height}" +
+                                      " cm"
                                   : "...",
                               style: TextStyle(
                                 fontSize: 18,
@@ -443,7 +444,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         SizedBox(width: 5),
                         Obx(() => Text(
                               userController.userData.value.user?.weight != null
-                                  ? "${userController.userData.value.user?.weight}"
+                                  ? "${userController.userData.value.user?.weight}" +
+                                      " Kg"
                                   : "...",
                               style: TextStyle(
                                 fontSize: 18,

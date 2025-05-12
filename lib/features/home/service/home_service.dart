@@ -37,6 +37,32 @@ class HomeService {
     }
   }
 
+  Future<void> toggleLikedBy(String clientid, BuildContext context) async {
+    // Implement the logic to toggle the likedBy status
+    // This could involve updating the state or making an API call
+    print("liked by: $clientid");
+    // toggelLikedbyUrl
+    final response = await _sendPostRequest(url: toggelLikedbyUrl, fields: {
+      "client_id": clientid,
+    });
+    if (response.statusCode == 200) {
+      final responseBody = await response.stream.bytesToString();
+      final jsonResponse = json.decode(responseBody);
+      final sentInterestModel = SendInterestModel.fromJson(jsonResponse);
+      if (sentInterestModel.type == "success") {
+        // Show success message
+        print("toggleLikedBysuccess");
+        _showSnackbar(context, sentInterestModel.message!);
+      } else {
+        // Show error message
+        print("toggleLikedByfailed");
+        _showSnackbar(context, sentInterestModel.message!);
+      }
+    } else {
+      print("toggleLikedByError: ${response.statusCode}");
+    }
+  }
+
   Future<RelatedProfileModel?> getRelatedProfile(
       {required BuildContext context}) async {
     try {

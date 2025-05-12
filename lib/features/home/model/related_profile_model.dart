@@ -3,7 +3,10 @@ class RelatedProfileModel {
   String? message;
   String? type;
 
-  RelatedProfileModel({required this.relatedProfiles, required this.message, required this.type});
+  RelatedProfileModel(
+      {required this.relatedProfiles,
+      required this.message,
+      required this.type});
 
   RelatedProfileModel.fromJson(Map<String, dynamic> json) {
     if (json['related_profiles'] != null) {
@@ -109,6 +112,7 @@ class RelatedProfiles {
   String? verifiedProfile;
   String? otp;
   String? otpTime;
+  String? likedBy;
 
   RelatedProfiles(
       {required this.id,
@@ -190,7 +194,8 @@ class RelatedProfiles {
       required this.verifyDp,
       required this.verifiedProfile,
       required this.otp,
-      required this.otpTime});
+      required this.otpTime,
+      required this.likedBy});
 
   RelatedProfiles.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -273,6 +278,7 @@ class RelatedProfiles {
     verifiedProfile = json['verified_profile'];
     otp = json['otp'];
     otpTime = json['otp_time'];
+    likedBy = json['liked_by'] ?? "NO";
   }
 
   Map<String, dynamic> toJson() {
@@ -357,6 +363,7 @@ class RelatedProfiles {
     data['verified_profile'] = this.verifiedProfile;
     data['otp'] = this.otp;
     data['otp_time'] = this.otpTime;
+    data['liked_by'] = this.likedBy;
     return data;
   }
 }

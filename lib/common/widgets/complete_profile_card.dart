@@ -43,7 +43,8 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
   Future<void> fetchProgress() async {
     await AuthService().getProfileCompletionStatus(context).then((value) {
       setState(() {
-        newValue = value! / 100 ?? 0.0;
+        debugPrint("Profile completion status fetched: $value");
+        newValue = value;
       });
     });
     updateProgress(newValue!);
@@ -74,41 +75,47 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
         child: ClipRRect(
           borderRadius: BorderRadius.circular(4.0),
           child: Card(
-            color: AppColors.primaryRed,
+            color: newValue == 100
+                ? Colors.green
+                : AppColors.primaryRed, // Change background color
             clipBehavior: Clip.hardEdge,
             child: Stack(
               children: [
                 // Decorative heart patterns
-                Positioned(
-                  bottom: 40,
-                  right: 40,
-                  child: Transform.rotate(
-                    angle: 10 * 3.1415927 / 180,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: SizedBox(
-                        width: 30,
-                        height: 30,
-                        child: Image.asset('assets/vectors/heart_pattern1.png'),
+                if (newValue != 100) ...[
+                  Positioned(
+                    bottom: 40,
+                    right: 40,
+                    child: Transform.rotate(
+                      angle: 10 * 3.1415927 / 180,
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: SizedBox(
+                          width: 30,
+                          height: 30,
+                          child:
+                              Image.asset('assets/vectors/heart_pattern1.png'),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  bottom: -35,
-                  right: -35,
-                  child: Transform.rotate(
-                    angle: -45 * 3.1415927 / 180,
-                    child: Opacity(
-                      opacity: 0.5,
-                      child: SizedBox(
-                        width: 100,
-                        height: 100,
-                        child: Image.asset('assets/vectors/heart_pattern1.png'),
+                  Positioned(
+                    bottom: -35,
+                    right: -35,
+                    child: Transform.rotate(
+                      angle: -45 * 3.1415927 / 180,
+                      child: Opacity(
+                        opacity: 0.5,
+                        child: SizedBox(
+                          width: 100,
+                          height: 100,
+                          child:
+                              Image.asset('assets/vectors/heart_pattern1.png'),
+                        ),
                       ),
                     ),
                   ),
-                ),
+                ],
 
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -139,7 +146,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
                                 ),
                               ),
                               Text(
-                                "${percentage.toInt()}%",
+                                "${newValue?.toInt() ?? 0}%",
                                 style: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: 15,
@@ -152,10 +159,12 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
                       ),
 
                       const SizedBox(width: 20),
-                      const Expanded(
+                      Expanded(
                         child: Text(
-                          "Complete your profile to help us find your perfect match. A detailed profile leads to better connections!",
-                          style: TextStyle(
+                          newValue == 100
+                              ? "Successfully completed your profile details." // Change text
+                              : "Complete your profile to help us find your perfect match. A detailed profile leads to better connections!",
+                          style: const TextStyle(
                             fontSize: 16,
                             color: AppColors.white,
                           ),

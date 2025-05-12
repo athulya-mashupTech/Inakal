@@ -30,31 +30,28 @@ class PsychologistModel {
 class Doctors {
   String? id;
   String? name;
-  String? phone;
-  String? email;
-  String? status;
   String? image;
+  String? specializations;
 
-  Doctors(
-      {this.id, this.name, this.phone, this.email, this.status, this.image});
+  Doctors({
+    this.id,
+    this.name,
+    this.image,
+    this.specializations,
+  });
 
-  Doctors.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    phone = json['phone'];
-    email = json['email'];
-    status = json['status'];
-    image = json['image'];
-  }
+  Doctors.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        image = json['image'],
+        specializations = json['specializations'] ?? 'Clinical Psychologist';
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['phone'] = this.phone;
-    data['email'] = this.email;
-    data['status'] = this.status;
-    data['image'] = this.image;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['image'] = image;
+    data['specializations'] = specializations;
     return data;
   }
 }

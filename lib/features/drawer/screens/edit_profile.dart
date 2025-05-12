@@ -13,6 +13,7 @@ import 'package:inakal/features/drawer/widgets/add_hobbie_widget.dart';
 import 'package:inakal/features/drawer/widgets/details_column_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/details_row_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_dropdown_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_form_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_number_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_text_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/header_widget.dart';
@@ -627,23 +628,29 @@ class _EditProfileState extends State<EditProfile> {
     },
     "Inter Religion": {
       "Don't wish to specify": [
-        "select Sub Caste","Don't wish to specify", "Others"],
-      "Others": [
-        "select Sub Caste","Don't wish to specify", "Others"],
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Others"
+      ],
+      "Others": ["select Sub Caste", "Don't wish to specify", "Others"],
       "select Caste": ["select Sub Caste"],
     },
     "Non Religious": {
       "Don't wish to specify": [
-        "select Sub Caste","Don't wish to specify", "Others"],
-      "Others": [
-        "select Sub Caste","Don't wish to specify", "Others"],
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Others"
+      ],
+      "Others": ["select Sub Caste", "Don't wish to specify", "Others"],
       "select Caste": ["select Sub Caste"],
     },
     "Other": {
       "Don't wish to specify": [
-        "select Sub Caste","Don't wish to specify", "Others"],
-      "Others": [
-        "select Sub Caste","Don't wish to specify", "Others"],
+        "select Sub Caste",
+        "Don't wish to specify",
+        "Others"
+      ],
+      "Others": ["select Sub Caste", "Don't wish to specify", "Others"],
       "select Caste": ["select Sub Caste"],
     },
   };
@@ -1070,6 +1077,14 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   childrenPadding: const EdgeInsets.all(30.0),
                   children: [
+                    // EditFormWidget(
+                    //   label: "Occupation",
+                    //   // onChanged: (value) {
+                    //   //   setState(() {
+                    //   //     _occupationController.text = value;
+                    //   //   });
+                    //   // },
+                    // ),
                     //First Name
                     DetailsRowWidget(
                         label: "First Name",

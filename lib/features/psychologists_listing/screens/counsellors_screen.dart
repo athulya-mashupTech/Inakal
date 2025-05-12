@@ -15,14 +15,11 @@ class CounsellorsScreen extends StatefulWidget {
 }
 
 class _CounsellorsScreenState extends State<CounsellorsScreen> {
-  
   var btext = "";
   var bcolor = AppColors.primaryRed;
   bool consultancy_required = false;
   PsychologistModel? psychologistModelData;
   bool isDoctorsLoading = true;
-
-
 
   @override
   void initState() {
@@ -62,6 +59,26 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
             btext = "Your appointment is scheduled";
             bcolor = AppColors.freshGreen;
             consultancy_required = true;
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return AlertDialog(
+                  title: Text(
+                    'Success',
+                    style: TextStyle(color: AppColors.freshGreen),
+                  ),
+                  content: Text(value.message!),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
           } else if (value.type == "warning") {
             ScaffoldMessenger.of(context).hideCurrentSnackBar();
             ScaffoldMessenger.of(context).showSnackBar(
@@ -70,10 +87,51 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
             btext = "Your appointment is Pending";
             bcolor = AppColors.freshGreen;
             consultancy_required = true;
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return AlertDialog(
+                  title: Text(
+                    'Pending',
+                    style: TextStyle(color: AppColors.primaryRed),
+                  ),
+                  content: Text('Your appointment is pending confirmation.'),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
           } else {
             // Handle error case
             btext = "Error booking appointment";
             bcolor = AppColors.errorRed;
+            showDialog(
+              context: context,
+              builder: (BuildContext dialogContext) {
+                return AlertDialog(
+                  title: Text(
+                    'Error',
+                    style: TextStyle(color: AppColors.errorRed),
+                  ),
+                  content: Text(
+                      'There was an error booking your appointment. Please try again.'),
+                  actions: [
+                    TextButton(
+                      child: Text('OK'),
+                      onPressed: () {
+                        Navigator.of(dialogContext).pop();
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
           }
         });
       }
@@ -268,10 +326,11 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                           children: psychologistModelData!.doctors!
                               .map((psychologist) {
                             return CounsellorWidget(
-                              image: psychologist.image!,
-                              name: psychologist.name!,
-                              designation: "Clinical Psychologist" // psychologist.phone!,
-                            );
+                                image: psychologist.image!,
+                                name: psychologist.name!,
+                                designation: psychologist
+                                    .specializations! // psychologist.phone!,
+                                );
                           }).toList(),
                         ),
                 ),

@@ -12,6 +12,7 @@ import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -125,33 +126,87 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   )
                 : relatedProfileModel?.relatedProfiles?.isEmpty ?? true
-                    ? const Center(
-                        child: Text("No Related Profiles Found"),
+                    ? SizedBox(
+                        height: MediaQuery.of(context).size.height *
+                            0.5, // Adjust based on how much header content there is
+                        child: Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Lottie.asset(
+                                "assets/lottie/empty_data.json",
+                                width: MediaQuery.of(context).size.width * 0.6,
+                              ),
+                              const SizedBox(height: 10),
+                              Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Center(
+                                  child: Text(
+                                    "No Related Profiles Found for your preferences.\nTry changing your preferences or check back later.",
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       )
-                    : ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: relatedProfileModel?.relatedProfiles?.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            OtherProfileScreen(id: relatedProfileModel!.relatedProfiles![index].id!)));
-                              },
-                              child: UserCard(
-                                  clientId: relatedProfileModel?.relatedProfiles?[index].id ?? "",
-                                  name:
-                                      "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                  location:
-                                      relatedProfileModel?.relatedProfiles?[index].state != null && relatedProfileModel?.relatedProfiles?[index].state != ""
-                                      ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                      : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                  image:
-                                      "${relatedProfileModel?.relatedProfiles?[index].image}"));
-                        },
+                    : Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Number of columns
+                            crossAxisSpacing: 3, // Spacing between columns
+                            mainAxisSpacing: 10, // Spacing between rows
+                            childAspectRatio:
+                                1, // Adjust based on card dimensions
+                          ),
+                          itemCount:
+                              relatedProfileModel?.relatedProfiles?.length,
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OtherProfileScreen(
+                                                  id: relatedProfileModel!
+                                                      .relatedProfiles![index]
+                                                      .id!)));
+                                },
+                                child: UserCard(
+                                    likedBy: relatedProfileModel
+                                            ?.relatedProfiles?[index].likedBy ??
+                                        "NO",
+                                    dob: relatedProfileModel
+                                            ?.relatedProfiles?[index].dob ??
+                                        "",
+                                    clientId: relatedProfileModel
+                                            ?.relatedProfiles?[index].id ??
+                                        "",
+                                    name:
+                                        "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
+                                    location: relatedProfileModel
+                                                    ?.relatedProfiles?[index]
+                                                    .state !=
+                                                null &&
+                                            relatedProfileModel
+                                                    ?.relatedProfiles?[index]
+                                                    .state !=
+                                                ""
+                                        ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
+                                        : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                    image:
+                                        "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                          },
+                        ),
                       ),
             SizedBox(height: 20),
           ],
