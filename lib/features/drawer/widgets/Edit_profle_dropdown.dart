@@ -30,7 +30,6 @@ class EditProfleDropdown extends StatelessWidget {
               borderSide: const BorderSide(color: AppColors.primaryRed, width: 1.5),
               borderRadius: BorderRadius.circular(30.0),
             ),
-           
           ),
         items: items
             .map((item) => DropdownMenuItem(
