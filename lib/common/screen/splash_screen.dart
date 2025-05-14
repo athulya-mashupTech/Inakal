@@ -10,6 +10,7 @@ import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
   final box = GetStorage();
-  bool isLoggedIn = false;
+  bool? isLoggedIn;
 
   @override
   void initState() {
@@ -32,9 +33,14 @@ class _SplashScreenState extends State<SplashScreen>
     // box.write('isLoggedIn', false);
     isLoggedIn = box.read('isLoggedIn') ?? false;
 
-    if (isLoggedIn) {
+    print("before isLoggedIn: $isLoggedIn");
+    if (isLoggedIn ?? false) {
       fetchDataToGetx();
+    } else {
+      _navigateToNextScreen();
     }
+
+    isLoggedIn = box.read('isLoggedIn') ?? false;
 
     // Initialize the animation controller for fade effect
     _animationController = AnimationController(
@@ -49,32 +55,27 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Start the animation
     _animationController.forward();
-
-    // Navigate to Onboarding screen after the animation
-    _navigateToNextScreen();
   }
 
-
-_navigateToNextScreen() async {
-  await Future.delayed(const Duration(seconds: 3), () {});
-  Navigator.pushReplacement(
-    context,
-    MaterialPageRoute(
-      builder: (context) => NoInternetChecker(
-        child: isLoggedIn ? const BottomNavBarScreen() : OnboardingScreen1(),
+  _navigateToNextScreen() async {
+    await Future.delayed(const Duration(seconds: 3), () {});
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => NoInternetChecker(
+          child: isLoggedIn ?? false
+              ? const BottomNavBarScreen()
+              : OnboardingScreen1(),
+        ),
       ),
-    ),
-  );
-}
-
-  
+    );
+  }
 
   Future<void> fetchDataToGetx() async {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
     if (token != null && token.isNotEmpty) {
-      
       final AuthController authController = Get.find();
       await authController.loadAuthData();
 
@@ -93,6 +94,33 @@ _navigateToNextScreen() async {
 
         final userController = Get.find<UserDataController>();
         userController.setUserData(userModel);
+        // Navigate to Onboarding screen after the animation
+        _navigateToNextScreen();
+      } else if (response.statusCode == 401) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+
+        final userModel = UserDataModel.fromJson(jsonResponse);
+
+        print("User Model Message: ${userModel.isLoggedin}");
+        if (userModel.isLoggedin == false) {
+          await Future.delayed(const Duration(seconds: 3), () {});
+          box.write('isLoggedIn', false);
+          isLoggedIn = false;
+          print("isLoggedIn: $isLoggedIn");
+          Get.snackbar("Error", "${userModel.message}");
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NoInternetChecker(
+                child: LoginPage(),
+              ),
+            ),
+          );
+          return;
+        } else {
+          print("isLoggedIn: $isLoggedIn");
+        }
       } else {
         print("Failed to fetch user profile");
       }
@@ -163,4 +191,3 @@ _navigateToNextScreen() async {
     );
   }
 }
-

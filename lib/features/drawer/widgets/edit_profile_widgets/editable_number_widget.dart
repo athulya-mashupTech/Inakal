@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/constants/app_constants.dart';
 
 class EditableNumberWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -18,7 +19,12 @@ class _EditableNumberWidgetState extends State<EditableNumberWidget> {
         keyboardType: TextInputType.number,
         controller: widget.controller,
         textAlign: TextAlign.end,
-        decoration: null,
+        decoration: const InputDecoration(
+          hintText: "Enter value",
+          border: InputBorder.none,
+          isDense: true,
+          hintStyle: TextStyle(fontSize: 16, color: AppColors.grey, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),
+        ),
         enabled: widget.editable ?? true,
         onSubmitted: (value) {
           setState(() {

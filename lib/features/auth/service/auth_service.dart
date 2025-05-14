@@ -50,9 +50,10 @@ class AuthService {
         "state": userData.userState!,
         "country": userData.userCountry!,
 
-        // "pincode": userData.userPincode!,
-        // "dob": userData.userDob!,
-        // "gender": userData.userGender!,
+        "pincode": userData.userPincode!,
+        "dob": userData.userDob!,
+        "gender": userData.userGender!,
+        
         "religion": userData.userReligion!,
         "caste": userData.userCaste!,
         "star_sign": userData.userBirthStar!,

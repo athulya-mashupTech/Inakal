@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/constants/app_constants.dart';
 
 class EditableTextWidget extends StatefulWidget {
   final TextEditingController controller;
@@ -21,7 +22,12 @@ class _EditableTextWidgetState extends State<EditableTextWidget> {
       child: TextField(
         controller: widget.controller,
         textAlign: widget.justify != null ? TextAlign.justify : TextAlign.end,
-        decoration: null,
+        decoration: const InputDecoration(
+          hintText: "Enter value",
+          border: InputBorder.none,
+          isDense: true,
+          hintStyle: TextStyle(fontSize: 16, color: AppColors.grey, fontStyle: FontStyle.italic, fontWeight: FontWeight.w500),
+        ),
         minLines: 1,
         maxLines: null,
         keyboardType: TextInputType.multiline,

@@ -155,14 +155,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           gridDelegate:
                               const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2, // Number of columns
-                            crossAxisSpacing: 3, // Spacing between columns
+                            crossAxisSpacing: 10, // Spacing between columns
                             mainAxisSpacing: 10, // Spacing between rows
                             childAspectRatio:
                                 1, // Adjust based on card dimensions

@@ -943,7 +943,9 @@ class _EditProfileState extends State<EditProfile> {
 
     hobbies = "${userController.userData.value.user?.hobbies}".split(",");
     languages =
-        "${userController.userData.value.user?.languagesKnown}".split(",");
+        userController.userData.value.user?.languagesKnown != null
+            ? "${userController.userData.value.user?.languagesKnown}".split(",")
+            : [];
 
     casteList =
         religionCasteData[_religionController.text]?.keys.toList() ?? [];
@@ -1151,7 +1153,30 @@ class _EditProfileState extends State<EditProfile> {
                       label: "Date of Birth",
                       valueWidget: Container(
                         width: MediaQuery.of(context).size.width * 0.6,
-                        child: TextField(
+                        child: _dobController.text.isEmpty
+                            ? GestureDetector(
+                              onTap: () async {
+                              FocusScope.of(context).requestFocus(FocusNode());
+                              DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                              );
+                              if (pickedDate != null) {
+                                _dobController.text =
+                                    '${pickedDate.year}-${pickedDate.month < 10 ? "0${pickedDate.month}" : "${pickedDate.month}"}-${pickedDate.day < 10 ? "0${pickedDate.day}" : "${pickedDate.day}"}';
+                              }
+                            },
+                              child: Text(
+                                  "Select Date of Birth",
+                                  textAlign: TextAlign.end,
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w500, fontSize: 16, color: AppColors.grey, fontStyle: FontStyle.italic),
+                                ),
+                            )
+                        
+                        : TextField(
                             controller: _dobController,
                             readOnly: true,
                             decoration: null,
@@ -1309,6 +1334,7 @@ class _EditProfileState extends State<EditProfile> {
                             spacing: 8.0,
                             runSpacing: 8.0,
                             children: [
+                              if (languages != null || languages.length > 0)
                               ...languages.map((language) {
                                 return OptionWidget(
                                   label: language,
