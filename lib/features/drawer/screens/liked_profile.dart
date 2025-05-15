@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
+import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
+import 'package:lottie/lottie.dart';
 
 class LikedProfile extends StatefulWidget {
   const LikedProfile({super.key});
@@ -12,10 +16,11 @@ class LikedProfile extends StatefulWidget {
   State<LikedProfile> createState() => _LikedProfileState();
 }
 
-
 class _LikedProfileState extends State<LikedProfile> {
   RelatedProfileModel? relatedProfileModel;
   bool isLoading = true;
+  // final userController = Get.find<UserDataController>();
+
   @override
   void initState() {
     super.initState();
@@ -32,70 +37,127 @@ class _LikedProfileState extends State<LikedProfile> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
+      body: SingleChildScrollView(
+        child: SafeArea(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(child: Text("Liked Profile",style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold))),
-              SizedBox(height: 20),
-              GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2, // Number of columns
-                            crossAxisSpacing: 3, // Spacing between columns
-                            mainAxisSpacing: 10, // Spacing between rows
-                            childAspectRatio:
-                                1, // Adjust based on card dimensions
+              const SizedBox(height: 20),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 30),
+                  child: Text(
+                    "Liked Profile",
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.bold,
+                      // color: AppColors.primaryRed
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 5),
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryRed,
+                      ),
+                    )
+                  : relatedProfileModel?.relatedProfiles?.isEmpty ?? true
+                      ? SizedBox(
+                          height: MediaQuery.of(context).size.height *
+                              0.5, // Adjust based on how much header content there is
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Lottie.asset(
+                                  "assets/lottie/empty_data.json",
+                                  width: MediaQuery.of(context).size.width * 0.6,
+                                ),
+                                const SizedBox(height: 10),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Center(
+                                    child: Text(
+                                      "No Related Profiles Found for your preferences.\nTry changing your preferences or check back later.",
+                                      textAlign: TextAlign.center,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          itemCount:
-                              relatedProfileModel?.relatedProfiles?.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              OtherProfileScreen(
-                                                  id: relatedProfileModel!
-                                                      .relatedProfiles![index]
-                                                      .id!)));
-                                },
-                                child: UserCard(
-                                    likedBy: relatedProfileModel
-                                            ?.relatedProfiles?[index].likedBy ??
-                                        "NO",
-                                    dob: relatedProfileModel
-                                            ?.relatedProfiles?[index].dob ??
-                                        "",
-                                    clientId: relatedProfileModel
-                                            ?.relatedProfiles?[index].id ??
-                                        "",
-                                    name:
-                                        "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                    location: relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .state !=
-                                                null &&
-                                            relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .state !=
-                                                ""
-                                        ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                        : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                    image:
-                                        "${relatedProfileModel?.relatedProfiles?[index].image}"));
-                          },
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 10.0, horizontal: 20),
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2, // Number of columns
+                              crossAxisSpacing: 10, // Spacing between columns
+                              mainAxisSpacing: 10, // Spacing between rows
+                              childAspectRatio:
+                                  1, // Adjust based on card dimensions
+                            ),
+                            itemCount:
+                                relatedProfileModel?.relatedProfiles?.length,
+                            itemBuilder: (context, index) {
+                              if (relatedProfileModel!.relatedProfiles![index].likedBy != "NO")
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OtherProfileScreen(
+                                                    id: relatedProfileModel!
+                                                        .relatedProfiles![index]
+                                                        .id!)));
+                                  },
+                                  child: UserCard(
+                                      likedBy: relatedProfileModel
+                                              ?.relatedProfiles?[index].likedBy ??
+                                          "NO",
+                                      dob: relatedProfileModel
+                                              ?.relatedProfiles?[index].dob ??
+                                          "",
+                                      clientId: relatedProfileModel
+                                              ?.relatedProfiles?[index].id ??
+                                          "",
+                                      name:
+                                          "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
+                                      location: relatedProfileModel
+                                                      ?.relatedProfiles?[index]
+                                                      .state !=
+                                                  null &&
+                                              relatedProfileModel
+                                                      ?.relatedProfiles?[index]
+                                                      .state !=
+                                                  ""
+                                          ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
+                                          : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                      image:
+                                          "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                            },
+                          ),
                         ),
+              SizedBox(height: 20),
             ],
           ),
-
-      )),
+        ),
+      ),
     );
   }
 }
