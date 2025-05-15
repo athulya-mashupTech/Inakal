@@ -11,6 +11,7 @@ import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/screens/about_us.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/gallery_page.dart';
+import 'package:inakal/features/drawer/screens/liked_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
@@ -238,6 +239,17 @@ class DrawerWidget extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => const EditProfile()));
+                  },
+                ),
+                ListTile(
+                  title: const Text('Liked Profiles',
+                      style: TextStyle(color: AppColors.white)),
+                  leading: const Icon(Icons.abc, color: AppColors.white),
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>  LikedProfile()));
                   },
                 ),
                 ListTile(

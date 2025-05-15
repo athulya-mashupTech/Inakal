@@ -15,6 +15,7 @@ import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/screens/gallery_page.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/widgets/custom_icon.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_widgets/profile_details.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
@@ -29,7 +30,7 @@ import 'package:inakal/features/requests/screens/send_requests.dart';
 import 'package:inakal/features/tailored_matches/screens/matches_screen.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init(); // Initialize GetStorage
 
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
       // home: ProfileApp(),
       home: const MyHomePage(title: 'Inakal'),
       //  home: ForgotPassword(),
+      // home: ProfileDetails(),
       // home: MatchesScreen(),
       // home: ProfilePage(),
       // home: Notifications()
@@ -89,6 +91,3 @@ class _MyHomePageState extends State<MyHomePage> {
     return SplashScreen();
   }
 }
-
-
-

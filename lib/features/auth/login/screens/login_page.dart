@@ -61,6 +61,12 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset(
+                    'assets/logo/inakal_logo.png',
+                    // height: 100,
+                    width: 250,
+                  ),
+                  const SizedBox(height: 50),
                   const Text(
                     'Welcome Back!',
                     textAlign: TextAlign.center,
@@ -90,7 +96,8 @@ class _LoginPageState extends State<LoginPage> {
                     initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
-                  TextFieldWidget(suffixIcon: IconButton(
+                  TextFieldWidget(
+                      suffixIcon: IconButton(
                         onPressed: () {
                           setState(() {
                             isPwdVisible = !isPwdVisible;
@@ -102,7 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       prefixIcon: const Icon(Icons.lock),
                       obscureText: !isPwdVisible,
-                      controller: _loginpwdController, hintText: "Password"),
+                      controller: _loginpwdController,
+                      hintText: "Password"),
                   Align(
                     alignment: Alignment.centerRight,
                     child: GestureDetector(
@@ -136,39 +144,40 @@ class _LoginPageState extends State<LoginPage> {
                     color: AppColors.primaryRed,
                   ),
                   SizedBox(height: 15),
+
                   /// Sign Up Option
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Don’t have an account?  ",
-                          style: TextStyle(color: AppColors.black),
-                        ),
-                        GestureDetector(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Don’t have an account?  ",
+                        style: TextStyle(color: AppColors.black),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MobileNoCheckScreen()));
+                        },
+                        child: GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MobileNoCheckScreen()));
+                                    builder: (context) =>
+                                        MobileNoCheckScreen()));
                           },
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          MobileNoCheckScreen()));
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                  color: AppColors.primaryRed,
-                                  fontWeight: FontWeight.w600),
-                            ),
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                                color: AppColors.primaryRed,
+                                fontWeight: FontWeight.w600),
                           ),
-                        )
-                      ],
-                    ),
+                        ),
+                      )
+                    ],
+                  ),
                 ],
               ),
             ),
