@@ -944,7 +944,9 @@ class _EditProfileState extends State<EditProfile> {
 
     hobbies = "${userController.userData.value.user?.hobbies}".split(",");
     languages =
-        "${userController.userData.value.user?.languagesKnown}".split(",");
+        userController.userData.value.user?.languagesKnown != null
+            ? "${userController.userData.value.user?.languagesKnown}".split(",")
+            : [];
 
     casteList =
         religionCasteData[_religionController.text]?.keys.toList() ?? [];

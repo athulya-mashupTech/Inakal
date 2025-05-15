@@ -2,6 +2,7 @@ class UserDataModel {
   User? user;
   String? message;
   String? type;
+  bool? isLoggedin = true;
 
   UserDataModel({this.user, this.message, this.type});
 
@@ -9,6 +10,7 @@ class UserDataModel {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     message = json['message'];
     type = json['type'];
+    isLoggedin = json['isLoggedin'];
   }
 
   Map<String, dynamic> toJson() {
@@ -18,6 +20,7 @@ class UserDataModel {
     }
     data['message'] = this.message;
     data['type'] = this.type;
+    data['isLoggedin'] = this.isLoggedin;
     return data;
   }
 }
