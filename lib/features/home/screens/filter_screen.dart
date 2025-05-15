@@ -3,6 +3,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
 import 'package:inakal/features/home/widgets/filter_button.dart';
 import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
@@ -15,8 +16,9 @@ class FilterScreen extends StatefulWidget {
 }
 
 class _FilterScreenState extends State<FilterScreen> {
-  RangeValues modalRangeValues = const RangeValues(5.0, 8.0);
+  RangeValues modalRangeValues = const RangeValues(80, 190);
   RangeValues modalRangeValuesAge = const RangeValues(18, 60);
+  TextEditingController locationController = TextEditingController();
   final List<String> interests = [
     "Reading",
     "Photography",
@@ -101,7 +103,18 @@ class _FilterScreenState extends State<FilterScreen> {
                 ),
               )),
               const SizedBox(height: 10),
-              const FilterButton(text: "Search"),
+              FilterButton(
+                text: "Search",
+                onPressed: () {
+                  final filterData = FilterModel(id: null);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(filterModel: filterData),
+                    ),
+                  );
+                },
+              ),
               const SizedBox(height: 15),
               const Row(
                 children: [
@@ -121,21 +134,23 @@ class _FilterScreenState extends State<FilterScreen> {
                     style: TextStyle(fontWeight: FontWeight.bold)),
               ),
               TextField(
+                  controller: locationController,
                   decoration: InputDecoration(
-                fillColor: Colors.white,
-                focusColor: AppColors.primaryRed,
-                filled: true,
-                focusedBorder: OutlineInputBorder(
-                    borderSide:
-                        const BorderSide(color: AppColors.primaryRed, width: 1),
-                    borderRadius: BorderRadius.circular(10)),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(width: 1.5),
-                ),
-                hintText: 'Search prefered location',
-                hintStyle: const TextStyle(color: AppColors.grey, fontSize: 18),
-              )),
+                    fillColor: Colors.white,
+                    focusColor: AppColors.primaryRed,
+                    filled: true,
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: const BorderSide(
+                            color: AppColors.primaryRed, width: 1),
+                        borderRadius: BorderRadius.circular(10)),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(width: 1.5),
+                    ),
+                    hintText: 'Search prefered location',
+                    hintStyle:
+                        const TextStyle(color: AppColors.grey, fontSize: 18),
+                  )),
               const SizedBox(height: 10),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -145,8 +160,8 @@ class _FilterScreenState extends State<FilterScreen> {
               RangeSlider(
                 activeColor: AppColors.primaryRed,
                 values: modalRangeValues,
-                min: 5.0,
-                max: 8.0,
+                min: 80.0,
+                max: 190.0,
                 divisions: 30,
                 labels: RangeLabels(
                   modalRangeValues.start.toString(),
@@ -200,13 +215,14 @@ class _FilterScreenState extends State<FilterScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 5,),
+              SizedBox(
+                height: 5,
+              ),
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-                child:
-                    Text("Interests", style: TextStyle(fontWeight: FontWeight.bold)),
+                child: Text("Interests",
+                    style: TextStyle(fontWeight: FontWeight.bold)),
               ),
-              
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Wrap(
@@ -222,15 +238,32 @@ class _FilterScreenState extends State<FilterScreen> {
                   }).toList(),
                 ),
               ),
-               CustomButton(text: "Apply filters",onPressed: (){
-                  Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => HomeScreen()));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Filters applied')),
-                      );
-               },),
+              CustomButton(
+                text: "Apply filters",
+                onPressed: () {
+                  final filterData = FilterModel(
+                    // Replace with the required positional argument
+                    id: null,
+                    location: locationController.text == ""
+                        ? null
+                        : locationController.text,
+                    minHeight: modalRangeValues.start,
+                    maxHeight: modalRangeValues.end,
+                    minAge: modalRangeValuesAge.start.round(),
+                    maxAge: modalRangeValuesAge.end.round(),
+                    interests: selectedInterests,
+                  );
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => HomeScreen(filterModel: filterData),
+                    ),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Filters applied')),
+                  );
+                },
+              ),
             ],
           ),
         ),

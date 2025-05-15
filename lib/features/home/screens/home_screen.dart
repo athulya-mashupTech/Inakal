@@ -7,6 +7,7 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
+import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
 import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
@@ -15,7 +16,8 @@ import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  final FilterModel? filterModel;
+  const HomeScreen({super.key, this.filterModel});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -155,7 +157,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       )
                     : Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 20),
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20),
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -170,41 +173,87 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount:
                               relatedProfileModel?.relatedProfiles?.length,
                           itemBuilder: (context, index) {
-                            return GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              OtherProfileScreen(
-                                                  id: relatedProfileModel!
-                                                      .relatedProfiles![index]
-                                                      .id!)));
-                                },
-                                child: UserCard(
-                                    likedBy: relatedProfileModel
-                                            ?.relatedProfiles?[index].likedBy ??
-                                        "NO",
-                                    dob: relatedProfileModel
-                                            ?.relatedProfiles?[index].dob ??
-                                        "",
-                                    clientId: relatedProfileModel
-                                            ?.relatedProfiles?[index].id ??
-                                        "",
-                                    name:
-                                        "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                    location: relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .state !=
-                                                null &&
-                                            relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .state !=
-                                                ""
-                                        ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                        : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                    image:
-                                        "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                            if (widget.filterModel?.location != null) {
+                              if (relatedProfileModel
+                                      ?.relatedProfiles?[index].state ==
+                                  widget.filterModel?.location)
+                                return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OtherProfileScreen(
+                                                      id: relatedProfileModel!
+                                                          .relatedProfiles![
+                                                              index]
+                                                          .id!)));
+                                    },
+                                    child: UserCard(
+                                        likedBy: relatedProfileModel
+                                                ?.relatedProfiles?[index]
+                                                .likedBy ??
+                                            "NO",
+                                        dob: relatedProfileModel
+                                                ?.relatedProfiles?[index].dob ??
+                                            "",
+                                        clientId: relatedProfileModel
+                                                ?.relatedProfiles?[index].id ??
+                                            "",
+                                        name:
+                                            "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
+                                        location: relatedProfileModel
+                                                        ?.relatedProfiles?[
+                                                            index]
+                                                        .state !=
+                                                    null &&
+                                                relatedProfileModel
+                                                        ?.relatedProfiles?[
+                                                            index]
+                                                        .state !=
+                                                    ""
+                                            ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
+                                            : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                        image:
+                                            "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                            } else {
+                              return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OtherProfileScreen(
+                                                    id: relatedProfileModel!
+                                                        .relatedProfiles![index]
+                                                        .id!)));
+                                  },
+                                  child: UserCard(
+                                      likedBy: relatedProfileModel
+                                              ?.relatedProfiles?[index]
+                                              .likedBy ??
+                                          "NO",
+                                      dob: relatedProfileModel
+                                              ?.relatedProfiles?[index].dob ??
+                                          "",
+                                      clientId: relatedProfileModel
+                                              ?.relatedProfiles?[index].id ??
+                                          "",
+                                      name:
+                                          "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
+                                      location: relatedProfileModel
+                                                      ?.relatedProfiles?[index]
+                                                      .state !=
+                                                  null &&
+                                              relatedProfileModel
+                                                      ?.relatedProfiles?[index]
+                                                      .state !=
+                                                  ""
+                                          ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
+                                          : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                      image:
+                                          "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                            }
                           },
                         ),
                       ),
