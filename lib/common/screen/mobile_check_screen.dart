@@ -61,6 +61,12 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
+                  Image.asset(
+                    'assets/logo/inakal_logo.png',
+                    // height: 100,
+                    width: 250,
+                  ),
+                  const SizedBox(height: 50),
                   const Text(
                     'Phone Number Verification',
                     textAlign: TextAlign.center,
