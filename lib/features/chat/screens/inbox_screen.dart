@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
+import 'package:inakal/features/chat/models/inbox_model.dart';
+import 'package:inakal/features/chat/service/inbox_service.dart';
 import 'package:inakal/features/chat/widgets/inbox_card.dart';
 import 'package:inakal/data_class/user.dart';
 
@@ -14,6 +16,7 @@ class InboxScreen extends StatefulWidget {
 class _InboxScreenState extends State<InboxScreen> {
   List<String> filters = ["All Chats", "Matches", "Psychologists"];
   String selectedFilter = "All Chats";
+  InboxModel? inboxModel;
   List<Map<String, String>> allUsers = [
     {
       "name": "Athulya",
@@ -108,7 +111,35 @@ class _InboxScreenState extends State<InboxScreen> {
   @override
   void initState() {
     super.initState();
-    filteredUsers = allUsers;
+    // filteredUsers = allUsers;
+    fetchInboxUsers();
+  }
+
+  Future<void> fetchInboxUsers() async {
+    // Simulate a network call to fetch inbox users
+    print("Api called");
+    await InboxService().getInboxUsers(context).then((value) {
+      print(value);
+      if (value != null) {
+        setState(() {
+          inboxModel = value;
+          filteredUsers = inboxModel!.inboxUser!
+              .map((user) => {
+                    "name": user.name!,
+                    "message": user.lastMessage!,
+                    "unread": user.unreadMsgs.toString(),
+                    "req_status":
+                        user.lastMessageByMe == true ? "Accepted" : "Pending",
+                    "time": user.lastMessageTime!,
+                    "image": user.image!,
+                    "recently_seen": user.lastMessageByMe == true
+                        ? "online"
+                        : "last seen 10:28",
+                  })
+              .toList();
+        });
+      }
+    });
   }
 
   @override
@@ -145,34 +176,37 @@ class _InboxScreenState extends State<InboxScreen> {
               // Top Filters of chats
               Container(
                 color: AppColors.softPink.withOpacity(0.4),
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: filters.map((filter) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ChoiceChip(
-                          selectedColor: AppColors.primaryRed,
-                          checkmarkColor: AppColors.white,
-                          labelStyle: TextStyle(
-                              color: selectedFilter == filter
-                                  ? AppColors.white
-                                  : AppColors.black),
-                          label: Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 5.0),
-                            child: Text(filter),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 12),
+                    child: Row(
+                      // mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: filters.map((filter) {
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: ChoiceChip(
+                            selectedColor: AppColors.primaryRed,
+                            checkmarkColor: AppColors.white,
+                            labelStyle: TextStyle(
+                                color: selectedFilter == filter
+                                    ? AppColors.white
+                                    : AppColors.black),
+                            label: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Text(filter),
+                            ),
+                            selected: selectedFilter == filter,
+                            onSelected: (bool selected) {
+                              filterUsers(
+                                  filter); // Apply the filter when the chip is selected
+                            },
                           ),
-                          selected: selectedFilter == filter,
-                          onSelected: (bool selected) {
-                            filterUsers(
-                                filter); // Apply the filter when the chip is selected
-                          },
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),

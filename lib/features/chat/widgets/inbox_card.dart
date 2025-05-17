@@ -36,7 +36,7 @@ class _InboxCardState extends State<InboxCard> {
                     children: [
                       CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage(widget.user["image"]!),
+                        backgroundImage: NetworkImage(widget.user["image"]!),
                       ),
                       if (widget.user["recently_seen"]! == "online")
                         Positioned(
@@ -54,7 +54,9 @@ class _InboxCardState extends State<InboxCard> {
                       Text(widget.user["name"]!,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 16)),
-                      Text(widget.user["message"]!),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Text(widget.user["message"]!, overflow: TextOverflow.ellipsis, maxLines: 1,)),
                     ],
                   ),
                 ],

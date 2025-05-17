@@ -244,7 +244,7 @@ class DrawerWidget extends StatelessWidget {
                 ListTile(
                   title: const Text('Liked Profiles',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(Icons.abc, color: AppColors.white),
+                  leading: const Icon(Icons.favorite_rounded, color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                         context,

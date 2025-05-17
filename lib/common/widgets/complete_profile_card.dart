@@ -43,8 +43,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
   Future<void> fetchProgress() async {
     await AuthService().getProfileCompletionStatus(context).then((value) {
       setState(() {
-        debugPrint("Profile completion status fetched: $value");
-        newValue = value;
+        newValue = value! / 100 ?? 0.0;
       });
     });
     updateProgress(newValue!);
@@ -146,7 +145,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
                                 ),
                               ),
                               Text(
-                                "${newValue?.toInt() ?? 0}%",
+                                "${percentage.toInt()}%",
                                 style: const TextStyle(
                                   color: AppColors.white,
                                   fontSize: 15,

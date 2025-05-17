@@ -64,9 +64,9 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   Image.asset(
                     'assets/logo/inakal_logo.png',
                     // height: 100,
-                    width: 250,
+                    width: 200,
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 20),
                   const Text(
                     'Phone Number Verification',
                     textAlign: TextAlign.center,
