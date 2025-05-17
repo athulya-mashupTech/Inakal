@@ -55,130 +55,134 @@ class _LoginPageState extends State<LoginPage> {
                 fit: BoxFit.cover,
               ),
             ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 40, vertical: 140),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Image.asset(
-                    'assets/logo/inakal_logo.png',
-                    // height: 100,
-                    width: 250,
-                  ),
-                  const SizedBox(height: 50),
-                  const Text(
-                    'Welcome Back!',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Login to continue your journey with us.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 32),
-                  IntlPhoneField(
-                    decoration: InputDecoration(
-                      labelText: 'Mobile Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: const BorderSide(),
-                      ),
+            SizedBox(
+              height: MediaQuery.of(context).size.height,
+              child: Padding(
+                padding:
+                    const EdgeInsets.all(40),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Image.asset(
+                      'assets/logo/inakal_logo.png',
+                      // height: 100,
+                      width: 200,
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _countryCode = value.countryCode;
-                        _phoneNumber = value.number;
-                      });
-                    },
-                    initialCountryCode: 'IN',
-                  ),
-                  const SizedBox(height: 10),
-                  TextFieldWidget(
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isPwdVisible = !isPwdVisible;
-                          });
-                        },
-                        icon: isPwdVisible
-                            ? const Icon(Icons.visibility)
-                            : const Icon(Icons.visibility_off),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Welcome Back!',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Login to continue your journey with us.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    const SizedBox(height: 32),
+                    IntlPhoneField(
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: const BorderSide(),
+                        ),
                       ),
-                      prefixIcon: const Icon(Icons.lock),
-                      obscureText: !isPwdVisible,
-                      controller: _loginpwdController,
-                      hintText: "Password"),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ForgotPassword(),
-                          ),
-                        );
+                      onChanged: (value) {
+                        setState(() {
+                          _countryCode = value.countryCode;
+                          _phoneNumber = value.number;
+                        });
                       },
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: AppColors.primaryRed,
+                      initialCountryCode: 'IN',
+                    ),
+                    const SizedBox(height: 10),
+                    TextFieldWidget(
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              isPwdVisible = !isPwdVisible;
+                            });
+                          },
+                          icon: isPwdVisible
+                              ? const Icon(Icons.visibility)
+                              : const Icon(Icons.visibility_off),
+                        ),
+                        prefixIcon: const Icon(Icons.lock),
+                        obscureText: !isPwdVisible,
+                        controller: _loginpwdController,
+                        hintText: "Password"),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgotPassword(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: AppColors.primaryRed,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  CustomButton(
-                    text: "Login",
-                    onPressed: () {
-                      _loginUser();
-                      // Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //         builder: (context) => const OTPValidateScreen()));
-                    },
-                    color: AppColors.primaryRed,
-                  ),
-                  SizedBox(height: 15),
-
-                  /// Sign Up Option
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Don’t have an account?  ",
-                        style: TextStyle(color: AppColors.black),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => MobileNoCheckScreen()));
-                        },
-                        child: GestureDetector(
+                    SizedBox(height: 10),
+                    CustomButton(
+                      text: "Login",
+                      onPressed: () {
+                        _loginUser();
+                        // Navigator.push(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => const OTPValidateScreen()));
+                      },
+                      color: AppColors.primaryRed,
+                    ),
+                    SizedBox(height: 15),
+              
+                    /// Sign Up Option
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Don’t have an account?  ",
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                        GestureDetector(
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) =>
-                                        MobileNoCheckScreen()));
+                                    builder: (context) => MobileNoCheckScreen()));
                           },
-                          child: Text(
-                            "Sign Up",
-                            style: TextStyle(
-                                color: AppColors.primaryRed,
-                                fontWeight: FontWeight.w600),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          MobileNoCheckScreen()));
+                            },
+                            child: Text(
+                              "Sign Up",
+                              style: TextStyle(
+                                  color: AppColors.primaryRed,
+                                  fontWeight: FontWeight.w600),
+                            ),
                           ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
