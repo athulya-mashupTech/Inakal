@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/home/model/filter_model.dart';
@@ -253,12 +255,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     maxAge: modalRangeValuesAge.end.round(),
                     interests: selectedInterests,
                   );
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(filterModel: filterData),
-                    ),
-                  );
+                  Get.offAll(() => BottomNavBarScreen());
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Filters applied')),
                   );

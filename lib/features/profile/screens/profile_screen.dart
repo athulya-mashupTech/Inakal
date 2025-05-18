@@ -42,8 +42,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future<void> _loadProfileGallery() async {
     await GalleryService().getGalleryImages(context).then((value) {
-      galleryImagesModel = value;
       setState(() {
+        galleryImagesModel = value;
         isLoading = false;
       });
     });

@@ -202,20 +202,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                             "",
                                         name:
                                             "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                        location: relatedProfileModel
-                                                        ?.relatedProfiles?[
-                                                            index]
-                                                        .state !=
-                                                    null &&
-                                                relatedProfileModel
-                                                        ?.relatedProfiles?[
-                                                            index]
-                                                        .state !=
+                                        location: relatedProfileModel?.relatedProfiles?[index].state != null &&
+                                                relatedProfileModel?.relatedProfiles?[index].state !=
                                                     ""
                                             ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
                                             : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                        image:
-                                            "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                                        image: relatedProfileModel
+                                                    ?.relatedProfiles?[index]
+                                                    .image ==
+                                                "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                            ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                            : "${relatedProfileModel?.relatedProfiles?[index].image}"));
                             } else {
                               return GestureDetector(
                                   onTap: () {
@@ -233,26 +230,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ?.relatedProfiles?[index]
                                               .likedBy ??
                                           "NO",
-                                      dob: relatedProfileModel
-                                              ?.relatedProfiles?[index].dob ??
+                                      dob: relatedProfileModel?.relatedProfiles?[index].dob ??
                                           "",
-                                      clientId: relatedProfileModel
-                                              ?.relatedProfiles?[index].id ??
+                                      clientId: relatedProfileModel?.relatedProfiles?[index].id ??
                                           "",
                                       name:
                                           "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                      location: relatedProfileModel
-                                                      ?.relatedProfiles?[index]
-                                                      .state !=
-                                                  null &&
+                                      location: relatedProfileModel?.relatedProfiles?[index].state != null &&
                                               relatedProfileModel
                                                       ?.relatedProfiles?[index]
                                                       .state !=
                                                   ""
                                           ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
                                           : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                      image:
-                                          "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                                      image: relatedProfileModel
+                                                  ?.relatedProfiles?[index]
+                                                  .image ==
+                                              "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                          ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                          : "${relatedProfileModel?.relatedProfiles?[index].image}"));
                             }
                           },
                         ),

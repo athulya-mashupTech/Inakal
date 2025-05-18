@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/psychologists_listing/model/psychologist_model.dart';
@@ -17,15 +19,18 @@ class CounsellorsScreen extends StatefulWidget {
 class _CounsellorsScreenState extends State<CounsellorsScreen> {
   var btext = "";
   var bcolor = AppColors.primaryRed;
-  bool consultancy_required = false;
+  bool? consultancy_required = false;
   PsychologistModel? psychologistModelData;
   bool isDoctorsLoading = true;
+  
+  final userController = Get.find<UserDataController>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    if (consultancy_required == false) {
+    consultancy_required = userController.userData.value.user?.consultancyRequired;
+    if (consultancy_required == false || consultancy_required == null) {
       btext = "Book your appointment";
       bcolor = AppColors.deepBlue;
     } else {
@@ -55,6 +60,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
     await PsychologistService().bookAppointment(context).then((value) {
       if (value != null) {
         setState(() {
+          userController.userData.value.user?.consultancyRequired = true;
           if (value.type == "success") {
             btext = "Your appointment is scheduled";
             bcolor = AppColors.freshGreen;

@@ -95,7 +95,7 @@ class User {
   String? linkedinLink;
   String? youtubeLink;
   String? lastSeen;
-  String? consultancyRequired;
+  bool? consultancyRequired;
   String? needLikeMindedPartner;
   String? assignedLeadId;
   String? preferredQualification;

@@ -44,7 +44,9 @@ class OtherProfileService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final requestStatusModel = RequestStatusModel.fromJson(jsonResponse);
+
         if (requestStatusModel.type == "success") {
+          
           if (requestStatusModel.sentStatus == "accepted") {
             if (requestStatusModel.receivedStatus == "pending") {
               return "acceptOrDecline";
