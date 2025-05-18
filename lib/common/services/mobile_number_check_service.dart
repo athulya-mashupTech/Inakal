@@ -30,7 +30,7 @@ class MobileNumberCheckService {
           _showSnackbar(context, "mobile number verification success");
           return mobileNumberCheckModel;
         } else {
-          _showSnackbar(context, "verification failed");
+          _showSnackbar(context, mobileNumberCheckModel.message ?? "User already exist!");
         }
       }
     } catch (e) {

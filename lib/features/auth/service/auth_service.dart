@@ -8,6 +8,7 @@ import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/profile_completion_status_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
@@ -73,10 +74,11 @@ class AuthService {
         if (registerModel.type == "success") {
           _showSnackbar(
               context, "Registration successful: ${registerModel.message}");
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const BottomNavBarScreen(),
+              builder: (context) => const LoginPage(),
             ),
           );
         } else {

@@ -219,8 +219,12 @@ class _LikedProfileState extends State<LikedProfile> {
                                                         ""
                                                 ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
                                                 : "${relatedProfileModel?.relatedProfiles?[index].district}",
-                                            image:
-                                                "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                                            image: relatedProfileModel
+                                                    ?.relatedProfiles?[index]
+                                                    .image ==
+                                                "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                            ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                            : "${relatedProfileModel?.relatedProfiles?[index].image}"));
                                 },
                               ),
                             ),
