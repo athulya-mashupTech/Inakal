@@ -42,16 +42,16 @@ class _LikedProfileState extends State<LikedProfile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: AppColors.white,
-            ),
-            LightPinkGradient(),
-            SingleChildScrollView(
+      body: Stack(
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: AppColors.white,
+          ),
+          LightPinkGradient(),
+          SafeArea(
+            child: SingleChildScrollView(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -228,8 +228,8 @@ class _LikedProfileState extends State<LikedProfile> {
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
