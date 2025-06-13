@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/login/screens/password_reset_screen.dart';
+import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';
 
@@ -15,7 +16,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword> {
   var _otpStatus = false;
-  final String _otp = "123456";
+  String _otp = "";
   String _countryCode = '';
   String _phoneNumber = '';
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -23,10 +24,24 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String _otpErrorText = '';
   String _enteredOtp = '';
 
-  void otpSent() {
-    setState(() {
-      _otpStatus = true;
+  Future<void> otpSent() async {
+    await AuthService()
+        .sentOtp(context, _countryCode.substring(1), _phoneNumber)
+        .then((value) {
+      setState(() {
+        _otp = value ?? "";
+        if (_otp == "") {
+          _errorText = 'Invalid OTP. Please try again.';
+        } else {
+          _otpStatus = true;
+        }
+      });
     });
+  }
+
+  Future<void> validateOtp() async {
+    await AuthService()
+        .verifyLoginOtp(context, _countryCode.substring(1), _phoneNumber, _otp);
   }
 
   final defaultPinTheme = PinTheme(
@@ -116,6 +131,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     const SizedBox(height: 30),
                     //mobile number feild
                     IntlPhoneField(
+                      enabled: !_otpStatus,
                       decoration: InputDecoration(
                         labelText: 'Mobile Number',
                         errorText: _errorText.isNotEmpty ? _errorText : null,
@@ -124,7 +140,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           borderSide: const BorderSide(),
                         ),
                       ),
-                  
                       onChanged: (value) {
                         setState(() {
                           _countryCode = value.countryCode;
@@ -213,12 +228,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     _otpErrorText = 'Invalid OTP. Please try again.';
                   });
                 } else {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PasswordResetScreen(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   MaterialPageRoute(
+                  //     builder: (context) => const LoginPage(),
+                  //   ),
+                  // );
+                  validateOtp();
                 }
               },
               color: AppColors.primaryRed,

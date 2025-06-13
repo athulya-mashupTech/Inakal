@@ -74,9 +74,12 @@ class _SplashScreenState extends State<SplashScreen>
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
 
+    print("1");
+
     if (token != null && token.isNotEmpty) {
       final AuthController authController = Get.find();
       await authController.loadAuthData();
+      print("1");
 
       final request = http.MultipartRequest('POST', Uri.parse(userProfileUrl));
       final headers = {
@@ -84,12 +87,15 @@ class _SplashScreenState extends State<SplashScreen>
       };
       request.headers.addAll(headers);
       final response = await request.send();
+      print("1");
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
+        print("12q");
 
         final userModel = UserDataModel.fromJson(jsonResponse);
+        print("123");
 
         final userController = Get.find<UserDataController>();
         userController.setUserData(userModel);

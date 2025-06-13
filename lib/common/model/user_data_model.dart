@@ -249,7 +249,7 @@ class User {
     linkedinLink = json['linkedin_link'];
     youtubeLink = json['youtube_link'];
     lastSeen = json['last_seen'];
-    consultancyRequired = json['consultancy_required'];
+    consultancyRequired = json['consultancy_required'] == "no" ? false : true;
     needLikeMindedPartner = json['need_like_minded_partner'];
     assignedLeadId = json['assigned_lead_id'];
     preferredQualification = json['preferred_qualification'];
