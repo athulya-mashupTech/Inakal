@@ -14,6 +14,8 @@ const TermsAndConditionsUrl = "${baseUrlWeb}terms";
 //Login and Registration
 const loginUrl = "${authBaseUrl}login";
 const registerUrl = "${authBaseUrl}register";
+const sentOtpUrl = "${authBaseUrl}sendOtp";
+const verifyOtpUrl = "${authBaseUrl}verifyLoginOtp";
 
 //User Profile
 const userProfileUrl = "${baseUrl}userProfile";

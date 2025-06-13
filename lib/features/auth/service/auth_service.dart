@@ -12,6 +12,7 @@ import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
 import 'package:inakal/features/auth/model/profile_completion_status_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
+import 'package:inakal/features/auth/model/sent_otp_model.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,11 +51,9 @@ class AuthService {
         "district": userData.userDistrict!,
         "state": userData.userState!,
         "country": userData.userCountry!,
-
         "pincode": userData.userPincode!,
         "dob": userData.userDob!,
         "gender": userData.userGender!,
-        
         "religion": userData.userReligion!,
         "caste": userData.userCaste!,
         "star_sign": userData.userBirthStar!,
@@ -62,7 +61,6 @@ class AuthService {
         "hobbies": userData.userHobbies!,
         "marital_status": userData.maritalStatus!,
         "profile_created_for": userData.userProfileCreatedFor!,
-
         "password": userData.userPassword!,
       });
 
@@ -104,6 +102,73 @@ class AuthService {
     }
   }
 
+  Future<String?> sentOtp(
+      BuildContext context, String countryCode, String phone) async {
+    try {
+      final response = await _sendPostRequest(
+          url: sentOtpUrl,
+          fields: {"phone": phone, "country_code": countryCode});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final sentOtpModel = SentOtpModel.fromJson(jsonResponse);
+
+        if (sentOtpModel.type == "success") {
+          _showSnackbar(context, sentOtpModel.message!);
+          return sentOtpModel.otp.toString();
+        }
+      }
+    } catch (e) {
+      _showSnackbar(context, "Failed to send OTP");
+      print("Error: $e");
+    }
+  }
+
+  Future<void> verifyLoginOtp(
+      BuildContext context, String countryCode, String phone, String otp) async {
+    try {
+      final response = await _sendPostRequest(
+          url: verifyOtpUrl,
+          fields: {"phone": phone, "country_code": countryCode, "otp": otp});
+          print(response.statusCode);
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final loginModel = LoginModel.fromJson(jsonResponse);
+        print(loginModel.token);
+
+        if (loginModel.token != "") {
+          _showSnackbar(context, "Successfully Logined");
+
+          //Save login state
+          final box = GetStorage();
+          box.write('isLoggedIn', true);
+
+          final AuthController authController = Get.find();
+          // Save Token and userId to SharedPreferences & GetX
+          await authController.saveAuthData(
+              loginModel.token!, loginModel.userId!);
+
+          // Save User data to Getx
+          fetchUserDetails(authController.token.value);
+
+          Get.offAll(() => const BottomNavBarScreen());
+        } else {
+          _showSnackbar(context, "login denied");
+        }
+      } else {
+        _showSnackbar(context, "Login failed. No user found.");
+        print("Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      _showSnackbar(context, "Failed to send OTP");
+      print("Error: $e");
+    }
+  }
+
   Future<LoginModel?> loginUser({
     required String countryCode,
     required String phone,
@@ -130,7 +195,8 @@ class AuthService {
 
           final AuthController authController = Get.find();
           // Save Token and userId to SharedPreferences & GetX
-          await authController.saveAuthData(loginModel.token!, loginModel.userId!);
+          await authController.saveAuthData(
+              loginModel.token!, loginModel.userId!);
 
           // Save User data to Getx
           fetchUserDetails(authController.token.value);
@@ -165,7 +231,6 @@ class AuthService {
 //     ),
 //   );
 // }
-
   }
 
   Future<void> fetchUserDetails(String token) async {
@@ -242,6 +307,20 @@ class AuthService {
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields.addAll(fields);
     return await request.send();
+  }
+
+  Future<http.Response> _sendPostRequestUrlEncoded({
+    required String url,
+    required Map<String, String> fields,
+  }) async {
+    final response = await http.post(
+      Uri.parse(url),
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: fields,
+    );
+    return response;
   }
 
 // Method to show Snackbar
