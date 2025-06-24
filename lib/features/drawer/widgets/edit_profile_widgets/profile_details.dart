@@ -28,6 +28,12 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   @override
   Widget build(BuildContext context) {
     return ExpansionTile(
+      shape: RoundedRectangleBorder(
+              side: BorderSide.none, 
+            ),
+            collapsedShape: RoundedRectangleBorder(
+              side: BorderSide.none,
+            ),
       title: const Text('Edit Profile'),
       children: [
         Padding(
@@ -65,7 +71,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   }
 
   Widget _buildDatePickerField(
-      {required String label, required TextEditingController controller}) {
+      {
+        required String label,
+        required TextEditingController controller
+        }) {
     return TextFormField(
       controller: controller,
       readOnly: true,
@@ -83,7 +92,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   }
 
   Widget _buildTextFormField(
-      {required String label, required TextEditingController controller}) {
+      {
+        required String label,
+       required TextEditingController controller
+       }) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(
@@ -96,8 +108,10 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     );
   }
 
-  Future<void> _selectDate(BuildContext context,
-      TextEditingController controller, String label) async {
+  Future<void> _selectDate(
+    BuildContext context,
+    TextEditingController controller,
+    String label) async {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),

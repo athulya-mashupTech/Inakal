@@ -23,23 +23,23 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      print("""firstname: ${userData.userFirstName},
-           lastname: ${userData.userLastName}, 
-           countryCode: ${userData.userCountryCode}, 
-           phone: ${userData.userPhoneNumber}, 
-           email: ${userData.userEmail}, 
-           address: ${userData.userAddress}, 
-           district: ${userData.userDistrict}, 
-           state: ${userData.userState}, 
-           country: ${userData.userCountry}, 
-           password: ${userData.userPassword}, 
-           religion: ${userData.userReligion}, 
-           caste: ${userData.userCaste}, 
-           birthstar: ${userData.userBirthStar}, 
-           description: ${userData.userDescription}, 
-           hobbies: ${userData.userHobbies}
-           profileCreatedFor: ${userData.userProfileCreatedFor},
-           maritalStatus: ${userData.maritalStatus}""");
+      // print("""firstname: ${userData.userFirstName},
+      //      lastname: ${userData.userLastName}, 
+      //      countryCode: ${userData.userCountryCode}, 
+      //      phone: ${userData.userPhoneNumber}, 
+      //      email: ${userData.userEmail}, 
+      //      address: ${userData.userAddress}, 
+      //      district: ${userData.userDistrict}, 
+      //      state: ${userData.userState}, 
+      //      country: ${userData.userCountry}, 
+      //      password: ${userData.userPassword}, 
+      //      religion: ${userData.userReligion}, 
+      //      caste: ${userData.userCaste}, 
+      //      birthstar: ${userData.userBirthStar}, 
+      //      description: ${userData.userDescription}, 
+      //      hobbies: ${userData.userHobbies}
+      //      profileCreatedFor: ${userData.userProfileCreatedFor},
+      //      maritalStatus: ${userData.maritalStatus}""");
 
       final response = await _sendPostRequest(url: registerUrl, fields: {
         "first_name": userData.userFirstName!,
@@ -126,11 +126,19 @@ class AuthService {
   }
 
   Future<void> verifyLoginOtp(
-      BuildContext context, String countryCode, String phone, String otp) async {
+      BuildContext context, 
+      String countryCode, 
+      String phone, 
+      String otp
+      ) async {
     try {
       final response = await _sendPostRequest(
           url: verifyOtpUrl,
-          fields: {"phone": phone, "country_code": countryCode, "otp": otp});
+          fields: {
+            "phone": phone, 
+            "country_code": countryCode, 
+            "otp": otp
+            });
           print(response.statusCode);
 
       if (response.statusCode == 200) {
