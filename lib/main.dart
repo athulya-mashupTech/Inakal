@@ -16,7 +16,6 @@ import 'package:inakal/features/drawer/screens/gallery_page.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/widgets/common/custom_icon.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
-import 'package:inakal/features/home/screens/filter_screen.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';

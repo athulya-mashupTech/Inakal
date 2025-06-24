@@ -18,6 +18,8 @@ import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_form_widget.da
 import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_number_widget.dart';
 import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_text_widget.dart';
 import 'package:inakal/features/drawer/widgets/dummy_widgets/header_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/additional_details.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/location_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
 import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -1092,6 +1094,10 @@ class _EditProfileState extends State<EditProfile> {
                     ProfileDetails(dropdownModel!),
                     SizedBox(height: 2,),
                     ProfileDetails(dropdownModel!),
+                    SizedBox(height: 2,),
+                    LocationDetails(dropdownModel!),
+                    SizedBox(height: 2,),
+                    AdditionalDetails(dropdownModel!)
                   ],
                 ),
                 // const SizedBox(
