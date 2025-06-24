@@ -17,26 +17,27 @@ class CounsellorsScreen extends StatefulWidget {
 }
 
 class _CounsellorsScreenState extends State<CounsellorsScreen> {
-  var btext = "";
-  var bcolor = AppColors.primaryRed;
-  bool? consultancy_required = false;
+  var btext = "Loading...";
+  var bcolor = AppColors.grey;
+  String? consultancy_required;
   PsychologistModel? psychologistModelData;
   bool isDoctorsLoading = true;
-  
+  bool isAppointmentLoading = true;
+
   final userController = Get.find<UserDataController>();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    consultancy_required = userController.userData.value.user?.consultancyRequired;
-    if (consultancy_required == false || consultancy_required == null) {
-      btext = "Book your appointment";
-      bcolor = AppColors.deepBlue;
-    } else {
-      btext = "Your appointment is Pending";
-      bcolor = AppColors.freshGreen;
-    }
+    checkDoctorsAppointment();
+    // if (consultancy_required == false || consultancy_required == null) {
+    //   btext = "Book your appointment";
+    //   bcolor = AppColors.deepBlue;
+    // } else {
+    //   btext = "Your appointment is Pending";
+    //   bcolor = AppColors.freshGreen;
+    // }
     fetchAllDoctors();
   }
 
@@ -56,15 +57,38 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
     });
   }
 
+  Future<String?> checkDoctorsAppointment() async {
+    await PsychologistService()
+        .checkDoctorAppointment(context: context)
+        .then((value) {
+      if (value != null) {
+        setState(() {
+          consultancy_required = value;
+          if (consultancy_required == "appointment") {
+            btext = "Book your appointment";
+            bcolor = AppColors.deepBlue;
+          } else if (consultancy_required == "pending") {
+            btext = "Your appointment is Pending";
+            bcolor = AppColors.freshGreen;
+          } else {
+            btext = "Error checking appointment details";
+            bcolor = AppColors.freshGreen;
+          }
+        });
+      }
+    }).catchError((error) {
+      print("Error fetching doctors: $error");
+    });
+  }
+
   Future<void> bookAppointment() async {
     await PsychologistService().bookAppointment(context).then((value) {
       if (value != null) {
         setState(() {
-          userController.userData.value.user?.consultancyRequired = true;
           if (value.type == "success") {
             btext = "Your appointment is scheduled";
             bcolor = AppColors.freshGreen;
-            consultancy_required = true;
+            consultancy_required = "pending";
             showDialog(
               context: context,
               builder: (BuildContext dialogContext) {
@@ -92,7 +116,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
             );
             btext = "Your appointment is Pending";
             bcolor = AppColors.freshGreen;
-            consultancy_required = true;
+            consultancy_required = "pending";
             showDialog(
               context: context,
               builder: (BuildContext dialogContext) {
@@ -213,7 +237,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                   child: CustomButton(
                     text: btext,
                     onPressed: () {
-                      if (consultancy_required == false) {
+                      if (consultancy_required == "appointment") {
                         _showConfirmationDialog(context);
                       } else {
                         bookAppointment();

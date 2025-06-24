@@ -39,6 +39,17 @@ class _LikedProfileState extends State<LikedProfile> {
     });
   }
 
+  String getLocation(String district, String state) {
+    if (district != "" && state != "") {
+      return "$district, $state";
+    } else if (district == "" && state != "") {
+      return state;
+    } else if (district != "" && state == "") {
+      return district;
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -178,8 +189,8 @@ class _LikedProfileState extends State<LikedProfile> {
                                     ?.relatedProfiles?.length,
                                 itemBuilder: (context, index) {
                                   if (relatedProfileModel!
-                                          .relatedProfiles![index].likedBy !=
-                                      "NO")
+                                          .relatedProfiles![index].likedBy ==
+                                      "1")
                                     return GestureDetector(
                                         onTap: () {
                                           Navigator.push(
@@ -206,19 +217,8 @@ class _LikedProfileState extends State<LikedProfile> {
                                                     .id ??
                                                 "",
                                             name:
-                                                "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                            location: relatedProfileModel
-                                                            ?.relatedProfiles?[
-                                                                index]
-                                                            .state !=
-                                                        null &&
-                                                    relatedProfileModel
-                                                            ?.relatedProfiles?[
-                                                                index]
-                                                            .state !=
-                                                        ""
-                                                ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                                : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                                "${(relatedProfileModel?.relatedProfiles?[index].firstName ?? "").trimLeft()} ${(relatedProfileModel?.relatedProfiles?[index].lastName ?? "").trimLeft()}",
+                                            location: getLocation(relatedProfileModel?.relatedProfiles?[index].districtName ?? "", relatedProfileModel?.relatedProfiles?[index].stateName ?? ""),
                                             image: relatedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .image ==

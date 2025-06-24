@@ -7,6 +7,7 @@ import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
 
 class EditProfileService {
@@ -169,6 +170,31 @@ class EditProfileService {
       }
     } catch (e) {
       print("Error in FamilyDetails Service: $e");
+      return null;
+    }
+  }
+
+  //get DropDown Options
+  Future<DropdownModel?> getDropdownOptions({
+    required BuildContext context,
+  }) async {
+    try {
+      final response =
+          await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final dropdownModel = DropdownModel.fromJson(jsonResponse);
+        return dropdownModel;
+      } else {
+        // print("Error: ${response.statusCode}");
+        _showSnackbar(
+            context, "Failed to fetch dropdown options");
+        return null;
+      }
+    } catch (e) {
+      print("Error in fetching dropdown options: $e");
       return null;
     }
   }

@@ -1,6 +1,6 @@
 //Base URL for all API calls
-const baseUrl = "https://enakal.com/api/";
-const authBaseUrl = "https://enakal.com/authapi/";
+const baseUrl = "https://inakal.com/api/";
+const authBaseUrl = "https://inakal.com/authapi/";
 
 //Base URL for web
 const baseUrlWeb = "https://enakal.com/";
@@ -23,6 +23,7 @@ const userProfileUrl = "${baseUrl}userProfile";
 //Counsellors Page
 const allDoctorsUrl = "${baseUrl}doctors";
 const bookAppointmentUrl = "${baseUrl}bookAppointment";
+const checkAppointmentUrl = "${baseUrl}checkDoctorAppointment";
 
 //Profile Completion Status
 const profileCompletionStatusUrl = "${baseUrl}profileCompletionStatus";
@@ -44,6 +45,9 @@ const userFamilyUpdateUrl = "${baseUrl}updateFamilyDetails";
 const userLocationUpdateUrl = "${baseUrl}updateLocationDetails";
 const userPreferenceUpdateUrl = "${baseUrl}updatePartnerPrefs";
 const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
+
+// Dropdown Values Fetching Api
+const dropdownOptionsUrl = "${baseUrl}getDropDownOptions";
 
 // Other Profile API's
 const otherProfileUrl = "${baseUrl}get_user_data"; //otherUserDetails

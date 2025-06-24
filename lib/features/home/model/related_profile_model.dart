@@ -3,10 +3,7 @@ class RelatedProfileModel {
   String? message;
   String? type;
 
-  RelatedProfileModel(
-      {required this.relatedProfiles,
-      required this.message,
-      required this.type});
+  RelatedProfileModel({this.relatedProfiles, this.message, this.type});
 
   RelatedProfileModel.fromJson(Map<String, dynamic> json) {
     if (json['related_profiles'] != null) {
@@ -38,42 +35,41 @@ class RelatedProfiles {
   String? countryCode;
   String? phone;
   String? email;
+  String? secondaryNumber;
   String? password;
   String? dob;
   String? gender;
   String? image;
-  String? created;
-  String? status;
-  String? registrationStatus;
   String? height;
   String? weight;
   String? religion;
   String? caste;
   String? subCaste;
+  String? otherCasteSubcaste;
+  String? starSign;
   String? motherTongue;
   String? languagesKnown;
   String? maritalStatus;
   String? numberOfChildren;
   String? address;
+  String? currentCity;
   String? district;
   String? state;
   String? zipCode;
   String? country;
-  String? currentCity;
-  String? showProfilePic;
-  String? showPictureGallery;
-  String? showFullName;
-  String? showContactDetails;
   String? loginCount;
   String? matchesCount;
   String? profileViews;
   String? favoritesCount;
   String? highestEducation;
+  String? qualification;
   String? educationDetails;
   String? occupation;
+  String? occupationDetails;
   String? annualIncome;
   String? workLocation;
   String? familyType;
+  String? familyStatus;
   String? fathersOccupation;
   String? mothersOccupation;
   String? numberOfSiblings;
@@ -91,111 +87,126 @@ class RelatedProfiles {
   String? smokingHabits;
   String? drinkingHabits;
   String? foodPreferences;
-  String? profileCompletedPercentage;
-  String? membershipType;
+  Null? profileCompletedPercentage;
+  Null? membershipType;
   String? profileCreatedBy;
-  String? socialMediaLinks;
+  Null? socialMediaLinks;
   String? instagramLink;
   String? facebookLink;
   String? linkedinLink;
-  String? youtubeLink;
+  Null? youtubeLink;
   String? lastSeen;
   String? consultancyRequired;
   String? needLikeMindedPartner;
-  String? assignedLeadId;
-  String? preferredQualification;
-  String? starSign;
+  Null? assignedLeadId;
+  Null? preferredQualification;
   String? remarks;
   String? profileVisibilty;
   String? profileApproved;
   String? verifyDp;
   String? verifiedProfile;
+  String? showProfilePic;
+  String? showPictureGallery;
+  String? showFullName;
   String? otp;
+  String? showContactDetails;
   String? otpTime;
+  String? registrationStatus;
+  String? created;
+  String? status;
   String? likedBy;
+  String? districtName;
+  String? stateName;
 
   RelatedProfiles(
-      {required this.id,
-      required this.firstName,
-      required this.lastName,
-      required this.countryCode,
-      required this.phone,
-      required this.email,
-      required this.password,
-      required this.dob,
-      required this.gender,
-      required this.image,
-      required this.created,
-      required this.status,
-      required this.registrationStatus,
-      required this.height,
-      required this.weight,
-      required this.religion,
-      required this.caste,
-      required this.subCaste,
-      required this.motherTongue,
-      required this.languagesKnown,
-      required this.maritalStatus,
-      required this.numberOfChildren,
-      required this.address,
-      required this.district,
-      required this.state,
-      required this.zipCode,
-      required this.country,
-      required this.currentCity,
-      required this.showProfilePic,
-      required this.showPictureGallery,
-      required this.showFullName,
-      required this.showContactDetails,
-      required this.loginCount,
-      required this.matchesCount,
-      required this.profileViews,
-      required this.favoritesCount,
-      required this.highestEducation,
-      required this.educationDetails,
-      required this.occupation,
-      required this.annualIncome,
-      required this.workLocation,
-      required this.familyType,
-      required this.fathersOccupation,
-      required this.mothersOccupation,
-      required this.numberOfSiblings,
-      required this.siblingsMaritalStatus,
-      required this.preferredAgeRange,
-      required this.preferredHeightRange,
-      required this.preferredReligion,
-      required this.preferredCaste,
-      required this.preferredSmokingHabits,
-      required this.preferredDrinkingHabits,
-      required this.preferredFoodPreferences,
-      required this.score,
-      required this.aboutMe,
-      required this.hobbies,
-      required this.smokingHabits,
-      required this.drinkingHabits,
-      required this.foodPreferences,
-      required this.profileCompletedPercentage,
-      required this.membershipType,
-      required this.profileCreatedBy,
-      required this.socialMediaLinks,
-      required this.instagramLink,
-      required this.facebookLink,
-      required this.linkedinLink,
-      required this.youtubeLink,
-      required this.lastSeen,
-      required this.consultancyRequired,
-      required this.needLikeMindedPartner,
-      required this.assignedLeadId,
-      required this.preferredQualification,
-      required this.starSign,
-      required this.remarks,
-      required this.profileVisibilty,
-      required this.profileApproved,
-      required this.verifyDp,
-      required this.verifiedProfile,
-      required this.otp,
-      required this.otpTime,
-      required this.likedBy});
+      {this.id,
+      this.firstName,
+      this.lastName,
+      this.countryCode,
+      this.phone,
+      this.email,
+      this.secondaryNumber,
+      this.password,
+      this.dob,
+      this.gender,
+      this.image,
+      this.height,
+      this.weight,
+      this.religion,
+      this.caste,
+      this.subCaste,
+      this.otherCasteSubcaste,
+      this.starSign,
+      this.motherTongue,
+      this.languagesKnown,
+      this.maritalStatus,
+      this.numberOfChildren,
+      this.address,
+      this.currentCity,
+      this.district,
+      this.state,
+      this.zipCode,
+      this.country,
+      this.loginCount,
+      this.matchesCount,
+      this.profileViews,
+      this.favoritesCount,
+      this.highestEducation,
+      this.qualification,
+      this.educationDetails,
+      this.occupation,
+      this.occupationDetails,
+      this.annualIncome,
+      this.workLocation,
+      this.familyType,
+      this.familyStatus,
+      this.fathersOccupation,
+      this.mothersOccupation,
+      this.numberOfSiblings,
+      this.siblingsMaritalStatus,
+      this.preferredAgeRange,
+      this.preferredHeightRange,
+      this.preferredReligion,
+      this.preferredCaste,
+      this.preferredSmokingHabits,
+      this.preferredDrinkingHabits,
+      this.preferredFoodPreferences,
+      this.score,
+      this.aboutMe,
+      this.hobbies,
+      this.smokingHabits,
+      this.drinkingHabits,
+      this.foodPreferences,
+      this.profileCompletedPercentage,
+      this.membershipType,
+      this.profileCreatedBy,
+      this.socialMediaLinks,
+      this.instagramLink,
+      this.facebookLink,
+      this.linkedinLink,
+      this.youtubeLink,
+      this.lastSeen,
+      this.consultancyRequired,
+      this.needLikeMindedPartner,
+      this.assignedLeadId,
+      this.preferredQualification,
+      this.remarks,
+      this.profileVisibilty,
+      this.profileApproved,
+      this.verifyDp,
+      this.verifiedProfile,
+      this.showProfilePic,
+      this.showPictureGallery,
+      this.showFullName,
+      this.otp,
+      this.showContactDetails,
+      this.otpTime,
+      this.registrationStatus,
+      this.created,
+      this.status,
+      this.likedBy,
+      this.districtName,
+      this.stateName});
 
   RelatedProfiles.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -204,42 +215,41 @@ class RelatedProfiles {
     countryCode = json['country_code'];
     phone = json['phone'];
     email = json['email'];
+    secondaryNumber = json['secondary_number'];
     password = json['password'];
     dob = json['dob'];
     gender = json['gender'];
     image = json['image'];
-    created = json['created'];
-    status = json['status'];
-    registrationStatus = json['registration_status'];
     height = json['height'];
     weight = json['weight'];
     religion = json['religion'];
     caste = json['caste'];
     subCaste = json['sub_caste'];
+    otherCasteSubcaste = json['other_caste_subcaste'];
+    starSign = json['star_sign'];
     motherTongue = json['mother_tongue'];
     languagesKnown = json['languages_known'];
     maritalStatus = json['marital_status'];
     numberOfChildren = json['number_of_children'];
     address = json['address'];
+    currentCity = json['current_city'];
     district = json['district'];
     state = json['state'];
     zipCode = json['zipCode'];
     country = json['country'];
-    currentCity = json['current_city'];
-    showProfilePic = json['show_profile_pic'];
-    showPictureGallery = json['show_picture_gallery'];
-    showFullName = json['show_full_name'];
-    showContactDetails = json['show_contact_details'];
     loginCount = json['login_count'];
     matchesCount = json['matches_count'];
     profileViews = json['profile_views'];
     favoritesCount = json['favorites_count'];
     highestEducation = json['highest_education'];
+    qualification = json['qualification'];
     educationDetails = json['education_details'];
     occupation = json['occupation'];
+    occupationDetails = json['occupation_details'];
     annualIncome = json['annual_income'];
     workLocation = json['work_location'];
     familyType = json['family_type'];
+    familyStatus = json['family_status'];
     fathersOccupation = json['fathers_occupation'];
     mothersOccupation = json['mothers_occupation'];
     numberOfSiblings = json['number_of_siblings'];
@@ -270,15 +280,23 @@ class RelatedProfiles {
     needLikeMindedPartner = json['need_like_minded_partner'];
     assignedLeadId = json['assigned_lead_id'];
     preferredQualification = json['preferred_qualification'];
-    starSign = json['star_sign'];
     remarks = json['remarks'];
     profileVisibilty = json['profile_visibilty'];
     profileApproved = json['profile_approved'];
     verifyDp = json['verify_dp'];
     verifiedProfile = json['verified_profile'];
+    showProfilePic = json['show_profile_pic'];
+    showPictureGallery = json['show_picture_gallery'];
+    showFullName = json['show_full_name'];
     otp = json['otp'];
+    showContactDetails = json['show_contact_details'];
     otpTime = json['otp_time'];
-    likedBy = json['liked_by'] ?? "NO";
+    registrationStatus = json['registration_status'];
+    created = json['created'];
+    status = json['status'];
+    likedBy = json['liked_by'];
+    districtName = json['district_name'];
+    stateName = json['state_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -289,42 +307,41 @@ class RelatedProfiles {
     data['country_code'] = this.countryCode;
     data['phone'] = this.phone;
     data['email'] = this.email;
+    data['secondary_number'] = this.secondaryNumber;
     data['password'] = this.password;
     data['dob'] = this.dob;
     data['gender'] = this.gender;
     data['image'] = this.image;
-    data['created'] = this.created;
-    data['status'] = this.status;
-    data['registration_status'] = this.registrationStatus;
     data['height'] = this.height;
     data['weight'] = this.weight;
     data['religion'] = this.religion;
     data['caste'] = this.caste;
     data['sub_caste'] = this.subCaste;
+    data['other_caste_subcaste'] = this.otherCasteSubcaste;
+    data['star_sign'] = this.starSign;
     data['mother_tongue'] = this.motherTongue;
     data['languages_known'] = this.languagesKnown;
     data['marital_status'] = this.maritalStatus;
     data['number_of_children'] = this.numberOfChildren;
     data['address'] = this.address;
+    data['current_city'] = this.currentCity;
     data['district'] = this.district;
     data['state'] = this.state;
     data['zipCode'] = this.zipCode;
     data['country'] = this.country;
-    data['current_city'] = this.currentCity;
-    data['show_profile_pic'] = this.showProfilePic;
-    data['show_picture_gallery'] = this.showPictureGallery;
-    data['show_full_name'] = this.showFullName;
-    data['show_contact_details'] = this.showContactDetails;
     data['login_count'] = this.loginCount;
     data['matches_count'] = this.matchesCount;
     data['profile_views'] = this.profileViews;
     data['favorites_count'] = this.favoritesCount;
     data['highest_education'] = this.highestEducation;
+    data['qualification'] = this.qualification;
     data['education_details'] = this.educationDetails;
     data['occupation'] = this.occupation;
+    data['occupation_details'] = this.occupationDetails;
     data['annual_income'] = this.annualIncome;
     data['work_location'] = this.workLocation;
     data['family_type'] = this.familyType;
+    data['family_status'] = this.familyStatus;
     data['fathers_occupation'] = this.fathersOccupation;
     data['mothers_occupation'] = this.mothersOccupation;
     data['number_of_siblings'] = this.numberOfSiblings;
@@ -355,15 +372,23 @@ class RelatedProfiles {
     data['need_like_minded_partner'] = this.needLikeMindedPartner;
     data['assigned_lead_id'] = this.assignedLeadId;
     data['preferred_qualification'] = this.preferredQualification;
-    data['star_sign'] = this.starSign;
     data['remarks'] = this.remarks;
     data['profile_visibilty'] = this.profileVisibilty;
     data['profile_approved'] = this.profileApproved;
     data['verify_dp'] = this.verifyDp;
     data['verified_profile'] = this.verifiedProfile;
+    data['show_profile_pic'] = this.showProfilePic;
+    data['show_picture_gallery'] = this.showPictureGallery;
+    data['show_full_name'] = this.showFullName;
     data['otp'] = this.otp;
+    data['show_contact_details'] = this.showContactDetails;
     data['otp_time'] = this.otpTime;
+    data['registration_status'] = this.registrationStatus;
+    data['created'] = this.created;
+    data['status'] = this.status;
     data['liked_by'] = this.likedBy;
+    data['district_name'] = this.districtName;
+    data['state_name'] = this.stateName;
     return data;
   }
 }
