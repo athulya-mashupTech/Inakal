@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 
 class ProfileDetails extends StatefulWidget {
-  const ProfileDetails({Key? key}) : super(key: key);
+  DropdownModel dropdownModel;
+  ProfileDetails(this.dropdownModel, {Key? key}) : super(key: key);
 
   @override
   _ProfileDetailsState createState() => _ProfileDetailsState();
@@ -57,7 +59,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
               const SizedBox(height: 16),
               _buildDropdownField(
                   label: 'Gender',
-                  items: ['Male', 'Female', 'Other'],
+                  items: widget.dropdownModel.castes!.map((item) => item.name ?? "").toList(),
                   onChanged: (value) {
                     setState(() {
                       selectedGender = value;

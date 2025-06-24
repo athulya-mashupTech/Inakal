@@ -45,7 +45,7 @@ class _UserCardState extends State<UserCard> {
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.width * 1.1,
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(10.0),
         child: Stack(
           children: [
             // Background image
@@ -102,6 +102,8 @@ class _UserCardState extends State<UserCard> {
                         fontSize: 16.0,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       widget.location,
@@ -109,6 +111,8 @@ class _UserCardState extends State<UserCard> {
                         color: Colors.white70,
                         fontSize: 12.0,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
@@ -118,7 +122,7 @@ class _UserCardState extends State<UserCard> {
             // Age in the top-right corner
             Positioned(
               top: 10,
-              right: 10,
+              left: 10,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 8.0, vertical: 4.0),
@@ -137,8 +141,9 @@ class _UserCardState extends State<UserCard> {
               ),
             ),
     
-            Align(
-              alignment: Alignment.bottomRight,
+            Positioned(
+              top: 0,
+              right: 0,
               child: Stack(
                 alignment: Alignment.center,
                 children: [

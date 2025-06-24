@@ -53,11 +53,11 @@ class HomeService {
       if (sentInterestModel.type == "success") {
         // Show success message
         print("toggleLikedBysuccess");
-        _showSnackbar(context, sentInterestModel.message!);
+        // _showSnackbar(context, sentInterestModel.message!);
       } else {
         // Show error message
         print("toggleLikedByfailed");
-        _showSnackbar(context, sentInterestModel.message!);
+        // _showSnackbar(context, sentInterestModel.message!);
       }
     } else {
       print("toggleLikedByError: ${response.statusCode}");

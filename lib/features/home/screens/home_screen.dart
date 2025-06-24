@@ -45,6 +45,17 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  String getLocation(String district, String state) {
+    if (district != "" && state != "") {
+      return "$district, $state";
+    } else if (district == "" && state != "") {
+      return state;
+    } else if (district != "" && state == "") {
+      return district;
+    }
+    return "";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,14 +100,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             const SizedBox(height: 20),
             const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
               child: CompleteProfileCard(),
             ),
             const SizedBox(height: 5),
             Align(
               alignment: Alignment.centerLeft,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -158,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )
                     : Padding(
                         padding: const EdgeInsets.symmetric(
-                            vertical: 10.0, horizontal: 20),
+                            vertical: 10.0, horizontal: 15),
                         child: GridView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -201,12 +212,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ?.relatedProfiles?[index].id ??
                                             "",
                                         name:
-                                            "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                        location: relatedProfileModel?.relatedProfiles?[index].state != null &&
-                                                relatedProfileModel?.relatedProfiles?[index].state !=
-                                                    ""
-                                            ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                            : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                          "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName.toString().trimLeft()}".trimLeft(),
+                                        location: getLocation(relatedProfileModel?.relatedProfiles?[index].districtName ?? "", relatedProfileModel?.relatedProfiles?[index].stateName ?? ""),
                                         image: relatedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .image ==
@@ -235,14 +242,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                       clientId: relatedProfileModel?.relatedProfiles?[index].id ??
                                           "",
                                       name:
-                                          "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName}",
-                                      location: relatedProfileModel?.relatedProfiles?[index].state != null &&
-                                              relatedProfileModel
-                                                      ?.relatedProfiles?[index]
-                                                      .state !=
-                                                  ""
-                                          ? "${relatedProfileModel?.relatedProfiles?[index].district}, ${relatedProfileModel?.relatedProfiles?[index].state}"
-                                          : "${relatedProfileModel?.relatedProfiles?[index].district}",
+                                          "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName.toString().trimLeft()}".trimLeft(),
+                                      location: getLocation(relatedProfileModel?.relatedProfiles?[index].districtName ?? "", relatedProfileModel?.relatedProfiles?[index].stateName ?? ""),
                                       image: relatedProfileModel
                                                   ?.relatedProfiles?[index]
                                                   .image ==

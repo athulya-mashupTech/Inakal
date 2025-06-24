@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/psychologists_listing/model/book_appointment_model.dart';
+import 'package:inakal/features/psychologists_listing/model/check_appointment_model.dart';
 import 'package:inakal/features/psychologists_listing/model/psychologist_model.dart';
 
 class PsychologistService {
@@ -34,6 +35,37 @@ class PsychologistService {
       }
     } catch (e) {
       print("Error fetching doctors: $e");
+      return null;
+    }
+  }
+
+  // Fetch All Doctors
+  Future<String?> checkDoctorAppointment(
+      {required BuildContext context}) async {
+    try {
+      final response = await _sendGetRequest(
+        url: checkAppointmentUrl,
+      );
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final checkAppointmentModel = CheckAppointmentModel.fromJson(jsonResponse);
+        if (checkAppointmentModel.type == "success") {
+          _showSnackbar(context, "Appointment Exists");
+          return "pending";
+        } else if(checkAppointmentModel.type == "danger"){
+          _showSnackbar(
+              context, "Appointment not Exists");
+          return "appointment";
+        } else {
+          _showSnackbar(
+              context, "Appointment checking error");
+          return "error";
+        }
+      }
+    } catch (e) {
+      print("Error checking doctor's : $e");
       return null;
     }
   }

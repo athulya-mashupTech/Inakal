@@ -364,7 +364,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                           ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
                                           : "Name Loading...",
                                       style: TextStyle(
-                                          fontSize: 32,
+                                          fontSize: MediaQuery.of(context).size.width * 0.07,
                                           fontWeight: FontWeight.bold,
                                           height: 1.1),
                                     )),
@@ -372,7 +372,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       userController.userData.value.user
                                                   ?.currentCity !=
                                               null
-                                          ? "${userController.userData.value.user?.currentCity}, ${userController.userData.value.user?.district}"
+                                          ? "${userController.userData.value.user?.districtName}, ${userController.userData.value.user?.stateName}"
                                           : "Location loading ...",
                                       style: TextStyle(fontSize: 16),
                                     )),
@@ -381,7 +381,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       userController.userData.value.user
                                                   ?.occupation !=
                                               null
-                                          ? "${userController.userData.value.user?.occupation}"
+                                          ? "${userController.userData.value.user?.occupationName}"
                                           : "Job is Loading...",
                                       style: TextStyle(
                                           fontSize: 18,
@@ -391,7 +391,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       userController.userData.value.user
                                                   ?.religion !=
                                               null
-                                          ? "${userController.userData.value.user?.religion}"
+                                          ? "${userController.userData.value.user?.religionName}"
                                           : "Religion is loading",
                                       style: TextStyle(fontSize: 16),
                                     )),

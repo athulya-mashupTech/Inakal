@@ -32,42 +32,41 @@ class User {
   String? countryCode;
   String? phone;
   String? email;
+  String? secondaryNumber;
   String? password;
   String? dob;
   String? gender;
   String? image;
-  String? created;
-  String? status;
-  String? registrationStatus;
   String? height;
   String? weight;
   String? religion;
   String? caste;
   String? subCaste;
+  String? otherCasteSubcaste;
+  String? starSign;
   String? motherTongue;
   String? languagesKnown;
   String? maritalStatus;
   String? numberOfChildren;
   String? address;
+  String? currentCity;
   String? district;
   String? state;
   String? zipCode;
   String? country;
-  String? currentCity;
-  String? showProfilePic;
-  String? showPictureGallery;
-  String? showFullName;
-  String? showContactDetails;
   String? loginCount;
   String? matchesCount;
   String? profileViews;
   String? favoritesCount;
   String? highestEducation;
+  String? qualification;
   String? educationDetails;
   String? occupation;
+  String? occupationDetails;
   String? annualIncome;
   String? workLocation;
   String? familyType;
+  String? familyStatus;
   String? fathersOccupation;
   String? mothersOccupation;
   String? numberOfSiblings;
@@ -85,22 +84,42 @@ class User {
   String? smokingHabits;
   String? drinkingHabits;
   String? foodPreferences;
-  String? profileCompletedPercentage;
-  String? membershipType;
-  String? profileApproved;
+  Null? profileCompletedPercentage;
+  Null? membershipType;
   String? profileCreatedBy;
-  String? socialMediaLinks;
+  Null? socialMediaLinks;
   String? instagramLink;
   String? facebookLink;
   String? linkedinLink;
   String? youtubeLink;
-  String? lastSeen;
-  bool? consultancyRequired;
-  String? needLikeMindedPartner;
+  Null? lastSeen;
+  Null? consultancyRequired;
+  Null? needLikeMindedPartner;
   String? assignedLeadId;
   String? preferredQualification;
-  String? starSign;
   String? remarks;
+  String? profileVisibilty;
+  String? profileApproved;
+  String? verifyDp;
+  String? verifiedProfile;
+  String? showProfilePic;
+  String? showPictureGallery;
+  String? showFullName;
+  String? otp;
+  String? showContactDetails;
+  String? otpTime;
+  String? registrationStatus;
+  String? created;
+  String? status;
+  String? districtName;
+  String? stateName;
+  String? highestEducationName;
+  String? motherTongueName;
+  String? occupationName;
+  String? qualificationName;
+  String? religionName;
+  String? subCasteName;
+  String? casteName;
 
   User(
       {this.id,
@@ -109,42 +128,41 @@ class User {
       this.countryCode,
       this.phone,
       this.email,
+      this.secondaryNumber,
       this.password,
       this.dob,
       this.gender,
       this.image,
-      this.created,
-      this.status,
-      this.registrationStatus,
       this.height,
       this.weight,
       this.religion,
       this.caste,
       this.subCaste,
+      this.otherCasteSubcaste,
+      this.starSign,
       this.motherTongue,
       this.languagesKnown,
       this.maritalStatus,
       this.numberOfChildren,
       this.address,
+      this.currentCity,
       this.district,
       this.state,
       this.zipCode,
       this.country,
-      this.currentCity,
-      this.showProfilePic,
-      this.showPictureGallery,
-      this.showFullName,
-      this.showContactDetails,
       this.loginCount,
       this.matchesCount,
       this.profileViews,
       this.favoritesCount,
       this.highestEducation,
+      this.qualification,
       this.educationDetails,
       this.occupation,
+      this.occupationDetails,
       this.annualIncome,
       this.workLocation,
       this.familyType,
+      this.familyStatus,
       this.fathersOccupation,
       this.mothersOccupation,
       this.numberOfSiblings,
@@ -164,7 +182,6 @@ class User {
       this.foodPreferences,
       this.profileCompletedPercentage,
       this.membershipType,
-      this.profileApproved,
       this.profileCreatedBy,
       this.socialMediaLinks,
       this.instagramLink,
@@ -176,8 +193,29 @@ class User {
       this.needLikeMindedPartner,
       this.assignedLeadId,
       this.preferredQualification,
-      this.starSign,
-      this.remarks});
+      this.remarks,
+      this.profileVisibilty,
+      this.profileApproved,
+      this.verifyDp,
+      this.verifiedProfile,
+      this.showProfilePic,
+      this.showPictureGallery,
+      this.showFullName,
+      this.otp,
+      this.showContactDetails,
+      this.otpTime,
+      this.registrationStatus,
+      this.created,
+      this.status,
+      this.districtName,
+      this.stateName,
+      this.highestEducationName,
+      this.motherTongueName,
+      this.occupationName,
+      this.qualificationName,
+      this.religionName,
+      this.subCasteName,
+      this.casteName});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -186,42 +224,41 @@ class User {
     countryCode = json['country_code'];
     phone = json['phone'];
     email = json['email'];
+    secondaryNumber = json['secondary_number'];
     password = json['password'];
     dob = json['dob'];
     gender = json['gender'];
     image = json['image'];
-    created = json['created'];
-    status = json['status'];
-    registrationStatus = json['registration_status'];
     height = json['height'];
     weight = json['weight'];
     religion = json['religion'];
     caste = json['caste'];
     subCaste = json['sub_caste'];
+    otherCasteSubcaste = json['other_caste_subcaste'];
+    starSign = json['star_sign'];
     motherTongue = json['mother_tongue'];
     languagesKnown = json['languages_known'];
     maritalStatus = json['marital_status'];
     numberOfChildren = json['number_of_children'];
     address = json['address'];
+    currentCity = json['current_city'];
     district = json['district'];
     state = json['state'];
     zipCode = json['zipCode'];
     country = json['country'];
-    currentCity = json['current_city'];
-    showProfilePic = json['show_profile_pic'];
-    showPictureGallery = json['show_picture_gallery'];
-    showFullName = json['show_full_name'];
-    showContactDetails = json['show_contact_details'];
     loginCount = json['login_count'];
     matchesCount = json['matches_count'];
     profileViews = json['profile_views'];
     favoritesCount = json['favorites_count'];
     highestEducation = json['highest_education'];
+    qualification = json['qualification'];
     educationDetails = json['education_details'];
     occupation = json['occupation'];
+    occupationDetails = json['occupation_details'];
     annualIncome = json['annual_income'];
     workLocation = json['work_location'];
     familyType = json['family_type'];
+    familyStatus = json['family_status'];
     fathersOccupation = json['fathers_occupation'];
     mothersOccupation = json['mothers_occupation'];
     numberOfSiblings = json['number_of_siblings'];
@@ -241,7 +278,6 @@ class User {
     foodPreferences = json['food_preferences'];
     profileCompletedPercentage = json['profile_completed_percentage'];
     membershipType = json['membership_type'];
-    profileApproved = json['profile_approved'];
     profileCreatedBy = json['profile_created_by'];
     socialMediaLinks = json['social_media_links'];
     instagramLink = json['instagram_link'];
@@ -249,12 +285,33 @@ class User {
     linkedinLink = json['linkedin_link'];
     youtubeLink = json['youtube_link'];
     lastSeen = json['last_seen'];
-    consultancyRequired = json['consultancy_required'] == "no" ? false : true;
+    consultancyRequired = json['consultancy_required'];
     needLikeMindedPartner = json['need_like_minded_partner'];
     assignedLeadId = json['assigned_lead_id'];
     preferredQualification = json['preferred_qualification'];
-    starSign = json['star_sign'];
     remarks = json['remarks'];
+    profileVisibilty = json['profile_visibilty'];
+    profileApproved = json['profile_approved'];
+    verifyDp = json['verify_dp'];
+    verifiedProfile = json['verified_profile'];
+    showProfilePic = json['show_profile_pic'];
+    showPictureGallery = json['show_picture_gallery'];
+    showFullName = json['show_full_name'];
+    otp = json['otp'];
+    showContactDetails = json['show_contact_details'];
+    otpTime = json['otp_time'];
+    registrationStatus = json['registration_status'];
+    created = json['created'];
+    status = json['status'];
+    districtName = json['district_name'];
+    stateName = json['state_name'];
+    highestEducationName = json['highest_education_name'];
+    motherTongueName = json['mother_tongue_name'];
+    occupationName = json['occupation_name'];
+    qualificationName = json['qualification_name'];
+    religionName = json['religion_name'];
+    subCasteName = json['sub_caste_name'];
+    casteName = json['caste_name'];
   }
 
   Map<String, dynamic> toJson() {
@@ -265,42 +322,41 @@ class User {
     data['country_code'] = this.countryCode;
     data['phone'] = this.phone;
     data['email'] = this.email;
+    data['secondary_number'] = this.secondaryNumber;
     data['password'] = this.password;
     data['dob'] = this.dob;
     data['gender'] = this.gender;
     data['image'] = this.image;
-    data['created'] = this.created;
-    data['status'] = this.status;
-    data['registration_status'] = this.registrationStatus;
     data['height'] = this.height;
     data['weight'] = this.weight;
     data['religion'] = this.religion;
     data['caste'] = this.caste;
     data['sub_caste'] = this.subCaste;
+    data['other_caste_subcaste'] = this.otherCasteSubcaste;
+    data['star_sign'] = this.starSign;
     data['mother_tongue'] = this.motherTongue;
     data['languages_known'] = this.languagesKnown;
     data['marital_status'] = this.maritalStatus;
     data['number_of_children'] = this.numberOfChildren;
     data['address'] = this.address;
+    data['current_city'] = this.currentCity;
     data['district'] = this.district;
     data['state'] = this.state;
     data['zipCode'] = this.zipCode;
     data['country'] = this.country;
-    data['current_city'] = this.currentCity;
-    data['show_profile_pic'] = this.showProfilePic;
-    data['show_picture_gallery'] = this.showPictureGallery;
-    data['show_full_name'] = this.showFullName;
-    data['show_contact_details'] = this.showContactDetails;
     data['login_count'] = this.loginCount;
     data['matches_count'] = this.matchesCount;
     data['profile_views'] = this.profileViews;
     data['favorites_count'] = this.favoritesCount;
     data['highest_education'] = this.highestEducation;
+    data['qualification'] = this.qualification;
     data['education_details'] = this.educationDetails;
     data['occupation'] = this.occupation;
+    data['occupation_details'] = this.occupationDetails;
     data['annual_income'] = this.annualIncome;
     data['work_location'] = this.workLocation;
     data['family_type'] = this.familyType;
+    data['family_status'] = this.familyStatus;
     data['fathers_occupation'] = this.fathersOccupation;
     data['mothers_occupation'] = this.mothersOccupation;
     data['number_of_siblings'] = this.numberOfSiblings;
@@ -320,7 +376,6 @@ class User {
     data['food_preferences'] = this.foodPreferences;
     data['profile_completed_percentage'] = this.profileCompletedPercentage;
     data['membership_type'] = this.membershipType;
-    data['profile_approved'] = this.profileApproved;
     data['profile_created_by'] = this.profileCreatedBy;
     data['social_media_links'] = this.socialMediaLinks;
     data['instagram_link'] = this.instagramLink;
@@ -332,8 +387,29 @@ class User {
     data['need_like_minded_partner'] = this.needLikeMindedPartner;
     data['assigned_lead_id'] = this.assignedLeadId;
     data['preferred_qualification'] = this.preferredQualification;
-    data['star_sign'] = this.starSign;
     data['remarks'] = this.remarks;
+    data['profile_visibilty'] = this.profileVisibilty;
+    data['profile_approved'] = this.profileApproved;
+    data['verify_dp'] = this.verifyDp;
+    data['verified_profile'] = this.verifiedProfile;
+    data['show_profile_pic'] = this.showProfilePic;
+    data['show_picture_gallery'] = this.showPictureGallery;
+    data['show_full_name'] = this.showFullName;
+    data['otp'] = this.otp;
+    data['show_contact_details'] = this.showContactDetails;
+    data['otp_time'] = this.otpTime;
+    data['registration_status'] = this.registrationStatus;
+    data['created'] = this.created;
+    data['status'] = this.status;
+    data['district_name'] = this.districtName;
+    data['state_name'] = this.stateName;
+    data['highest_education_name'] = this.highestEducationName;
+    data['mother_tongue_name'] = this.motherTongueName;
+    data['occupation_name'] = this.occupationName;
+    data['qualification_name'] = this.qualificationName;
+    data['religion_name'] = this.religionName;
+    data['sub_caste_name'] = this.subCasteName;
+    data['caste_name'] = this.casteName;
     return data;
   }
 }

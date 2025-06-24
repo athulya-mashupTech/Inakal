@@ -6,6 +6,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
@@ -30,6 +31,8 @@ class EditProfile extends StatefulWidget {
 
 class _EditProfileState extends State<EditProfile> {
   final userController = Get.find<UserDataController>();
+  DropdownModel? dropdownModel;
+  bool _isLoading = true;
 
   List<String> hobbies = [];
   List<String> languages = [];
@@ -658,6 +661,20 @@ class _EditProfileState extends State<EditProfile> {
   List<String> casteList = [];
   List<String> subCasteList = [];
 
+  Future<void> _loadDropdownOptions() async {
+    await EditProfileService()
+        .getDropdownOptions(context: context)
+        .then((value) {
+      setState(() {
+        dropdownModel = value;
+      });
+    });
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   void religionChanged(String value) {
     setState(() {
       _religionController.text = value;
@@ -843,6 +860,7 @@ class _EditProfileState extends State<EditProfile> {
   @override
   void initState() {
     super.initState();
+    _loadDropdownOptions();
     _fNameController.text = userController.userData.value.user?.firstName ?? "";
     _sNameController.text = userController.userData.value.user?.lastName ?? "";
     _emailController.text = userController.userData.value.user?.email ?? "";
@@ -943,10 +961,9 @@ class _EditProfileState extends State<EditProfile> {
         userController.userData.value.user?.youtubeLink ?? "";
 
     hobbies = "${userController.userData.value.user?.hobbies}".split(",");
-    languages =
-        userController.userData.value.user?.languagesKnown != null
-            ? "${userController.userData.value.user?.languagesKnown}".split(",")
-            : [];
+    languages = userController.userData.value.user?.languagesKnown != null
+        ? "${userController.userData.value.user?.languagesKnown}".split(",")
+        : [];
 
     casteList =
         religionCasteData[_religionController.text]?.keys.toList() ?? [];
@@ -1068,7 +1085,14 @@ class _EditProfileState extends State<EditProfile> {
                 ),
 
 ///////////////////////////////Profile Image Done////////
-                ProfileDetails(),
+                _isLoading
+                ? SizedBox(height: MediaQuery.of(context).size.height * 0.5, child: Center(child: CircularProgressIndicator()))
+                : Column(
+                  children: [
+                    ProfileDetails(dropdownModel!),
+                    ProfileDetails(dropdownModel!),
+                  ],
+                ),
                 // const SizedBox(
                 //   height: 20,
                 // ),
