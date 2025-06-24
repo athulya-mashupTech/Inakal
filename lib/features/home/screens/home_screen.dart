@@ -9,7 +9,7 @@ import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
-import 'package:inakal/features/home/screens/filter_screen.dart';
+import 'package:inakal/features/filter_users/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
