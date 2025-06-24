@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/drawer/widgets/custom_icon.dart';
+import 'package:inakal/features/drawer/widgets/common/custom_icon.dart';
 import 'package:inakal/features/psychologists_listing/screens/counsellors_screen.dart';
 
 class PremaritalCard extends StatelessWidget {
