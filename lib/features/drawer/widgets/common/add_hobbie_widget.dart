@@ -21,7 +21,7 @@ class AddHobbieWidget extends StatelessWidget {
        mainAxisAlignment: MainAxisAlignment.start,
        children: [
         const SizedBox(width: 8.0),
-         Text(label, style: const TextStyle(fontSize: 16.0, color: AppColors.primaryRed)),
+         Text(label, style: const TextStyle(fontSize: 14.0, color: AppColors.primaryRed)),
          IconButton(
           icon: Icon(icon, color: AppColors.primaryRed, size: 20.0), 
           onPressed: onPressed),
