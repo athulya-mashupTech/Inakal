@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
@@ -20,7 +21,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   String? selectedDrinkingHabbit;
   String? selectedFoodPreference;
   String? selectedCreatedFor;
-  List<String> languages = ["Malayalam", "English"];
+  List<String> hobbies = ["Dancing", "Singing"];
 
   @override
   void dispose() {
@@ -66,13 +67,13 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                     spacing: 5,
                     runSpacing: 10,
                     children: [
-                      ...languages.map((language) {
+                      ...hobbies.map((language) {
                         return OptionWidget(
                           label: language,
                           icon: Icons.close,
                           onPressed: () {
                             setState(() {
-                              languages.remove(language);
+                              hobbies.remove(language);
                             });
                           },
                         );
@@ -91,7 +92,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                 content: TextField(
                                   controller: _controller,
                                   decoration: InputDecoration(
-                                    hintText: "Enter your language",
+                                    hintText: "Enter your hobbies",
                                   ),
                                 ),
                                 actions: [
@@ -115,7 +116,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
 
                           if (newLanguage != null && newLanguage.isNotEmpty) {
                             setState(() {
-                              languages.add(newLanguage);
+                              hobbies.add(newLanguage);
                             });
                           }
                         }, // Can be empty since the outer GestureDetector handles it
@@ -190,6 +191,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       });
                     },
                   ),
+                  const SizedBox(height: 16),
+                  CustomButton(text: "Save Changes", onPressed: (){},)
                 ],
               ),
             ),

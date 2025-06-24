@@ -1,31 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
-import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
-import 'package:inakal/features/drawer/widgets/common/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
-import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
-import 'package:inakal/features/drawer/widgets/common/details_column_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/details_row_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_dropdown_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_form_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_number_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_text_widget.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/header_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/educational_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/family_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/personal_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/additional_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/location_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
-import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -1095,7 +1081,7 @@ class _EditProfileState extends State<EditProfile> {
                 : Column(
                   children: [
                     ProfileDetails(dropdownModel!),
-                    SizedBox(height: 2,),
+                    SizedBox(height: 2),
                     PersonalDetails(dropdownModel!),
                     SizedBox(height: 2,),
                     EducationalDetails(dropdownModel!),

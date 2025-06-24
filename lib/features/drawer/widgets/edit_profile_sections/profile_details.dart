@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_date_picker.dart';
@@ -14,12 +18,27 @@ class ProfileDetails extends StatefulWidget {
 }
 
 class _ProfileDetailsState extends State<ProfileDetails> {
+  final userController = Get.find<UserDataController>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   String? selectedGender;
+
+  @override
+  void initState() {
+    firstNameController.text =
+        userController.userData.value.user?.firstName ?? "";
+    lastNameController.text =
+        userController.userData.value.user?.lastName ?? "";
+    emailController.text = userController.userData.value.user?.email ?? "";
+    phoneNumberController.text =
+        userController.userData.value.user?.phone ?? "";
+        dateOfBirthController.text = userController.userData.value.user?.dob ?? "";
+    selectedGender = userController.userData.value.user?.gender ?? "";
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -71,9 +90,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   const SizedBox(height: 16),
                   EditProfileDropdown(
                     label: 'Gender',
-                    items: widget.dropdownModel.castes!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: ["Male","Female","Other"],
                     onChanged: (value) {
                       setState(() {
                         selectedGender = value;
@@ -81,6 +98,11 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     },
                     selectedValue: selectedGender,
                   ),
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    text: "Save Changes",
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),

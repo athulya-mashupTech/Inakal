@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
+import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
@@ -28,6 +31,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String? selectedSubCaste;
   String? selectedmaritalStatus;
   String? selectedmotherTongue;
+  List<String> languages = ["Malayalam", "English"];
 
   @override
   void dispose() {
@@ -154,6 +158,67 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   const SizedBox(height: 16),
 
                   //languages known
+                      Wrap(
+                    spacing: 5,
+                    runSpacing: 10,
+                    children: [
+                      ...languages.map((language) {
+                        return OptionWidget(
+                          label: language,
+                          icon: Icons.close,
+                          onPressed: () {
+                            setState(() {
+                              languages.remove(language);
+                            });
+                          },
+                        );
+                      }).toList(),
+                      AddHobbieWidget(
+                        label: "Add",
+                        icon: Icons.add,
+                        onPressed: () async {
+                          final newLanguage = await showDialog<String>(
+                            context: context,
+                            builder: (context) {
+                              final TextEditingController _controller =
+                                  TextEditingController();
+                              return AlertDialog(
+                                title: Text("Add Language"),
+                                content: TextField(
+                                  controller: _controller,
+                                  decoration: InputDecoration(
+                                    hintText: "Enter your language",
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () => Navigator.pop(context),
+                                    child: Text("Cancel"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      final language = _controller.text.trim();
+                                      if (language.isNotEmpty) {
+                                        Navigator.pop(context, language);
+                                      }
+                                    },
+                                    child: Text("Add"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+
+                          if (newLanguage != null && newLanguage.isNotEmpty) {
+                            setState(() {
+                              languages.add(newLanguage);
+                            });
+                          }
+                        }, // Can be empty since the outer GestureDetector handles it
+                      )
+                    ],
+                  ),
+                  CustomButton(text: "Save Changes", onPressed: (){},)
                 ],
               ),
             ),

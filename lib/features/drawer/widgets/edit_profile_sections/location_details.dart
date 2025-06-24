@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_dropdown_widget.dart';
@@ -100,6 +101,8 @@ class _LocationDetailsState extends State<LocationDetails> {
                       label: 'Pincode',
                       controller: pincodeController,
                       inputType: TextInputType.number),
+                      const SizedBox(height: 16),
+                      CustomButton(text: "Save Changes", onPressed: (){},)
                 ],
               ),
             ),
