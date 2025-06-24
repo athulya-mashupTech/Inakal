@@ -14,7 +14,7 @@ import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
-import 'package:inakal/features/drawer/widgets/drawer_widget.dart';
+import 'package:inakal/features/drawer/widgets/common/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 import 'package:shimmer/shimmer.dart';
 

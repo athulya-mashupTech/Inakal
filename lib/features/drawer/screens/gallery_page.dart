@@ -7,7 +7,7 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
-import 'package:inakal/features/drawer/widgets/gallery_image_card.dart';
+import 'package:inakal/features/drawer/widgets/common/gallery_image_card.dart';
 import 'package:inakal/features/profile/widgets/Image_card.dart';
 
 class GalleryPage extends StatefulWidget {
