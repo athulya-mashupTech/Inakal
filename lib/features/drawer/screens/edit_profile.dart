@@ -18,6 +18,9 @@ import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_form_widget.da
 import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_number_widget.dart';
 import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_text_widget.dart';
 import 'package:inakal/features/drawer/widgets/dummy_widgets/header_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/educational_details.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/family_details.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/personal_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/additional_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/location_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
@@ -1093,11 +1096,16 @@ class _EditProfileState extends State<EditProfile> {
                   children: [
                     ProfileDetails(dropdownModel!),
                     SizedBox(height: 2,),
-                    ProfileDetails(dropdownModel!),
+                    PersonalDetails(dropdownModel!),
+                    SizedBox(height: 2,),
+                    EducationalDetails(dropdownModel!),
+                    SizedBox(height: 2,),
+                    FamilyDetails(dropdownModel!),
                     SizedBox(height: 2,),
                     LocationDetails(dropdownModel!),
                     SizedBox(height: 2,),
-                    AdditionalDetails(dropdownModel!)
+                    AdditionalDetails(dropdownModel!),
+                    SizedBox(height: 10,),
                   ],
                 ),
                 // const SizedBox(
