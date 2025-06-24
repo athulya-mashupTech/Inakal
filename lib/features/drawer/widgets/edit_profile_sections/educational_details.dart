@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
@@ -13,9 +14,9 @@ class EducationalDetails extends StatefulWidget {
 }
 
 class _EducationalDetailsState extends State<EducationalDetails> {
+  
   final TextEditingController educationController = TextEditingController();
-  final TextEditingController occupationDetailsController =
-      TextEditingController();
+  final TextEditingController occupationDetailsController = TextEditingController();
   final TextEditingController worklocationController = TextEditingController();
   String? selectedQualification;
   String? selectedGraduate;
@@ -52,6 +53,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+
                   // Highest Education
                   EditProfileDropdown(
                     label: 'Highest Education',
@@ -81,11 +83,13 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                     selectedValue: selectedQualification,
                   ),
                   const SizedBox(height: 16),
+
                   //Education Details
                   EditProfileTextFeild(
                       label: 'Education Details',
                       controller: educationController),
                   const SizedBox(height: 16),
+
                   //Occupation
                   EditProfileDropdown(
                     label: 'Occupation',
@@ -100,11 +104,13 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                     selectedValue: selectedOccupation,
                   ),
                   const SizedBox(height: 16),
+
                   //Occupation Details
                   EditProfileTextFeild(
                       label: 'Occupation Details',
                       controller: occupationDetailsController),
                   const SizedBox(height: 16),
+
                   //Annual Income
                   EditProfileDropdown(
                     label: 'Annual Income',
@@ -119,11 +125,13 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                     selectedValue: selectedIncome,
                   ),
                   const SizedBox(height: 16),
+
                   //Work Location
                   EditProfileTextFeild(
                       label: 'Work Location',
                       controller: worklocationController),
                   const SizedBox(height: 16),
+                  CustomButton(text: "Save Changes", onPressed: (){},)
                 ],
               ),
             ),
