@@ -4,7 +4,7 @@ import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/home/screens/filter_screen.dart';
+import 'package:inakal/features/filter_users/filter_screen.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 
