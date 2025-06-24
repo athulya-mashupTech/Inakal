@@ -8,18 +8,18 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
-import 'package:inakal/features/drawer/widgets/Edit_profle_dropdown.dart';
+import 'package:inakal/features/drawer/widgets/common/Edit_profle_dropdown.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
-import 'package:inakal/features/drawer/widgets/add_hobbie_widget.dart';
-import 'package:inakal/features/drawer/widgets/details_column_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/details_row_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_dropdown_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_form_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_number_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/editable_text_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/header_widget.dart';
-import 'package:inakal/features/drawer/widgets/edit_profile_widgets/profile_details.dart';
-import 'package:inakal/features/drawer/widgets/option_widget.dart';
+import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
+import 'package:inakal/features/drawer/widgets/common/details_column_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/details_row_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_dropdown_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_form_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_number_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/editable_text_widget.dart';
+import 'package:inakal/features/drawer/widgets/dummy_widgets/header_widget.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
+import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class EditProfile extends StatefulWidget {
@@ -1090,6 +1090,7 @@ class _EditProfileState extends State<EditProfile> {
                 : Column(
                   children: [
                     ProfileDetails(dropdownModel!),
+                    SizedBox(height: 2,),
                     ProfileDetails(dropdownModel!),
                   ],
                 ),
