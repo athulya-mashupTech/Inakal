@@ -4,6 +4,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
 import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
@@ -231,7 +232,26 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  CustomButton(text: "Save Changes", onPressed: (){},)
+                   CustomButton(
+                    text: "Save Changes",
+                    // onPressed: () async {
+                    //   await EditProfileService()
+                    //       .updatePersonalDetails(
+                    //           // firstName: firstNameController.text,
+                    //           // lastName: lastNameController.text,
+                    //           // email: emailController.text,
+                    //           // countryCode: _countryCode,
+                    //           // phoneNumber: _phoneNumber,
+                    //           // dob: dateOfBirthController.text,
+                    //           // gender: selectedGender ?? "",
+                    //           context: context)
+                    //       .then((value) {
+                    //     if (value!.type == "success") {
+                    //       updateProfileDetails();
+                    //     }
+                    //   });
+                    // },
+                  )
                 ],
               ),
             ),

@@ -719,14 +719,14 @@ class _EditProfileState extends State<EditProfile> {
         _childController.text);
   }
 
-  updateEducationAndProfessionalDetails() async {
-    await userController.updateEduProfDetails(
-        _highestEducationController.text,
-        _educationController.text,
-        _occupationController.text,
-        _incomeController.text,
-        _locationController.text);
-  }
+  // updateEducationAndProfessionalDetails() async {
+  //   await userController.updateEduProfDetails(
+  //       _highestEducationController.text,
+  //       _educationController.text,
+  //       _occupationController.text,
+  //       _incomeController.text,
+  //       _locationController.text);
+  // }
 
   updateFamilyDetails() async {
     await userController.updateFamilyDetails(

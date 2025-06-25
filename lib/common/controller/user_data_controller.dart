@@ -57,17 +57,21 @@ class UserDataController extends GetxController {
 
   Future<void> updateEduProfDetails(
     String highestEducation,
-    String educationDetails,
+    String qualification,
+    String educationalDetails,
     String occupation,
-    String income,
-    String location,
+    String occupationDetails,
+    String annualIncome,
+    String workLocation,
   ) async {
     userData.update((val) {
       val?.user?.highestEducation = highestEducation;
-      val?.user?.educationDetails = educationDetails;
+      val?.user?.qualification = qualification;
+      val?.user?.educationDetails = educationalDetails;
       val?.user?.occupation = occupation;
-      val?.user?.annualIncome = income;
-      val?.user?.workLocation = location;
+      val?.user?.occupationDetails = occupationDetails;
+      val?.user?.annualIncome = annualIncome;
+      val?.user?.workLocation = workLocation;
     });
   }
 
