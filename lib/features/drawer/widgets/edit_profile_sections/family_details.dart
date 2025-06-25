@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
@@ -14,6 +16,7 @@ class FamilyDetails extends StatefulWidget {
 }
 
 class _FamilyDetailsState extends State<FamilyDetails> {
+  final userController = Get.find<UserDataController>();
   final TextEditingController fatheroccupationController =
       TextEditingController();
   final TextEditingController motheroccupationController =
@@ -24,6 +27,27 @@ class _FamilyDetailsState extends State<FamilyDetails> {
       TextEditingController();
   String? selectedFamilyType;
   String? selectedFamilyStatus;
+
+  String formatLabel(String value) {
+  return value
+      .split('_') // Split by underscores
+      .map((word) => word.isNotEmpty
+          ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+          : '')
+      .join(' '); // Join with space
+}
+
+  
+  @override
+  void initState() {
+    fatheroccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
+    motheroccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
+    numberofsiblingController.text = userController.userData.value.user?.numberOfSiblings ?? "";
+    siblingmaritalstatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
+    selectedFamilyType = formatLabel(userController.userData.value.user?.familyType ?? "");
+    selectedFamilyStatus = formatLabel(userController.userData.value.user?.familyStatus ?? "");
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -60,9 +84,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   //Family Type Status
                   EditProfileDropdown(
                     label: 'Family Type',
-                    items: widget.dropdownModel.religions!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: ["Joint","Nuclear"],
                     onChanged: (value) {
                       setState(() {
                         selectedFamilyType = value;
@@ -75,9 +97,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   //Family Status feild
                   EditProfileDropdown(
                     label: 'Family Status',
-                    items: widget.dropdownModel.castes!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: ["Upper Class","Middle Class","Lower Class"],
                     onChanged: (value) {
                       setState(() {
                         selectedFamilyStatus = value;
@@ -99,10 +119,13 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                       controller: numberofsiblingController),
                   const SizedBox(height: 16),
                   EditProfileTextFeild(
-                      label: 'Sibling Marital Status',
+                      label: 'Sibling Marital Status',maxlines: 3,
                       controller: siblingmaritalstatusController),
                   const SizedBox(height: 16),
-                  CustomButton(text: "Save Changes", onPressed: (){},)
+                  CustomButton(
+                    text: "Save Changes",
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),

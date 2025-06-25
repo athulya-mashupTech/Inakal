@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
-import 'package:inakal/features/drawer/widgets/dummy_widgets/edit_dropdown_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
@@ -15,6 +16,7 @@ class LocationDetails extends StatefulWidget {
 }
 
 class _LocationDetailsState extends State<LocationDetails> {
+  final userController = Get.find<UserDataController>();
   final TextEditingController addressController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController countryController = TextEditingController();
@@ -23,6 +25,17 @@ class _LocationDetailsState extends State<LocationDetails> {
   final TextEditingController pincodeController = TextEditingController();
   String? selectedDistrict;
   String? selectedState;
+
+  @override
+  void initState() {
+    addressController.text = userController.userData.value.user?.address ?? "";
+    cityController.text = userController.userData.value.user?.currentCity ?? "";
+    countryController.text = userController.userData.value.user?.country ?? "";
+    pincodeController.text = userController.userData.value.user?.zipCode ?? "";
+    selectedDistrict = widget.dropdownModel.districts!.firstWhere((districts) => districts.id == userController.userData.value.user?.district).name ?? "";
+    selectedState = widget.dropdownModel.states!.firstWhere((states) => states.id == userController.userData.value.user?.state).name ?? "";
+    super.initState();
+  }
 
   @override
   void dispose() {
@@ -77,6 +90,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                         selectedDistrict = value;
                       });
                     },
+                    selectedValue: selectedDistrict,
                   ),
                   const SizedBox(height: 16),
                   // State - Dropdown
@@ -90,6 +104,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                         selectedDistrict = value;
                       });
                     },
+                    selectedValue: selectedState,
                   ),
                   const SizedBox(height: 16),
                   // Country - TextField
@@ -101,8 +116,11 @@ class _LocationDetailsState extends State<LocationDetails> {
                       label: 'Pincode',
                       controller: pincodeController,
                       inputType: TextInputType.number),
-                      const SizedBox(height: 16),
-                      CustomButton(text: "Save Changes", onPressed: (){},)
+                  const SizedBox(height: 16),
+                  CustomButton(
+                    text: "Save Changes",
+                    onPressed: () {},
+                  )
                 ],
               ),
             ),
