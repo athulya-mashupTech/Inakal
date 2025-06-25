@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
@@ -8,9 +7,10 @@ import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_date_picker.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ProfileDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
+   final DropdownModel dropdownModel;
   ProfileDetails(this.dropdownModel, {Key? key}) : super(key: key);
 
   @override
@@ -25,6 +25,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController dateOfBirthController = TextEditingController();
   String? selectedGender;
+  String _countryCode = '';
+  String _phoneNumber = '';
 
   @override
   void initState() {
@@ -81,8 +83,25 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   EditProfileTextFeild(
                       label: 'Email', controller: emailController),
                   const SizedBox(height: 16),
-                  EditProfileTextFeild(
-                      label: 'Phone Number', controller: phoneNumberController),
+                  IntlPhoneField(
+                    controller: phoneNumberController,
+                    decoration: InputDecoration(
+                      labelText: 'Mobile Number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        _countryCode = value.countryCode;
+                        _phoneNumber = value.number;
+                      });
+                    },
+                    initialCountryCode: 'IN',
+                  ),
+                  // EditProfileTextFeild(
+                  //     label: 'Phone Number', controller: phoneNumberController),
                   const SizedBox(height: 16),
                   EditProfileDatePicker(
                       label: 'Date of Birth',
