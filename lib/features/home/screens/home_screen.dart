@@ -7,9 +7,10 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
+import 'package:inakal/features/filter_users/screens/filtering_screen.dart';
 import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
-import 'package:inakal/features/filter_users/filter_screen.dart';
+import 'package:inakal/features/filter_users/screens/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
@@ -87,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const FilterScreen()));
+                          builder: (context) => const FilteringScreen()));
                 },
                 icon: const Icon(Icons.filter_alt_rounded,
                     color: AppColors.primaryRed)),

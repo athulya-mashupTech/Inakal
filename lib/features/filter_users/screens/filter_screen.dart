@@ -5,9 +5,9 @@ import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/filter_users/widgets/filter_button.dart';
 import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/screens/home_screen.dart';
-import 'package:inakal/features/filter_users/screens/filter_button.dart';
 import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
 
 class FilterScreen extends StatefulWidget {
