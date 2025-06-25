@@ -35,7 +35,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     emailController.text = userController.userData.value.user?.email ?? "";
     phoneNumberController.text =
         userController.userData.value.user?.phone ?? "";
-        dateOfBirthController.text = userController.userData.value.user?.dob ?? "";
+    dateOfBirthController.text = userController.userData.value.user?.dob ?? "";
     selectedGender = userController.userData.value.user?.gender ?? "";
     super.initState();
   }
@@ -90,7 +90,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   const SizedBox(height: 16),
                   EditProfileDropdown(
                     label: 'Gender',
-                    items: ["Male","Female","Other"],
+                    items: ["Male", "Female"],
                     onChanged: (value) {
                       setState(() {
                         selectedGender = value;

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
@@ -16,12 +18,24 @@ class AdditionalDetails extends StatefulWidget {
 }
 
 class _AdditionalDetailsState extends State<AdditionalDetails> {
+  final userController = Get.find<UserDataController>();
   final TextEditingController aboutController = TextEditingController();
   String? selectedSmokingHabbit;
   String? selectedDrinkingHabbit;
   String? selectedFoodPreference;
   String? selectedCreatedFor;
   List<String> hobbies = ["Dancing", "Singing"];
+
+  @override
+  void initState() { 
+    aboutController.text = userController.userData.value.user?.aboutMe ?? "";
+    selectedSmokingHabbit = userController.userData.value.user?.smokingHabits ?? "";
+    selectedDrinkingHabbit = userController.userData.value.user?.drinkingHabits ?? "";
+    selectedFoodPreference = userController.userData.value.user?.foodPreferences ?? "";
+    selectedCreatedFor = userController.userData.value.user?.created ?? "";
+    super.initState();
+    
+  }
 
   @override
   void dispose() {
@@ -88,7 +102,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               final TextEditingController _controller =
                                   TextEditingController();
                               return AlertDialog(
-                                title: Text("Add Language"),
+                                title: Text("Add Hobbies"),
                                 content: TextField(
                                   controller: _controller,
                                   decoration: InputDecoration(

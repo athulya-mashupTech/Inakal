@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
@@ -17,15 +19,10 @@ class PersonalDetails extends StatefulWidget {
 }
 
 class _PersonalDetailsState extends State<PersonalDetails> {
+  final userController = Get.find<UserDataController>();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
-  final TextEditingController religionController = TextEditingController();
-  final TextEditingController castController = TextEditingController();
-  final TextEditingController subcasteController = TextEditingController();
   final TextEditingController starController = TextEditingController();
-  final TextEditingController mothertongueController = TextEditingController();
-  final TextEditingController maritalstatusController = TextEditingController();
-  final TextEditingController languagesController = TextEditingController();
   String? selectedReligion;
   String? selectedCaste;
   String? selectedSubCaste;
@@ -33,17 +30,29 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String? selectedmotherTongue;
   List<String> languages = ["Malayalam", "English"];
 
+  String capitalizeFirstLetter(String text) {
+  if (text.isEmpty) return text;
+  return text[0].toUpperCase() + text.substring(1).toLowerCase();
+}
+
+  @override
+  void initState() { 
+    heightController.text = userController.userData.value.user?.height ?? "";
+    weightController.text = userController.userData.value.user?.weight ?? "";
+    starController.text = userController.userData.value.user?.starSign ?? "";
+    selectedReligion = widget.dropdownModel.religions!.firstWhere((religion) => religion.id == userController.userData.value.user?.religion).name ?? "";
+    selectedCaste = widget.dropdownModel.castes!.firstWhere((caste) => caste.id == userController.userData.value.user?.caste).name ?? "";
+    selectedSubCaste = widget.dropdownModel.subcastes!.firstWhere((subcaste) => subcaste.id == userController.userData.value.user?.subCaste).name ?? "";
+    selectedmaritalStatus = capitalizeFirstLetter(userController.userData.value.user?.maritalStatus ?? "");
+    selectedmotherTongue = widget.dropdownModel.languages!.firstWhere((languages) => languages.id == userController.userData.value.user?.motherTongue).name ?? "";
+    super.initState();
+  }
+
   @override
   void dispose() {
     heightController.dispose();
     weightController.dispose();
-    religionController.dispose();
-    castController.dispose();
-    subcasteController.dispose();
     starController.dispose();
-    mothertongueController.dispose();
-    maritalstatusController.dispose();
-    languagesController.dispose();
     super.dispose();
   }
 
@@ -158,6 +167,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   const SizedBox(height: 16),
 
                   //languages known
+                  Text("Languages Known",
+                      style: TextStyle(color: AppColors.grey, fontSize: 14)),
+                  SizedBox(height: 10),
                       Wrap(
                     spacing: 5,
                     runSpacing: 10,
@@ -218,6 +230,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                       )
                     ],
                   ),
+                  SizedBox(height: 16),
                   CustomButton(text: "Save Changes", onPressed: (){},)
                 ],
               ),
