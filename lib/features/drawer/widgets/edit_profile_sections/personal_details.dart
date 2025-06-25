@@ -10,7 +10,7 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
 class PersonalDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
+    DropdownModel dropdownModel;
 
   PersonalDetails(this.dropdownModel, {super.key});
 
