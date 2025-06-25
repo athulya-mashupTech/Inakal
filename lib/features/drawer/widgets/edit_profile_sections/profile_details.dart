@@ -4,13 +4,14 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_date_picker.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ProfileDetails extends StatefulWidget {
-   final DropdownModel dropdownModel;
+  final DropdownModel dropdownModel;
   ProfileDetails(this.dropdownModel, {Key? key}) : super(key: key);
 
   @override
@@ -28,6 +29,18 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   String _countryCode = '';
   String _phoneNumber = '';
 
+  updateProfileDetails() async {
+    await userController.updateProfileDetails(
+      firstNameController.text,
+      lastNameController.text,
+      emailController.text,
+      _phoneNumber,
+      _countryCode,
+      dateOfBirthController.text,
+      selectedGender!,
+    );
+  }
+
   @override
   void initState() {
     firstNameController.text =
@@ -37,6 +50,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     emailController.text = userController.userData.value.user?.email ?? "";
     phoneNumberController.text =
         userController.userData.value.user?.phone ?? "";
+    _phoneNumber = userController.userData.value.user?.phone ?? "";
+    _countryCode = "+${userController.userData.value.user?.countryCode}";
+    print(_countryCode);
     dateOfBirthController.text = userController.userData.value.user?.dob ?? "";
     selectedGender = userController.userData.value.user?.gender ?? "";
     super.initState();
@@ -120,7 +136,23 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                   const SizedBox(height: 16),
                   CustomButton(
                     text: "Save Changes",
-                    onPressed: () {},
+                    onPressed: () async {
+                      await EditProfileService()
+                          .updateProfileDetails(
+                              firstName: firstNameController.text,
+                              lastName: lastNameController.text,
+                              email: emailController.text,
+                              countryCode: _countryCode,
+                              phoneNumber: _phoneNumber,
+                              dob: dateOfBirthController.text,
+                              gender: selectedGender ?? "",
+                              context: context)
+                          .then((value) {
+                        if (value!.type == "success") {
+                          updateProfileDetails();
+                        }
+                      });
+                    },
                   )
                 ],
               ),
