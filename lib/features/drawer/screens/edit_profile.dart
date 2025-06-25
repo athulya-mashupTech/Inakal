@@ -694,16 +694,16 @@ class _EditProfileState extends State<EditProfile> {
     });
   }
 
-  updateProfileDetails() async {
-    await userController.updateProfileDetails(
-      _fNameController.text,
-      _sNameController.text,
-      _emailController.text,
-      _phNoController.text,
-      _dobController.text,
-      _genderController.text,
-    );
-  }
+  // updateProfileDetails() async {
+  //   await userController.updateProfileDetails(
+  //     _fNameController.text,
+  //     _sNameController.text,
+  //     _emailController.text,
+  //     _phNoController.text,
+  //     _dobController.text,
+  //     _genderController.text,
+  //   );
+  // }
 
   updatePersonalDetails() async {
     await userController.updatePersonalDetails(

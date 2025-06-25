@@ -16,19 +16,26 @@ class EditProfileService {
 
   // profile data update
   Future<UserDataUpdateModel?> updateProfileDetails({
-    required UserDataModel userData,
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String countryCode,
+    required String phoneNumber,
+    required String dob,
+    required String gender,
     required BuildContext context,
   }) async {
     try {
+      print("Code: ${countryCode.substring(1)}");
       final response =
           await _sendPostRequest(url: userProfileUpdateUrl, fields: {
-        "first_name": userData.user!.firstName!,
-        "last_name": userData.user!.lastName!,
-        "country_code": userData.user!.countryCode!,
-        "phone": userData.user!.phone!,
-        "email": userData.user!.email!,
-        "dob": userData.user!.dob!,
-        "gender": userData.user!.gender!
+        "first_name": firstName,
+        "last_name": lastName,
+        "country_code": countryCode.substring(1),
+        "phone": phoneNumber,
+        "email": email,
+        "dob": dob,
+        "gender": gender
       });
 
       if (response.statusCode == 200) {
@@ -194,7 +201,7 @@ class EditProfileService {
         final userController = Get.find<UserDataController>();
         userController.setUserData(userData);
         // Updating GetX data
-        
+
         return dropdownModel;
       } else {
         // print("Error: ${response.statusCode}");

@@ -14,6 +14,7 @@ class UserDataController extends GetxController {
     String lastName,
     String email,
     String phone,
+    String countryCode,
     String dob,
     String gender,
   ) async {
@@ -22,6 +23,7 @@ class UserDataController extends GetxController {
       val?.user?.lastName = lastName;
       val?.user?.email = email;
       val?.user?.phone = phone;
+      val?.user?.countryCode = countryCode;
       val?.user?.dob = dob;
       val?.user?.gender = gender;
     });
@@ -126,7 +128,7 @@ class UserDataController extends GetxController {
       val?.user?.currentCity = currentCity;
     });
   }
-  
+
   Future<void> updateAdditionalDetails(
     String aboutMe,
     String smokingHabbits,
