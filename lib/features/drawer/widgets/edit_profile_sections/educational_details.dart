@@ -4,6 +4,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
@@ -34,13 +35,29 @@ class _EducationalDetailsState extends State<EducationalDetails> {
         userController.userData.value.user?.occupationDetails ?? "";
     worklocationController.text =
         userController.userData.value.user?.occupation ?? "";
-    selectedQualification =
-        widget.dropdownModel.qualifications!.firstWhere((qualifications) => qualifications.id == userController.userData.value.user?.qualification).name ?? "";
-    selectedHighestEducation =
-        widget.dropdownModel.highestEducations!.firstWhere((highesteducation) => highesteducation.id == userController.userData.value.user?.highestEducation).name ?? "";
-    selectedOccupation = widget.dropdownModel.occupations!.firstWhere((occupation) => occupation.id == userController.userData.value.user?.occupation).name ?? "";
+    selectedQualification = widget.dropdownModel.qualifications!
+            .firstWhere((qualifications) =>
+                qualifications.id ==
+                userController.userData.value.user?.qualification)
+            .name ??
+        "";
+    selectedHighestEducation = widget.dropdownModel.highestEducations!
+            .firstWhere((highesteducation) =>
+                highesteducation.id ==
+                userController.userData.value.user?.highestEducation)
+            .name ??
+        "";
+    selectedOccupation = widget.dropdownModel.occupations!
+            .firstWhere((occupation) =>
+                occupation.id == userController.userData.value.user?.occupation)
+            .name ??
+        "";
     selectedIncome = userController.userData.value.user?.annualIncome ?? "";
     super.initState();
+  }
+
+  updateEducationAndProfessionalDetails() async {
+    await userController.updateEduProfDetails(selectedHighestEducation ?? "", selectedQualification ?? "", educationController.text, selectedOccupation ??"", occupationDetailsController.text, selectedIncome ?? "", worklocationController.text);
   }
 
   @override
@@ -133,7 +150,19 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   //Annual Income
                   EditProfileDropdown(
                     label: 'Annual Income',
-                    items: ["1-3","3-5","5-7","7-10","10-15","15-20","20-30","30-50","50-75","75-100","100-200"],
+                    items: [
+                      "1-3",
+                      "3-5",
+                      "5-7",
+                      "7-10",
+                      "10-15",
+                      "15-20",
+                      "20-30",
+                      "30-50",
+                      "50-75",
+                      "75-100",
+                      "100-200"
+                    ],
                     onChanged: (value) {
                       setState(() {
                         selectedIncome = value;
@@ -150,7 +179,24 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   const SizedBox(height: 16),
                   CustomButton(
                     text: "Save Changes",
-                    onPressed: () {},
+                    onPressed: () async {
+                      await EditProfileService()
+                          .updateEducationAndProfessionalDetails(
+                              highestEducation: educationController.text,
+                              qualification: selectedQualification ?? "",
+                              occupation: selectedOccupation ?? "",
+                              occupationDetails:
+                                  occupationDetailsController.text,
+                              workLocation: worklocationController.text,
+                              educationalDetails: educationController.text,
+                              annualIncome: selectedIncome ?? "",
+                              context: context)
+                          .then((value) {
+                        if (value!.type == "success") {
+                          updateEducationAndProfessionalDetails();
+                        }
+                      });
+                    },
                   )
                 ],
               ),

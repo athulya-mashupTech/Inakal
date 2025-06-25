@@ -114,17 +114,25 @@ class EditProfileService {
 
   // education and professional update
   Future<UserDataUpdateModel?> updateEducationAndProfessionalDetails({
-    required UserDataModel userData,
+    required String highestEducation,
+    required String qualification,
+    required String educationalDetails,
+    required String occupation,
+    required String occupationDetails,
+    required String annualIncome,
+    required String workLocation,
     required BuildContext context,
   }) async {
     try {
       final response =
           await _sendPostRequest(url: userEduProfUpdateUrl, fields: {
-        "highest_education": userData.user!.highestEducation!,
-        "education_details": userData.user!.educationDetails!,
-        "occupation": userData.user!.occupation!,
-        "annual_income": userData.user!.annualIncome!,
-        "work_location": userData.user!.workLocation!
+        "highest_education": highestEducation,
+        "qualification": qualification,
+        "education_details": educationalDetails,
+        "occupation": occupation,
+        "occupational_details":occupationDetails,
+        "annual_income": annualIncome,
+        "work_location": workLocation
       });
 
       if (response.statusCode == 200) {
