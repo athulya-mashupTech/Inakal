@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
@@ -186,11 +187,18 @@ class EditProfileService {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
         final dropdownModel = DropdownModel.fromJson(jsonResponse);
+
+        // Updating GetX data
+        final user = User.fromJson(jsonResponse);
+        final userData = UserDataModel(user: user);
+        final userController = Get.find<UserDataController>();
+        userController.setUserData(userData);
+        // Updating GetX data
+        
         return dropdownModel;
       } else {
         // print("Error: ${response.statusCode}");
-        _showSnackbar(
-            context, "Failed to fetch dropdown options");
+        _showSnackbar(context, "Failed to fetch dropdown options");
         return null;
       }
     } catch (e) {
