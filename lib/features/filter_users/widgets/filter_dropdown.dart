@@ -5,6 +5,7 @@ class FilterDropdown extends StatefulWidget {
   final String label;
   final List<String> items;
   final ValueChanged<String> onChanged;
+  TextEditingController valueController;
   String? selectedValue;
 
   FilterDropdown({
@@ -12,6 +13,7 @@ class FilterDropdown extends StatefulWidget {
     required this.items,
     required this.onChanged,
     this.selectedValue,
+    required this.valueController,
     super.key,
   });
 
@@ -95,125 +97,146 @@ class _FilterDropdownState extends State<FilterDropdown> {
     RenderBox renderBox =
         dropdownKey.currentContext!.findRenderObject() as RenderBox;
     Size size = renderBox.size;
+    Offset offset = renderBox.localToGlobal(Offset.zero);
 
     return OverlayEntry(
-      builder: (context) => Positioned(
-        width: size.width,
-        child: CompositedTransformFollower(
-          link: layerLink,
-          showWhenUnlinked: false,
-          offset: Offset(0.0, size.height + 5.0),
-          child: Material(
-            elevation: 8,
-            borderRadius: BorderRadius.circular(8),
+      builder: (context) => Stack(
+        children: [
+          // This captures taps outside the dropdown
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: _closeDropdown,
             child: Container(
-              constraints: const BoxConstraints(maxHeight: 250),
-              decoration: BoxDecoration(
-                color: Colors.white,
+              color: Colors.transparent,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+            ),
+          ),
+          Positioned(
+            left: offset.dx,
+            top: offset.dy + size.height + 5.0,
+            width: size.width,
+            child: CompositedTransformFollower(
+              link: layerLink,
+              showWhenUnlinked: false,
+              offset: Offset(0.0, size.height + 5.0),
+              child: Material(
+                elevation: 8,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: Colors.grey.shade300),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Search bar
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: searchController,
-                      decoration: InputDecoration(
-                        hintText: 'Search ${widget.label}...',
-                        prefixIcon: const Icon(Icons.search, size: 20),
-                        contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide: BorderSide(color: Colors.grey.shade300),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(6),
-                          borderSide:
-                              const BorderSide(color: AppColors.primaryRed),
-                        ),
-                        isDense: true,
-                      ),
-                      autofocus: true,
-                    ),
+                child: Container(
+                  constraints: const BoxConstraints(maxHeight: 250),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey.shade300),
                   ),
-                  const Divider(height: 1),
-                  // Options list
-                  Flexible(
-                    child: filteredItems.isEmpty
-                        ? const Padding(
-                            padding: EdgeInsets.all(20.0),
-                            child: Center(
-                              child: Text(
-                                "No matches found",
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 14,
-                                ),
-                              ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      // Search bar
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextField(
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            hintText: 'Search ${widget.label}...',
+                            prefixIcon: const Icon(Icons.search, size: 20),
+                            contentPadding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide:
+                                  BorderSide(color: Colors.grey.shade300),
                             ),
-                          )
-                        : ListView.builder(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.zero,
-                            itemCount: filteredItems.length,
-                            itemBuilder: (context, index) {
-                              final item = filteredItems[index];
-                              final isSelected = item == widget.selectedValue;
-
-                              return InkWell(
-                                onTap: () {
-                                  widget.onChanged(item);
-                                  setState(() {
-                                    widget.selectedValue = item;
-                                  });
-                                  _closeDropdown();
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 16, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? AppColors.primaryRed.withOpacity(0.1)
-                                        : null,
-                                  ),
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: Text(
-                                          item,
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            color: isSelected
-                                                ? AppColors.primaryRed
-                                                : Colors.black87,
-                                            fontWeight: isSelected
-                                                ? FontWeight.w600
-                                                : FontWeight.normal,
-                                          ),
-                                        ),
-                                      ),
-                                      if (isSelected)
-                                        const Icon(
-                                          Icons.check,
-                                          size: 18,
-                                          color: AppColors.primaryRed,
-                                        ),
-                                    ],
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(6),
+                              borderSide:
+                                  const BorderSide(color: AppColors.primaryRed),
+                            ),
+                            isDense: true,
+                          ),
+                          autofocus: true,
+                        ),
+                      ),
+                      const Divider(height: 1),
+                      // Options list
+                      Flexible(
+                        child: filteredItems.isEmpty
+                            ? const SizedBox(
+                                height: 100,
+                                child: Center(
+                                  child: Text(
+                                    "No matches found",
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 14,
+                                    ),
                                   ),
                                 ),
-                              );
-                            },
-                          ),
+                              )
+                            : ListView.builder(
+                                shrinkWrap: true,
+                                padding: EdgeInsets.zero,
+                                itemCount: filteredItems.length,
+                                itemBuilder: (context, index) {
+                                  final item = filteredItems[index];
+                                  final isSelected =
+                                      item == widget.selectedValue;
+
+                                  return InkWell(
+                                    onTap: () {
+                                      widget.onChanged(item);
+                                      setState(() {
+                                        widget.selectedValue = item;
+                                        widget.valueController.text = item;
+                                      });
+                                      _closeDropdown();
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 12),
+                                      decoration: BoxDecoration(
+                                        color: isSelected
+                                            ? AppColors.primaryRed
+                                                .withOpacity(0.1)
+                                            : null,
+                                      ),
+                                      child: Row(
+                                        children: [
+                                          Expanded(
+                                            child: Text(
+                                              item,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: isSelected
+                                                    ? AppColors.primaryRed
+                                                    : Colors.black87,
+                                                fontWeight: isSelected
+                                                    ? FontWeight.w600
+                                                    : FontWeight.normal,
+                                              ),
+                                            ),
+                                          ),
+                                          if (isSelected)
+                                            const Icon(
+                                              Icons.check,
+                                              size: 18,
+                                              color: AppColors.primaryRed,
+                                            ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -236,26 +259,33 @@ class _FilterDropdownState extends State<FilterDropdown> {
           link: layerLink,
           child: GestureDetector(
             key: dropdownKey,
-            onTap: _toggleDropdown,
-            child: TextFormField(
-              maxLines: 1,
-              // controller: controller,
-              initialValue: widget.selectedValue,
-              enabled: false,
-              decoration: InputDecoration(
-                labelText: "Religion",
-                fillColor: AppColors.white,
-                labelStyle: TextStyle(color: AppColors.grey, fontSize: 14),
-                border: const OutlineInputBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                focusedBorder: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)),
-                  borderSide: BorderSide(color: AppColors.primaryRed),
+            onTap: () {
+              FocusScope.of(context)
+                  .unfocus(); // Prevents keyboard from opening
+              _toggleDropdown(); // Opens your overlay
+            },
+            child: AbsorbPointer(
+              // Prevents interaction with the field itself
+              child: TextFormField(
+                maxLines: 1,
+                readOnly: true,
+                controller: widget.valueController, // Already has the selected value
+                decoration: InputDecoration(
+                  labelText: widget.label,
+                  fillColor: AppColors.white,
+                  labelStyle: TextStyle(color: AppColors.grey, fontSize: 14),
+                  border: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
+                    borderSide: BorderSide(color: AppColors.primaryRed),
+                  ),
                 ),
               ),
             ),
           ),
-        ),
+        )
       ],
     );
   }

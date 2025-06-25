@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';
 
 class FilteringScreen extends StatefulWidget {
@@ -13,6 +15,31 @@ class FilteringScreen extends StatefulWidget {
 class _FilteringScreenState extends State<FilteringScreen> {
   String? selectedReligion;
   String? selectedCaste;
+  TextEditingController religionController = TextEditingController();
+  TextEditingController casteController = TextEditingController();
+  TextEditingController subcasteController = TextEditingController();
+  DropdownModel? dropdownModel;
+  bool _isLoading = true;
+
+  Future<void> _loadDropdownOptions() async {
+    await EditProfileService()
+        .getDropdownOptions(context: context)
+        .then((value) {
+      setState(() {
+        dropdownModel = value;
+      });
+    });
+
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
+  @override
+  void initState() {
+    _loadDropdownOptions();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,23 +72,33 @@ class _FilteringScreenState extends State<FilteringScreen> {
                 ],
               ),
               const SizedBox(height: 10),
-              FilterDropdown(
-                  label: "Religon",
-                  items: ["Hindu", "Christian", "Muslim"],
-                  onChanged: (value) {
-                      setState(() {
-                        selectedReligion = value;
-                      });
-                    }),
-
-                    FilterDropdown(
-                  label: "Caste",
-                  items: ["Hindu", "Christian", "Muslim"],
-                  onChanged: (value) {
-                      setState(() {
-                        selectedCaste = value;
-                      });
-                    })
+              _isLoading
+              ? SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.5,
+                        child: Center(child: CircularProgressIndicator()))
+              : Column(
+                children: [
+                  FilterDropdown(
+                      label: "Religion",
+                      items: dropdownModel!.religions!.map((item) => item.name ?? "").toList(),
+                      valueController: religionController,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedReligion = value;
+                        });
+                      }),
+                  const SizedBox(height: 10),
+                  FilterDropdown(
+                      label: "Caste",
+                      items: ["Hindu", "Christian", "Muslim"],
+                      valueController: casteController,
+                      onChanged: (value) {
+                        setState(() {
+                          selectedCaste = value;
+                        });
+                      })
+                ],
+              )
             ],
           ),
         ),
