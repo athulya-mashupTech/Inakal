@@ -12,6 +12,7 @@ class FilteringScreen extends StatefulWidget {
 
 class _FilteringScreenState extends State<FilteringScreen> {
   String? selectedReligion;
+  String? selectedCaste;
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,15 @@ class _FilteringScreenState extends State<FilteringScreen> {
                   onChanged: (value) {
                       setState(() {
                         selectedReligion = value;
+                      });
+                    }),
+
+                    FilterDropdown(
+                  label: "Caste",
+                  items: ["Hindu", "Christian", "Muslim"],
+                  onChanged: (value) {
+                      setState(() {
+                        selectedCaste = value;
                       });
                     })
             ],
