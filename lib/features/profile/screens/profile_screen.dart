@@ -314,7 +314,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Container(
+                        Obx(() => Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15),
                             border: Border.all(
@@ -340,7 +340,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ),
                             ),
                           ),
-                        ),
+                        )),
                         const SizedBox(width: 16),
                         Expanded(
                           child: Padding(

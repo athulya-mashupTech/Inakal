@@ -27,6 +27,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   String? selectedCreatedBy;
   List<String> hobbies = [];
 
+  bool isSaving = false;
+
   @override
   void initState() {
     aboutController.text = userController.userData.value.user?.aboutMe ?? "";
@@ -235,19 +237,40 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                     selectedValue: selectedCreatedBy,
                   ),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: () async {
-                      await EditProfileService().updateAdditionalDetails(
-                          about_me: aboutController.text,
-                          hobbies: hobbies.join(","),
-                          smoking_habits: formatBackToKey(selectedSmokingHabbit ?? ""),
-                          drinking_habits: formatBackToKey(selectedDrinkingHabbit ?? ""),
-                          food_preferences: formatBackToKey(selectedFoodPreference ?? ""),
-                          profile_created_by: selectedCreatedBy ?? "",
-                          context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            await EditProfileService()
+                                .updateAdditionalDetails(
+                                    about_me: aboutController.text,
+                                    hobbies: hobbies.join(","),
+                                    smoking_habits: formatBackToKey(
+                                        selectedSmokingHabbit ?? ""),
+                                    drinking_habits: formatBackToKey(
+                                        selectedDrinkingHabbit ?? ""),
+                                    food_preferences: formatBackToKey(
+                                        selectedFoodPreference ?? ""),
+                                    profile_created_by: selectedCreatedBy ?? "",
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),

@@ -27,6 +27,8 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedOccupation;
   String? selectedIncome;
 
+  bool isSaving = false;
+
   @override
   void initState() {
     educationController.text =
@@ -173,39 +175,64 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                       label: 'Work Location',
                       controller: worklocationController),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: () async {
-                      print(widget.dropdownModel.qualifications!
-                              .firstWhere((qualification) =>
-                                  qualification.name == selectedQualification)
-                              .id ??
-                          "");
-                      await EditProfileService().updateEducationAndProfessionalDetails(
-                          highestEducation: widget
-                                  .dropdownModel.highestEducations!
-                                  .firstWhere((edu) =>
-                                      edu.name == selectedHighestEducation)
-                                  .id ??
-                              "",
-                          qualification: widget.dropdownModel.qualifications!
-                                  .firstWhere((qualification) =>
-                                      qualification.name ==
-                                      selectedQualification)
-                                  .id ??
-                              "",
-                          occupation: widget.dropdownModel.occupations!
-                                  .firstWhere((occupation) =>
-                                      occupation.name == selectedOccupation)
-                                  .id ??
-                              "",
-                          occupationDetails: occupationDetailsController.text,
-                          workLocation: worklocationController.text,
-                          educationalDetails: educationController.text,
-                          annualIncome: selectedIncome ?? "",
-                          context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            print(widget.dropdownModel.qualifications!
+                                    .firstWhere((qualification) =>
+                                        qualification.name ==
+                                        selectedQualification)
+                                    .id ??
+                                "");
+                            await EditProfileService()
+                                .updateEducationAndProfessionalDetails(
+                                    highestEducation: widget
+                                            .dropdownModel.highestEducations!
+                                            .firstWhere((edu) =>
+                                                edu.name ==
+                                                selectedHighestEducation)
+                                            .id ??
+                                        "",
+                                    qualification: widget
+                                            .dropdownModel.qualifications!
+                                            .firstWhere((qualification) =>
+                                                qualification.name ==
+                                                selectedQualification)
+                                            .id ??
+                                        "",
+                                    occupation: widget
+                                            .dropdownModel.occupations!
+                                            .firstWhere((occupation) =>
+                                                occupation.name ==
+                                                selectedOccupation)
+                                            .id ??
+                                        "",
+                                    occupationDetails:
+                                        occupationDetailsController.text,
+                                    workLocation: worklocationController.text,
+                                    educationalDetails:
+                                        educationController.text,
+                                    annualIncome: selectedIncome ?? "",
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),

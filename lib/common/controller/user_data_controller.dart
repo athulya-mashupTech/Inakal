@@ -29,6 +29,14 @@ class UserDataController extends GetxController {
     });
   }
 
+  Future<void> updateProfilePicture(
+    String imageUrl,
+  ) async {
+    userData.update((val) {
+      val?.user?.image = imageUrl;
+    });
+  }
+
   Future<void> updatePersonalDetails(
     String height,
     String weight,
