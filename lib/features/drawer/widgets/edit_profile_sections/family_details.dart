@@ -4,6 +4,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
@@ -29,23 +30,36 @@ class _FamilyDetailsState extends State<FamilyDetails> {
   String? selectedFamilyStatus;
 
   String formatLabel(String value) {
+    return value
+        .split('_') // Split by underscores
+        .map((word) => word.isNotEmpty
+            ? word[0].toUpperCase() + word.substring(1).toLowerCase()
+            : '')
+        .join(' '); // Join with space
+  }
+
+  String formatBackToKey(String value) {
   return value
-      .split('_') // Split by underscores
-      .map((word) => word.isNotEmpty
-          ? word[0].toUpperCase() + word.substring(1).toLowerCase()
-          : '')
-      .join(' '); // Join with space
+      .trim() // Remove leading/trailing spaces
+      .toLowerCase() // Convert entire string to lowercase
+      .replaceAll(' ', '_'); // Replace spaces with underscores
 }
 
-  
+
   @override
   void initState() {
-    fatheroccupationController.text = userController.userData.value.user?.fathersOccupation ?? "";
-    motheroccupationController.text = userController.userData.value.user?.mothersOccupation ?? "";
-    numberofsiblingController.text = userController.userData.value.user?.numberOfSiblings ?? "";
-    siblingmaritalstatusController.text = userController.userData.value.user?.siblingsMaritalStatus ?? "";
-    selectedFamilyType = formatLabel(userController.userData.value.user?.familyType ?? "");
-    selectedFamilyStatus = formatLabel(userController.userData.value.user?.familyStatus ?? "");
+    fatheroccupationController.text =
+        userController.userData.value.user?.fathersOccupation ?? "";
+    motheroccupationController.text =
+        userController.userData.value.user?.mothersOccupation ?? "";
+    numberofsiblingController.text =
+        userController.userData.value.user?.numberOfSiblings ?? "";
+    siblingmaritalstatusController.text =
+        userController.userData.value.user?.siblingsMaritalStatus ?? "";
+    selectedFamilyType =
+        formatLabel(userController.userData.value.user?.familyType ?? "");
+    selectedFamilyStatus =
+        formatLabel(userController.userData.value.user?.familyStatus ?? "");
     super.initState();
   }
 
@@ -84,7 +98,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   //Family Type Status
                   EditProfileDropdown(
                     label: 'Family Type',
-                    items: ["Joint","Nuclear"],
+                    items: ["Joint", "Nuclear"],
                     onChanged: (value) {
                       setState(() {
                         selectedFamilyType = value;
@@ -95,17 +109,17 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   const SizedBox(height: 16),
 
                   //Family Status feild
-                  EditProfileDropdown(
-                    label: 'Family Status',
-                    items: ["Upper Class","Middle Class","Lower Class"],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedFamilyStatus = value;
-                      });
-                    },
-                    selectedValue: selectedFamilyStatus,
-                  ),
-                  const SizedBox(height: 16),
+                  // EditProfileDropdown(
+                  //   label: 'Family Status',
+                  //   items: ["Upper Class", "Middle Class", "Lower Class"],
+                  //   onChanged: (value) {
+                  //     setState(() {
+                  //       selectedFamilyStatus = value;
+                  //     });
+                  //   },
+                  //   selectedValue: selectedFamilyStatus,
+                  // ),
+                  // const SizedBox(height: 16),
                   EditProfileTextFeild(
                       label: 'Fathers Occupation',
                       controller: fatheroccupationController),
@@ -119,12 +133,22 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                       controller: numberofsiblingController),
                   const SizedBox(height: 16),
                   EditProfileTextFeild(
-                      label: 'Sibling Marital Status',maxlines: 3,
+                      label: 'Sibling Marital Status',
+                      maxlines: 3,
                       controller: siblingmaritalstatusController),
                   const SizedBox(height: 16),
                   CustomButton(
                     text: "Save Changes",
-                    onPressed: () {},
+                    onPressed: ()async {
+                     await  EditProfileService().updateFamilyDetails(
+                          familyType: formatBackToKey(selectedFamilyType ?? ""),
+                          mothersOccupation: motheroccupationController.text,
+                          fathersOccupation: fatheroccupationController.text,
+                          numberOfSiblings: numberofsiblingController.text,
+                          siblingsMaritalStatus:
+                              siblingmaritalstatusController.text,
+                          context: context);
+                    },
                   )
                 ],
               ),

@@ -171,17 +171,21 @@ class EditProfileService {
 
 // family details update
   Future<UserDataUpdateModel?> updateFamilyDetails({
-    required UserDataModel userData,
+    required String familyType,
+    required String mothersOccupation,
+    required String fathersOccupation,
+    required String numberOfSiblings,
+    required String siblingsMaritalStatus,
     required BuildContext context,
   }) async {
     try {
       final response =
           await _sendPostRequest(url: userFamilyUpdateUrl, fields: {
-        "family_type": userData.user!.familyType!,
-        "mothers_occupation": userData.user!.mothersOccupation!,
-        "fathers_occupation": userData.user!.fathersOccupation!,
-        "number_of_siblings": userData.user!.numberOfSiblings!,
-        "siblings_marital_status": userData.user!.siblingsMaritalStatus!,
+        "family_type": familyType,
+        "mothers_occupation": mothersOccupation,
+        "fathers_occupation": fathersOccupation,
+        "number_of_siblings": numberOfSiblings,
+        "siblings_marital_status": siblingsMaritalStatus,
       });
 
       if (response.statusCode == 200) {
