@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inakal/common/screen/otp_check_screen.dart';
 import 'package:inakal/common/services/mobile_number_check_service.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';

@@ -1,16 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
-import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
-import 'package:inakal/features/auth/service/auth_service.dart';
 
 class RegistrationPassword extends StatefulWidget {
   const RegistrationPassword({super.key});

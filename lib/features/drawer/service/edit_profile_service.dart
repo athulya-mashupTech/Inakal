@@ -7,7 +7,6 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
-import 'package:inakal/features/auth/model/user_registration_data_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
 
@@ -130,7 +129,7 @@ class EditProfileService {
         "qualification": qualification,
         "education_details": educationalDetails,
         "occupation": occupation,
-        "occupational_details":occupationDetails,
+        "occupational_details": occupationDetails,
         "annual_income": annualIncome,
         "work_location": workLocation
       });
@@ -200,6 +199,7 @@ class EditProfileService {
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
+        print("Response : $responseBody");
         final jsonResponse = json.decode(responseBody);
         final dropdownModel = DropdownModel.fromJson(jsonResponse);
 
@@ -224,18 +224,23 @@ class EditProfileService {
 
 // Location details update
   Future<UserDataUpdateModel?> updateLocationDetails({
-    required UserDataModel userData,
+    required String address,
+    required String city,
+    required String district,
+    required String state,
+    required String country,
+    required String zipcode,
     required BuildContext context,
   }) async {
     try {
       final response =
           await _sendPostRequest(url: userLocationUpdateUrl, fields: {
-        "address": userData.user!.address!,
-        "district": userData.user!.district!,
-        "state": userData.user!.state!,
-        "country": userData.user!.country!,
-        "zipCode": userData.user!.zipCode!,
-        "current_city": userData.user!.currentCity!,
+        "address": address,
+        "district": district,
+        "state": state,
+        "country": country,
+        "zipCode": zipcode,
+        "current_city": city,
       });
 
       if (response.statusCode == 200) {
