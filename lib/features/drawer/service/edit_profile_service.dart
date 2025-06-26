@@ -280,27 +280,27 @@ class EditProfileService {
 
 //Additional details update
   Future<UserDataUpdateModel?> updateAdditionalDetails({
-    required UserDataModel userData,
+    required String about_me,
+    required String hobbies,
+    required String smoking_habits,
+    required String drinking_habits,
+    required String food_preferences,
+    required String profile_created_by,
     required BuildContext context,
   }) async {
     try {
       final response =
           await _sendPostRequest(url: userAdditionalDetailUpdateUrl, fields: {
-        "about_me": userData.user!.aboutMe!,
-        "hobbies": "${userData.user?.hobbies!}"
+        "about_me": about_me,
+        "hobbies": hobbies
             .split(',')
             .map((lang) => {'"value"': '"${lang.trim()}"'})
             .toList()
             .toString(),
-        "smoking_habits": userData.user!.smokingHabits!,
-        "drinking_habits": userData.user!.drinkingHabits!,
-        "food_preferences": userData.user!.foodPreferences!,
-        "profile_approved": userData.user!.profileApproved!,
-        "profile_created_by": userData.user!.profileCreatedBy!,
-        "instagram_link": userData.user!.instagramLink!,
-        "facebook_link": userData.user!.facebookLink!,
-        "linkedin_link": userData.user!.linkedinLink!,
-        "youtube_link": userData.user!.youtubeLink!,
+        "smoking_habits": smoking_habits,
+        "drinking_habits": drinking_habits,
+        "food_preferences": food_preferences,
+        "profile_created_by": profile_created_by,
       });
 
       if (response.statusCode == 200) {
