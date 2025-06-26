@@ -34,7 +34,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
     occupationDetailsController.text =
         userController.userData.value.user?.occupationDetails ?? "";
     worklocationController.text =
-        userController.userData.value.user?.occupation ?? "";
+        userController.userData.value.user?.workLocation ?? "";
     selectedQualification = widget.dropdownModel.qualifications!
             .firstWhere((qualifications) =>
                 qualifications.id ==
@@ -54,10 +54,6 @@ class _EducationalDetailsState extends State<EducationalDetails> {
         "";
     selectedIncome = userController.userData.value.user?.annualIncome ?? "";
     super.initState();
-  }
-
-  updateEducationAndProfessionalDetails() async {
-    await userController.updateEduProfDetails(selectedHighestEducation ?? "", selectedQualification ?? "", educationController.text, selectedOccupation ??"", occupationDetailsController.text, selectedIncome ?? "", worklocationController.text);
   }
 
   @override
@@ -180,22 +176,34 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   CustomButton(
                     text: "Save Changes",
                     onPressed: () async {
-                      await EditProfileService()
-                          .updateEducationAndProfessionalDetails(
-                              highestEducation: educationController.text,
-                              qualification: selectedQualification ?? "",
-                              occupation: selectedOccupation ?? "",
-                              occupationDetails:
-                                  occupationDetailsController.text,
-                              workLocation: worklocationController.text,
-                              educationalDetails: educationController.text,
-                              annualIncome: selectedIncome ?? "",
-                              context: context)
-                          .then((value) {
-                        if (value!.type == "success") {
-                          updateEducationAndProfessionalDetails();
-                        }
-                      });
+                      print(widget.dropdownModel.qualifications!
+                              .firstWhere((qualification) =>
+                                  qualification.name == selectedQualification)
+                              .id ??
+                          "");
+                      await EditProfileService().updateEducationAndProfessionalDetails(
+                          highestEducation: widget
+                                  .dropdownModel.highestEducations!
+                                  .firstWhere((edu) =>
+                                      edu.name == selectedHighestEducation)
+                                  .id ??
+                              "",
+                          qualification: widget.dropdownModel.qualifications!
+                                  .firstWhere((qualification) =>
+                                      qualification.name ==
+                                      selectedQualification)
+                                  .id ??
+                              "",
+                          occupation: widget.dropdownModel.occupations!
+                                  .firstWhere((occupation) =>
+                                      occupation.name == selectedOccupation)
+                                  .id ??
+                              "",
+                          occupationDetails: occupationDetailsController.text,
+                          workLocation: worklocationController.text,
+                          educationalDetails: educationController.text,
+                          annualIncome: selectedIncome ?? "",
+                          context: context);
                     },
                   )
                 ],

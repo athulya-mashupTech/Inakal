@@ -9,9 +9,10 @@ import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
 import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 
 class PersonalDetails extends StatefulWidget {
-    DropdownModel dropdownModel;
+  DropdownModel dropdownModel;
 
   PersonalDetails(this.dropdownModel, {super.key});
 
@@ -21,31 +22,64 @@ class PersonalDetails extends StatefulWidget {
 
 class _PersonalDetailsState extends State<PersonalDetails> {
   final userController = Get.find<UserDataController>();
+  final TextEditingController secondaryPhNoController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
+  final TextEditingController otherCasteSubCasteController =
+      TextEditingController();
   final TextEditingController starController = TextEditingController();
+  final TextEditingController noOfChildrenController = TextEditingController();
   String? selectedReligion;
   String? selectedCaste;
   String? selectedSubCaste;
   String? selectedmaritalStatus;
   String? selectedmotherTongue;
   List<String> languages = ["Malayalam", "English"];
+  List<String> maritalStatus = [
+    "Single",
+    "Married",
+    "Divorced",
+    "Widowed",
+    "Widow"
+  ];
 
   String capitalizeFirstLetter(String text) {
-  if (text.isEmpty) return text;
-  return text[0].toUpperCase() + text.substring(1).toLowerCase();
-}
+    if (text.isEmpty) return text;
+    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  }
 
   @override
-  void initState() { 
+  void initState() {
+    secondaryPhNoController.text =
+        userController.userData.value.user?.secondaryNumber ?? "";
     heightController.text = userController.userData.value.user?.height ?? "";
     weightController.text = userController.userData.value.user?.weight ?? "";
     starController.text = userController.userData.value.user?.starSign ?? "";
-    selectedReligion = widget.dropdownModel.religions!.firstWhere((religion) => religion.id == userController.userData.value.user?.religion).name ?? "";
-    selectedCaste = widget.dropdownModel.castes!.firstWhere((caste) => caste.id == userController.userData.value.user?.caste).name ?? "";
-    selectedSubCaste = widget.dropdownModel.subcastes!.firstWhere((subcaste) => subcaste.id == userController.userData.value.user?.subCaste).name ?? "";
-    selectedmaritalStatus = capitalizeFirstLetter(userController.userData.value.user?.maritalStatus ?? "");
-    selectedmotherTongue = widget.dropdownModel.languages!.firstWhere((languages) => languages.id == userController.userData.value.user?.motherTongue).name ?? "";
+    noOfChildrenController.text =
+        userController.userData.value.user?.numberOfChildren ?? "";
+    selectedReligion = widget.dropdownModel.religions!
+            .firstWhere((religion) =>
+                religion.id == userController.userData.value.user?.religion)
+            .name ??
+        "";
+    selectedCaste = widget.dropdownModel.castes!
+            .firstWhere((caste) =>
+                caste.id == userController.userData.value.user?.caste)
+            .name ??
+        "";
+    selectedSubCaste = widget.dropdownModel.subcastes!
+            .firstWhere((subcaste) =>
+                subcaste.id == userController.userData.value.user?.subCaste)
+            .name ??
+        "";
+    selectedmaritalStatus = capitalizeFirstLetter(
+        userController.userData.value.user?.maritalStatus ?? "");
+    selectedmotherTongue = widget.dropdownModel.languages!
+            .firstWhere((languages) =>
+                languages.id ==
+                userController.userData.value.user?.motherTongue)
+            .name ??
+        "";
     super.initState();
   }
 
@@ -79,9 +113,33 @@ class _PersonalDetailsState extends State<PersonalDetails> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  IntlPhoneField(
+                    controller: secondaryPhNoController,
+                    decoration: InputDecoration(
+                      labelText: 'Secondary Mobile Number',
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(),
+                      ),
+                    ),
+                    onChanged: (value) {
+                      setState(() {
+                        print("Sec No: ${secondaryPhNoController.text}");
+                      });
+                    },
+                    initialCountryCode: 'IN',
+                  ),
+                  const SizedBox(height: 16),
+
                   //height feild
+                  EditProfileTextFeild(
+                      label: 'Height (cm)', controller: heightController),
+                  const SizedBox(height: 16),
 
                   //weight feild
+                  EditProfileTextFeild(
+                      label: 'Weight (kg)', controller: weightController),
+                  const SizedBox(height: 16),
 
                   //religion feild
                   EditProfileDropdown(
@@ -111,6 +169,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     },
                     selectedValue: selectedCaste,
                   ),
+                  const SizedBox(height: 16),
+
+                  // Other Caste/Sub Caste feild
+                  EditProfileTextFeild(
+                      label: 'Other Caste/Sub Caste (Specify if any)',
+                      controller: otherCasteSubCasteController),
                   const SizedBox(height: 16),
 
                   //Subcaste feild
@@ -151,13 +215,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   //marital status feild
                   EditProfileDropdown(
                     label: 'Marital Status',
-                    items: [
-                      "Single",
-                      "Married",
-                      "Divorced",
-                      "Widowed",
-                      "Widow"
-                    ],
+                    items: maritalStatus,
                     onChanged: (value) {
                       setState(() {
                         selectedmaritalStatus = value;
@@ -165,13 +223,22 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     },
                     selectedValue: selectedmaritalStatus,
                   ),
+
+                  const SizedBox(height: 16),
+
+                  // Number of Children TextField
+                  if (selectedmaritalStatus != "Single")
+                    EditProfileTextFeild(
+                        label: 'Number of children',
+                        controller: noOfChildrenController,
+                        inputType: TextInputType.number),
                   const SizedBox(height: 16),
 
                   //languages known
                   Text("Languages Known",
                       style: TextStyle(color: AppColors.grey, fontSize: 14)),
                   SizedBox(height: 10),
-                      Wrap(
+                  Wrap(
                     spacing: 5,
                     runSpacing: 10,
                     children: [
@@ -232,25 +299,72 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ],
                   ),
                   SizedBox(height: 16),
-                   CustomButton(
+                  CustomButton(
                     text: "Save Changes",
-                    // onPressed: () async {
-                    //   await EditProfileService()
-                    //       .updatePersonalDetails(
-                    //           // firstName: firstNameController.text,
-                    //           // lastName: lastNameController.text,
-                    //           // email: emailController.text,
-                    //           // countryCode: _countryCode,
-                    //           // phoneNumber: _phoneNumber,
-                    //           // dob: dateOfBirthController.text,
-                    //           // gender: selectedGender ?? "",
-                    //           context: context)
-                    //       .then((value) {
-                    //     if (value!.type == "success") {
-                    //       updateProfileDetails();
-                    //     }
-                    //   });
-                    // },
+                    onPressed: () async {
+                      // print("${secondaryPhNoController.text}");
+                      // print("${heightController.text}");
+                      // print("${weightController.text}");
+                      // print(widget.dropdownModel.religions!
+                      //         .firstWhere((religion) =>
+                      //             selectedReligion == religion.name)
+                      //         .id ??
+                      //     "");
+                      // print(widget.dropdownModel.castes!
+                      //         .firstWhere(
+                      //             (caste) => selectedCaste == caste.name)
+                      //         .id ??
+                      //     "");
+                      // print(otherCasteSubCasteController.text);
+                      // print(widget.dropdownModel.subcastes!
+                      //         .firstWhere((subCaste) =>
+                      //             selectedSubCaste == subCaste.name)
+                      //         .id ??
+                      //     "");
+                      // print(starController.text);
+                      // print(widget.dropdownModel.languages!
+                      //         .firstWhere(
+                      //             (lang) => selectedmotherTongue == lang.name)
+                      //         .id ??
+                      //     "");
+                      // print((selectedmaritalStatus ?? "").toLowerCase());
+                      // print(noOfChildrenController.text);
+                      // print(languages.join(","),);
+                      await EditProfileService()
+                          .updatePersonalDetails(
+                              secondarynumber: secondaryPhNoController.text,
+                              height: heightController.text,
+                              weight: weightController.text,
+                              religion: widget.dropdownModel.religions!
+                                      .firstWhere((religion) =>
+                                          selectedReligion == religion.name)
+                                      .id ??
+                                  "",
+                              caste: widget.dropdownModel.castes!
+                                      .firstWhere((caste) =>
+                                          selectedCaste == caste.name)
+                                      .id ??
+                                  "",
+                              other_caste_subcaste:
+                                  otherCasteSubCasteController.text,
+                              sub_caste: widget.dropdownModel.subcastes!
+                                      .firstWhere((subCaste) =>
+                                          selectedSubCaste == subCaste.name)
+                                      .id ??
+                                  "",
+                              star_sign:
+                                  capitalizeFirstLetter(starController.text),
+                              mother_tongue: widget.dropdownModel.languages!
+                                      .firstWhere((lang) =>
+                                          selectedmotherTongue == lang.name)
+                                      .id ??
+                                  "",
+                              marital_status:
+                                  (selectedmaritalStatus ?? "").toLowerCase(),
+                              number_of_children: noOfChildrenController.text,
+                              languagesKnown: languages.join(","),
+                              context: context);
+                    },
                   )
                 ],
               ),

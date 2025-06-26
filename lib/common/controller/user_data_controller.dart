@@ -34,6 +34,7 @@ class UserDataController extends GetxController {
     String weight,
     String religion,
     String caste,
+    String otherCastes,
     String subCaste,
     String starSign,
     String motherTongue,
@@ -46,6 +47,7 @@ class UserDataController extends GetxController {
       val?.user?.weight = weight;
       val?.user?.religion = religion;
       val?.user?.caste = caste;
+      val?.user?.otherCasteSubcaste = otherCastes;
       val?.user?.subCaste = subCaste;
       val?.user?.starSign = starSign;
       val?.user?.motherTongue = motherTongue;
