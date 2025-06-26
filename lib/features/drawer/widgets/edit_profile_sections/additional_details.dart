@@ -4,6 +4,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
 import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
@@ -23,18 +24,42 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   String? selectedSmokingHabbit;
   String? selectedDrinkingHabbit;
   String? selectedFoodPreference;
-  String? selectedCreatedFor;
-  List<String> hobbies = ["Dancing", "Singing"];
+  String? selectedCreatedBy;
+  List<String> hobbies = [];
 
   @override
-  void initState() { 
+  void initState() {
     aboutController.text = userController.userData.value.user?.aboutMe ?? "";
-    selectedSmokingHabbit = userController.userData.value.user?.smokingHabits ?? "";
-    selectedDrinkingHabbit = userController.userData.value.user?.drinkingHabits ?? "";
-    selectedFoodPreference = userController.userData.value.user?.foodPreferences ?? "";
-    selectedCreatedFor = userController.userData.value.user?.created ?? "";
+    selectedSmokingHabbit =
+        formatLabel(userController.userData.value.user?.smokingHabits ?? "");
+    selectedDrinkingHabbit =
+        formatLabel(userController.userData.value.user?.drinkingHabits ?? "");
+    selectedFoodPreference =
+        formatLabel(userController.userData.value.user?.foodPreferences ?? "");
+    selectedCreatedBy =
+        userController.userData.value.user?.profileCreatedBy ?? "";
+    hobbies = (userController.userData.value.user?.hobbies ?? "").split(",");
     super.initState();
-    
+  }
+
+  String formatLabel(String value) {
+    return value
+        .replaceAll('_', ' ') // Replace underscores with spaces
+        .split(' ')
+        .map((word) => word
+            .split('-') // Handle hyphenated parts
+            .map((part) => part.isNotEmpty
+                ? part[0].toUpperCase() + part.substring(1).toLowerCase()
+                : '')
+            .join('-'))
+        .join(' ');
+  }
+
+  String formatBackToKey(String label) {
+    return label
+        .trim()
+        .replaceAll(' ', '_') // Spaces → underscores
+        .toLowerCase(); // Lowercase everything
   }
 
   @override
@@ -151,6 +176,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                         selectedSmokingHabbit = value;
                       });
                     },
+                    selectedValue: selectedSmokingHabbit,
                   ),
                   const SizedBox(height: 16),
 
@@ -166,6 +192,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                         selectedDrinkingHabbit = value;
                       });
                     },
+                    selectedValue: selectedDrinkingHabbit,
                   ),
                   const SizedBox(height: 16),
 
@@ -181,6 +208,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                         selectedFoodPreference = value;
                       });
                     },
+                    selectedValue: selectedFoodPreference,
                   ),
                   const SizedBox(height: 16),
 
@@ -188,7 +216,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                   EditProfileDropdown(
                     label: "Profile Created for",
                     items: [
-                      "Myself",
+                      "My Self",
                       "Daughter",
                       "Son",
                       "Sister",
@@ -201,12 +229,25 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                     // .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedCreatedFor = value;
+                        selectedCreatedBy = value;
                       });
                     },
+                    selectedValue: selectedCreatedBy,
                   ),
                   const SizedBox(height: 16),
-                  CustomButton(text: "Save Changes", onPressed: (){},)
+                  CustomButton(
+                    text: "Save Changes",
+                    onPressed: () async {
+                      await EditProfileService().updateAdditionalDetails(
+                          about_me: aboutController.text,
+                          hobbies: hobbies.join(","),
+                          smoking_habits: formatBackToKey(selectedSmokingHabbit ?? ""),
+                          drinking_habits: formatBackToKey(selectedDrinkingHabbit ?? ""),
+                          food_preferences: formatBackToKey(selectedFoodPreference ?? ""),
+                          profile_created_by: selectedCreatedBy ?? "",
+                          context: context);
+                    },
+                  )
                 ],
               ),
             ),
