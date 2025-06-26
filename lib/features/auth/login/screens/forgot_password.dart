@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/login/screens/login_page.dart';
-import 'package:inakal/features/auth/login/screens/password_reset_screen.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:pinput/pinput.dart';

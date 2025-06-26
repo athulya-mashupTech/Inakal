@@ -4,15 +4,11 @@ import 'package:inakal/constants/app_constants.dart';
 class FilterDropdown extends StatefulWidget {
   final String label;
   final List<String> items;
-  final ValueChanged<String> onChanged;
   TextEditingController valueController;
-  String? selectedValue;
 
   FilterDropdown({
     required this.label,
     required this.items,
-    required this.onChanged,
-    this.selectedValue,
     required this.valueController,
     super.key,
   });
@@ -94,152 +90,139 @@ class _FilterDropdownState extends State<FilterDropdown> {
   }
 
   OverlayEntry _createOverlayEntry() {
-    RenderBox renderBox =
-        dropdownKey.currentContext!.findRenderObject() as RenderBox;
-    Size size = renderBox.size;
-    Offset offset = renderBox.localToGlobal(Offset.zero);
+  RenderBox renderBox = dropdownKey.currentContext!.findRenderObject() as RenderBox;
+  Size size = renderBox.size;
+  Offset offset = renderBox.localToGlobal(Offset.zero);
 
-    return OverlayEntry(
-      builder: (context) => Stack(
-        children: [
-          // This captures taps outside the dropdown
-          GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: _closeDropdown,
-            child: Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
+  double screenHeight = MediaQuery.of(context).size.height;
+  double spaceBelow = screenHeight - offset.dy - size.height;
+  double spaceAbove = offset.dy;
+
+  bool showAbove = spaceBelow < 250 && spaceAbove > spaceBelow;
+
+  return OverlayEntry(
+    builder: (context) {
+      return Positioned.fill(
+        child: Stack(
+          children: [
+            // Tap outside to close (only catches taps on blank areas)
+            GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: _closeDropdown,
+              child: const SizedBox.expand(),
             ),
-          ),
-          Positioned(
-            left: offset.dx,
-            top: offset.dy + size.height + 5.0,
-            width: size.width,
-            child: CompositedTransformFollower(
-              link: layerLink,
-              showWhenUnlinked: false,
-              offset: Offset(0.0, size.height + 5.0),
-              child: Material(
-                elevation: 8,
-                borderRadius: BorderRadius.circular(8),
-                child: Container(
-                  constraints: const BoxConstraints(maxHeight: 250),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey.shade300),
-                  ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Search bar
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextField(
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            hintText: 'Search ${widget.label}...',
-                            prefixIcon: const Icon(Icons.search, size: 20),
-                            contentPadding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 8),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide:
-                                  BorderSide(color: Colors.grey.shade300),
+            Positioned(
+              left: offset.dx,
+              top: showAbove
+                  ? offset.dy - 5.0 - 250 // Adjust height if above
+                  : offset.dy + size.height + 5.0,
+              width: size.width,
+              child: CompositedTransformFollower(
+                link: layerLink,
+                showWhenUnlinked: false,
+                offset: Offset(0.0, 0),
+                child: Material(
+                  elevation: 8,
+                  borderRadius: BorderRadius.circular(8),
+                  child: Container(
+                    constraints: const BoxConstraints(maxHeight: 250),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Colors.grey.shade300),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Search Bar
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: TextField(
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              hintText: 'Search ${widget.label}...',
+                              prefixIcon: const Icon(Icons.search, size: 20),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.grey.shade300),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: const BorderSide(color: AppColors.primaryRed),
+                              ),
+                              isDense: true,
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(6),
-                              borderSide:
-                                  const BorderSide(color: AppColors.primaryRed),
-                            ),
-                            isDense: true,
+                            autofocus: true,
                           ),
-                          autofocus: true,
                         ),
-                      ),
-                      const Divider(height: 1),
-                      // Options list
-                      Flexible(
-                        child: filteredItems.isEmpty
-                            ? const SizedBox(
-                                height: 100,
-                                child: Center(
-                                  child: Text(
-                                    "No matches found",
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 14,
+                        const Divider(height: 1),
+                        // Dropdown List
+                        Flexible(
+                          child: filteredItems.isEmpty
+                              ? const SizedBox(
+                                  height: 100,
+                                  child: Center(
+                                    child: Text(
+                                      "No matches found",
+                                      style: TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 14,
+                                      ),
                                     ),
                                   ),
-                                ),
-                              )
-                            : ListView.builder(
-                                shrinkWrap: true,
-                                padding: EdgeInsets.zero,
-                                itemCount: filteredItems.length,
-                                itemBuilder: (context, index) {
-                                  final item = filteredItems[index];
-                                  final isSelected =
-                                      item == widget.selectedValue;
-
-                                  return InkWell(
-                                    onTap: () {
-                                      widget.onChanged(item);
-                                      setState(() {
-                                        widget.selectedValue = item;
-                                        widget.valueController.text = item;
-                                      });
-                                      _closeDropdown();
-                                    },
-                                    child: Container(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 16, vertical: 12),
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? AppColors.primaryRed
-                                                .withOpacity(0.1)
-                                            : null,
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              item,
-                                              style: TextStyle(
-                                                fontSize: 14,
-                                                color: isSelected
-                                                    ? AppColors.primaryRed
-                                                    : Colors.black87,
-                                                fontWeight: isSelected
-                                                    ? FontWeight.w600
-                                                    : FontWeight.normal,
+                                )
+                              : ListView.builder(
+                                  shrinkWrap: true,
+                                  padding: EdgeInsets.zero,
+                                  itemCount: filteredItems.length,
+                                  itemBuilder: (context, index) {
+                                    final item = filteredItems[index];
+                                    return InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          widget.valueController.text = item;
+                                        });
+                                        _closeDropdown();
+                                      },
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                                        decoration: const BoxDecoration(color: AppColors.white),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                item,
+                                                style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: widget.valueController.text == item
+                                                      ? AppColors.primaryRed
+                                                      : AppColors.black,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          if (isSelected)
-                                            const Icon(
-                                              Icons.check,
-                                              size: 18,
-                                              color: AppColors.primaryRed,
-                                            ),
-                                        ],
+                                            if (widget.valueController.text == item)
+                                              const Icon(Icons.check, size: 18, color: AppColors.primaryRed),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  );
-                                },
-                              ),
-                      ),
-                    ],
+                                    );
+                                  },
+                                ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
+    },
+  );
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -269,7 +252,8 @@ class _FilterDropdownState extends State<FilterDropdown> {
               child: TextFormField(
                 maxLines: 1,
                 readOnly: true,
-                controller: widget.valueController, // Already has the selected value
+                controller:
+                    widget.valueController, // Already has the selected value
                 decoration: InputDecoration(
                   labelText: widget.label,
                   fillColor: AppColors.white,

@@ -4,6 +4,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
@@ -32,8 +33,16 @@ class _LocationDetailsState extends State<LocationDetails> {
     cityController.text = userController.userData.value.user?.currentCity ?? "";
     countryController.text = userController.userData.value.user?.country ?? "";
     pincodeController.text = userController.userData.value.user?.zipCode ?? "";
-    selectedDistrict = widget.dropdownModel.districts!.firstWhere((districts) => districts.id == userController.userData.value.user?.district).name ?? "";
-    selectedState = widget.dropdownModel.states!.firstWhere((states) => states.id == userController.userData.value.user?.state).name ?? "";
+    selectedDistrict = widget.dropdownModel.districts!
+            .firstWhere((districts) =>
+                districts.id == userController.userData.value.user?.district)
+            .name ??
+        "";
+    selectedState = widget.dropdownModel.states!
+            .firstWhere((states) =>
+                states.id == userController.userData.value.user?.state)
+            .name ??
+        "";
     super.initState();
   }
 
@@ -101,7 +110,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                         .toList(),
                     onChanged: (value) {
                       setState(() {
-                        selectedDistrict = value;
+                        selectedState = value;
                       });
                     },
                     selectedValue: selectedState,
@@ -119,7 +128,16 @@ class _LocationDetailsState extends State<LocationDetails> {
                   const SizedBox(height: 16),
                   CustomButton(
                     text: "Save Changes",
-                    onPressed: () {},
+                    onPressed: () async{
+                       await EditProfileService().updateLocationDetails(
+                          address: addressController.text,
+                          city: cityController.text,
+                          district: widget.dropdownModel.districts!.firstWhere((district) => district.name == selectedDistrict).id ?? "",
+                          state: widget.dropdownModel.states!.firstWhere((state)=>state.name == selectedState).id ?? "",
+                          country: countryController.text,
+                          zipcode: pincodeController.text,
+                          context: context);
+                    },
                   )
                 ],
               ),
