@@ -29,18 +29,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   String _countryCode = '';
   String _phoneNumber = '';
 
-  updateProfileDetails() async {
-    await userController.updateProfileDetails(
-      firstNameController.text,
-      lastNameController.text,
-      emailController.text,
-      _phoneNumber,
-      _countryCode,
-      dateOfBirthController.text,
-      selectedGender!,
-    );
-  }
-
   @override
   void initState() {
     firstNameController.text =
@@ -146,12 +134,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                               phoneNumber: _phoneNumber,
                               dob: dateOfBirthController.text,
                               gender: selectedGender ?? "",
-                              context: context)
-                          .then((value) {
-                        if (value!.type == "success") {
-                          updateProfileDetails();
-                        }
-                      });
+                              context: context);
                     },
                   )
                 ],

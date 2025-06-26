@@ -60,33 +60,47 @@ class EditProfileService {
 
   // Personal details update
   Future<UserDataUpdateModel?> updatePersonalDetails({
-    required UserDataModel userData,
+    required String secondarynumber,
+    required String height,
+    required String weight,
+    required String religion,
+    required String caste,
+    required String other_caste_subcaste,
+    required String sub_caste,
+    required String star_sign,
+    required String mother_tongue,
+    required String marital_status,
+    required String number_of_children,
+    required String languagesKnown,
     required BuildContext context,
   }) async {
     try {
-      print("${userData.user?.languagesKnown!}"
+      print("${languagesKnown}"
           .split(',')
           .map((lang) => {'"value"': '"${lang.trim()}"'})
           .toList()
           .toString());
       print(
           '[{"value":"English"}, {"value":"Malayalam"}, {"value":"Hindi"}, {"value":"Kannada"}]');
+
       final response =
           await _sendPostRequest(url: userPersonalUpdateUrl, fields: {
-        "height": userData.user!.height!,
-        "weight": userData.user!.weight!,
-        "religion": userData.user!.religion!,
-        "caste": userData.user!.caste!,
-        "sub_caste": userData.user!.subCaste!,
-        "star_sign": userData.user!.starSign!,
-        "mother_tongue": userData.user!.motherTongue!,
-        "marital_status": userData.user!.maritalStatus!,
-        "languages_known": "${userData.user?.languagesKnown!}"
+        "secondary_number": secondarynumber,
+        "height": height,
+        "weight": weight,
+        "religion": religion,
+        "caste": caste,
+        "other_caste_subcaste": other_caste_subcaste,
+        "sub_caste": sub_caste,
+        "star_sign": star_sign,
+        "mother_tongue": mother_tongue,
+        "marital_status": marital_status,
+        "languages_known": languagesKnown
             .split(',')
             .map((lang) => {'"value"': '"${lang.trim()}"'})
             .toList()
             .toString(),
-        "number_of_children": userData.user!.numberOfChildren!,
+        "number_of_children": number_of_children,
       });
       print(response.reasonPhrase);
 
@@ -124,13 +138,14 @@ class EditProfileService {
     required BuildContext context,
   }) async {
     try {
+      print(qualification);
       final response =
           await _sendPostRequest(url: userEduProfUpdateUrl, fields: {
         "highest_education": highestEducation,
         "qualification": qualification,
         "education_details": educationalDetails,
         "occupation": occupation,
-        "occupational_details":occupationDetails,
+        "occupational_details": occupationDetails,
         "annual_income": annualIncome,
         "work_location": workLocation
       });

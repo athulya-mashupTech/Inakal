@@ -705,19 +705,19 @@ class _EditProfileState extends State<EditProfile> {
   //   );
   // }
 
-  updatePersonalDetails() async {
-    await userController.updatePersonalDetails(
-        _heightController.text,
-        _weightController.text,
-        _religionController.text,
-        _casteController.text,
-        _subcasteController.text,
-        _starsignController.text,
-        _mothertongueController.text,
-        _maritalStatusController.text,
-        languages.join(','),
-        _childController.text);
-  }
+  // updatePersonalDetails() async {
+  //   await userController.updatePersonalDetails(
+  //       _heightController.text,
+  //       _weightController.text,
+  //       _religionController.text,
+  //       _casteController.text,
+  //       _subcasteController.text,
+  //       _starsignController.text,
+  //       _mothertongueController.text,
+  //       _maritalStatusController.text,
+  //       languages.join(','),
+  //       _childController.text);
+  // }
 
   // updateEducationAndProfessionalDetails() async {
   //   await userController.updateEduProfDetails(
