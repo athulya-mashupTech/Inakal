@@ -29,6 +29,8 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   String _countryCode = '';
   String _phoneNumber = '';
 
+  bool isSaving = false;
+
   @override
   void initState() {
     firstNameController.text =
@@ -122,21 +124,38 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     selectedValue: selectedGender,
                   ),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: () async {
-                      await EditProfileService()
-                          .updateProfileDetails(
-                              firstName: firstNameController.text,
-                              lastName: lastNameController.text,
-                              email: emailController.text,
-                              countryCode: _countryCode,
-                              phoneNumber: _phoneNumber,
-                              dob: dateOfBirthController.text,
-                              gender: selectedGender ?? "",
-                              context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            await EditProfileService()
+                                .updateProfileDetails(
+                                    firstName: firstNameController.text,
+                                    lastName: lastNameController.text,
+                                    email: emailController.text,
+                                    countryCode: _countryCode,
+                                    phoneNumber: _phoneNumber,
+                                    dob: dateOfBirthController.text,
+                                    gender: selectedGender ?? "",
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),

@@ -8,10 +8,55 @@ import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
 
 class EditProfileService {
   final AuthController authController = Get.find();
+
+  Future<UploadProfileImageModel?> uploadProfileImage({
+    required String filePath,
+    required BuildContext context,
+  }) async {
+    try {
+      var request =
+          http.MultipartRequest('POST', Uri.parse(userProfileImageUrl));
+
+      request.files.add(await http.MultipartFile.fromPath('image', filePath));
+
+      final token =
+          authController.token.value; // Get the token from AuthController
+      final headers = {
+        'Authorization': 'Bearer $token',
+      };
+      request.headers.addAll(headers);
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        String responseData = await response.stream.bytesToString();
+        Map<String, dynamic> jsonResponse = jsonDecode(responseData);
+        var uploadProfileImageModel =
+            UploadProfileImageModel.fromJson(jsonResponse);
+        if (uploadProfileImageModel.type == 'success') {
+          _showSnackbar(context, 'Image uploaded successfully');
+          String newImageUrl = uploadProfileImageModel.url!;
+
+          final userController = Get.find<UserDataController>();
+          userController.updateProfilePicture(newImageUrl);
+        } else {
+          _showSnackbar(context, "Failed to upload image");
+        }
+        return uploadProfileImageModel;
+      } else {
+        print('Error: ${response.reasonPhrase}');
+        return null;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return null;
+    }
+  }
 
   // profile data update
   Future<UserDataUpdateModel?> updateProfileDetails({

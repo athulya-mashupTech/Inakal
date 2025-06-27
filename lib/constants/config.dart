@@ -38,6 +38,8 @@ const deleteRequestUrl = "${baseUrl}deleteRequest";
 const galleryImagesUrl = "${baseUrl}userGallery";
 
 // User data update API's
+const userProfileImageUrl = "${baseUrl}updateProfilePic";
+
 const userProfileUpdateUrl = "${baseUrl}updateProfileDetails";
 const userPersonalUpdateUrl = "${baseUrl}updatePersonalDetails";
 const userEduProfUpdateUrl = "${baseUrl}updateEduProfDetails";

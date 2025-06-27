@@ -27,6 +27,8 @@ class _LocationDetailsState extends State<LocationDetails> {
   String? selectedDistrict;
   String? selectedState;
 
+  bool isSaving = false;
+
   @override
   void initState() {
     addressController.text = userController.userData.value.user?.address ?? "";
@@ -126,19 +128,46 @@ class _LocationDetailsState extends State<LocationDetails> {
                       controller: pincodeController,
                       inputType: TextInputType.number),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: () async{
-                       await EditProfileService().updateLocationDetails(
-                          address: addressController.text,
-                          city: cityController.text,
-                          district: widget.dropdownModel.districts!.firstWhere((district) => district.name == selectedDistrict).id ?? "",
-                          state: widget.dropdownModel.states!.firstWhere((state)=>state.name == selectedState).id ?? "",
-                          country: countryController.text,
-                          zipcode: pincodeController.text,
-                          context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            await EditProfileService()
+                                .updateLocationDetails(
+                                    address: addressController.text,
+                                    city: cityController.text,
+                                    district: widget.dropdownModel.districts!
+                                            .firstWhere((district) =>
+                                                district.name ==
+                                                selectedDistrict)
+                                            .id ??
+                                        "",
+                                    state: widget.dropdownModel.states!
+                                            .firstWhere((state) =>
+                                                state.name == selectedState)
+                                            .id ??
+                                        "",
+                                    country: countryController.text,
+                                    zipcode: pincodeController.text,
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),

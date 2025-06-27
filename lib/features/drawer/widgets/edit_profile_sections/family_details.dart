@@ -29,6 +29,8 @@ class _FamilyDetailsState extends State<FamilyDetails> {
   String? selectedFamilyType;
   String? selectedFamilyStatus;
 
+  bool isSaving = false;
+
   String formatLabel(String value) {
     return value
         .split('_') // Split by underscores
@@ -39,12 +41,11 @@ class _FamilyDetailsState extends State<FamilyDetails> {
   }
 
   String formatBackToKey(String value) {
-  return value
-      .trim() // Remove leading/trailing spaces
-      .toLowerCase() // Convert entire string to lowercase
-      .replaceAll(' ', '_'); // Replace spaces with underscores
-}
-
+    return value
+        .trim() // Remove leading/trailing spaces
+        .toLowerCase() // Convert entire string to lowercase
+        .replaceAll(' ', '_'); // Replace spaces with underscores
+  }
 
   @override
   void initState() {
@@ -68,7 +69,6 @@ class _FamilyDetailsState extends State<FamilyDetails> {
     fatheroccupationController.dispose();
     motheroccupationController.dispose();
     numberofsiblingController.dispose();
-    siblingmaritalstatusController.dispose();
     siblingmaritalstatusController.dispose();
     super.dispose();
   }
@@ -130,6 +130,7 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   const SizedBox(height: 16),
                   EditProfileTextFeild(
                       label: 'Number of Siblings',
+                      inputType: TextInputType.number,
                       controller: numberofsiblingController),
                   const SizedBox(height: 16),
                   EditProfileTextFeild(
@@ -137,19 +138,41 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                       maxlines: 3,
                       controller: siblingmaritalstatusController),
                   const SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: ()async {
-                     await  EditProfileService().updateFamilyDetails(
-                          familyType: formatBackToKey(selectedFamilyType ?? ""),
-                          mothersOccupation: motheroccupationController.text,
-                          fathersOccupation: fatheroccupationController.text,
-                          numberOfSiblings: numberofsiblingController.text,
-                          siblingsMaritalStatus:
-                              siblingmaritalstatusController.text,
-                          context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            await EditProfileService()
+                                .updateFamilyDetails(
+                                    familyType: formatBackToKey(
+                                        selectedFamilyType ?? ""),
+                                    mothersOccupation:
+                                        motheroccupationController.text,
+                                    fathersOccupation:
+                                        fatheroccupationController.text,
+                                    numberOfSiblings:
+                                        numberofsiblingController.text,
+                                    siblingsMaritalStatus:
+                                        siblingmaritalstatusController.text,
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),

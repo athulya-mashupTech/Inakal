@@ -35,17 +35,28 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String? selectedmaritalStatus;
   String? selectedmotherTongue;
   List<String> languages = ["Malayalam", "English"];
-  List<String> maritalStatus = [
-    "Single",
-    "Married",
-    "Divorced",
-    "Widowed",
-    "Widow"
-  ];
+  List<String> maritalStatus = ["Single", "Divorced", "Widowed", "Widow"];
 
-  String capitalizeFirstLetter(String text) {
-    if (text.isEmpty) return text;
-    return text[0].toUpperCase() + text.substring(1).toLowerCase();
+  bool isSaving = false;
+
+  String formatLabel(String value) {
+    return value
+        .replaceAll('_', ' ') // Replace underscores with spaces
+        .split(' ')
+        .map((word) => word
+            .split('-') // Handle hyphenated parts
+            .map((part) => part.isNotEmpty
+                ? part[0].toUpperCase() + part.substring(1).toLowerCase()
+                : '')
+            .join('-'))
+        .join(' ');
+  }
+
+  String formatBackToKey(String label) {
+    return label
+        .trim()
+        .replaceAll(' ', '_') // Spaces → underscores
+        .toLowerCase(); // Lowercase everything
   }
 
   @override
@@ -72,8 +83,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                 subcaste.id == userController.userData.value.user?.subCaste)
             .name ??
         "";
-    selectedmaritalStatus = capitalizeFirstLetter(
-        userController.userData.value.user?.maritalStatus ?? "");
+    selectedmaritalStatus =
+        formatLabel(userController.userData.value.user?.maritalStatus ?? "");
     selectedmotherTongue = widget.dropdownModel.languages!
             .firstWhere((languages) =>
                 languages.id ==
@@ -131,7 +142,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   ),
                   const SizedBox(height: 16),
 
-                  //height feild
+                  // height feild
                   EditProfileTextFeild(
                       label: 'Height (cm)', controller: heightController),
                   const SizedBox(height: 16),
@@ -299,73 +310,58 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  CustomButton(
-                    text: "Save Changes",
-                    onPressed: () async {
-                      // print("${secondaryPhNoController.text}");
-                      // print("${heightController.text}");
-                      // print("${weightController.text}");
-                      // print(widget.dropdownModel.religions!
-                      //         .firstWhere((religion) =>
-                      //             selectedReligion == religion.name)
-                      //         .id ??
-                      //     "");
-                      // print(widget.dropdownModel.castes!
-                      //         .firstWhere(
-                      //             (caste) => selectedCaste == caste.name)
-                      //         .id ??
-                      //     "");
-                      // print(otherCasteSubCasteController.text);
-                      // print(widget.dropdownModel.subcastes!
-                      //         .firstWhere((subCaste) =>
-                      //             selectedSubCaste == subCaste.name)
-                      //         .id ??
-                      //     "");
-                      // print(starController.text);
-                      // print(widget.dropdownModel.languages!
-                      //         .firstWhere(
-                      //             (lang) => selectedmotherTongue == lang.name)
-                      //         .id ??
-                      //     "");
-                      // print((selectedmaritalStatus ?? "").toLowerCase());
-                      // print(noOfChildrenController.text);
-                      // print(languages.join(","),);
-                      await EditProfileService()
-                          .updatePersonalDetails(
-                              secondarynumber: secondaryPhNoController.text,
-                              height: heightController.text,
-                              weight: weightController.text,
-                              religion: widget.dropdownModel.religions!
-                                      .firstWhere((religion) =>
-                                          selectedReligion == religion.name)
-                                      .id ??
-                                  "",
-                              caste: widget.dropdownModel.castes!
-                                      .firstWhere((caste) =>
-                                          selectedCaste == caste.name)
-                                      .id ??
-                                  "",
-                              other_caste_subcaste:
-                                  otherCasteSubCasteController.text,
-                              sub_caste: widget.dropdownModel.subcastes!
-                                      .firstWhere((subCaste) =>
-                                          selectedSubCaste == subCaste.name)
-                                      .id ??
-                                  "",
-                              star_sign:
-                                  capitalizeFirstLetter(starController.text),
-                              mother_tongue: widget.dropdownModel.languages!
-                                      .firstWhere((lang) =>
-                                          selectedmotherTongue == lang.name)
-                                      .id ??
-                                  "",
-                              marital_status:
-                                  (selectedmaritalStatus ?? "").toLowerCase(),
-                              number_of_children: noOfChildrenController.text,
-                              languagesKnown: languages.join(","),
-                              context: context);
-                    },
-                  )
+                  isSaving
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          ),
+                        )
+                      : CustomButton(
+                          text: "Save Changes",
+                          onPressed: () async {
+                            setState(() {
+                              isSaving = true;
+                            });
+                            await EditProfileService()
+                                .updatePersonalDetails(
+                                    secondarynumber:
+                                        secondaryPhNoController.text,
+                                    height: heightController.text,
+                                    weight: weightController.text,
+                                    religion: widget.dropdownModel.religions!
+                                            .firstWhere((religion) =>
+                                                selectedReligion ==
+                                                religion.name)
+                                            .id ??
+                                        "",
+                                    caste: widget.dropdownModel.castes!
+                                            .firstWhere((caste) =>
+                                                selectedCaste == caste.name)
+                                            .id ??
+                                        "",
+                                    other_caste_subcaste:
+                                        otherCasteSubCasteController.text,
+                                    sub_caste: widget.dropdownModel.subcastes!
+                                            .firstWhere((subCaste) =>
+                                                selectedSubCaste == subCaste.name)
+                                            .id ??
+                                        "",
+                                    star_sign: formatBackToKey(starController.text),
+                                    mother_tongue: widget.dropdownModel.languages!.firstWhere((lang) => selectedmotherTongue == lang.name).id ?? "",
+                                    marital_status: formatBackToKey(selectedmaritalStatus ?? ""),
+                                    number_of_children: selectedmaritalStatus == "Single" ? "0" : noOfChildrenController.text,
+                                    languagesKnown: languages.join(","),
+                                    context: context)
+                                .then((value) {
+                              setState(() {
+                                isSaving = false;
+                              });
+                            });
+                          },
+                        )
                 ],
               ),
             ),
