@@ -9,6 +9,7 @@ import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/educational_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/family_details.dart';
+import 'package:inakal/features/drawer/widgets/edit_profile_sections/partners_preference_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/personal_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/additional_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/location_details.dart';
@@ -196,8 +197,10 @@ class _EditProfileState extends State<EditProfile> {
                           ),
                           AdditionalDetails(dropdownModel!),
                           SizedBox(
-                            height: 10,
+                            height: 2,
                           ),
+                         PartnersPreferenceDetails(dropdownModel!),
+                         
                         ],
                       ),
               ]))),
