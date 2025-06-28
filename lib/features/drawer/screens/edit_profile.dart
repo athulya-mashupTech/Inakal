@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -14,6 +15,7 @@ import 'package:inakal/features/drawer/widgets/edit_profile_sections/personal_de
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/additional_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/location_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/profile_details.dart';
+import 'package:shimmer/shimmer.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -26,16 +28,23 @@ class _EditProfileState extends State<EditProfile> {
   final userController = Get.find<UserDataController>();
   DropdownModel? dropdownModel;
   bool _isLoading = true;
+  bool _isSavingImage = false;
 
   Future<void> pickImage(BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
+      setState(() {
+        _isSavingImage = true;
+      });
       await EditProfileService()
           .uploadProfileImage(filePath: pickedFile.path, context: context)
           .then((value) async {
         await userController.updateProfilePicture(value!.url ?? "");
+        setState(() {
+          _isSavingImage = false;
+        });
       });
     }
   }
@@ -121,20 +130,42 @@ class _EditProfileState extends State<EditProfile> {
                       Stack(
                         children: [
                           Obx(() => Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(100),
-                              border: Border.all(
-                                color: AppColors.primaryRed,
-                                width: 3,
-                              ),
-                            ),
-                            child: CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  userController.userData.value.user?.image ??
-                                      "assets/vectors/harsha1.jpg"),
-                              radius: 80,
-                            ),
-                          )),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(100),
+                                  border: Border.all(
+                                    color: AppColors.primaryRed,
+                                    width: 3,
+                                  ),
+                                ),
+                                child: CircleAvatar(
+                                  radius: 80,
+                                  child: _isSavingImage
+                                  ? Center(child: CircularProgressIndicator(color: AppColors.primaryRed,))
+                                  : ClipOval(
+                                    child: CachedNetworkImage(
+                                      height: 160,
+                                      width: 160,
+                                      imageUrl: userController
+                                              .userData.value.user?.image ??
+                                          "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                                      fit: BoxFit.cover,
+                                      placeholder: (context, url) =>
+                                          Shimmer.fromColors(
+                                        baseColor: AppColors.grey,
+                                        highlightColor: AppColors.white,
+                                        child: Container(
+                                          color: AppColors.grey,
+                                        ),
+                                      ),
+                                      errorWidget: (context, url, error) =>
+                                          Image.asset(
+                                        'assets/images/user_avatar.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )),
                           Positioned(
                             bottom: 5,
                             right: 5,

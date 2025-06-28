@@ -1,12 +1,29 @@
 import 'package:get/get.dart';
 import 'package:inakal/common/model/user_data_model.dart';
+import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 
 class UserDataController extends GetxController {
   var userData = UserDataModel().obs;
+  var galleryImages = GalleryImagesModel().obs;
 
   // method to update userData
   void setUserData(UserDataModel data) {
     userData.value = data;
+  }
+
+  void setGalleryImages(GalleryImagesModel galleryImagesModel) {
+    // galleryImages.update((val) {
+    //   val = galleryImagesModel;
+    // });
+    galleryImages.value = galleryImagesModel;
+    print(galleryImages.value.gallery?.length);
+  }
+
+  void updateGalleryImages(GalleryImagesModel galleryImagesModel) {
+    galleryImages.update((val) {
+      val?.gallery = galleryImagesModel.gallery;
+    });
+    print(galleryImages.value.gallery?.length);
   }
 
   Future<void> updateProfileDetails(
