@@ -2,10 +2,13 @@ import 'dart:io';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/common/gallery_image_card.dart';
 import 'package:inakal/features/profile/widgets/Image_card.dart';
@@ -19,9 +22,10 @@ class GalleryPage extends StatefulWidget {
 
 class _GalleryPageState extends State<GalleryPage> {
   List<File?> images = List<File?>.filled(6, null);
+  bool isLoading = false;
 
-  GalleryImagesModel? galleryImages;
-  bool isLoading = true;
+  final userController = Get.find<UserDataController>();
+  bool _isSavingImage = false;
 
   final List<String> localImages = [
     "assets/vectors/harsha1.jpg",
@@ -31,31 +35,28 @@ class _GalleryPageState extends State<GalleryPage> {
     "assets/vectors/harsha1.jpg"
   ];
 
-  Future<void> pickImage() async {
+  Future<void> pickImage(BuildContext context) async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
 
     if (pickedFile != null) {
       setState(() {
-        localImages.add("assets/vectors/harsha1.jpg");
+        isLoading = true;
+      });
+      await GalleryService()
+          .uploadGalleryImage(filePath: pickedFile.path, context: context)
+          .then((value) async {
+        // await userController.updateProfilePicture(value!.url ?? "");
+        setState(() {
+          isLoading = false;
+        });
       });
     }
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-    _loadGalleryImages();
-  }
-
-  Future<void> _loadGalleryImages() async {
-    await GalleryService().getGalleryImages(context).then((value) {
-      setState(() {
-        galleryImages = value;
-        isLoading = false;
-      });
-    });
   }
 
   @override
@@ -111,7 +112,7 @@ class _GalleryPageState extends State<GalleryPage> {
                     ),
                     const SizedBox(height: 16),
                     GestureDetector(
-                      onTap: () => pickImage(),
+                      onTap: () => pickImage(context),
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -160,69 +161,85 @@ class _GalleryPageState extends State<GalleryPage> {
                               child: CircularProgressIndicator(),
                             ),
                           )
-                        : galleryImages?.gallery?.length == 0 
-                        ? const Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.0),
-                              child: Column(
-                                children: [
-                                  Text("No Images Uploaded", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
-                                  Text("You have not uploaded any images yet!"),
-                                ],
-                              ),
-                            ),
-                          )
-                        : GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount: galleryImages?.gallery?.length ?? 0,
-                            itemBuilder: (context, index) {
-                              return Stack(
-                                children: [
-                                  GalleryImageCard(
-                                      image: galleryImages
-                                              ?.gallery?[index].image ??
-                                          "",
-                                      onDelete: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: Text("Delete Image"),
-                                            content: Text(
-                                                "Are you sure you want to delete this image?"),
-                                            actions: [
-                                              TextButton(
-                                                onPressed: () =>
-                                                    Navigator.pop(context),
-                                                child: Text("Cancel"),
-                                              ),
-                                              TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    localImages.removeAt(index);
-                                                  });
-                                                  Navigator.pop(
-                                                      context); // Close dialog after deleting
-                                                },
-                                                child: Text("Delete",
-                                                    style: TextStyle(
-                                                        color: Colors.red)),
-                                              ),
-                                            ],
-                                          ),
-                                        );
-                                      }),
-                                ],
-                              );
-                            },
-                          ),
+                        : userController.galleryImages.value.gallery?.length ==
+                                0
+                            ? const Center(
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 15.0),
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                        "No Images Uploaded",
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                          "You have not uploaded any images yet!"),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Obx(() => GridView.builder(
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 10.0,
+                                    mainAxisSpacing: 10.0,
+                                    childAspectRatio: 1.3,
+                                  ),
+                                  itemCount: userController.galleryImages.value
+                                          .gallery?.length ??
+                                      0,
+                                  itemBuilder: (context, index) {
+                                    return Stack(
+                                      children: [
+                                        GalleryImageCard(
+                                            image: userController
+                                                    .galleryImages
+                                                    .value
+                                                    .gallery?[index]
+                                                    .image ??
+                                                "",
+                                            onDelete: () {
+                                              showDialog(
+                                                context: context,
+                                                builder: (context) =>
+                                                    AlertDialog(
+                                                  title: Text("Delete Image"),
+                                                  content: Text(
+                                                      "Are you sure you want to delete this image?"),
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () =>
+                                                          Navigator.pop(
+                                                              context),
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          localImages
+                                                              .removeAt(index);
+                                                        });
+                                                        Navigator.pop(
+                                                            context); // Close dialog after deleting
+                                                      },
+                                                      child: Text("Delete",
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.red)),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            }),
+                                      ],
+                                    );
+                                  },
+                                )),
                     const SizedBox(height: 16),
                     CustomButton(text: "Save Changes")
                   ],

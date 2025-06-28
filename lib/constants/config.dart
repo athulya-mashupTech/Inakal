@@ -36,6 +36,7 @@ const deleteRequestUrl = "${baseUrl}deleteRequest";
 
 //Gallery API's
 const galleryImagesUrl = "${baseUrl}userGallery";
+const updateGalleryImageUrl = "${baseUrl}uploadGalleryImage";
 
 // User data update API's
 const userProfileImageUrl = "${baseUrl}updateProfilePic";

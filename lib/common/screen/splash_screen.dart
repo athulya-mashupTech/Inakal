@@ -11,6 +11,8 @@ import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
+import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -99,7 +101,29 @@ class _SplashScreenState extends State<SplashScreen>
 
         final userController = Get.find<UserDataController>();
         userController.setUserData(userModel);
+
+        final galleryRequest =
+            http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
+        final headers = {
+          'Authorization': 'Bearer $token',
+        };
+        galleryRequest.headers.addAll(headers);
+        final galleryResponse = await galleryRequest.send();
+        print("1");
+
+        if (galleryResponse.statusCode == 200) {
+          print("Gallery Succesfully Fetched");
+          final galleryResponseBody = await galleryResponse.stream.bytesToString();
+          final galleryJsonResponse = json.decode(galleryResponseBody);
+          print("12q");
+
+          final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
+          userController.setGalleryImages(galleryModel);
+        } else {
+          print("Gallery not Fetched");
+        }
         // Navigate to Onboarding screen after the animation
+
         _navigateToNextScreen();
       } else if (response.statusCode == 401) {
         final responseBody = await response.stream.bytesToString();

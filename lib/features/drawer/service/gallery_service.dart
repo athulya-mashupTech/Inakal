@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/drawer/model/gallery_image_upload_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 
 class GalleryService {
   final AuthController authController = Get.find();
@@ -24,6 +27,8 @@ class GalleryService {
 
         if (galleryModel.type == "success") {
           print(galleryModel.gallery?.length);
+          final userController = Get.find<UserDataController>();
+          userController.updateGalleryImages(galleryModel);
           return galleryModel;
         } else {
           print("Error: ${galleryModel.message}");
@@ -46,6 +51,55 @@ class GalleryService {
       }
     } catch (e) {
       print("Error: $e");
+      return null;
+    }
+  }
+
+  Future<UploadGalleryImageModel?> uploadGalleryImage({
+    required String filePath,
+    required BuildContext context,
+  }) async {
+    try {
+      var request =
+          http.MultipartRequest('POST', Uri.parse(updateGalleryImageUrl));
+
+      request.files.add(await http.MultipartFile.fromPath('image', filePath));
+
+      final token =
+          authController.token.value; // Get the token from AuthController
+      final headers = {
+        'Authorization': 'Bearer $token',
+      };
+      request.headers.addAll(headers);
+
+      final response = await request.send();
+
+      if (response.statusCode == 200) {
+        String responseData = await response.stream.bytesToString();
+        Map<String, dynamic> jsonResponse = jsonDecode(responseData);
+        var uploadGalleryImageModel =
+            UploadGalleryImageModel.fromJson(jsonResponse);
+        if (uploadGalleryImageModel.uploaded == 1) {
+          _showSnackbar(context, 'Image uploaded successfully');
+          String newImageUrl = uploadGalleryImageModel.url!;
+
+          final galleryImages = await getGalleryImages(context);
+          if (galleryImages?.type == "success") {
+            final userController = Get.find<UserDataController>();
+            print("Gallery Reset");
+            userController.updateGalleryImages(
+                galleryImages ?? GalleryImagesModel(gallery: []));
+          }
+        } else {
+          _showSnackbar(context, "Failed to upload image");
+        }
+        return uploadGalleryImageModel;
+      } else {
+        print('Error: ${response.reasonPhrase}');
+        return null;
+      }
+    } catch (e) {
+      print('Exception: $e');
       return null;
     }
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
+import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';
@@ -221,6 +222,14 @@ class _FilteringScreenState extends State<FilteringScreen> {
                         SizedBox(
                           height: 16,
                         ),
+                        // CustomButton(
+                        //   text: "Reset Filters",
+                        //   onPressed: () {},
+                        //   color: AppColors.grey,
+                        // ),
+                        // SizedBox(
+                        //   height: 10,
+                        // ),
                         CustomButton(
                           text: "Apply Filters",
                           onPressed: () {
@@ -239,7 +248,10 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             print(familyStatusController.text);
                             print(foodPreferenceController.text);
                           },
-                        )
+                        ),
+                        SizedBox(
+                          height: 16,
+                        ),
                       ],
                     )
             ],
