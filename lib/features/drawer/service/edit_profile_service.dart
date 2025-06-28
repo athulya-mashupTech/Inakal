@@ -374,21 +374,27 @@ class EditProfileService {
 
 // preference details update
   Future<UserDataUpdateModel?> updatePreferencenDetails({
-    required UserDataModel userData,
+    required String preferredAgeRange,
+    required String preferredHeightRange,
+    required String preferredReligion,
+    required String preferredCaste,
+    required String preferredSmokingHabits,
+    required String preferredDrinkingHabits,
+    required String preferredFoodPreferences,
+    required String preferredQualification,
     required BuildContext context,
   }) async {
     try {
       final response =
           await _sendPostRequest(url: userPreferenceUpdateUrl, fields: {
-        "preferred_age": userData.user!.preferredAgeRange!,
-        "preferred_height_range": userData.user!.preferredHeightRange!,
-        "preferred_religion": userData.user!.preferredReligion!,
-        "preferred_caste": userData.user!.preferredCaste!,
-        "preferred_smoking_habits": userData.user!.preferredSmokingHabits!,
-        "preferred_drinking_habits": userData.user!.preferredDrinkingHabits!,
-        "preferred_food_preferences": userData.user!.preferredFoodPreferences!,
-        "preferred_qualification": userData.user!.preferredQualification!,
-        "score": userData.user!.score!,
+        "preferred_age_range": preferredAgeRange,
+        "preferred_height_range": preferredHeightRange,
+        "preferred_religion": preferredReligion,
+        "preferred_caste": preferredCaste,
+        "preferred_smoking_habits": preferredSmokingHabits,
+        "preferred_drinking_habits": preferredDrinkingHabits,
+        "preferred_food_preferences": preferredFoodPreferences,
+        "preferred_qualification": preferredQualification,
       });
 
       if (response.statusCode == 200) {
