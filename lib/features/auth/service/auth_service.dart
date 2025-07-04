@@ -123,6 +123,7 @@ class AuthService {
       _showSnackbar(context, "Failed to send OTP");
       print("Error: $e");
     }
+    return null;
   }
 
   Future<void> verifyLoginOtp(
@@ -315,20 +316,6 @@ class AuthService {
     final request = http.MultipartRequest('POST', Uri.parse(url));
     request.fields.addAll(fields);
     return await request.send();
-  }
-
-  Future<http.Response> _sendPostRequestUrlEncoded({
-    required String url,
-    required Map<String, String> fields,
-  }) async {
-    final response = await http.post(
-      Uri.parse(url),
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      body: fields,
-    );
-    return response;
   }
 
 // Method to show Snackbar

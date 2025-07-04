@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
-import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/filter_users/screens/filtering_screen.dart';
 import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
-import 'package:inakal/features/filter_users/screens/filter_screen.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';

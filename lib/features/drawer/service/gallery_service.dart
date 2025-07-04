@@ -8,7 +8,6 @@ import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/drawer/model/gallery_image_upload_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
-import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 
 class GalleryService {
   final AuthController authController = Get.find();

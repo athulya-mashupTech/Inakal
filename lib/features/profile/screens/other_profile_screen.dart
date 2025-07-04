@@ -8,7 +8,6 @@ import 'package:inakal/features/profile/service/other_profile_service.dart';
 import 'package:inakal/features/profile/widgets/other_profile_detail_card.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
-import 'package:inakal/features/requests/widgets/message_button.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final String id;
@@ -36,7 +35,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getUserData();
     getRequestStatus();
