@@ -7,7 +7,6 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
-import 'package:inakal/features/auth/registration/screens/image_upload_screen.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/educational_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/family_details.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_sections/partners_preference_details.dart';

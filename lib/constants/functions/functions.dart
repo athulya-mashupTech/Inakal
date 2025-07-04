@@ -6,7 +6,7 @@ class Functions {
   static String calculateAge(String dateOfBirth) {
     debugPrint("Date of Birth: $dateOfBirth");
     // Check for null or invalid date
-    if (dateOfBirth == null ||
+    if (dateOfBirth == "" ||
         dateOfBirth.isEmpty ||
         dateOfBirth == '0000-00-00') {
       return 'NA';

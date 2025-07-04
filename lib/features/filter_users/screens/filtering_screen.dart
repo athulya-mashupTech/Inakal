@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
-import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';

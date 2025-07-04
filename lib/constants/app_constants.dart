@@ -9,8 +9,9 @@ class AppColors {
   static const Color blue = Color(0xFF2196F3); // Blue
   static const Color lightSkyBlue = Color(0xFFAEE7FF); // Light Sky Blue Shade
   static const Color lightblue = Color(0xFFC6EEFF); // LightBlue
-  static const Color skyBlue = Color(0xFF50C2FF); //  Blue platinummembership Shade
-  static const Color otpblue = Color.fromRGBO(30, 60, 87, 1); 
+  static const Color skyBlue =
+      Color(0xFF50C2FF); //  Blue platinummembership Shade
+  static const Color otpblue = Color.fromRGBO(30, 60, 87, 1);
   static const Color otplightblue = Color.fromRGBO(234, 239, 243, 1);
   static const Color psychotext = Color(0xFF007AB7);
   static const Color deepBlue = Color(0xFF006CAF); // Deep Blue Shade
@@ -23,19 +24,21 @@ class AppColors {
   static const Color darkRed = Color(0xFFE40000); //  Red Rejected Shade
   static const Color freshGreen = Color(0xFF6EC551); //  Green completed Shade
   static const Color goldenYellow = Color(0xFFE0BA00); // yellow pending Shade
-  static const Color vibrantYellow = Color(0xFFE7D813); //  Yellow goldenmembership Shade
-  static const Color lightGray = Color(0xFFC8C8C8); //  Gray  silver membership Shade
-  static const Color vibrantGreen = Color(0xFF4CE417); //  Green chat active Shade
+  static const Color vibrantYellow =
+      Color(0xFFE7D813); //  Yellow goldenmembership Shade
+  static const Color lightGray =
+      Color(0xFFC8C8C8); //  Gray  silver membership Shade
+  static const Color vibrantGreen =
+      Color(0xFF4CE417); //  Green chat active Shade
   static const Color warmOrange = Color(0xFFF2994A); // Warm Orange Shade
-  static const Color bgsoftpink= Color(0xFFFFE7EA);
+  static const Color bgsoftpink = Color(0xFFFFE7EA);
   static const Color errorRed = Color(0xFFBD2726);
-  
-  static const Color readMsg = Color(0xFFFFEAEA); 
-  static const Color unreadMsg = Color(0xFFFFF8F8); 
+  static const Color fadeWhite = Color.fromARGB(197, 255, 255, 255);
+
+  static const Color readMsg = Color(0xFFFFEAEA);
+  static const Color unreadMsg = Color(0xFFFFF8F8);
 
   static const Color lightGrey = Color.fromARGB(255, 237, 230, 230);
-
-
 
   static const Gradient pinkWhiteGradient = LinearGradient(
     colors: [
@@ -102,4 +105,3 @@ class UserRegistrationData {
 
   static String? userPassword;
 }
-

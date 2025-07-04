@@ -7,11 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/drawer/model/gallery_images_model.dart';
-import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/common/gallery_image_card.dart';
-import 'package:inakal/features/profile/widgets/Image_card.dart';
 
 class GalleryPage extends StatefulWidget {
   GalleryPage({super.key});
@@ -202,6 +199,12 @@ class _GalleryPageState extends State<GalleryPage> {
                                                     .value
                                                     .gallery?[index]
                                                     .image ??
+                                                "",
+                                            isPublic: userController
+                                                    .galleryImages
+                                                    .value
+                                                    .gallery?[index]
+                                                    .isPublic ??
                                                 "",
                                             onDelete: () {
                                               showDialog(
