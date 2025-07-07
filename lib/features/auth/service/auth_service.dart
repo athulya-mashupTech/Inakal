@@ -14,6 +14,7 @@ import 'package:inakal/features/auth/model/profile_completion_status_model.dart'
 import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/model/sent_otp_model.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
+import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -259,9 +260,28 @@ class AuthService {
         final jsonResponse = json.decode(responseBody);
 
         final userModel = UserDataModel.fromJson(jsonResponse);
-
         final userController = Get.find<UserDataController>();
         userController.setUserData(userModel);
+
+        final galleryRequest =
+            http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
+        final headers = {
+          'Authorization': 'Bearer $token',
+        };
+        
+        galleryRequest.headers.addAll(headers);
+        final galleryResponse = await galleryRequest.send();
+
+        if (galleryResponse.statusCode == 200) {
+          print("Gallery Succesfully Fetched");
+          final galleryResponseBody = await galleryResponse.stream.bytesToString();
+          final galleryJsonResponse = json.decode(galleryResponseBody);
+
+          final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
+          userController.setGalleryImages(galleryModel);
+        } else {
+          print("Gallery not Fetched");
+        }
       } else {
         print("Failed to fetch user profile");
       }

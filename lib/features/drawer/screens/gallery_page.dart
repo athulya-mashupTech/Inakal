@@ -222,13 +222,27 @@ class _GalleryPageState extends State<GalleryPage> {
                                                       child: Text("Cancel"),
                                                     ),
                                                     TextButton(
-                                                      onPressed: () {
+                                                      onPressed: () async {
                                                         setState(() {
-                                                          localImages
-                                                              .removeAt(index);
+                                                          isLoading = true;
                                                         });
                                                         Navigator.pop(
-                                                            context); // Close dialog after deleting
+                                                            context); 
+                                                        await GalleryService()
+                                                            .deleteGalleryImage(
+                                                                context,
+                                                                userController
+                                                                        .galleryImages
+                                                                        .value
+                                                                        .gallery?[
+                                                                            index]
+                                                                        .id ??
+                                                                    "")
+                                                            .then((_) {
+                                                          setState(() {
+                                                            isLoading = false;
+                                                          });
+                                                        });// Close dialog after deleting
                                                       },
                                                       child: Text("Delete",
                                                           style: TextStyle(
