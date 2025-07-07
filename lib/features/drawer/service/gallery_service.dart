@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/drawer/model/delete_gallery_image_model.dart';
 import 'package:inakal/features/drawer/model/gallery_image_upload_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 
@@ -80,7 +81,7 @@ class GalleryService {
             UploadGalleryImageModel.fromJson(jsonResponse);
         if (uploadGalleryImageModel.uploaded == 1) {
           _showSnackbar(context, 'Image uploaded successfully');
-          String newImageUrl = uploadGalleryImageModel.url!;
+          // String newImageUrl = uploadGalleryImageModel.url!;
 
           final galleryImages = await getGalleryImages(context);
           if (galleryImages?.type == "success") {
@@ -99,6 +100,36 @@ class GalleryService {
       }
     } catch (e) {
       print('Exception: $e');
+      return null;
+    }
+  }
+
+  Future<DeleteGalleryImageModel?> deleteGalleryImage(
+      BuildContext context, String imageId) async {
+    try {
+      final response = await _sendPostRequest(
+          url: deleteGalleryImageUrl, fields: {"image_id": imageId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final deleteGalleryImageModel =
+            DeleteGalleryImageModel.fromJson(jsonResponse);
+
+        if (deleteGalleryImageModel.type == "success") {
+          _showSnackbar(context, deleteGalleryImageModel.message ?? "");
+          await getGalleryImages(context);
+          return deleteGalleryImageModel;
+        } else {
+          print("Error: ${deleteGalleryImageModel.message}");
+          return DeleteGalleryImageModel();
+        }
+      } else {
+        print("Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error: $e");
       return null;
     }
   }
