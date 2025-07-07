@@ -207,7 +207,7 @@ class AuthService {
               loginModel.token!, loginModel.userId!);
 
           // Save User data to Getx
-          fetchUserDetails(authController.token.value);
+          await fetchUserDetails(authController.token.value);
 
           Get.offAll(() => const BottomNavBarScreen());
         } else {

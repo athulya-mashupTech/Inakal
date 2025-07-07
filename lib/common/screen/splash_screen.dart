@@ -81,7 +81,6 @@ class _SplashScreenState extends State<SplashScreen>
     if (token != null && token.isNotEmpty) {
       final AuthController authController = Get.find();
       await authController.loadAuthData();
-      print("1");
 
       final request = http.MultipartRequest('POST', Uri.parse(userProfileUrl));
       final headers = {
@@ -89,15 +88,12 @@ class _SplashScreenState extends State<SplashScreen>
       };
       request.headers.addAll(headers);
       final response = await request.send();
-      print("1");
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        print("12q");
 
         final userModel = UserDataModel.fromJson(jsonResponse);
-        print("123");
 
         final userController = Get.find<UserDataController>();
         userController.setUserData(userModel);
@@ -109,13 +105,11 @@ class _SplashScreenState extends State<SplashScreen>
         };
         galleryRequest.headers.addAll(headers);
         final galleryResponse = await galleryRequest.send();
-        print("1");
 
         if (galleryResponse.statusCode == 200) {
           print("Gallery Succesfully Fetched");
           final galleryResponseBody = await galleryResponse.stream.bytesToString();
           final galleryJsonResponse = json.decode(galleryResponseBody);
-          print("12q");
 
           final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
           userController.setGalleryImages(galleryModel);
