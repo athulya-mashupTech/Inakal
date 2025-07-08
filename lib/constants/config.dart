@@ -39,9 +39,11 @@ const galleryImagesUrl = "${baseUrl}userGallery";
 const updateGalleryImageUrl = "${baseUrl}uploadGalleryImage";
 const deleteGalleryImageUrl = "${baseUrl}deleteGalleryImage";
 
+//filter API's
+const filterProfileUrl = "${baseUrl}manualFilter?page=";
+
 // User data update API's
 const userProfileImageUrl = "${baseUrl}updateProfilePic";
-
 const userProfileUpdateUrl = "${baseUrl}updateProfileDetails";
 const userPersonalUpdateUrl = "${baseUrl}updatePersonalDetails";
 const userEduProfUpdateUrl = "${baseUrl}updateEduProfDetails";
@@ -69,3 +71,4 @@ const mobileNumberCheckUrl = "${authBaseUrl}checkMobileNumberExists";
 
 // Inbox Test API
 const inboxTestUrl = "https://mocki.io/v1/9d3b40d5-d3a9-4db9-867b-34d786ae09ed";
+

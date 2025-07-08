@@ -4,6 +4,7 @@ import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
+import 'package:inakal/features/filter_users/services/filter_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';
 
 class FilteringScreen extends StatefulWidget {
@@ -231,7 +232,8 @@ class _FilteringScreenState extends State<FilteringScreen> {
                         // ),
                         CustomButton(
                           text: "Apply Filters",
-                          onPressed: () {
+                          onPressed: () async {
+                           await FilterProfileService().getfilteredProfiles(context);
                             print(religionController.text);
                             print(casteController.text);
                             print(subcasteController.text);

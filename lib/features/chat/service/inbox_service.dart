@@ -30,8 +30,10 @@ class InboxService {
           return null;
         }
       }
+      return null;
     } catch (e) {
       print('Error fetching inbox users: $e');
+      return null;
     }
   }
 
