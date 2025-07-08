@@ -5,8 +5,8 @@ import 'package:inakal/features/auth/registration/screens/registration_password.
 import 'package:pinput/pinput.dart';
 
 class OTPValidateScreen extends StatefulWidget {
-  String otp;
-  OTPValidateScreen({super.key, required this.otp});
+  final String otp;
+  const OTPValidateScreen({super.key, required this.otp});
 
   @override
   _OTPValidateScreenState createState() => _OTPValidateScreenState();

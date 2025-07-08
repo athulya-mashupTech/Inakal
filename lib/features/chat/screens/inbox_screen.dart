@@ -4,7 +4,6 @@ import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/chat/models/inbox_model.dart';
 import 'package:inakal/features/chat/service/inbox_service.dart';
 import 'package:inakal/features/chat/widgets/inbox_card.dart';
-import 'package:inakal/data_class/user.dart';
 
 class InboxScreen extends StatefulWidget {
   const InboxScreen({super.key});
