@@ -194,11 +194,14 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: PageView.builder(
-                    itemCount: userController.galleryImages.value.gallery?.length,
+                    itemCount:
+                        userController.galleryImages.value.gallery?.length,
                     controller: PageController(initialPage: index),
                     itemBuilder: (context, i) {
                       return CachedNetworkImage(
-                        imageUrl: userController.galleryImages.value.gallery?[i].image ?? "",
+                        imageUrl: userController
+                                .galleryImages.value.gallery?[i].image ??
+                            "",
                         fit: BoxFit.contain,
                       );
                     },
@@ -479,83 +482,91 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Obx(() => GridView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10.0,
-                            mainAxisSpacing: 10.0,
-                            childAspectRatio: 1.3,
-                          ),
-                          itemCount:
-                              (userController.galleryImages.value.gallery?.length ?? 0) > 4
-                                  ? 4
-                                  : userController.galleryImages.value.gallery?.length,
-                          itemBuilder: (context, index) {
-                            return (userController.galleryImages.value.gallery?.length ?? 0) >
-                                    4
-                                ? index == 3
-                                    ? GestureDetector(
-                                        onTap: () {
-                                          _showImageOverlay(3);
-                                        },
-                                        child: Stack(
-                                          fit: StackFit.expand,
-                                          children: [
-                                            ImageCard(
-                                                image: userController.galleryImages.value                                                        ?.gallery?[index]
-                                                        .image ??
-                                                    ""),
-                                            Container(
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                color: AppColors.black
-                                                    .withAlpha(150),
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.center,
-                                              children: [
-                                                const Icon(
-                                                  Icons.image_outlined,
-                                                  size: 35,
-                                                  color: AppColors.white,
+                        child: Obx(() {
+                          // Filter the gallery to only include public images (isPublic == "1")
+                          final publicGallery = userController
+                                  .galleryImages.value.gallery
+                                  ?.where((image) => image.isPublic == "1")
+                                  .toList() ??
+                              [];
+
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 10.0,
+                              mainAxisSpacing: 10.0,
+                              childAspectRatio: 1.3,
+                            ),
+                            itemCount: publicGallery.length > 4
+                                ? 4
+                                : publicGallery.length,
+                            itemBuilder: (context, index) {
+                              return publicGallery.length > 4
+                                  ? index == 3
+                                      ? GestureDetector(
+                                          onTap: () {
+                                            _showImageOverlay(3);
+                                          },
+                                          child: Stack(
+                                            fit: StackFit.expand,
+                                            children: [
+                                              ImageCard(
+                                                  image: publicGallery[index]
+                                                          .image ??
+                                                      ""),
+                                              Container(
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  color: AppColors.black
+                                                      .withAlpha(150),
                                                 ),
-                                                Text(
-                                                  "+${(userController.galleryImages.value.gallery?.length ?? 0) - 3}",
-                                                  style: const TextStyle(
-                                                      color: AppColors.white,
-                                                      fontSize: 24),
-                                                )
-                                              ],
-                                            )
-                                          ],
-                                        ),
-                                      )
-                                    : GestureDetector(
-                                        child: ImageCard(
-                                            image: userController.galleryImages.value                                                    ?.gallery?[index].image ??
-                                                ""),
-                                        onTap: () {
-                                          _showImageOverlay(index);
-                                        },
-                                      )
-                                : GestureDetector(
-                                    child: ImageCard(
-                                        image: userController.galleryImages.value                                                ?.gallery?[index].image ??
-                                            ""),
-                                    onTap: () {
-                                      _showImageOverlay(index);
-                                    },
-                                  );
-                          },
-                        )),
+                                              ),
+                                              Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  const Icon(
+                                                    Icons.image_outlined,
+                                                    size: 35,
+                                                    color: AppColors.white,
+                                                  ),
+                                                  Text(
+                                                    "+${publicGallery.length - 3}",
+                                                    style: const TextStyle(
+                                                        color: AppColors.white,
+                                                        fontSize: 24),
+                                                  )
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        )
+                                      : GestureDetector(
+                                          child: ImageCard(
+                                              image:
+                                                  publicGallery[index].image ??
+                                                      ""),
+                                          onTap: () {
+                                            _showImageOverlay(index);
+                                          },
+                                        )
+                                  : GestureDetector(
+                                      child: ImageCard(
+                                          image:
+                                              publicGallery[index].image ?? ""),
+                                      onTap: () {
+                                        _showImageOverlay(index);
+                                      },
+                                    );
+                            },
+                          );
+                        }),
                       ),
                       SizedBox(height: 10),
                     ],

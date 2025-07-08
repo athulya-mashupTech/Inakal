@@ -1,14 +1,21 @@
 import 'package:get/get.dart';
 import 'package:inakal/common/model/user_data_model.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
 
 class UserDataController extends GetxController {
   var userData = UserDataModel().obs;
   var galleryImages = GalleryImagesModel().obs;
+  var dropdownModel = DropdownModel().obs;
 
   // method to update userData
   void setUserData(UserDataModel data) {
     userData.value = data;
+  }
+
+  // method to update userData
+  void setDropDownData(DropdownModel dropdownData) {
+    dropdownModel.value = dropdownData;
   }
 
   void setGalleryImages(GalleryImagesModel galleryImagesModel) {

@@ -257,8 +257,8 @@ class _GalleryPageState extends State<GalleryPage> {
                                     );
                                   },
                                 )),
-                    const SizedBox(height: 16),
-                    CustomButton(text: "Save Changes")
+                    // const SizedBox(height: 16),
+                    // CustomButton(text: "Save Changes")
                   ],
                 ),
               ),
