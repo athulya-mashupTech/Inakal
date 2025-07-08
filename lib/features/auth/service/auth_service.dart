@@ -14,7 +14,9 @@ import 'package:inakal/features/auth/model/profile_completion_status_model.dart'
 import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/model/sent_otp_model.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
@@ -25,19 +27,19 @@ class AuthService {
   }) async {
     try {
       // print("""firstname: ${userData.userFirstName},
-      //      lastname: ${userData.userLastName}, 
-      //      countryCode: ${userData.userCountryCode}, 
-      //      phone: ${userData.userPhoneNumber}, 
-      //      email: ${userData.userEmail}, 
-      //      address: ${userData.userAddress}, 
-      //      district: ${userData.userDistrict}, 
-      //      state: ${userData.userState}, 
-      //      country: ${userData.userCountry}, 
-      //      password: ${userData.userPassword}, 
-      //      religion: ${userData.userReligion}, 
-      //      caste: ${userData.userCaste}, 
-      //      birthstar: ${userData.userBirthStar}, 
-      //      description: ${userData.userDescription}, 
+      //      lastname: ${userData.userLastName},
+      //      countryCode: ${userData.userCountryCode},
+      //      phone: ${userData.userPhoneNumber},
+      //      email: ${userData.userEmail},
+      //      address: ${userData.userAddress},
+      //      district: ${userData.userDistrict},
+      //      state: ${userData.userState},
+      //      country: ${userData.userCountry},
+      //      password: ${userData.userPassword},
+      //      religion: ${userData.userReligion},
+      //      caste: ${userData.userCaste},
+      //      birthstar: ${userData.userBirthStar},
+      //      description: ${userData.userDescription},
       //      hobbies: ${userData.userHobbies}
       //      profileCreatedFor: ${userData.userProfileCreatedFor},
       //      maritalStatus: ${userData.maritalStatus}""");
@@ -127,21 +129,13 @@ class AuthService {
     return null;
   }
 
-  Future<void> verifyLoginOtp(
-      BuildContext context, 
-      String countryCode, 
-      String phone, 
-      String otp
-      ) async {
+  Future<void> verifyLoginOtp(BuildContext context, String countryCode,
+      String phone, String otp) async {
     try {
       final response = await _sendPostRequest(
           url: verifyOtpUrl,
-          fields: {
-            "phone": phone, 
-            "country_code": countryCode, 
-            "otp": otp
-            });
-          print(response.statusCode);
+          fields: {"phone": phone, "country_code": countryCode, "otp": otp});
+      print(response.statusCode);
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -268,19 +262,37 @@ class AuthService {
         final headers = {
           'Authorization': 'Bearer $token',
         };
-        
+
         galleryRequest.headers.addAll(headers);
         final galleryResponse = await galleryRequest.send();
 
         if (galleryResponse.statusCode == 200) {
           print("Gallery Succesfully Fetched");
-          final galleryResponseBody = await galleryResponse.stream.bytesToString();
+          final galleryResponseBody =
+              await galleryResponse.stream.bytesToString();
           final galleryJsonResponse = json.decode(galleryResponseBody);
 
           final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
           userController.setGalleryImages(galleryModel);
         } else {
           print("Gallery not Fetched");
+        }
+
+        // Load DropDown Data
+        final dropdownResponse =
+            await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
+
+        if (dropdownResponse.statusCode == 200) {
+          final dropdownResponseBody =
+              await dropdownResponse.stream.bytesToString();
+          print("Response : $dropdownResponseBody");
+          final jsonDropdownResponse = json.decode(dropdownResponseBody);
+          final dropdownModel = DropdownModel.fromJson(jsonDropdownResponse);
+          userController.setDropDownData(dropdownModel);
+          
+        } else {
+          print("Error: ${response.statusCode}");
+          return null;
         }
       } else {
         print("Failed to fetch user profile");

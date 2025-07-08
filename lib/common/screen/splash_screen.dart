@@ -11,7 +11,9 @@ import 'package:inakal/common/widgets/no_internet_checker.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -107,7 +109,8 @@ class _SplashScreenState extends State<SplashScreen>
 
         if (galleryResponse.statusCode == 200) {
           print("Gallery Succesfully Fetched");
-          final galleryResponseBody = await galleryResponse.stream.bytesToString();
+          final galleryResponseBody =
+              await galleryResponse.stream.bytesToString();
           final galleryJsonResponse = json.decode(galleryResponseBody);
 
           final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
@@ -115,7 +118,13 @@ class _SplashScreenState extends State<SplashScreen>
         } else {
           print("Gallery not Fetched");
         }
-        // Navigate to Onboarding screen after the animation
+
+        // Load DropDown Data
+        await EditProfileService()
+            .getDropdownOptions(context: context)
+            .then((value) {
+          userController.setDropDownData(value ?? DropdownModel());
+        });
 
         _navigateToNextScreen();
       } else if (response.statusCode == 401) {
