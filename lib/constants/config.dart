@@ -40,7 +40,7 @@ const updateGalleryImageUrl = "${baseUrl}uploadGalleryImage";
 const deleteGalleryImageUrl = "${baseUrl}deleteGalleryImage";
 
 //filter API's
-const filterProfileUrl = "${baseUrl}manualFilter?page=";
+const filterProfileUrl = "${baseUrl}manualFilter";
 
 // User data update API's
 const userProfileImageUrl = "${baseUrl}updateProfilePic";

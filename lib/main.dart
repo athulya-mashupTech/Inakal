@@ -35,13 +35,13 @@ class MyApp extends StatelessWidget {
       // home: ChatScreen(),
       // home: PsychologistScreen(),
       // home: ProfileApp(),
-      // home: const MyHomePage(title: 'Inakal'),
+      home: const MyHomePage(title: 'Inakal'),
       //  home: ForgotPassword(),
       // home: ProfileDetails(),
       // home: MatchesScreen(),
       // home: ProfilePage(),
       // home: Notifications()
-      home: LikedProfile(),
+      // home: LikedProfile(),
       // home: CounsellorsScreen(),
       // home: RegistrationForm()
       // home: HomeScreen(),

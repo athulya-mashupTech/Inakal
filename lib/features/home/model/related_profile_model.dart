@@ -87,19 +87,19 @@ class RelatedProfiles {
   String? smokingHabits;
   String? drinkingHabits;
   String? foodPreferences;
-  Null? profileCompletedPercentage;
-  Null? membershipType;
+  String? profileCompletedPercentage;
+  String? membershipType;
   String? profileCreatedBy;
-  Null? socialMediaLinks;
+  String? socialMediaLinks;
   String? instagramLink;
   String? facebookLink;
   String? linkedinLink;
-  Null? youtubeLink;
+  String? youtubeLink;
   String? lastSeen;
   String? consultancyRequired;
   String? needLikeMindedPartner;
-  Null? assignedLeadId;
-  Null? preferredQualification;
+  String? assignedLeadId;
+  String? preferredQualification;
   String? remarks;
   String? profileVisibilty;
   String? profileApproved;
@@ -117,6 +117,7 @@ class RelatedProfiles {
   String? likedBy;
   String? districtName;
   String? stateName;
+  bool? liked;
 
   RelatedProfiles(
       {this.id,
@@ -206,7 +207,8 @@ class RelatedProfiles {
       this.status,
       this.likedBy,
       this.districtName,
-      this.stateName});
+      this.stateName,
+      this.liked});
 
   RelatedProfiles.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -297,6 +299,7 @@ class RelatedProfiles {
     likedBy = json['liked_by'];
     districtName = json['district_name'];
     stateName = json['state_name'];
+    liked = json['liked'];
   }
 
   Map<String, dynamic> toJson() {
@@ -389,6 +392,7 @@ class RelatedProfiles {
     data['liked_by'] = this.likedBy;
     data['district_name'] = this.districtName;
     data['state_name'] = this.stateName;
+    data['liked'] = this.liked;
     return data;
   }
 }

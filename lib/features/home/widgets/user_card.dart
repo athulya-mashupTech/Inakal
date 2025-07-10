@@ -13,13 +13,13 @@ class UserCard extends StatefulWidget {
   final String name;
   final String dob;
   final String location;
-  final String likedBy;
+  final bool likedBy;
 
   const UserCard(
-      {required this.name,
+      {super.key,
+      required this.name,
       required this.location,
       required this.dob,
-      super.key,
       required this.image,
       required this.likedBy,
       required this.clientId});
@@ -29,6 +29,7 @@ class UserCard extends StatefulWidget {
 }
 
 class _UserCardState extends State<UserCard> {
+  bool likedBy = false;
   Future<void> sendInterestToUser() async {
     await HomeService().sentInterestToUser(widget.clientId, context);
   }
@@ -37,7 +38,21 @@ class _UserCardState extends State<UserCard> {
     await HomeService().toggleLikedBy(widget.clientId, context);
   }
 
-  late String likedBy = widget.likedBy;
+  @override
+  void initState() {
+    likedBy = widget.likedBy;
+    super.initState();
+  }
+
+  // String likedValue(String value) {
+  //   if (value == true) {
+  //     return "YES";
+  //   } else if (value == false) {
+  //     return "NO";
+  //   } else {
+  //     return likedBy;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +82,7 @@ class _UserCardState extends State<UserCard> {
                     fit: BoxFit.cover,
                     width: double.infinity,
                     height: double.infinity)),
-    
+
             // Gradient overlay at the bottom
             Align(
               alignment: Alignment.bottomCenter,
@@ -85,7 +100,7 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
             ),
-    
+
             // Name and location
             Align(
               alignment: Alignment.bottomLeft,
@@ -118,14 +133,14 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
             ),
-    
+
             // Age in the top-right corner
             Positioned(
               top: 10,
               left: 10,
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 8.0, vertical: 4.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
                 decoration: BoxDecoration(
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(12.0),
@@ -140,7 +155,7 @@ class _UserCardState extends State<UserCard> {
                 ),
               ),
             ),
-    
+
             Positioned(
               top: 0,
               right: 0,
@@ -150,24 +165,22 @@ class _UserCardState extends State<UserCard> {
                   Icon(
                     Icons.circle,
                     size: 30,
-                    color: likedBy == "NO"
-                        ? Colors.transparent
-                        : AppColors.white, // Hollow if likedBy is not "NO"
+                    color: likedBy
+                        ? AppColors.white
+                        : Colors.transparent, // Hollow if likedBy is not "NO"
                   ),
                   IconButton(
                     onPressed: () {
                       // sendInterestToUser();
                       toggleLikedBy();
                       setState(() {
-                        likedBy = likedBy == "NO" ? "YES" : "NO";
+                        likedBy = !likedBy;
                       });
                     },
                     icon: Iconify(
                       Fe.heart,
                       size: 15,
-                      color: likedBy == "NO"
-                          ? Colors.white
-                          : AppColors.primaryRed,
+                      color: likedBy ? AppColors.primaryRed : Colors.white,
                     ),
                   ),
                 ],

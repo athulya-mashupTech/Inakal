@@ -4,6 +4,8 @@ import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
+import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
+import 'package:inakal/features/filter_users/screens/filtered_profile_screen.dart';
 import 'package:inakal/features/filter_users/services/filter_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';
 
@@ -233,7 +235,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                         CustomButton(
                           text: "Apply Filters",
                           onPressed: () async {
-                           await FilterProfileService().getfilteredProfiles(context);
+
                             print(religionController.text);
                             print(casteController.text);
                             print(subcasteController.text);
@@ -248,6 +250,39 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             print(annualIncomeController.text);
                             print(familyStatusController.text);
                             print(foodPreferenceController.text);
+                            final appliedFilters = AppliedFiltersModel(
+                                filterReligion: religionController.text,
+                                filterCaste: [casteController.text],
+                                filterSubCaste: [subcasteController.text],
+                                filterAgeGroup: ageRangeController.text,
+                                filterHeight: heightController.text,
+                                filterWeight: weightController.text,
+                                filterState: stateController.text,
+                                filterMotherTongue: languageController.text,
+                                filterMaritalStatus:
+                                    maritalStatusController.text,
+                                filterEducation:
+                                    highestEducationController.text,
+                                filterOccupation: [occupationController.text],
+                                filterAnnualIncome: annualIncomeController.text,
+                                filterFoodPreference:
+                                    foodPreferenceController.text);
+                            print("object");
+                            final responseModel = await FilterProfileService()
+                                .getfilteredProfiles(
+                                    context, 0, appliedFilters);
+                                    
+                            print("object: ${responseModel}");
+                            if (responseModel != null &&
+                                responseModel.type == "success") {
+                              print(responseModel.type);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          FilteredProfileScreen(
+                                              responseModel, appliedFilters)));
+                            }
                           },
                         ),
                         SizedBox(

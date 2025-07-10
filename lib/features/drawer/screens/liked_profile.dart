@@ -206,25 +206,31 @@ class _LikedProfileState extends State<LikedProfile> {
                                         child: UserCard(
                                             likedBy: relatedProfileModel
                                                     ?.relatedProfiles?[index]
-                                                    .likedBy ??
-                                                "NO",
+                                                    .liked ??
+                                                false,
                                             dob: relatedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .dob ??
                                                 "",
-                                            clientId: relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .id ??
-                                                "",
+                                            clientId:
+                                                relatedProfileModel?.relatedProfiles?[index].id ??
+                                                    "",
                                             name:
                                                 "${(relatedProfileModel?.relatedProfiles?[index].firstName ?? "").trimLeft()} ${(relatedProfileModel?.relatedProfiles?[index].lastName ?? "").trimLeft()}",
-                                            location: getLocation(relatedProfileModel?.relatedProfiles?[index].districtName ?? "", relatedProfileModel?.relatedProfiles?[index].stateName ?? ""),
+                                            location: getLocation(
+                                                relatedProfileModel
+                                                        ?.relatedProfiles?[
+                                                            index]
+                                                        .districtName ??
+                                                    "",
+                                                relatedProfileModel?.relatedProfiles?[index].stateName ??
+                                                    ""),
                                             image: relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .image ==
-                                                "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                            ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                            : "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                                                        ?.relatedProfiles?[index]
+                                                        .image ==
+                                                    "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                                ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                                : "${relatedProfileModel?.relatedProfiles?[index].image}"));
                                 },
                               ),
                             ),

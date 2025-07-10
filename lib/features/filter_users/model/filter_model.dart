@@ -122,9 +122,9 @@ class Clients {
   String? status;
   bool? liked;
   bool? requestSent;
-  bool? requestSentDetails;
+  dynamic requestSentDetails;
   bool? requestReceived;
-  bool? requestReceivedDetails;
+  dynamic requestReceivedDetails;
 
   Clients(
       {this.id,
@@ -306,9 +306,13 @@ class Clients {
     status = json['status'];
     liked = json['liked'];
     requestSent = json['request_sent'];
-    requestSentDetails = json['request_sent_details'];
+    requestSentDetails = (json['request_sent_details'] != false)
+        ? new RequestSentDetails.fromJson(json['request_sent_details'])
+        : null;
     requestReceived = json['request_received'];
-    requestReceivedDetails = json['request_received_details'];
+    requestReceivedDetails = (json['request_received_details'] != false)
+        ? new RequestSentDetails.fromJson(json['request_received_details'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -400,9 +404,56 @@ class Clients {
     data['status'] = this.status;
     data['liked'] = this.liked;
     data['request_sent'] = this.requestSent;
-    data['request_sent_details'] = this.requestSentDetails;
+    if (this.requestSentDetails != null) {
+      data['request_sent_details'] = this.requestSentDetails!.toJson();
+    }
     data['request_received'] = this.requestReceived;
     data['request_received_details'] = this.requestReceivedDetails;
+    return data;
+  }
+}
+
+class RequestSentDetails {
+  String? id;
+  String? fromClientId;
+  String? toClientId;
+  String? assignedBy;
+  String? assignedById;
+  String? remarks;
+  String? status;
+  String? createdAt;
+
+  RequestSentDetails(
+      {this.id,
+      this.fromClientId,
+      this.toClientId,
+      this.assignedBy,
+      this.assignedById,
+      this.remarks,
+      this.status,
+      this.createdAt});
+
+  RequestSentDetails.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    fromClientId = json['from_client_id'];
+    toClientId = json['to_client_id'];
+    assignedBy = json['assigned_by'];
+    assignedById = json['assigned_by_id'];
+    remarks = json['remarks'];
+    status = json['status'];
+    createdAt = json['created_at'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['from_client_id'] = this.fromClientId;
+    data['to_client_id'] = this.toClientId;
+    data['assigned_by'] = this.assignedBy;
+    data['assigned_by_id'] = this.assignedById;
+    data['remarks'] = this.remarks;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt;
     return data;
   }
 }
