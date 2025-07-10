@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
-import 'package:inakal/features/home/model/related_profile_model.dart';
-import 'package:inakal/features/home/service/home_service.dart';
+import 'package:inakal/features/drawer/model/liked_profile_model.dart';
+import 'package:inakal/features/drawer/service/liked_profile_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:lottie/lottie.dart';
@@ -18,21 +17,21 @@ class LikedProfile extends StatefulWidget {
 }
 
 class _LikedProfileState extends State<LikedProfile> {
-  RelatedProfileModel? relatedProfileModel;
+  LikedProfileModel? likedProfileModel;
   bool isLoading = true;
   // final userController = Get.find<UserDataController>();
 
   @override
   void initState() {
     super.initState();
-    fetchRelatedProfiles();
+    getLikedProfile();
   }
 
-  Future<void> fetchRelatedProfiles() async {
-    HomeService().getRelatedProfile(context: context).then((value) {
+  Future<void> getLikedProfile() async {
+    LikedProfileService().getLikedProfile(context: context).then((value) {
       if (value != null) {
         setState(() {
-          relatedProfileModel = value;
+          likedProfileModel = value;
           isLoading = false;
         });
       }
@@ -140,7 +139,7 @@ class _LikedProfileState extends State<LikedProfile> {
                             color: AppColors.primaryRed,
                           ),
                         )
-                      : relatedProfileModel?.relatedProfiles?.isEmpty ?? true
+                      : likedProfileModel?.relatedProfiles?.isEmpty ?? true
                           ? SizedBox(
                               height: MediaQuery.of(context).size.height *
                                   0.5, // Adjust based on how much header content there is
@@ -158,7 +157,7 @@ class _LikedProfileState extends State<LikedProfile> {
                                       padding: const EdgeInsets.all(20.0),
                                       child: Center(
                                         child: Text(
-                                          "No Related Profiles Found for your preferences.\nTry changing your preferences or check back later.",
+                                          "No Liked Profiles Found for your preferences.\nTry changing your preferences or check back later.",
                                           textAlign: TextAlign.center,
                                           style: const TextStyle(
                                             fontSize: 14,
@@ -185,10 +184,10 @@ class _LikedProfileState extends State<LikedProfile> {
                                   childAspectRatio:
                                       1, // Adjust based on card dimensions
                                 ),
-                                itemCount: relatedProfileModel
+                                itemCount: likedProfileModel
                                     ?.relatedProfiles?.length,
                                 itemBuilder: (context, index) {
-                                  if (relatedProfileModel!
+                                  if (likedProfileModel!
                                           .relatedProfiles![index].likedBy ==
                                       "1")
                                     return GestureDetector(
@@ -198,33 +197,40 @@ class _LikedProfileState extends State<LikedProfile> {
                                               MaterialPageRoute(
                                                   builder: (context) =>
                                                       OtherProfileScreen(
-                                                          id: relatedProfileModel!
+                                                          id: likedProfileModel!
                                                               .relatedProfiles![
                                                                   index]
                                                               .id!)));
                                         },
                                         child: UserCard(
-                                            likedBy: relatedProfileModel
+                                            likedBy: likedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .likedBy ??
                                                 "NO",
-                                            dob: relatedProfileModel
+                                            dob: likedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .dob ??
                                                 "",
-                                            clientId: relatedProfileModel
+                                            clientId: likedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .id ??
                                                 "",
                                             name:
-                                                "${(relatedProfileModel?.relatedProfiles?[index].firstName ?? "").trimLeft()} ${(relatedProfileModel?.relatedProfiles?[index].lastName ?? "").trimLeft()}",
-                                            location: getLocation(relatedProfileModel?.relatedProfiles?[index].districtName ?? "", relatedProfileModel?.relatedProfiles?[index].stateName ?? ""),
-                                            image: relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .image ==
-                                                "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                            ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                            : "${relatedProfileModel?.relatedProfiles?[index].image}"));
+                                                "${(likedProfileModel?.relatedProfiles?[index].firstName ?? "").trimLeft()} ${(likedProfileModel?.relatedProfiles?[index].lastName ?? "").trimLeft()}",
+                                            location: getLocation(
+                                                likedProfileModel
+                                                        ?.relatedProfiles?[
+                                                            index]
+                                                        .districtName ??
+                                                    "",
+                                                likedProfileModel?.relatedProfiles?[index].stateName ??
+                                                    ""),
+                                            image: likedProfileModel
+                                                        ?.relatedProfiles?[index]
+                                                        .image ==
+                                                    "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                                ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                                : "${likedProfileModel?.relatedProfiles?[index].image}"));
                                 },
                               ),
                             ),

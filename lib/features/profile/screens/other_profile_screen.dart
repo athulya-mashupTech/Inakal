@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/profile/model/other_profile_model.dart';
 import 'package:inakal/features/profile/service/other_profile_service.dart';
@@ -11,13 +14,15 @@ import 'package:inakal/features/requests/widgets/decline_button.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final String id;
-  const OtherProfileScreen({super.key, required this.id});
-
+  OtherProfileScreen({super.key, required this.id});
   @override
   State<OtherProfileScreen> createState() => _OtherProfileScreenState();
 }
 
 class _OtherProfileScreenState extends State<OtherProfileScreen> {
+  final userController = Get.find<UserDataController>();
+  DropdownModel? dropdownModel;
+  String? selectedReligion;
   OtherProfileModel? otherUserModel;
   User userData = User();
   bool isLoading = true;
@@ -38,6 +43,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     super.initState();
     getUserData();
     getRequestStatus();
+    dropdownModel = userController.dropdownModel.value;
   }
 
   Future<void> getUserData() async {
@@ -108,6 +114,33 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
   void updateIndex(int index) {
     _scrollToCurrentIndex();
+  }
+
+  String getLocation(String district, String state) {
+    print("val:" + district + state);
+    String dValue = district;
+    String sValue = state;
+
+    if (district != "") {
+      dValue = dropdownModel!.districts!
+              .firstWhere((dist) => dist.id == district)
+              .name ??
+          "";
+    }
+    if (state != "") {
+      sValue =
+          dropdownModel!.states!.firstWhere((stat) => stat.id == state).name ??
+              "";
+    }
+
+    if (dValue != "" && sValue != "") {
+      return "$dValue, $sValue";
+    } else if (dValue == "" && sValue != "") {
+      return sValue;
+    } else if (dValue != "" && sValue == "") {
+      return dValue;
+    }
+    return "Location: Not Specified";
   }
 
   @override
@@ -258,7 +291,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                         CrossAxisAlignment.baseline,
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
-                                      Text("${userData.occupation}",
+                                      Text(
+                                          userData.occupation ??
+                                              "Job: Not Specified",
                                           style: const TextStyle(fontSize: 16)),
                                       const SizedBox(width: 5),
                                       const Text("|",
@@ -268,7 +303,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                               color: AppColors.grey)),
                                       const SizedBox(width: 5),
                                       Text(
-                                          "${userData.district}, ${userData.state}",
+                                          getLocation(userData.district ?? "",
+                                              userData.state ?? ""),
                                           style: const TextStyle(fontSize: 16)),
                                     ],
                                   ),
@@ -308,7 +344,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 15),
-                                  Text(userData.aboutMe ?? "",
+                                  Text("About Me", style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold)),
+                                  Text(userData.aboutMe ?? "Not Specified",
                                       style: const TextStyle(fontSize: 16)),
                                 ],
                               ),
@@ -337,13 +376,42 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             value: userData.weight ?? ""),
                                         OtherProfileDetailCard(
                                             title: "Religion",
-                                            value: userData.religion ?? ""),
+                                            value: (userData.religion == "" ||
+                                                    userData.religion == null)
+                                                ? "Not Specified"
+                                                : dropdownModel!.religions!
+                                                        .firstWhere(
+                                                            (religion) =>
+                                                                religion.id ==
+                                                                userData
+                                                                    .religion)
+                                                        .name ??
+                                                    ""),
                                         OtherProfileDetailCard(
                                             title: "Caste",
-                                            value: userData.caste ?? ""),
+                                            value: (userData.caste == "" ||
+                                                    userData.caste == null)
+                                                ? "Not Specified"
+                                                : dropdownModel!.castes!
+                                                        .firstWhere((caste) =>
+                                                            caste.id ==
+                                                            userData.caste)
+                                                        .name ??
+                                                    ""),
                                         OtherProfileDetailCard(
                                             title: "Mother Tongue",
-                                            value: userData.motherTongue ?? ""),
+                                            value: (userData.motherTongue ==
+                                                        "" ||
+                                                    userData.motherTongue ==
+                                                        null)
+                                                ? "Not Specified"
+                                                : dropdownModel!.languages!
+                                                        .firstWhere((languages) =>
+                                                            languages.id ==
+                                                            userData
+                                                                .motherTongue)
+                                                        .name ??
+                                                    ""),
                                         OtherProfileDetailCard(
                                             title: "Marital Status",
                                             value:
@@ -363,18 +431,57 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         OtherProfileDetailCard(
+                                            title: "Highest Education",
+                                            value: (userData.highestEducation ==
+                                                        "" ||
+                                                    userData.highestEducation ==
+                                                        null)
+                                                ? "Not Specified"
+                                                : dropdownModel!
+                                                        .highestEducations!
+                                                        .firstWhere(
+                                                            (highesteducation) =>
+                                                                highesteducation
+                                                                    .id ==
+                                                                userData
+                                                                    .highestEducation)
+                                                        .name ??
+                                                    ""),
+                                        OtherProfileDetailCard(
                                             title: "Qualification",
-                                            value: userData.highestEducation ??
-                                                ""),
+                                            value: (userData.qualification ==
+                                                        "" ||
+                                                    userData.qualification ==
+                                                        null)
+                                                ? "Not Specified"
+                                                : dropdownModel!.qualifications!
+                                                        .firstWhere(
+                                                            (Qualifications) =>
+                                                                Qualifications
+                                                                    .id ==
+                                                                userData
+                                                                    .qualification)
+                                                        .name ??
+                                                    ""),
                                         OtherProfileDetailCard(
                                             title: "Job",
-                                            value: userData.occupation ?? ""),
+                                            value: (userData.occupation == "" ||
+                                                    userData.occupation == null)
+                                                ? "Not Specified"
+                                                : dropdownModel!.occupations!
+                                                        .firstWhere(
+                                                            (occupation) =>
+                                                                occupation.id ==
+                                                                userData
+                                                                    .occupation)
+                                                        .name ??
+                                                    ""),
                                         OtherProfileDetailCard(
                                             title: "Income",
-                                            value: userData.annualIncome ?? ""),
+                                            value: userData.annualIncome ?? "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Working Location",
-                                            value: userData.workLocation ?? ""),
+                                            value: userData.workLocation ?? "Not Specified"),
                                       ],
                                     ),
                                   ),
@@ -391,19 +498,32 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                       children: [
                                         OtherProfileDetailCard(
                                             title: "Smoking Habit",
-                                            value:
-                                                userData.smokingHabits ?? ""),
+                                            value: (userData.smokingHabits ==
+                                                        null ||
+                                                    userData.smokingHabits ==
+                                                        "")
+                                                ? "Not Specified"
+                                                : userData.smokingHabits ??
+                                                    "Not Specified"),
+
                                         OtherProfileDetailCard(
                                             title: "Drinking Habit",
-                                            value:
-                                                userData.drinkingHabits ?? ""),
+                                            value: (userData.smokingHabits ==
+                                                        null ||
+                                                    userData.smokingHabits ==
+                                                        "")
+                                                ? "Not Specified"
+                                                : userData.drinkingHabits ??
+                                                "Not Specified"),
+
                                         OtherProfileDetailCard(
                                             title: "Profile created by",
                                             value: userData.profileCreatedBy ??
                                                 ""),
                                         OtherProfileDetailCard(
                                             title: "Hobbies",
-                                            value: userData.hobbies ?? ""),
+                                            value: userData.hobbies ??
+                                                "Not Specified"),
                                       ],
                                     ),
                                   ),
@@ -442,7 +562,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     default:
                                       return CustomButton(
                                           text: "Send Interest",
-                                          onPressed: sendInterestToUser); // fallback if status is null or unknown
+                                          onPressed:
+                                              sendInterestToUser); // fallback if status is null or unknown
                                   }
                                 },
                               ),
