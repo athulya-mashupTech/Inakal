@@ -205,8 +205,8 @@ class _LikedProfileState extends State<LikedProfile> {
                                         child: UserCard(
                                             likedBy: likedProfileModel
                                                     ?.relatedProfiles?[index]
-                                                    .likedBy ??
-                                                "NO",
+                                                    .liked ??
+                                                false,
                                             dob: likedProfileModel
                                                     ?.relatedProfiles?[index]
                                                     .dob ??
