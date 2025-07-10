@@ -65,6 +65,7 @@ const rejectRequestUrl = "${baseUrl}rejectRequest";
 
 //Related Profile API's
 const relatedProfileUrl = "${baseUrl}relatedProfiles";
+const likedProfileUrl = "${baseUrl}getLikedProfiles";
 
 //Mobile Number Verification API's
 const mobileNumberCheckUrl = "${authBaseUrl}checkMobileNumberExists";

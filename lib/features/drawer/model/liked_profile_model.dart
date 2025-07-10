@@ -1,21 +1,26 @@
-class OtherProfileModel {
-  User? user;
+class LikedProfileModel {
+  List<RelatedProfiles>? relatedProfiles;
   String? message;
   String? type;
-  List<Gallery>? gallery;
 
-  OtherProfileModel({this.user, this.message, this.type});
+  LikedProfileModel({this.relatedProfiles, this.message, this.type});
 
-  OtherProfileModel.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
+  LikedProfileModel.fromJson(Map<String, dynamic> json) {
+    if (json['related_profiles'] != null) {
+      relatedProfiles = <RelatedProfiles>[];
+      json['related_profiles'].forEach((v) {
+        relatedProfiles!.add(new RelatedProfiles.fromJson(v));
+      });
+    }
     message = json['message'];
     type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.user != null) {
-      data['user'] = this.user!.toJson();
+    if (this.relatedProfiles != null) {
+      data['related_profiles'] =
+          this.relatedProfiles!.map((v) => v.toJson()).toList();
     }
     data['message'] = this.message;
     data['type'] = this.type;
@@ -23,7 +28,7 @@ class OtherProfileModel {
   }
 }
 
-class User {
+class RelatedProfiles {
   String? id;
   String? firstName;
   String? lastName;
@@ -109,8 +114,12 @@ class User {
   String? registrationStatus;
   String? created;
   String? status;
+  String? likedBy;
+  String? districtName;
+  String? stateName;
+  bool? liked;
 
-  User(
+  RelatedProfiles(
       {this.id,
       this.firstName,
       this.lastName,
@@ -195,9 +204,13 @@ class User {
       this.otpTime,
       this.registrationStatus,
       this.created,
-      this.status});
+      this.status,
+      this.likedBy,
+      this.districtName,
+      this.stateName,
+      this.liked});
 
-  User.fromJson(Map<String, dynamic> json) {
+  RelatedProfiles.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     firstName = json['first_name'];
     lastName = json['last_name'];
@@ -283,6 +296,10 @@ class User {
     registrationStatus = json['registration_status'];
     created = json['created'];
     status = json['status'];
+    likedBy = json['liked_by'];
+    districtName = json['district_name'];
+    stateName = json['state_name'];
+    liked = json['liked'];
   }
 
   Map<String, dynamic> toJson() {
@@ -372,34 +389,10 @@ class User {
     data['registration_status'] = this.registrationStatus;
     data['created'] = this.created;
     data['status'] = this.status;
-    return data;
-  }
-}
-
-class Gallery {
-  String? id;
-  String? image;
-  String? isPublic;
-  String? uploadedAt;
-  String? clientId;
-
-  Gallery({this.id, this.image, this.isPublic, this.uploadedAt, this.clientId});
-
-  Gallery.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    image = json['image'];
-    isPublic = json['is_public'];
-    uploadedAt = json['uploaded_at'];
-    clientId = json['client_id'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['image'] = this.image;
-    data['is_public'] = this.isPublic;
-    data['uploaded_at'] = this.uploadedAt;
-    data['client_id'] = this.clientId;
+    data['liked_by'] = this.likedBy;
+    data['district_name'] = this.districtName;
+    data['state_name'] = this.stateName;
+    data['liked'] = this.liked;
     return data;
   }
 }
