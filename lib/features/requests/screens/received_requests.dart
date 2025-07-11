@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/received_requests_card.dart';
@@ -18,11 +21,25 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
   List<RequestUserDetailsModel?> allReceivedRequests = [];
   List<RequestUserDetailsModel?> filteredUsers = [];
   bool isLoading = true;
+  final userController = Get.find<UserDataController>();
+  DropdownModel? dropdownModel;
 
   @override
   void initState() {
     super.initState();
+    dropdownModel = userController.dropdownModel.value;
     fetchReceivedRequests();
+  }
+
+  String getLocation(String district, String state) {
+    if (district != "" && state != "") {
+      return "$district, $state";
+    } else if (district == "" && state != "") {
+      return state;
+    } else if (district != "" && state == "") {
+      return district;
+    }
+    return "";
   }
 
   Future<void> fetchReceivedRequests() async {
@@ -43,7 +60,8 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
   void applyFilter() {
     if (selectedFilter == "All") {
       filteredUsers = allReceivedRequests
-          .where((user) => user?.status == "accepted" || user?.status == "pending")
+          .where(
+              (user) => user?.status == "accepted" || user?.status == "pending")
           .toList();
     } else if (selectedFilter == "Accepted") {
       filteredUsers = allReceivedRequests
@@ -118,18 +136,41 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                           final user = filteredUsers[index];
                           return ReceivedRequestsCard(
                             client_id: user?.clientID ?? "",
-                            image: user?.image ?? "",
+                            image: user?.image ??
+                                "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
                             name: user?.firstName != null
                                 ? "${user?.firstName} ${user?.lastName}"
-                                : "",
-                            location: user?.state ?? "",
+                                : "Not Specified",
+                            location: getLocation(
+                                user?.district == null || user?.district == ""
+                                    ? ""
+                                    : dropdownModel!.districts!
+                                            .firstWhere((dist) =>
+                                                dist.id == user?.district)
+                                            .name ??
+                                        "",
+                                user?.state == null || user?.state == ""
+                                    ? ""
+                                    : dropdownModel!.states!
+                                            .firstWhere((state) =>
+                                                state.id == user?.state)
+                                            .name ??
+                                        ""),
                             status: user?.status ?? "",
                             role: user?.occupation ?? "",
                             age: user?.dob ?? "",
                             height: user?.height ?? "",
                             req_id: user?.requestId ?? "",
                             req_status: user?.status ?? "",
-                            religion: user?.religion ?? "",
+                            religion: dropdownModel!.religions!
+                                    .firstWhere(
+                                      (religion) =>
+                                          religion.id == user?.religion,
+                                      orElse: () => ReEdOcLanSt(
+                                          id: '', name: 'Not Specified'),
+                                    )
+                                    .name ??
+                                "Not Specified",
                           );
                         },
                       ),

@@ -62,6 +62,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                   "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"));
         }
         print(galleryImages?.length);
+
+        print("Id:" + userData.id.toString());
         isLoading = false;
       });
     });
@@ -141,6 +143,17 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       return dValue;
     }
     return "Location: Not Specified";
+  }
+
+  String getQualification() {
+    for (var element in dropdownModel!.qualifications!) {
+      debugPrint(element.name);
+    }
+    return dropdownModel!.qualifications!
+            .firstWhere(
+                (qualification) => qualification.id == userData.qualification)
+            .name ??
+        "";
   }
 
   @override
@@ -344,7 +357,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 15),
-                                  Text("About Me", style: TextStyle(
+                                  Text("About Me",
+                                      style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold)),
                                   Text(userData.aboutMe ?? "Not Specified",
@@ -456,8 +470,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Not Specified"
                                                 : dropdownModel!.qualifications!
                                                         .firstWhere(
-                                                            (Qualifications) =>
-                                                                Qualifications
+                                                            (qualification) =>
+                                                                qualification
                                                                     .id ==
                                                                 userData
                                                                     .qualification)
@@ -478,10 +492,12 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                     ""),
                                         OtherProfileDetailCard(
                                             title: "Income",
-                                            value: userData.annualIncome ?? "Not Specified"),
+                                            value: userData.annualIncome ??
+                                                "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Working Location",
-                                            value: userData.workLocation ?? "Not Specified"),
+                                            value: userData.workLocation ??
+                                                "Not Specified"),
                                       ],
                                     ),
                                   ),
@@ -505,7 +521,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Not Specified"
                                                 : userData.smokingHabits ??
                                                     "Not Specified"),
-
                                         OtherProfileDetailCard(
                                             title: "Drinking Habit",
                                             value: (userData.smokingHabits ==
@@ -514,8 +529,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         "")
                                                 ? "Not Specified"
                                                 : userData.drinkingHabits ??
-                                                "Not Specified"),
-
+                                                    "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Profile created by",
                                             value: userData.profileCreatedBy ??

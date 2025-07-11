@@ -187,9 +187,6 @@ class _LikedProfileState extends State<LikedProfile> {
                                 itemCount: likedProfileModel
                                     ?.relatedProfiles?.length,
                                 itemBuilder: (context, index) {
-                                  if (likedProfileModel!
-                                          .relatedProfiles![index].likedBy ==
-                                      "1")
                                     return GestureDetector(
                                         onTap: () {
                                           Navigator.push(

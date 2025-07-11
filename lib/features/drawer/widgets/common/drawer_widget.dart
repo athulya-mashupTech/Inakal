@@ -322,6 +322,7 @@ class DrawerWidget extends StatelessWidget {
                       content: "Do you really want to logout from inakal.com?",
                       onConfirm: () {
                         box.write('isLoggedIn', false);
+                        userController.clearAll();
                         Get.offAll(() => const LoginPage());
                       },
                     );

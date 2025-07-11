@@ -105,3 +105,13 @@ class UserRegistrationData {
 
   static String? userPassword;
 }
+
+Map<String, String> profileCreatorOptions = {
+  "1": "My Self",
+  "2": "Daughter",
+  "3": "Son",
+  "4": "Sister",
+  "5": "Brother",
+  "6": "Friend",
+  "7": "Relative",
+};

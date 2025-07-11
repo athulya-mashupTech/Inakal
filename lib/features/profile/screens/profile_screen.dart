@@ -598,6 +598,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   "Do you really want to logout from inakal.com?",
                               onConfirm: () {
                                 box.write('isLoggedIn', false);
+                                userController.clearAll();
                                 Get.offAll(() => const LoginPage());
                               },
                             );

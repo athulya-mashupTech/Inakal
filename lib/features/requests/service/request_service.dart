@@ -180,7 +180,8 @@ class RequestService {
                   userJson['user']['last_seen'] == "") {
                 userJson['user']['last_seen'] = "N/A";
               }
-              if (userJson['user']['image'] == null || userJson['user']['image'] == "") {
+              if (userJson['user']['image'] == null ||
+                  userJson['user']['image'] == "") {
                 userJson['user']['image'] =
                     "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
               }
@@ -336,7 +337,7 @@ class RequestService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 1),
     );
   }

@@ -26,6 +26,12 @@ class UserDataController extends GetxController {
     print(galleryImages.value.gallery?.length);
   }
 
+  void clearAll() {
+    userData.value = UserDataModel();
+    galleryImages.value = GalleryImagesModel();
+    dropdownModel.value = DropdownModel();
+  }
+
   void updateGalleryImages(GalleryImagesModel galleryImagesModel) {
     galleryImages.update((val) {
       val?.gallery = galleryImagesModel.gallery;

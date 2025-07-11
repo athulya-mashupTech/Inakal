@@ -118,7 +118,7 @@ class FilterProfileService {
       // print(convertIncomeRange(appliedFilters.filterAnnualIncome));
       filters["filter_annual_income"] =
           convertIncomeRange(appliedFilters.filterAnnualIncome);
-          
+
     // // Family Status Mapping
     // if (appliedFilters.fa != "")
     //   filters["filter_age_group"] = appliedFilters.fa;
@@ -191,7 +191,7 @@ class FilterProfileService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 1),
     );
   }

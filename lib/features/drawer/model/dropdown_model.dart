@@ -47,10 +47,12 @@ class DropdownModel {
     }
     if (json['qualifications'] != null) {
       qualifications = <Qualifications>[];
+      print("Qualification Length: ${json['qualifications'].length}");
       json['qualifications'].forEach((v) {
-        qualifications!.add(new Qualifications.fromJson(v));
+        qualifications!.add(Qualifications.fromJson(v));
       });
     }
+
     if (json['occupations'] != null) {
       occupations = <ReEdOcLanSt>[];
       json['occupations'].forEach((v) {
@@ -170,7 +172,7 @@ class Qualifications {
   Qualifications.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    educationId = json['education_id'];
+    educationId = json['education_id']; // ✅ Correct key
     status = json['status'];
   }
 

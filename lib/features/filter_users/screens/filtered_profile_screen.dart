@@ -10,6 +10,7 @@ import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
 import 'package:inakal/features/filter_users/model/filter_model.dart';
 import 'package:inakal/features/filter_users/services/filter_profile_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
+import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class FilteredProfileScreen extends StatefulWidget {
@@ -136,29 +137,39 @@ class _FilteredProfileScreenState extends State<FilteredProfileScreen> {
                               childAspectRatio: 1,
                             ),
                             itemCount: filteredProfiles.length,
-                            itemBuilder: (context, index) => UserCard(
-                                name:
-                                    "${filteredProfiles[index].firstName} ${filteredProfiles[index].lastName}",
-                                location: getLocation(
-                                    filteredProfiles[index].district == null ||
-                                            filteredProfiles[index].district ==
-                                                ""
-                                        ? ""
-                                        : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district).name ??
-                                            "",
-                                    filteredProfiles[index].state == null ||
-                                            filteredProfiles[index].state == ""
-                                        ? ""
-                                        : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state).name ??
-                                            ""),
-                                dob:
-                                    filteredProfiles[index].dob ?? "0000-00-00",
-                                image: filteredProfiles[index].image ==
-                                        "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                    ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                    : "${filteredProfiles[index].image}",
-                                likedBy: filteredProfiles[index].liked ?? false,
-                                clientId: filteredProfiles[index].id ?? "")),
+                            itemBuilder: (context, index) => GestureDetector(
+                              onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  OtherProfileScreen(
+                                                      id: filteredProfiles[index].id!)));
+                                    },
+                              child: UserCard(
+                                  name:
+                                      "${filteredProfiles[index].firstName} ${filteredProfiles[index].lastName}",
+                                  location: getLocation(
+                                      filteredProfiles[index].district == null ||
+                                              filteredProfiles[index].district ==
+                                                  ""
+                                          ? ""
+                                          : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district).name ??
+                                              "",
+                                      filteredProfiles[index].state == null ||
+                                              filteredProfiles[index].state == ""
+                                          ? ""
+                                          : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state).name ??
+                                              ""),
+                                  dob:
+                                      filteredProfiles[index].dob ?? "0000-00-00",
+                                  image: filteredProfiles[index].image ==
+                                          "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                      ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                      : "${filteredProfiles[index].image}",
+                                  likedBy: filteredProfiles[index].liked ?? false,
+                                  clientId: filteredProfiles[index].id ?? ""),
+                            )),
                       ),
                 SizedBox(height: 15),
                 isLoading

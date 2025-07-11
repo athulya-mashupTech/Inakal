@@ -25,6 +25,7 @@ class _SplashScreenState extends State<SplashScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _opacityAnimation;
+
   final box = GetStorage();
   bool? isLoggedIn;
 
@@ -32,35 +33,34 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     super.initState();
 
-    // Check if the user is logged in
+    // Reading login status from GetStorage
     isLoggedIn = box.read('isLoggedIn') ?? false;
-
     print("before isLoggedIn: $isLoggedIn");
+
+    // Navigate or fetch user data
     if (isLoggedIn ?? false) {
       fetchDataToGetx();
     } else {
       _navigateToNextScreen();
     }
 
-    isLoggedIn = box.read('isLoggedIn') ?? false;
-
     // Initialize the animation controller for fade effect
     _animationController = AnimationController(
-      duration: Duration(seconds: 3), // Duration for the fade effect
+      duration: Duration(seconds: 3),
       vsync: this,
     );
 
-    // Create the fade animation for opacity
     _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
     );
 
-    // Start the animation
+    // Starting the animation
     _animationController.forward();
   }
 
+  // Deciding which screeen to navigate
   _navigateToNextScreen() async {
-    await Future.delayed(const Duration(seconds: 3), () {});
+    await Future.delayed(const Duration(seconds: 3));
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
@@ -73,87 +73,114 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
+  // Fetching Data
   Future<void> fetchDataToGetx() async {
     final prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
-
-    print("1");
 
     if (token != null && token.isNotEmpty) {
       final AuthController authController = Get.find();
       await authController.loadAuthData();
 
-      final request = http.MultipartRequest('POST', Uri.parse(userProfileUrl));
-      final headers = {
-        'Authorization': 'Bearer $token',
-      };
-      request.headers.addAll(headers);
-      final response = await request.send();
+      try {
+        //Fetching user Details ->
+        final request =
+            http.MultipartRequest('POST', Uri.parse(userProfileUrl));
+        request.headers.addAll({'Authorization': 'Bearer $token'});
 
-      if (response.statusCode == 200) {
+        final response = await request.send();
         final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
 
-        final userModel = UserDataModel.fromJson(jsonResponse);
+        if (response.statusCode == 200) {
+          final jsonResponse = json.decode(responseBody);
+          final userModel = UserDataModel.fromJson(jsonResponse);
 
-        final userController = Get.find<UserDataController>();
-        userController.setUserData(userModel);
+          final userController = Get.find<UserDataController>();
+          userController.setUserData(userModel);
+          // -> Fetching user Details and storng to GetX
 
-        final galleryRequest =
-            http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
-        final headers = {
-          'Authorization': 'Bearer $token',
-        };
-        galleryRequest.headers.addAll(headers);
-        final galleryResponse = await galleryRequest.send();
+          // Fetching Gallery Details ->
+          final galleryRequest =
+              http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
+          galleryRequest.headers.addAll({'Authorization': 'Bearer $token'});
+          final galleryResponse = await galleryRequest.send();
 
-        if (galleryResponse.statusCode == 200) {
-          print("Gallery Succesfully Fetched");
-          final galleryResponseBody =
-              await galleryResponse.stream.bytesToString();
-          final galleryJsonResponse = json.decode(galleryResponseBody);
+          if (galleryResponse.statusCode == 200) {
+            print("Gallery Succesfully Fetched");
+            final galleryResponseBody =
+                await galleryResponse.stream.bytesToString();
+            final galleryJsonResponse = json.decode(galleryResponseBody);
 
-          final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
-          userController.setGalleryImages(galleryModel);
+            final galleryModel =
+                GalleryImagesModel.fromJson(galleryJsonResponse);
+            userController.setGalleryImages(galleryModel);
+          } else {
+            print("Gallery not Fetched");
+          }
+          // -> Fetching Gallery and storng to GetX
+
+          // Fetching Dropdown Details ->
+          final dropdownRequest =
+              http.MultipartRequest('POST', Uri.parse(dropdownOptionsUrl));
+          dropdownRequest.headers.addAll({'Authorization': 'Bearer $token'});
+          final dropdownResponse = await dropdownRequest.send();
+
+          if (dropdownResponse.statusCode == 200) {
+            print("Dropdown Options Succesfully Fetched");
+            final dropdownResponseBody =
+                await dropdownResponse.stream.bytesToString();
+            final dropdownJsonResponse = json.decode(dropdownResponseBody);
+
+            final dropDownData = DropdownModel.fromJson(dropdownJsonResponse);
+            userController.setDropDownData(dropDownData);
+          } else {
+            print("Gallery not Fetched");
+          }
+          final dropDownData =
+              await EditProfileService().getDropdownOptions(context: context);
+          userController.setDropDownData(dropDownData ?? DropdownModel());
+
+          _navigateToNextScreen();
+        } else if (response.statusCode == 401) {
+          final jsonResponse = json.decode(responseBody);
+          final userModel = UserDataModel.fromJson(jsonResponse);
+
+          print("User Model Message: ${userModel.isLoggedin}");
+          if (userModel.isLoggedin == false) {
+            await Future.delayed(const Duration(seconds: 3));
+            box.write('isLoggedIn', false);
+            isLoggedIn = false;
+            print("isLoggedIn: $isLoggedIn");
+
+            Get.snackbar("Error", "${userModel.message}");
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NoInternetChecker(child: LoginPage()),
+              ),
+            );
+            return;
+          }
         } else {
-          print("Gallery not Fetched");
-        }
-
-        // Load DropDown Data
-        await EditProfileService()
-            .getDropdownOptions(context: context)
-            .then((value) {
-          userController.setDropDownData(value ?? DropdownModel());
-        });
-
-        _navigateToNextScreen();
-      } else if (response.statusCode == 401) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-
-        final userModel = UserDataModel.fromJson(jsonResponse);
-
-        print("User Model Message: ${userModel.isLoggedin}");
-        if (userModel.isLoggedin == false) {
-          await Future.delayed(const Duration(seconds: 3), () {});
+          print("Failed to fetch user profile");
+          await Future.delayed(const Duration(seconds: 3));
           box.write('isLoggedIn', false);
-          isLoggedIn = false;
-          print("isLoggedIn: $isLoggedIn");
-          Get.snackbar("Error", "${userModel.message}");
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => NoInternetChecker(
-                child: LoginPage(),
-              ),
+              builder: (context) => NoInternetChecker(child: LoginPage()),
             ),
           );
-          return;
-        } else {
-          print("isLoggedIn: $isLoggedIn");
         }
-      } else {
-        print("Failed to fetch user profile");
+      } catch (e) {
+        print("Exception in fetchDataToGetx: $e");
+        box.write('isLoggedIn', false);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NoInternetChecker(child: LoginPage()),
+          ),
+        );
       }
     }
   }
@@ -169,7 +196,6 @@ class _SplashScreenState extends State<SplashScreen>
     return Scaffold(
       body: Stack(
         children: [
-          // Center logo with fade effect
           Center(
             child: FadeTransition(
               opacity: _opacityAnimation,
@@ -179,7 +205,6 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
           ),
-          // Heart pattern in bottom-right corner with fade effect
           Positioned(
             bottom: -100,
             right: -100,
@@ -198,7 +223,6 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ),
           ),
-          // Heart pattern in top-left corner with fade effect
           Positioned(
             top: -80,
             left: -80,

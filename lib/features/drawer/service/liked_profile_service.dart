@@ -15,7 +15,7 @@ class LikedProfileService {
       {required BuildContext context}) async {
     try {
       final response = await _sendGetRequest(url: likedProfileUrl);
-      
+
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
@@ -56,7 +56,7 @@ class LikedProfileService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       dismissDirection: DismissDirection.horizontal,
       duration: const Duration(seconds: 3),
     );
