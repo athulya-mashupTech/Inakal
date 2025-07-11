@@ -28,16 +28,8 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     checkDoctorsAppointment();
-    // if (consultancy_required == false || consultancy_required == null) {
-    //   btext = "Book your appointment";
-    //   bcolor = AppColors.deepBlue;
-    // } else {
-    //   btext = "Your appointment is Pending";
-    //   bcolor = AppColors.freshGreen;
-    // }
     fetchAllDoctors();
   }
 
@@ -57,7 +49,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
     });
   }
 
-  Future<String?> checkDoctorsAppointment() async {
+  Future<void> checkDoctorsAppointment() async {
     await PsychologistService()
         .checkDoctorAppointment(context: context)
         .then((value) {

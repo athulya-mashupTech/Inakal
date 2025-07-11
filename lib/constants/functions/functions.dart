@@ -1,10 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class Functions {
   /// Method to calculate age from date of birth in 'yyyy-MM-dd' format
   static String calculateAge(String dateOfBirth) {
-    debugPrint("Date of Birth: $dateOfBirth");
+    // debugPrint("Date of Birth: $dateOfBirth");
     // Check for null or invalid date
     if (dateOfBirth == "" ||
         dateOfBirth.isEmpty ||

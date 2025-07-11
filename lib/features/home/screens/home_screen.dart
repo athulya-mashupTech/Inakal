@@ -23,7 +23,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   RelatedProfileModel? relatedProfileModel;
   bool isLoading = true;
-  // final userController = Get.find<UserDataController>();
 
   @override
   void initState() {

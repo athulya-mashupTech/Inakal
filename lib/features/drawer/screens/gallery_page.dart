@@ -53,6 +53,8 @@ class _GalleryPageState extends State<GalleryPage> {
 
   @override
   void initState() {
+    final userController = Get.find<UserDataController>();
+    print(userController.galleryImages.value.gallery?.length);
     super.initState();
   }
 
@@ -158,18 +160,20 @@ class _GalleryPageState extends State<GalleryPage> {
                               child: CircularProgressIndicator(),
                             ),
                           )
-                        : userController.galleryImages.value.gallery?.length ==
-                                0
+                        : (userController.galleryImages.value.gallery?.length ==
+                                0 || userController.galleryImages.value.gallery == null )
                             ? const Center(
                                 child: Padding(
                                   padding: EdgeInsets.symmetric(vertical: 15.0),
                                   child: Column(
                                     children: [
+                                      Icon(Icons.broken_image_rounded, size: 30, color: AppColors.primaryRed,),
                                       Text(
                                         "No Images Uploaded",
                                         style: TextStyle(
                                             fontSize: 18,
-                                            fontWeight: FontWeight.bold),
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.black),
                                       ),
                                       Text(
                                           "You have not uploaded any images yet!"),

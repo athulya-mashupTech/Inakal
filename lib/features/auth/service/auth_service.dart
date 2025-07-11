@@ -1,178 +1,124 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:inakal/common/controller/user_data_controller.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:inakal/constants/config.dart';
 import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
-import 'package:inakal/constants/config.dart';
-import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
+import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/model/login_model.dart';
-import 'package:inakal/features/auth/model/profile_completion_status_model.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/model/sent_otp_model.dart';
 import 'package:inakal/features/auth/model/user_registration_data_model.dart';
+import 'package:inakal/features/auth/model/profile_completion_status_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
-import 'package:inakal/features/drawer/service/edit_profile_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 
 class AuthService {
-  // Register Function
+  final box = GetStorage();
+
+  // ------------------ Register User ------------------
   Future<RegisterModel?> registerUser({
     required UserRegistrationDataModel userData,
     required BuildContext context,
   }) async {
     try {
-      // print("""firstname: ${userData.userFirstName},
-      //      lastname: ${userData.userLastName},
-      //      countryCode: ${userData.userCountryCode},
-      //      phone: ${userData.userPhoneNumber},
-      //      email: ${userData.userEmail},
-      //      address: ${userData.userAddress},
-      //      district: ${userData.userDistrict},
-      //      state: ${userData.userState},
-      //      country: ${userData.userCountry},
-      //      password: ${userData.userPassword},
-      //      religion: ${userData.userReligion},
-      //      caste: ${userData.userCaste},
-      //      birthstar: ${userData.userBirthStar},
-      //      description: ${userData.userDescription},
-      //      hobbies: ${userData.userHobbies}
-      //      profileCreatedFor: ${userData.userProfileCreatedFor},
-      //      maritalStatus: ${userData.maritalStatus}""");
+      final response = await _sendPostRequest(
+        url: registerUrl,
+        fields: {
+          "first_name": userData.userFirstName!,
+          "last_name": userData.userLastName!,
+          "country_code": userData.userCountryCode!,
+          "phone": userData.userPhoneNumber!,
+          "email": userData.userEmail!,
+          "address": userData.userAddress!,
+          "district": userData.userDistrict!,
+          "state": userData.userState!,
+          "country": userData.userCountry!,
+          "pincode": userData.userPincode!,
+          "dob": userData.userDob!,
+          "gender": userData.userGender!,
+          "religion": userData.userReligion!,
+          "caste": userData.userCaste!,
+          "star_sign": userData.userBirthStar!,
+          "about_me": userData.userDescription!,
+          "hobbies": userData.userHobbies!,
+          "marital_status": userData.maritalStatus!,
+          "profile_created_for": userData.userProfileCreatedFor!,
+          "password": userData.userPassword!,
+        },
+      );
 
-      final response = await _sendPostRequest(url: registerUrl, fields: {
-        "first_name": userData.userFirstName!,
-        "last_name": userData.userLastName!,
-        "country_code": userData.userCountryCode!,
-        "phone": userData.userPhoneNumber!,
-        "email": userData.userEmail!,
-        "address": userData.userAddress!,
-        "district": userData.userDistrict!,
-        "state": userData.userState!,
-        "country": userData.userCountry!,
-        "pincode": userData.userPincode!,
-        "dob": userData.userDob!,
-        "gender": userData.userGender!,
-        "religion": userData.userReligion!,
-        "caste": userData.userCaste!,
-        "star_sign": userData.userBirthStar!,
-        "about_me": userData.userDescription!,
-        "hobbies": userData.userHobbies!,
-        "marital_status": userData.maritalStatus!,
-        "profile_created_for": userData.userProfileCreatedFor!,
-        "password": userData.userPassword!,
-      });
+      final result = await _parseResponse<RegisterModel>(
+          response, (json) => RegisterModel.fromJson(json));
 
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final registerModel = RegisterModel.fromJson(jsonResponse);
-
-        if (registerModel.type == "success") {
-          _showSnackbar(
-              context, "Registration successful: ${registerModel.message}");
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ),
-          );
-        } else {
-          _showSnackbar(
-              context, "Registration failed: ${registerModel.message}");
+      if (result != null) {
+        _showSnackbar(context, result.message ?? "");
+        if (result.type == "success") {
+          Get.to(() => const LoginPage());
         }
-
-        return registerModel;
-      } else if (response.statusCode == 400) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final registerModel = RegisterModel.fromJson(jsonResponse);
-        _showSnackbar(context, "Registration failed: ${registerModel.message}");
-        return null;
-      } else {
-        print("Error: ${response.statusCode} ${response.reasonPhrase}");
-        return null;
       }
+
+      return result;
     } catch (e) {
-      // Handle error
-      print("Error: $e");
+      print("Register Error: $e");
       return null;
     }
   }
 
+  // ------------------ Send OTP ------------------
   Future<String?> sentOtp(
       BuildContext context, String countryCode, String phone) async {
     try {
       final response = await _sendPostRequest(
-          url: sentOtpUrl,
-          fields: {"phone": phone, "country_code": countryCode});
+        url: sentOtpUrl,
+        fields: {"phone": phone, "country_code": countryCode},
+      );
 
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final sentOtpModel = SentOtpModel.fromJson(jsonResponse);
+      final result = await _parseResponse<SentOtpModel>(
+          response, (json) => SentOtpModel.fromJson(json));
 
-        if (sentOtpModel.type == "success") {
-          _showSnackbar(context, sentOtpModel.message!);
-          return sentOtpModel.otp.toString();
-        }
+      if (result?.type == "success") {
+        _showSnackbar(context, result?.message ?? "");
+        return result?.otp?.toString();
       }
     } catch (e) {
       _showSnackbar(context, "Failed to send OTP");
-      print("Error: $e");
+      print("Send OTP Error: $e");
     }
     return null;
   }
 
+  // ------------------ Login via OTP ------------------
   Future<void> verifyLoginOtp(BuildContext context, String countryCode,
       String phone, String otp) async {
     try {
       final response = await _sendPostRequest(
-          url: verifyOtpUrl,
-          fields: {"phone": phone, "country_code": countryCode, "otp": otp});
-      print(response.statusCode);
+        url: verifyOtpUrl,
+        fields: {"phone": phone, "country_code": countryCode, "otp": otp},
+      );
 
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final loginModel = LoginModel.fromJson(jsonResponse);
-        print(loginModel.token);
+      final result = await _parseResponse<LoginModel>(
+          response, (json) => LoginModel.fromJson(json));
 
-        if (loginModel.token != "") {
-          _showSnackbar(context, "Successfully Logined");
-
-          //Save login state
-          final box = GetStorage();
-          box.write('isLoggedIn', true);
-
-          final AuthController authController = Get.find();
-          // Save Token and userId to SharedPreferences & GetX
-          await authController.saveAuthData(
-              loginModel.token!, loginModel.userId!);
-
-          // Save User data to Getx
-          fetchUserDetails(authController.token.value);
-
-          Get.offAll(() => const BottomNavBarScreen());
-        } else {
-          _showSnackbar(context, "login denied");
-        }
+      if (result?.token?.isNotEmpty == true) {
+        await _onLoginSuccess(result!);
+        _showSnackbar(context, "Successfully Logged In");
+        Get.offAll(() => const BottomNavBarScreen());
       } else {
-        _showSnackbar(context, "Login failed. No user found.");
-        print("Error: ${response.statusCode}");
-        return null;
+        _showSnackbar(context, "Login denied");
       }
     } catch (e) {
-      _showSnackbar(context, "Failed to send OTP");
-      print("Error: $e");
+      _showSnackbar(context, "OTP Verification failed");
+      print("OTP Error: $e");
     }
   }
 
+  // ------------------ Login via Password ------------------
   Future<LoginModel?> loginUser({
     required String countryCode,
     required String phone,
@@ -180,167 +126,93 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      final response = await _sendPostRequest(url: loginUrl, fields: {
-        "country_code": countryCode,
-        "phone": phone,
-        "password": password
-      });
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final loginModel = LoginModel.fromJson(jsonResponse);
+      final response = await _sendPostRequest(
+        url: loginUrl,
+        fields: {
+          "country_code": countryCode,
+          "phone": phone,
+          "password": password,
+        },
+      );
 
-        if (loginModel.token != "") {
-          _showSnackbar(context, "Successfully Logined");
+      final result = await _parseResponse<LoginModel>(
+          response, (json) => LoginModel.fromJson(json));
 
-          //Save login state
-          final box = GetStorage();
-          box.write('isLoggedIn', true);
-
-          final AuthController authController = Get.find();
-          // Save Token and userId to SharedPreferences & GetX
-          await authController.saveAuthData(
-              loginModel.token!, loginModel.userId!);
-
-          // Save User data to Getx
-          await fetchUserDetails(authController.token.value);
-
-          Get.offAll(() => const BottomNavBarScreen());
-        } else {
-          _showSnackbar(context, "login denied");
-        }
-
-        return loginModel;
+      if (result?.token?.isNotEmpty == true) {
+        await _onLoginSuccess(result!);
+        _showSnackbar(context, "Successfully Logged In");
+        Get.offAll(() => const BottomNavBarScreen());
       } else {
-        _showSnackbar(context, "Login failed. No user found.");
-        print("Error: ${response.statusCode}");
-        return null;
+        _showSnackbar(context, "Login denied");
       }
+
+      return result;
     } catch (e) {
-      print("Error: $e");
+      print("Login Error: $e");
       return null;
     }
-
-//     if (loginModel.token != "") {
-//   _showSnackbar(context, "Successfully Logged In");
-
-//   // Save login state
-//   final box = GetStorage();
-//   box.write('isLoggedIn', true);
-
-//   Navigator.pushReplacement(
-//     context,
-//     MaterialPageRoute(
-//       builder: (context) => const BottomNavBarScreen(),
-//     ),
-//   );
-// }
   }
 
+  // ------------------ Fetch User Details ------------------
   Future<void> fetchUserDetails(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      token = prefs.getString('token') ?? "";
 
-    if (token != null && token.isNotEmpty) {
-      final request = http.MultipartRequest('POST', Uri.parse(userProfileUrl));
-      final headers = {
-        'Authorization': 'Bearer $token',
-      };
-      request.headers.addAll(headers);
-      final response = await request.send();
+      if (token.isEmpty) return;
 
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
+      final userController = Get.find<UserDataController>();
 
-        final userModel = UserDataModel.fromJson(jsonResponse);
-        final userController = Get.find<UserDataController>();
-        userController.setUserData(userModel);
+      // User Profile
+      final userProfileResponse = await _authRequest(userProfileUrl, token);
+      final userModel =
+          UserDataModel.fromJson(json.decode(userProfileResponse));
+      userController.setUserData(userModel);
 
-        final galleryRequest =
-            http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
-        final headers = {
-          'Authorization': 'Bearer $token',
-        };
+      // Gallery
+      final galleryResponse = await _authRequest(galleryImagesUrl, token);
+      final galleryModel =
+          GalleryImagesModel.fromJson(json.decode(galleryResponse));
+      userController.setGalleryImages(galleryModel);
 
-        galleryRequest.headers.addAll(headers);
-        final galleryResponse = await galleryRequest.send();
-
-        if (galleryResponse.statusCode == 200) {
-          print("Gallery Succesfully Fetched");
-          final galleryResponseBody =
-              await galleryResponse.stream.bytesToString();
-          final galleryJsonResponse = json.decode(galleryResponseBody);
-
-          final galleryModel = GalleryImagesModel.fromJson(galleryJsonResponse);
-          userController.setGalleryImages(galleryModel);
-        } else {
-          print("Gallery not Fetched");
-        }
-
-        // Load DropDown Data
-        final dropdownResponse =
-            await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
-
-        if (dropdownResponse.statusCode == 200) {
-          final dropdownResponseBody =
-              await dropdownResponse.stream.bytesToString();
-          print("Response : $dropdownResponseBody");
-          final jsonDropdownResponse = json.decode(dropdownResponseBody);
-          final dropdownModel = DropdownModel.fromJson(jsonDropdownResponse);
-          userController.setDropDownData(dropdownModel);
-          
-        } else {
-          print("Error: ${response.statusCode}");
-          return null;
-        }
-      } else {
-        print("Failed to fetch user profile");
-      }
+      // Dropdown
+      final dropdownResponse = await _authRequest(dropdownOptionsUrl, token);
+      final dropdownModel =
+          DropdownModel.fromJson(json.decode(dropdownResponse));
+      userController.setDropDownData(dropdownModel);
+    } catch (e) {
+      print("Fetch User Data Error: $e");
     }
   }
 
+  // ------------------ Profile Completion ------------------
   Future<double?> getProfileCompletionStatus(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final token = prefs.getString('token') ?? "";
 
-    if (token != null && token.isNotEmpty) {
-      final request =
-          http.MultipartRequest('POST', Uri.parse(profileCompletionStatusUrl));
-      final headers = {
-        'Authorization': 'Bearer $token',
-      };
-      request.headers.addAll(headers);
-      final response = await request.send();
+      if (token.isEmpty) return null;
 
-      if (response.statusCode == 200) {
-        final responseBody = await response.stream.bytesToString();
-        final jsonResponse = json.decode(responseBody);
-        final profileCompletionStatusModel =
-            ProfileCompletionStatusModel.fromJson(jsonResponse);
+      final response =
+          await _authRequest(profileCompletionStatusUrl, token);
 
-        if (profileCompletionStatusModel.type == "success") {
-          if (profileCompletionStatusModel.profileCompletion == null) {
-            _showSnackbar(context, "Profile completion status is null");
-            return 0.0;
-          }
+      final model = ProfileCompletionStatusModel.fromJson(
+        json.decode(response),
+      );
 
-          // _showSnackbar(context, "Profile completion status: ${profileCompletionStatusModel.profileCompletion}");
-          return profileCompletionStatusModel.profileCompletion?.toDouble();
-        } else {
-          _showSnackbar(context,
-              "Failed to fetch profile completion status: ${profileCompletionStatusModel.message}");
-          return 0.0;
-        }
+      if (model.type == "success") {
+        return model.profileCompletion?.toDouble() ?? 0.0;
       } else {
-        print("Failed to fetch profile completion status");
-        return null;
+        _showSnackbar(context, model.message ?? "Unknown error");
+        return 0.0;
       }
+    } catch (e) {
+      print("Profile Status Error: $e");
+      return null;
     }
-    return null;
   }
 
-// Helper method to send POST request
+  // ------------------ Helpers ------------------
   Future<http.StreamedResponse> _sendPostRequest({
     required String url,
     required Map<String, String> fields,
@@ -350,13 +222,42 @@ class AuthService {
     return await request.send();
   }
 
-// Method to show Snackbar
+  Future<String> _authRequest(String url, String token) async {
+    final request = http.MultipartRequest('POST', Uri.parse(url));
+    request.headers.addAll({'Authorization': 'Bearer $token'});
+    final response = await request.send();
+
+    if (response.statusCode == 200) {
+      return await response.stream.bytesToString();
+    } else {
+      throw Exception("Failed request: $url, Status: ${response.statusCode}");
+    }
+  }
+
+  Future<T?> _parseResponse<T>(
+    http.StreamedResponse response,
+    T Function(Map<String, dynamic>) parser,
+  ) async {
+    final body = await response.stream.bytesToString();
+    if (response.statusCode == 200 || response.statusCode == 400) {
+      return parser(json.decode(body));
+    }
+    return null;
+  }
+
+  Future<void> _onLoginSuccess(LoginModel model) async {
+    box.write('isLoggedIn', true);
+    final authController = Get.find<AuthController>();
+    await authController.saveAuthData(model.token!, model.userId!);
+    await fetchUserDetails(model.token!);
+  }
+
   void _showSnackbar(BuildContext context, String message) {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
-      duration: const Duration(seconds: 1),
+      snackPosition: SnackPosition.TOP,
+      duration: const Duration(seconds: 2),
     );
   }
 }

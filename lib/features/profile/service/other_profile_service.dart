@@ -45,7 +45,6 @@ class OtherProfileService {
         final requestStatusModel = RequestStatusModel.fromJson(jsonResponse);
 
         if (requestStatusModel.type == "success") {
-          
           if (requestStatusModel.sentStatus == "accepted") {
             if (requestStatusModel.receivedStatus == "pending") {
               return "acceptOrDecline";
@@ -97,7 +96,7 @@ class OtherProfileService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 1),
     );
   }

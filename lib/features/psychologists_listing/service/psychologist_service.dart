@@ -50,17 +50,16 @@ class PsychologistService {
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
-        final checkAppointmentModel = CheckAppointmentModel.fromJson(jsonResponse);
+        final checkAppointmentModel =
+            CheckAppointmentModel.fromJson(jsonResponse);
         if (checkAppointmentModel.type == "success") {
           _showSnackbar(context, "Appointment Exists");
           return "pending";
-        } else if(checkAppointmentModel.type == "danger"){
-          _showSnackbar(
-              context, "Appointment not Exists");
+        } else if (checkAppointmentModel.type == "info") {
+          _showSnackbar(context, "Appointment not Exists");
           return "appointment";
         } else {
-          _showSnackbar(
-              context, "Appointment checking error");
+          _showSnackbar(context, "Appointment checking error");
           return "error";
         }
       }
@@ -139,7 +138,7 @@ class PsychologistService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       duration: const Duration(seconds: 1),
     );
 

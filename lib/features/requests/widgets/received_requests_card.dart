@@ -145,7 +145,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
       
                         Text(
                           widget.location,
-                          style: const TextStyle(fontSize: 12, height: 1.2),
+                          style: const TextStyle(fontSize: 12),
                         ),
       
                         const SizedBox(height: 5),

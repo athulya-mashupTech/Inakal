@@ -11,23 +11,18 @@ class HomeService {
   final AuthController authController = Get.find();
 
   Future<SendInterestModel?> sentInterestToUser(
-      String interest_client_id, 
-      BuildContext context
-      ) async {
+      String interest_client_id, BuildContext context) async {
     final response = await _sendPostRequest(url: sendInterestUrl, fields: {
       "interest_client_id": interest_client_id,
     });
 
     if (response.statusCode == 200) {
       final responseBody = await response.stream.bytesToString();
-      final jsonResponse = json.decode(responseBody); // Assuming the response is already in JSON format
+      final jsonResponse = json.decode(responseBody);
       final sentInterestModel = SendInterestModel.fromJson(jsonResponse);
       if (sentInterestModel.type == "success") {
-        // Show success message
-        print("success");
         _showSnackbar(context, sentInterestModel.message!);
       } else {
-        // Show error message
         print("failed");
         _showSnackbar(context, sentInterestModel.message!);
       }
@@ -42,7 +37,6 @@ class HomeService {
     // Implement the logic to toggle the likedBy status
     // This could involve updating the state or making an API call
     print("liked by: $clientid");
-    // toggelLikedbyUrl
     final response = await _sendPostRequest(url: toggelLikedbyUrl, fields: {
       "client_id": clientid,
     });
@@ -64,9 +58,8 @@ class HomeService {
     }
   }
 
-  Future<RelatedProfileModel?> getRelatedProfile({
-        required BuildContext context
-        }) async {
+  Future<RelatedProfileModel?> getRelatedProfile(
+      {required BuildContext context}) async {
     try {
       final response = await _sendGetRequest(url: relatedProfileUrl);
       if (response.statusCode == 200) {
@@ -125,7 +118,7 @@ class HomeService {
     Get.snackbar(
       "Message",
       message,
-      snackPosition: SnackPosition.BOTTOM,
+      snackPosition: SnackPosition.TOP,
       dismissDirection: DismissDirection.horizontal,
       duration: const Duration(seconds: 3),
     );
