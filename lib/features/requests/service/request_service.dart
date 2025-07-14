@@ -252,6 +252,8 @@ class RequestService {
       final response = await _sendPostRequest(
           url: acceptRequestUrl, fields: {"request_id": requestId});
 
+      debugPrint("${response.reasonPhrase}"+" "+response.statusCode.toString());
+
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);
@@ -279,6 +281,8 @@ class RequestService {
     try {
       final response = await _sendPostRequest(
           url: rejectRequestUrl, fields: {"request_id": requestId});
+
+      debugPrint("${response.reasonPhrase}"+" "+response.statusCode.toString());
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();

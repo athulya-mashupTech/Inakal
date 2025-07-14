@@ -342,7 +342,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       userController.userData.value.user?.id !=
                                               null
                                           ? "Inakal ID: ${userController.userData.value.user?.id}"
-                                          : "Inakal ID Loading...",
+                                          : "Inakal ID Not Specified",
                                       style: TextStyle(
                                           fontSize: 16,
                                           color: AppColors.primaryRed),
@@ -352,7 +352,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   ?.firstName !=
                                               null
                                           ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
-                                          : "Name Loading...",
+                                          : "Name Not Specified",
                                       style: TextStyle(
                                           fontSize: MediaQuery.of(context)
                                                   .size
@@ -375,7 +375,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   ?.occupation !=
                                               null
                                           ? "${userController.userData.value.user?.occupationName}"
-                                          : "Job is Loading...",
+                                          : "Job Not Specified",
                                       style: TextStyle(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600),

@@ -157,7 +157,15 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                             .name ??
                                         ""),
                             status: user?.status ?? "",
-                            role: user?.occupation ?? "",
+                            role: dropdownModel!.occupations!
+                                    .firstWhere(
+                                      (occupation) =>
+                                          occupation.id == user?.occupation,
+                                      orElse: () => ReEdOcLanSt(
+                                          id: '', name: 'Occupation Not Specified'),
+                                    )
+                                    .name ??
+                                "Occupation Not Specified",
                             age: user?.dob ?? "",
                             height: user?.height ?? "",
                             req_id: user?.requestId ?? "",
