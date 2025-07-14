@@ -24,6 +24,7 @@ class _SendRequestsState extends State<SendRequests> {
   bool isLoading = true;
   DropdownModel? dropdownModel;
   final userController = Get.find<UserDataController>();
+  
 
   @override
   void initState() {
@@ -145,7 +146,7 @@ class _SendRequestsState extends State<SendRequests> {
                             age: user?.dob ?? "",
                             height: user?.height ?? "",
                             req_status: user?.status ?? "",
-                            religion: dropdownModel!.religions!.firstWhere((religion) => religion.id == user?.religion,orElse: () => ReEdOcLanSt(name: "Religion NOt Specified"),).name ?? "Religion Not Specified",
+                            religion: dropdownModel!.religions!.firstWhere((religion) => religion.id == user?.religion,orElse: () => ReEdOcLanSt(name: "Religion Not Specified"),).name ?? "Religion Not Specified",
                             // user?.religion ?? "",
                             req_id: user?.requestId ?? "",
                             onTap: () async {

@@ -95,9 +95,12 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
     selectedPreferredAgeRange =
         userController.userData.value.user?.preferredAgeRange ?? "";
     selectedPreferredReligion = widget.dropdownModel.religions!
-            .firstWhere((religion) =>
-                religion.id ==
-                userController.userData.value.user?.preferredReligion)
+            .firstWhere(
+              (religion) =>
+                  religion.id ==
+                  userController.userData.value.user?.preferredReligion,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     selectedPreferredSmokingHabit = formatLabel(
@@ -107,16 +110,23 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
     selectedPreferredHeightRange = formatToLabel(
         userController.userData.value.user?.preferredHeightRange ?? "");
     selectedPreferredCaste = widget.dropdownModel.castes!
-            .firstWhere((caste) =>
-                caste.id == userController.userData.value.user?.preferredCaste)
+            .firstWhere(
+              (caste) =>
+                  caste.id ==
+                  userController.userData.value.user?.preferredCaste,
+              orElse: () => CaSub(name: ""),
+            )
             .name ??
         "";
     selectedPreferredDrinkingHabit = formatLabel(
         userController.userData.value.user?.preferredDrinkingHabits ?? "");
     selectedPreferredQualification = widget.dropdownModel.highestEducations!
-            .firstWhere((qualification) =>
-                qualification.id ==
-                userController.userData.value.user?.preferredQualification)
+            .firstWhere(
+              (qualification) =>
+                  qualification.id ==
+                  userController.userData.value.user?.preferredQualification,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     print(selectedPreferredAgeRange);

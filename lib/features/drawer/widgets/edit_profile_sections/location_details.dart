@@ -37,12 +37,12 @@ class _LocationDetailsState extends State<LocationDetails> {
     pincodeController.text = userController.userData.value.user?.zipCode ?? "";
     selectedDistrict = widget.dropdownModel.districts!
             .firstWhere((districts) =>
-                districts.id == userController.userData.value.user?.district)
+                districts.id == userController.userData.value.user?.district,orElse: () => Districts(name: ""),)
             .name ??
         "";
     selectedState = widget.dropdownModel.states!
             .firstWhere((states) =>
-                states.id == userController.userData.value.user?.state)
+                states.id == userController.userData.value.user?.state,orElse:() => ReEdOcLanSt(name: ""),)
             .name ??
         "";
     super.initState();
