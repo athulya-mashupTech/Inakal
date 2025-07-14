@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/send_requests_card.dart';
@@ -18,9 +22,12 @@ class _SendRequestsState extends State<SendRequests> {
   List<RequestUserDetailsModel?> allSentRequests = [];
   List<RequestUserDetailsModel?> filteredUsers = [];
   bool isLoading = true;
+  DropdownModel? dropdownModel;
+  final userController = Get.find<UserDataController>();
 
   @override
   void initState() {
+    dropdownModel = userController.dropdownModel.value;
     super.initState();
     fetchSentRequests();
   }
@@ -50,13 +57,11 @@ class _SendRequestsState extends State<SendRequests> {
     if (selectedFilter == "All") {
       filteredUsers = List.from(allSentRequests);
     } else if (selectedFilter == "Accepted") {
-      filteredUsers = allSentRequests
-          .where((user) => user?.status == "accepted")
-          .toList();
+      filteredUsers =
+          allSentRequests.where((user) => user?.status == "accepted").toList();
     } else if (selectedFilter == "Pending") {
-      filteredUsers = allSentRequests
-          .where((user) => user?.status == "pending")
-          .toList();
+      filteredUsers =
+          allSentRequests.where((user) => user?.status == "pending").toList();
     }
   }
 
@@ -126,13 +131,22 @@ class _SendRequestsState extends State<SendRequests> {
                             name: user?.firstName != null
                                 ? "${user?.firstName} ${user?.lastName}"
                                 : "",
-                            location: user?.state ?? "",
+                            location: dropdownModel!.states!
+                                    .firstWhere((location) =>
+                                        location.id == user?.state)
+                                    .name ??
+                                "State Not Specified",
                             status: user?.status ?? "",
-                            role: user?.occupation ?? "",
+                            role: dropdownModel!.occupations!
+                                    .firstWhere((occupation) =>
+                                        occupation.id == user?.occupation, orElse: () => ReEdOcLanSt(name: "Occupation Not Specified"))
+                                    .name ??
+                                "Occupation Not Specified",
                             age: user?.dob ?? "",
                             height: user?.height ?? "",
                             req_status: user?.status ?? "",
-                            religion: user?.religion ?? "",
+                            religion: dropdownModel!.religions!.firstWhere((religion) => religion.id == user?.religion,orElse: () => ReEdOcLanSt(name: "Religion NOt Specified"),).name ?? "Religion Not Specified",
+                            // user?.religion ?? "",
                             req_id: user?.requestId ?? "",
                             onTap: () async {
                               await deleteRequest(user?.requestId ?? "");

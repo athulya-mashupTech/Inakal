@@ -344,7 +344,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     ],
                                   ),
                                   const SizedBox(height: 15),
-                                  Text("About Me", style: TextStyle(
+                                  Text("About Me",
+                                      style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold)),
                                   Text(userData.aboutMe ?? "Not Specified",
@@ -378,40 +379,40 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             title: "Religion",
                                             value: (userData.religion == "" ||
                                                     userData.religion == null)
-                                                ? "Not Specified"
+                                                ? "Religion Not Specified"
                                                 : dropdownModel!.religions!
                                                         .firstWhere(
                                                             (religion) =>
                                                                 religion.id ==
                                                                 userData
-                                                                    .religion)
+                                                                    .religion,orElse: () => ReEdOcLanSt(name: "Religion Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Religion Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Caste",
                                             value: (userData.caste == "" ||
                                                     userData.caste == null)
-                                                ? "Not Specified"
+                                                ? "Caste Not Specified"
                                                 : dropdownModel!.castes!
                                                         .firstWhere((caste) =>
                                                             caste.id ==
-                                                            userData.caste)
+                                                            userData.caste,orElse: () => CaSub(name: "Caste Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Caste Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Mother Tongue",
                                             value: (userData.motherTongue ==
                                                         "" ||
                                                     userData.motherTongue ==
                                                         null)
-                                                ? "Not Specified"
+                                                ? "Mother Tongue Not Specified"
                                                 : dropdownModel!.languages!
                                                         .firstWhere((languages) =>
                                                             languages.id ==
                                                             userData
-                                                                .motherTongue)
+                                                                .motherTongue,orElse: () => ReEdOcLanSt(name: "Mother Tongue Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Mother Tongue Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Marital Status",
                                             value:
@@ -436,7 +437,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         "" ||
                                                     userData.highestEducation ==
                                                         null)
-                                                ? "Not Specified"
+                                                ? "Highest Education Not Specified"
                                                 : dropdownModel!
                                                         .highestEducations!
                                                         .firstWhere(
@@ -444,44 +445,46 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                                 highesteducation
                                                                     .id ==
                                                                 userData
-                                                                    .highestEducation)
+                                                                    .highestEducation,orElse: () => ReEdOcLanSt(name: "Highest Education Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Highest Education Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Qualification",
                                             value: (userData.qualification ==
                                                         "" ||
                                                     userData.qualification ==
                                                         null)
-                                                ? "Not Specified"
+                                                ? "Qualification Not Specified"
                                                 : dropdownModel!.qualifications!
                                                         .firstWhere(
                                                             (Qualifications) =>
                                                                 Qualifications
                                                                     .id ==
                                                                 userData
-                                                                    .qualification)
+                                                                    .qualification,orElse: () => Qualifications(name: "Qualification Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Qualification Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Job",
                                             value: (userData.occupation == "" ||
                                                     userData.occupation == null)
-                                                ? "Not Specified"
+                                                ? "Job Not Specified"
                                                 : dropdownModel!.occupations!
                                                         .firstWhere(
                                                             (occupation) =>
                                                                 occupation.id ==
                                                                 userData
-                                                                    .occupation)
+                                                                    .occupation,orElse: () => ReEdOcLanSt(name: "Job Not Specified"),)
                                                         .name ??
-                                                    ""),
+                                                    "Job Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Income",
-                                            value: userData.annualIncome ?? "Not Specified"),
+                                            value: userData.annualIncome ??
+                                                "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Working Location",
-                                            value: userData.workLocation ?? "Not Specified"),
+                                            value: userData.workLocation ??
+                                                "Not Specified"),
                                       ],
                                     ),
                                   ),
@@ -505,7 +508,6 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Not Specified"
                                                 : userData.smokingHabits ??
                                                     "Not Specified"),
-
                                         OtherProfileDetailCard(
                                             title: "Drinking Habit",
                                             value: (userData.smokingHabits ==
@@ -514,8 +516,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         "")
                                                 ? "Not Specified"
                                                 : userData.drinkingHabits ??
-                                                "Not Specified"),
-
+                                                    "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Profile created by",
                                             value: userData.profileCreatedBy ??
