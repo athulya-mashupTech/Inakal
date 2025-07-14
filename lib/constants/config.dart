@@ -52,6 +52,9 @@ const userLocationUpdateUrl = "${baseUrl}updateLocationDetails";
 const userPreferenceUpdateUrl = "${baseUrl}updatePartnerPrefs";
 const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
 
+const getCasteAndSubcasteOptionsUrl = "${baseUrl}getReligionCasteAndSubcaste";
+
+
 // Dropdown Values Fetching Api
 const dropdownOptionsUrl = "${baseUrl}getDropDownOptions";
 

@@ -98,6 +98,70 @@ class _FilteredProfileScreenState extends State<FilteredProfileScreen> {
                       ),
                       Text(
                           "Showing profiles out of ${widget.responseModel.totalRows ?? "0"} matches"),
+                      SizedBox(height: 10),
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: [
+                          if (widget.appliedFiltersModel.filterReligion
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterReligion),
+                          if (widget.appliedFiltersModel.filterCaste.isNotEmpty)
+                            ...widget.appliedFiltersModel.filterCaste
+                                .where((e) => e.trim().isNotEmpty)
+                                .map(_buildFilterChip),
+                          if (widget.appliedFiltersModel.filterSubCaste.isNotEmpty)
+                            ...widget.appliedFiltersModel.filterSubCaste
+                                .where((e) => e.trim().isNotEmpty)
+                                .map(_buildFilterChip),
+                          if (widget.appliedFiltersModel.filterAgeGroup
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterAgeGroup),
+                          if (widget.appliedFiltersModel.filterHeight
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(widget.appliedFiltersModel.filterHeight),
+                          if (widget.appliedFiltersModel.filterWeight
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(widget.appliedFiltersModel.filterWeight),
+                          if (widget.appliedFiltersModel.filterState.trim().isNotEmpty)
+                            _buildFilterChip(widget.appliedFiltersModel.filterState),
+                          if (widget.appliedFiltersModel.filterMotherTongue
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterMotherTongue),
+                          if (widget.appliedFiltersModel.filterMaritalStatus
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterMaritalStatus),
+                          if (widget.appliedFiltersModel.filterEducation
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterEducation),
+                          if (widget.appliedFiltersModel.filterOccupation.isNotEmpty)
+                            ...widget.appliedFiltersModel.filterOccupation
+                                .where((e) => e.trim().isNotEmpty)
+                                .map(_buildFilterChip),
+                          if (widget.appliedFiltersModel.filterAnnualIncome
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterAnnualIncome),
+                          if (widget.appliedFiltersModel.filterFoodPreference
+                              .trim()
+                              .isNotEmpty)
+                            _buildFilterChip(
+                                widget.appliedFiltersModel.filterFoodPreference),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -138,38 +202,42 @@ class _FilteredProfileScreenState extends State<FilteredProfileScreen> {
                             ),
                             itemCount: filteredProfiles.length,
                             itemBuilder: (context, index) => GestureDetector(
-                              onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  OtherProfileScreen(
-                                                      id: filteredProfiles[index].id!)));
-                                    },
-                              child: UserCard(
-                                  name:
-                                      "${filteredProfiles[index].firstName} ${filteredProfiles[index].lastName}",
-                                  location: getLocation(
-                                      filteredProfiles[index].district == null ||
-                                              filteredProfiles[index].district ==
-                                                  ""
-                                          ? ""
-                                          : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district).name ??
-                                              "",
-                                      filteredProfiles[index].state == null ||
-                                              filteredProfiles[index].state == ""
-                                          ? ""
-                                          : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state).name ??
-                                              ""),
-                                  dob:
-                                      filteredProfiles[index].dob ?? "0000-00-00",
-                                  image: filteredProfiles[index].image ==
-                                          "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                      ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                      : "${filteredProfiles[index].image}",
-                                  likedBy: filteredProfiles[index].liked ?? false,
-                                  clientId: filteredProfiles[index].id ?? ""),
-                            )),
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                OtherProfileScreen(
+                                                    id: filteredProfiles[index]
+                                                        .id!)));
+                                  },
+                                  child: UserCard(
+                                      name:
+                                          "${filteredProfiles[index].firstName} ${filteredProfiles[index].lastName}",
+                                      location: getLocation(
+                                          filteredProfiles[index].district == null ||
+                                                  filteredProfiles[index]
+                                                          .district ==
+                                                      ""
+                                              ? ""
+                                              : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district).name ??
+                                                  "",
+                                          filteredProfiles[index].state == null ||
+                                                  filteredProfiles[index].state ==
+                                                      ""
+                                              ? ""
+                                              : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state).name ??
+                                                  ""),
+                                      dob: filteredProfiles[index].dob ??
+                                          "0000-00-00",
+                                      image: filteredProfiles[index].image ==
+                                              "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                          ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                          : "${filteredProfiles[index].image}",
+                                      likedBy: filteredProfiles[index].liked ??
+                                          false,
+                                      clientId: filteredProfiles[index].id ?? ""),
+                                )),
                       ),
                 SizedBox(height: 15),
                 isLoading
@@ -213,4 +281,29 @@ class _FilteredProfileScreenState extends State<FilteredProfileScreen> {
       ),
     );
   }
+}
+
+Widget _buildFilterChip(String label) {
+  return Container(
+    decoration: BoxDecoration(
+      color: AppColors.primaryRed,
+      borderRadius: BorderRadius.circular(15),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(label, style: const TextStyle(color: AppColors.white)),
+          const SizedBox(width: 5),
+          // GestureDetector(
+          //   onTap: () {
+          //     // Handle chip removal if needed
+          //   },
+          //   child: const Icon(Icons.close, size: 18, color: AppColors.white),
+          // )
+        ],
+      ),
+    ),
+  );
 }

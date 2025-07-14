@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
@@ -29,6 +30,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
       TextEditingController();
   final TextEditingController starController = TextEditingController();
   final TextEditingController noOfChildrenController = TextEditingController();
+
   String? selectedReligion;
   String? selectedCaste;
   String? selectedSubCaste;
@@ -36,6 +38,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String? selectedmotherTongue;
   List<String> languages = ["Malayalam", "English"];
   List<String> maritalStatus = ["Single", "Divorced", "Widowed", "Widow"];
+
+  CasteSubcasteOptionsModel casteSubCasteOption =
+      CasteSubcasteOptionsModel(castes: [], subcastes: []);
 
   bool isSaving = false;
 
@@ -61,6 +66,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   @override
   void initState() {
+    getCasteSubCasteOptions(userController.userData.value.user?.religion ?? "");
+
     secondaryPhNoController.text =
         userController.userData.value.user?.secondaryNumber ?? "";
     heightController.text = userController.userData.value.user?.height ?? "";
@@ -92,6 +99,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
             .name ??
         "";
     super.initState();
+  }
+
+  Future<void> getCasteSubCasteOptions(String religionId) async {
+    await EditProfileService()
+        .getCasteSubcasteOptions(
+            context, religionId)
+        .then((value) => setState(() {
+              casteSubCasteOption = value;
+            }));
   }
 
   @override
@@ -158,7 +174,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     items: widget.dropdownModel.religions!
                         .map((item) => item.name ?? "")
                         .toList(),
-                    onChanged: (value) {
+                    onChanged: (value) async {
+                      setState(() {
+                        selectedCaste = null;
+                        selectedSubCaste = null;
+                      });
+                      await getCasteSubCasteOptions(widget.dropdownModel.religions!.firstWhere((religion) => religion.name == value, orElse: () => ReEdOcLanSt(id: "")).id ?? "");
                       setState(() {
                         selectedReligion = value;
                       });
@@ -170,9 +191,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   //Caste feild
                   EditProfileDropdown(
                     label: 'Caste',
-                    items: widget.dropdownModel.castes!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: casteSubCasteOption.castes
+                            ?.map((item) => item.name ?? "")
+                            .toList() ??
+                        [],
                     onChanged: (value) {
                       setState(() {
                         selectedCaste = value;
@@ -191,9 +213,10 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   //Subcaste feild
                   EditProfileDropdown(
                     label: 'Sub Caste',
-                    items: widget.dropdownModel.subcastes!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: casteSubCasteOption.subcastes
+                            ?.map((item) => item.name ?? "")
+                            .toList() ??
+                        [],
                     onChanged: (value) {
                       setState(() {
                         selectedSubCaste = value;
