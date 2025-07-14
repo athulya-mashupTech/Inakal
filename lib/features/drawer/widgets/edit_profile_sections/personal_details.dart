@@ -70,17 +70,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
         userController.userData.value.user?.numberOfChildren ?? "";
     selectedReligion = widget.dropdownModel.religions!
             .firstWhere((religion) =>
-                religion.id == userController.userData.value.user?.religion)
+                religion.id == userController.userData.value.user?.religion,orElse: () => ReEdOcLanSt(name: ""),)
             .name ??
         "";
     selectedCaste = widget.dropdownModel.castes!
             .firstWhere((caste) =>
-                caste.id == userController.userData.value.user?.caste)
+                caste.id == userController.userData.value.user?.caste,orElse: () => CaSub(name: ""))
             .name ??
         "";
     selectedSubCaste = widget.dropdownModel.subcastes!
             .firstWhere((subcaste) =>
-                subcaste.id == userController.userData.value.user?.subCaste)
+                subcaste.id == userController.userData.value.user?.subCaste,orElse: () => CaSub(name: ""))
             .name ??
         "";
     selectedmaritalStatus =
@@ -88,7 +88,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     selectedmotherTongue = widget.dropdownModel.languages!
             .firstWhere((languages) =>
                 languages.id ==
-                userController.userData.value.user?.motherTongue)
+                userController.userData.value.user?.motherTongue,orElse: () => ReEdOcLanSt(name: ""),)
             .name ??
         "";
     super.initState();

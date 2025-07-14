@@ -43,24 +43,42 @@ class SendRequestsCard extends StatefulWidget {
 }
 
 class _SendRequestsCardState extends State<SendRequestsCard> {
+  String calculateAge(String birthDateString) {
+    if (birthDateString == "0000-00-00") {
+      return "Age Not Specified";
+    } else {
+      DateTime birthDate = DateTime.parse(birthDateString);
+      DateTime today = DateTime.now();
+
+      int age = today.year - birthDate.year;
+
+      // Check if the birthday has occurred yet this year
+      if (today.month < birthDate.month ||
+          (today.month == birthDate.month && today.day < birthDate.day)) {
+        age--;
+      }
+
+      return "$age years";
+    }
+  }
   Future<void> deleteRequest() async {
     await RequestService().deleteRequest(widget.req_id, context);
   }
 
-  int calculateAge(String birthDateString) {
-    DateTime birthDate = DateTime.parse(birthDateString);
-    DateTime today = DateTime.now();
+  // int calculateAge(String birthDateString) {
+  //   DateTime birthDate = DateTime.parse(birthDateString);
+  //   DateTime today = DateTime.now();
 
-    int age = today.year - birthDate.year;
+  //   int age = today.year - birthDate.year;
 
-    // Check if the birthday has occurred yet this year
-    if (today.month < birthDate.month ||
-        (today.month == birthDate.month && today.day < birthDate.day)) {
-      age--;
-    }
+  //   // Check if the birthday has occurred yet this year
+  //   if (today.month < birthDate.month ||
+  //       (today.month == birthDate.month && today.day < birthDate.day)) {
+  //     age--;
+  //   }
 
-    return age;
-  }
+  //   return age;
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -183,7 +201,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "${calculateAge(widget.age)} Year, ${widget.height} cm",
+                                  "${calculateAge(widget.age)}, ${widget.height} cm",
                                   style: const TextStyle(
                                     fontSize: 12,
                                   ),

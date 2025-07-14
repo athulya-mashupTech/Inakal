@@ -28,6 +28,27 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedIncome;
 
   bool isSaving = false;
+  String formatSalaryRange(String input) {
+    input =
+        input.replaceAll('Crores', '00 Lakhs').replaceAll('Crore', '00 Lakhs');
+    List<String> parts = input
+        .replaceAll('Lakhs', '')
+        .replaceAll('Lakh', '')
+        .replaceAll('More than ', '')
+        .split(' - ')
+        .map((e) => e.trim())
+        .toList();
+
+    if (input.contains('More than')) {
+      double value = double.tryParse(parts[0]) ?? 0;
+      return '${value.toInt()}+';
+    }
+
+    double from = double.tryParse(parts[0]) ?? 0;
+    double to = double.tryParse(parts[1]) ?? 0;
+
+    return '${from.toInt()}-${to.toInt()}';
+  }
 
   @override
   void initState() {
@@ -38,20 +59,30 @@ class _EducationalDetailsState extends State<EducationalDetails> {
     worklocationController.text =
         userController.userData.value.user?.workLocation ?? "";
     selectedQualification = widget.dropdownModel.qualifications!
-            .firstWhere((qualifications) =>
-                qualifications.id ==
-                userController.userData.value.user?.qualification)
+            .firstWhere(
+              (qualifications) =>
+                  qualifications.id ==
+                  userController.userData.value.user?.qualification,
+              orElse: () => Qualifications(name: ""),
+            )
             .name ??
         "";
     selectedHighestEducation = widget.dropdownModel.highestEducations!
-            .firstWhere((highesteducation) =>
-                highesteducation.id ==
-                userController.userData.value.user?.highestEducation)
+            .firstWhere(
+              (highesteducation) =>
+                  highesteducation.id ==
+                  userController.userData.value.user?.highestEducation,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     selectedOccupation = widget.dropdownModel.occupations!
-            .firstWhere((occupation) =>
-                occupation.id == userController.userData.value.user?.occupation)
+            .firstWhere(
+              (occupation) =>
+                  occupation.id ==
+                  userController.userData.value.user?.occupation,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     selectedIncome = userController.userData.value.user?.annualIncome ?? "";
@@ -149,17 +180,18 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   EditProfileDropdown(
                     label: 'Annual Income',
                     items: [
-                      "1-3",
-                      "3-5",
-                      "5-7",
-                      "7-10",
-                      "10-15",
-                      "15-20",
-                      "20-30",
-                      "30-50",
-                      "50-75",
-                      "75-100",
-                      "100-200"
+                      "1 Lakh - 3 Lakhs",
+                      "3 Lakhs -5 Lakhs",
+                      "5 Lakhs - 7 Lakhs",
+                      "7 Lakhs - 10 Lakhs",
+                      "10 Lakhs - 15 Lakhs",
+                      "15 Lakhs - 20 Lakhs",
+                      "20 Lakhs - 30 Lakhs",
+                      "30 Lakhs - 50 Lakhs",
+                      "50 Lakhs - 75 Lakhs",
+                      "75 Lakhs - 1 Crores",
+                      "1 Crore - 2 Crores",
+                      "More than 2 Crore"
                     ],
                     onChanged: (value) {
                       setState(() {
@@ -187,15 +219,10 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                       : CustomButton(
                           text: "Save Changes",
                           onPressed: () async {
+                            print("kk "+formatSalaryRange(selectedIncome ?? ""));
                             setState(() {
                               isSaving = true;
                             });
-                            print(widget.dropdownModel.qualifications!
-                                    .firstWhere((qualification) =>
-                                        qualification.name ==
-                                        selectedQualification)
-                                    .id ??
-                                "");
                             await EditProfileService()
                                 .updateEducationAndProfessionalDetails(
                                     highestEducation: widget
@@ -224,7 +251,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                     workLocation: worklocationController.text,
                                     educationalDetails:
                                         educationController.text,
-                                    annualIncome: selectedIncome ?? "",
+                                    annualIncome: selectedIncome == "" ? "" : formatSalaryRange(selectedIncome ?? ""),
                                     context: context)
                                 .then((value) {
                               setState(() {
