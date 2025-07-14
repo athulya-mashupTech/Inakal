@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
@@ -5,6 +6,7 @@ import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
 import 'package:inakal/features/requests/widgets/message_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class ReceivedRequestsCard extends StatefulWidget {
   final String client_id;
@@ -39,19 +41,23 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
-  int calculateAge(String birthDateString) {
-    DateTime birthDate = DateTime.parse(birthDateString);
-    DateTime today = DateTime.now();
+  String calculateAge(String birthDateString) {
+    if (birthDateString == "0000-00-00") {
+      return "Age Not Specified";
+    } else {
+      DateTime birthDate = DateTime.parse(birthDateString);
+      DateTime today = DateTime.now();
 
-    int age = today.year - birthDate.year;
+      int age = today.year - birthDate.year;
 
-    // Check if the birthday has occurred yet this year
-    if (today.month < birthDate.month ||
-        (today.month == birthDate.month && today.day < birthDate.day)) {
-      age--;
+      // Check if the birthday has occurred yet this year
+      if (today.month < birthDate.month ||
+          (today.month == birthDate.month && today.day < birthDate.day)) {
+        age--;
+      }
+
+      return "$age years";
     }
-
-    return age;
   }
 
   Future<void> acceptRequest() async {
@@ -78,8 +84,11 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context, MaterialPageRoute(
-            builder: (context) => OtherProfileScreen(id: widget.client_id)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) =>
+                    OtherProfileScreen(id: widget.client_id)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
@@ -109,25 +118,39 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                               BlendMode
                                   .saturation, // Apply the grayscale effect using saturation
                             ),
-                            child: Image.network(
-                              widget.image,
+                            child: CachedNetworkImage(
+                              imageUrl: widget.image,
                               width: MediaQuery.of(context).size.width * 0.3,
-                              height: MediaQuery.of(context).size.width * 0.35,
+                              height: MediaQuery.of(context).size.width * 0.4,
                               fit: BoxFit.cover,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: AppColors.grey,
+                                highlightColor: AppColors.lightGrey,
+                                child: Container(
+                                  color: AppColors.grey,
+                                ),
+                              ),
                             ),
                           ),
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.network(
-                            widget.image,
+                          child: CachedNetworkImage(
+                            imageUrl: widget.image,
                             width: MediaQuery.of(context).size.width * 0.3,
                             height: MediaQuery.of(context).size.width * 0.4,
                             fit: BoxFit.cover,
+                            placeholder: (context, url) => Shimmer.fromColors(
+                              baseColor: AppColors.grey,
+                              highlightColor: AppColors.lightGrey,
+                              child: Container(
+                                color: AppColors.grey,
+                              ),
+                            ),
                           ),
                         ),
                   const SizedBox(width: 16),
-      
+
                   // Details Section
                   Expanded(
                     child: Column(
@@ -142,19 +165,19 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                               fontWeight: FontWeight.bold,
                               height: 1.2),
                         ),
-      
+
                         Text(
                           widget.location,
                           style: const TextStyle(fontSize: 12),
                         ),
-      
+
                         const SizedBox(height: 5),
-      
+
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "${calculateAge(widget.age)} Year, ${widget.height} cm",
+                              "${calculateAge(widget.age)}, ${widget.height} cm",
                               style: const TextStyle(
                                 fontSize: 12,
                               ),
@@ -173,7 +196,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                             ),
                           ],
                         ),
-      
+
                         // Text(
                         //     description,
                         //     style: const TextStyle(
@@ -181,7 +204,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         //       color: AppColors.psychotext,
                         //     ),
                         // ),
-      
+
                         // Buttons
                         const SizedBox(height: 8),
                         Column(
@@ -245,9 +268,9 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                   ),
                 ],
               ),
-      
+
               const SizedBox(height: 10),
-      
+
               widget.req_status == "accepted"
                   ? const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

@@ -136,9 +136,6 @@ class _SplashScreenState extends State<SplashScreen>
           } else {
             print("Gallery not Fetched");
           }
-          final dropDownData =
-              await EditProfileService().getDropdownOptions(context: context);
-          userController.setDropDownData(dropDownData ?? DropdownModel());
 
           _navigateToNextScreen();
         } else if (response.statusCode == 401) {
