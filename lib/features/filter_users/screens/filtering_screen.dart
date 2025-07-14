@@ -8,6 +8,7 @@ import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
 import 'package:inakal/features/filter_users/screens/filtered_profile_screen.dart';
 import 'package:inakal/features/filter_users/services/filter_profile_service.dart';
 import 'package:inakal/features/filter_users/widgets/filter_dropdown.dart';
+import 'package:inakal/features/filter_users/widgets/filter_multiselector.dart';
 
 class FilteringScreen extends StatefulWidget {
   const FilteringScreen({super.key});
@@ -98,14 +99,14 @@ class _FilteringScreenState extends State<FilteringScreen> {
                           valueController: religionController,
                         ),
                         const SizedBox(height: 10),
-                        FilterDropdown(
+                        FilterMultiselectorDropdown(
                             label: "Caste",
                             items: dropdownModel!.castes!
                                 .map((item) => item.name ?? "")
                                 .toList(),
                             valueController: casteController),
                         const SizedBox(height: 10),
-                        FilterDropdown(
+                        FilterMultiselectorDropdown(
                             label: "Sub Caste",
                             items: dropdownModel!.subcastes!
                                 .map((item) => item.name ?? "")
@@ -179,7 +180,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                                 .toList(),
                             valueController: highestEducationController),
                         const SizedBox(height: 10),
-                        FilterDropdown(
+                        FilterMultiselectorDropdown(
                             label: "Occupation",
                             items: dropdownModel!.occupations!
                                 .map((item) => item.name ?? "")

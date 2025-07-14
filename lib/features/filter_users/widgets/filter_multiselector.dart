@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 
-class FilterDropdown extends StatefulWidget {
+class FilterMultiselectorDropdown extends StatefulWidget {
   final String label;
   final List<String> items;
   final TextEditingController valueController;
 
-  const FilterDropdown({
+  const FilterMultiselectorDropdown({
     required this.label,
     required this.items,
     required this.valueController,
@@ -14,18 +14,25 @@ class FilterDropdown extends StatefulWidget {
   });
 
   @override
-  State<FilterDropdown> createState() => _FilterDropdownState();
+  State<FilterMultiselectorDropdown> createState() => _FilterMultiselectorDropdownState();
 }
 
-class _FilterDropdownState extends State<FilterDropdown> {
+class _FilterMultiselectorDropdownState extends State<FilterMultiselectorDropdown> {
   bool isExpanded = false;
   TextEditingController searchController = TextEditingController();
   List<String> filteredItems = [];
+  List<String> selectedItems = [];
 
   @override
   void initState() {
     super.initState();
     filteredItems = widget.items;
+
+    // If controller has initial value, populate selectedItems
+    if (widget.valueController.text.isNotEmpty) {
+      selectedItems = widget.valueController.text.split(',').map((e) => e.trim()).toList();
+    }
+
     searchController.addListener(_filterItems);
   }
 
@@ -45,23 +52,21 @@ class _FilterDropdownState extends State<FilterDropdown> {
   }
 
   void _toggleExpansion() {
-    FocusScope.of(context).unfocus(); // hide keyboard if any
+    FocusScope.of(context).unfocus(); // hide keyboard
     setState(() {
       isExpanded = !isExpanded;
     });
   }
 
-  void _selectItem(String item) {
+  void _toggleItem(String item) {
     setState(() {
-      if (widget.valueController.text == item) {
-        // Deselect if already selected
-        widget.valueController.text = "";
+      if (selectedItems.contains(item)) {
+        selectedItems.remove(item);
       } else {
-        widget.valueController.text = item;
+        selectedItems.add(item);
       }
-      isExpanded = false;
-      searchController.clear();
-      filteredItems = widget.items;
+
+      widget.valueController.text = selectedItems.join(', ');
     });
   }
 
@@ -135,7 +140,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
                     itemCount: filteredItems.length,
                     itemBuilder: (context, index) {
                       final item = filteredItems[index];
-                      final isSelected = widget.valueController.text == item;
+                      final isSelected = selectedItems.contains(item);
 
                       return ListTile(
                         title: Text(
@@ -153,7 +158,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
                                     color: AppColors.primaryRed),
                               )
                             : null,
-                        onTap: () => _selectItem(item),
+                        onTap: () => _toggleItem(item),
                       );
                     },
                   ),

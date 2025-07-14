@@ -7,6 +7,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
@@ -414,6 +415,32 @@ class EditProfileService {
     } catch (e) {
       print("Error in preference Details Service: $e");
       return null;
+    }
+  }
+
+  // API to get Relegion Related Caste and Subcastes
+  Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(
+      BuildContext context, String religionId) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getCasteAndSubcasteOptionsUrl,
+          fields: {"religion_id": religionId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final casteSubcasteOptionsModel =
+            CasteSubcasteOptionsModel.fromJson(responseJson);
+
+        if (casteSubcasteOptionsModel.type == "success") {
+          // _showSnackbar(context, casteSubcasteOptionsModel.message ?? "");
+        }
+        return casteSubcasteOptionsModel;
+      }
+      return CasteSubcasteOptionsModel();
+    } catch (e) {
+      print(e);
+      return CasteSubcasteOptionsModel();
     }
   }
 

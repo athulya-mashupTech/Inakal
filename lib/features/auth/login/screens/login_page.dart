@@ -20,8 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   String _phoneNumber = '';
   bool isPwdVisible = false;
 
-  void _loginUser() {
-    AuthService().loginUser(
+  void _loginUser() async {
+    await AuthService().loginUser(
         countryCode: _countryCode.substring(1),
         phone: _phoneNumber,
         password: _loginpwdController.text,
