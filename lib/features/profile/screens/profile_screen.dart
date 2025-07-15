@@ -192,8 +192,7 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Stack(
             children: [
               Center(
-                child: SizedBox(
-                  width: MediaQuery.of(context).size.width * 0.9,
+                child: Flexible(
                   child: PageView.builder(
                     itemCount:
                         userController.galleryImages.value.gallery?.length,

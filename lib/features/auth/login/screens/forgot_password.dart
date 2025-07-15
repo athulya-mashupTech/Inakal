@@ -210,7 +210,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 style: const TextStyle(color: AppColors.primaryRed),
               ),
             ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 3),
           ResendOTP(),
           Padding(
             padding: const EdgeInsets.only(top: 12),
@@ -244,22 +244,23 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Widget ResendOTP() {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
           'Didn’t receive OTP?',
           style: TextStyle(fontSize: 16),
         ),
-        Text(
-          'Resend Code',
+        TextButton(
+          onPressed: () async => await otpSent(),
+          child: Text('Resend Code',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
             color: AppColors.primaryRed,
             decoration: TextDecoration.underline,
             decorationColor: AppColors.primaryRed,
-          ),
+          ),),
         ),
       ],
     );

@@ -5,7 +5,7 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/qualification_options_model.dart'
-    hide Qualifications;
+    as qualif;
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
@@ -30,45 +30,69 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedIncome;
   bool isSaving = false;
 
-  QualificationOptionsModel qualificationOptionsModel =
-      QualificationOptionsModel();
+  qualif.QualificationOptionsModel qualificationOptionsModel =
+      qualif.QualificationOptionsModel();
 
+  // Label to Value convertion function | Eg: 1 Lakh - 3 Lakhs =>  1-3
   String formatSalaryRange(String input) {
-    input =
-        input.replaceAll('Crores', '00 Lakhs').replaceAll('Crore', '00 Lakhs');
-    List<String> parts = input
-        .replaceAll('Lakhs', '')
+    input = input
+        .replaceAll('Crores', '00 Lakhs')
+        .replaceAll('Crore', '00 Lakhs')
         .replaceAll('Lakh', '')
+        .replaceAll('Lakhs', '')
         .replaceAll('More than ', '')
-        .split(' - ')
-        .map((e) => e.trim())
-        .toList();
+        .trim();
 
-    if (input.contains('More than')) {
+    List<String> parts = input.split(' - ').map((e) => e.trim()).toList();
+
+    // Handle "More than Crore"
+    if (input.contains('00')) {
+      double croreValue = double.tryParse(parts[0]) ?? 0;
+      return '${(croreValue * 100).toInt()}+';
+    }
+
+    // Handle "More than X Lakhs"
+    if (!input.contains('-') && parts.length == 1) {
       double value = double.tryParse(parts[0]) ?? 0;
       return '${value.toInt()}+';
     }
 
     double from = double.tryParse(parts[0]) ?? 0;
     double to = double.tryParse(parts[1]) ?? 0;
-
     return '${from.toInt()}-${to.toInt()}';
   }
 
+  // Value to label Convertion function | Eg: 1-3 => 1 Lakh - 3 Lakhs
   String reverseFormatSalaryRange(String formatted) {
     if (formatted.contains('+')) {
-      String value = formatted.replaceAll('+', '').trim();
-      return 'More than $value Lakhs';
+      int value = int.tryParse(formatted.replaceAll('+', '').trim()) ?? 0;
+      if (value >= 200) {
+        return 'More than 2 Crore';
+      } else {
+        return 'More than $value Lakhs';
+      }
     }
 
     List<String> parts = formatted.split('-').map((e) => e.trim()).toList();
-    if (parts.length != 2) return formatted; // fallback
+    if (parts.length != 2) return formatted;
 
-    String from = parts[0];
-    String to = parts[1];
+    int from = int.tryParse(parts[0]) ?? 0;
+    int to = int.tryParse(parts[1]) ?? 0;
 
-    String fromLabel = from == '1' ? 'Lakh' : 'Lakhs';
-    String toLabel = to == '1' ? 'Lakh' : 'Lakhs';
+    String fromLabel = from == 1 ? 'Lakh' : 'Lakhs';
+    String toLabel;
+
+    if (to >= 100 && to % 100 == 0) {
+      toLabel = 'Crores';
+      to = (to / 100).toInt();
+    } else {
+      toLabel = to == 1 ? 'Lakh' : 'Lakhs';
+    }
+
+    if (from >= 100 && from % 100 == 0) {
+      from = (from / 100).toInt();
+      fromLabel = 'Crore${from > 1 ? 's' : ''}';
+    }
 
     return '$from $fromLabel - $to $toLabel';
   }
@@ -275,33 +299,29 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                 .updateEducationAndProfessionalDetails(
                                     highestEducation: widget
                                             .dropdownModel.highestEducations!
-                                            .firstWhere((edu) =>
-                                                edu.name ==
-                                                selectedHighestEducation)
+                                            .firstWhere((edu) => edu.name == selectedHighestEducation,
+                                                orElse: () =>
+                                                    ReEdOcLanSt(id: ""))
                                             .id ??
                                         "",
-                                    qualification: widget
-                                            .dropdownModel.qualifications!
-                                            .firstWhere((qualification) =>
-                                                qualification.name ==
-                                                selectedQualification)
+                                    qualification: qualificationOptionsModel
+                                            .qualifications!
+                                            .firstWhere((qualification) => qualification.name == selectedQualification,
+                                                orElse: () =>
+                                                    qualif.Qualifications())
                                             .id ??
                                         "",
-                                    occupation: widget.dropdownModel.occupations!
-                                            .firstWhere((occupation) =>
-                                                occupation.name ==
-                                                selectedOccupation)
+                                    occupation: widget
+                                            .dropdownModel.occupations!
+                                            .firstWhere(
+                                                (occupation) => occupation.name == selectedOccupation,
+                                                orElse: () => ReEdOcLanSt(id: ""))
                                             .id ??
                                         "",
-                                    occupationDetails:
-                                        occupationDetailsController.text,
+                                    occupationDetails: occupationDetailsController.text,
                                     workLocation: worklocationController.text,
-                                    educationalDetails:
-                                        educationController.text,
-                                    annualIncome: selectedIncome == ""
-                                        ? ""
-                                        : formatSalaryRange(
-                                            selectedIncome ?? ""),
+                                    educationalDetails: educationController.text,
+                                    annualIncome: selectedIncome == "" ? "" : formatSalaryRange(selectedIncome ?? ""),
                                     context: context)
                                 .then((value) {
                               setState(() {

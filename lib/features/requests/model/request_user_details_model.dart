@@ -6,6 +6,7 @@ class RequestUserDetailsModel {
   final String district;
   final String state;
   final String dob;
+  final String gender;
   final String height;
   final String religion;
   final String caste;
@@ -22,6 +23,7 @@ class RequestUserDetailsModel {
     required this.district,
     required this.state,
     required this.dob,
+    required this.gender,
     required this.height,
     required this.religion,
     required this.caste,
@@ -41,6 +43,7 @@ class RequestUserDetailsModel {
       district: json['district'],
       state: json['state'],
       dob: json['dob'],
+      gender: json['gender'],
       height: json['height'] ?? "150",
       religion: json['religion'] ?? "Hindu",
       caste: json['caste'] ?? "Nair",

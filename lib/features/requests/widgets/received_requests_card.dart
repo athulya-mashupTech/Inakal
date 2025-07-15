@@ -17,6 +17,7 @@ class ReceivedRequestsCard extends StatefulWidget {
   final String location;
   final String status;
   final String age;
+  final String gender;
   final String height;
   final String religion;
   final String role;
@@ -30,6 +31,7 @@ class ReceivedRequestsCard extends StatefulWidget {
     required this.status,
     required this.role,
     required this.age,
+    required this.gender,
     required this.height,
     required this.req_status,
     required this.religion,
@@ -42,6 +44,15 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
+  String getGender(String gender){
+    if(gender == "Female" || gender == "female")
+      return "her";
+    else if(gender == "Male" || gender == "male")
+      return "him";
+    else
+      return "them";
+  }
+
   String calculateAge(String birthDateString) {
     if (birthDateString == "0000-00-00") {
       return "Age Not Specified";
@@ -279,7 +290,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            "Take the next step and contact him directly",
+                            "Take the next step and contact ${getGender(widget.gender)} directly",
                             style: TextStyle(
                               fontSize: 13,
                             ),

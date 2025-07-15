@@ -167,6 +167,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                     .name ??
                                 "Occupation Not Specified",
                             age: user?.dob ?? "",
+                            gender: user?.gender ?? "",
                             height: user?.height ?? "",
                             req_id: user?.requestId ?? "",
                             req_status: user?.status ?? "",
