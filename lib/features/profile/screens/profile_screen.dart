@@ -12,7 +12,6 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/login/screens/password_reset_screen.dart';
-import 'package:inakal/features/drawer/screens/edit_profile.dart';
 import 'package:inakal/features/drawer/widgets/common/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 import 'package:shimmer/shimmer.dart';
@@ -35,10 +34,6 @@ class _ProfilePageState extends State<ProfilePage> {
     "assets/vectors/harsha4.jpg",
     "assets/vectors/harsha1.jpg"
   ];
-
-  void initState() {
-    super.initState();
-  }
 
   void _showConfirmationDialog({
     required BuildContext context,
@@ -195,12 +190,20 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Flexible(
                   child: PageView.builder(
                     itemCount:
-                        userController.galleryImages.value.gallery?.length,
+                        (userController
+                                  .galleryImages.value.gallery
+                                  ?.where((image) => image.isPublic == "1")
+                                  .toList() ??
+                              []).length,
                     controller: PageController(initialPage: index),
                     itemBuilder: (context, i) {
+                      final publicGallery = userController
+                                  .galleryImages.value.gallery
+                                  ?.where((image) => image.isPublic == "1")
+                                  .toList() ??
+                              [];
                       return CachedNetworkImage(
-                        imageUrl: userController
-                                .galleryImages.value.gallery?[i].image ??
+                        imageUrl: publicGallery[i].image ??
                             "",
                         fit: BoxFit.contain,
                       );

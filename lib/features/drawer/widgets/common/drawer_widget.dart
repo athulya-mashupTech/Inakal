@@ -214,8 +214,7 @@ class DrawerWidget extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Obx(() => Text(
-                                "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}" ??
-                                    'N/A',
+                                "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}",
                                 style: TextStyle(
                                     color: AppColors.white, fontSize: 18),
                               )),

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
-import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/service/gallery_service.dart';
 import 'package:inakal/features/drawer/widgets/common/gallery_image_card.dart';
@@ -22,7 +21,6 @@ class _GalleryPageState extends State<GalleryPage> {
   bool isLoading = false;
 
   final userController = Get.find<UserDataController>();
-  bool _isSavingImage = false;
 
   final List<String> localImages = [
     "assets/vectors/harsha1.jpg",

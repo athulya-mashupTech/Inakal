@@ -38,7 +38,6 @@ class _BottomNavBarScreenState extends State<BottomNavBarScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     fetchDataToGetx();
   }

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient_from_top.dart';
-import 'package:inakal/features/tailored_matches/widgets/matchcard_widget.dart';
 import 'package:inakal/features/tailored_matches/widgets/matches_card.dart';
 import 'package:lottie/lottie.dart';
 
