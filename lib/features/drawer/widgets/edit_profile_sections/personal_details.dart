@@ -374,16 +374,16 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                                 religion.name)
                                             .id ??
                                         "",
-                                    caste: widget.dropdownModel.castes!
+                                    caste: casteSubCasteOption.castes!
                                             .firstWhere((caste) =>
-                                                selectedCaste == caste.name)
+                                                selectedCaste == caste.name, orElse: () => Castes(id: ""))
                                             .id ??
                                         "",
                                     other_caste_subcaste:
                                         otherCasteSubCasteController.text,
-                                    sub_caste: widget.dropdownModel.subcastes!
+                                    sub_caste: casteSubCasteOption.subcastes!
                                             .firstWhere((subCaste) =>
-                                                selectedSubCaste == subCaste.name)
+                                                selectedSubCaste == subCaste.name, orElse: () => Subcastes(id: ""))
                                             .id ??
                                         "",
                                     star_sign: formatBackToKey(starController.text),

@@ -126,7 +126,7 @@ class EditProfileService {
           .map((lang) => {'"value"': '"${lang.trim()}"'})
           .toList()
           .toString());
-      print(
+      print("weight:${(weight=="")}"+
           '[{"value":"English"}, {"value":"Malayalam"}, {"value":"Hindi"}, {"value":"Kannada"}]');
 
       final response =
@@ -156,6 +156,8 @@ class EditProfileService {
         final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
         if (userDataUpdateModel.type == "success") {
           _showSnackbar(context, userDataUpdateModel.message!);
+        } else{
+          _showSnackbar(context, userDataUpdateModel.message ?? "Nil");
         }
         return userDataUpdateModel;
       } else {
