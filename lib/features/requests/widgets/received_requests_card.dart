@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/premium_required_popup.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
@@ -272,7 +273,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
               const SizedBox(height: 10),
 
               widget.req_status == "accepted"
-                  ? const Column(
+                  ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
@@ -285,7 +286,14 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                           ),
                         ),
                         SizedBox(height: 5),
-                        MessageButton(text: "Message")
+                        MessageButton(
+                            text: "Message",
+                            onPressed: () {
+                              showDialog(
+                                  context: context,
+                                  builder: (_) =>
+                                      Dialog(child: PremiumRequiredPopup()));
+                            })
                       ],
                     )
                   : widget.req_status == "pending"
