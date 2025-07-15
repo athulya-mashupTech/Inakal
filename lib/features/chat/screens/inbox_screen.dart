@@ -175,6 +175,7 @@ class _InboxScreenState extends State<InboxScreen> {
               // Top Filters of chats
               Container(
                 color: AppColors.softPink.withOpacity(0.4),
+                width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Padding(
@@ -184,7 +185,7 @@ class _InboxScreenState extends State<InboxScreen> {
                       // mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: filters.map((filter) {
                         return Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
                           child: ChoiceChip(
                             selectedColor: AppColors.primaryRed,
                             checkmarkColor: AppColors.white,
