@@ -4,6 +4,8 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/model/qualification_options_model.dart'
+    hide Qualifications;
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
@@ -26,8 +28,11 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedHighestEducation;
   String? selectedOccupation;
   String? selectedIncome;
-
   bool isSaving = false;
+
+  QualificationOptionsModel qualificationOptionsModel =
+      QualificationOptionsModel();
+
   String formatSalaryRange(String input) {
     input =
         input.replaceAll('Crores', '00 Lakhs').replaceAll('Crore', '00 Lakhs');
@@ -50,8 +55,28 @@ class _EducationalDetailsState extends State<EducationalDetails> {
     return '${from.toInt()}-${to.toInt()}';
   }
 
+  String reverseFormatSalaryRange(String formatted) {
+    if (formatted.contains('+')) {
+      String value = formatted.replaceAll('+', '').trim();
+      return 'More than $value Lakhs';
+    }
+
+    List<String> parts = formatted.split('-').map((e) => e.trim()).toList();
+    if (parts.length != 2) return formatted; // fallback
+
+    String from = parts[0];
+    String to = parts[1];
+
+    String fromLabel = from == '1' ? 'Lakh' : 'Lakhs';
+    String toLabel = to == '1' ? 'Lakh' : 'Lakhs';
+
+    return '$from $fromLabel - $to $toLabel';
+  }
+
   @override
   void initState() {
+    getQualifications(
+        userController.userData.value.user?.highestEducation ?? "");
     educationController.text =
         userController.userData.value.user?.educationDetails ?? "";
     occupationDetailsController.text =
@@ -85,8 +110,19 @@ class _EducationalDetailsState extends State<EducationalDetails> {
             )
             .name ??
         "";
-    selectedIncome = userController.userData.value.user?.annualIncome ?? "";
+    selectedIncome = reverseFormatSalaryRange(
+        userController.userData.value.user?.annualIncome ?? "");
     super.initState();
+  }
+
+  Future<void> getQualifications(String education_id) async {
+    await EditProfileService()
+        .getQualificationOptions(education_id, context)
+        .then((value) {
+      setState(() {
+        qualificationOptionsModel = value;
+      });
+    });
   }
 
   @override
@@ -125,7 +161,17 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                     items: widget.dropdownModel.highestEducations!
                         .map((item) => item.name ?? "")
                         .toList(),
-                    onChanged: (value) {
+                    onChanged: (value) async {
+                      setState(() {
+                        selectedQualification = null;
+                      });
+                      await getQualifications(widget
+                              .dropdownModel.highestEducations!
+                              .firstWhere(
+                                  (education) => education.name == value,
+                                  orElse: () => ReEdOcLanSt(id: ""))
+                              .id ??
+                          "");
                       setState(() {
                         selectedHighestEducation = value;
                       });
@@ -137,9 +183,10 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   //Qualification
                   EditProfileDropdown(
                     label: 'Qualification',
-                    items: widget.dropdownModel.qualifications!
-                        .map((item) => item.name ?? "")
-                        .toList(),
+                    items: qualificationOptionsModel.qualifications
+                            ?.map((item) => item.name ?? "")
+                            .toList() ??
+                        [],
                     onChanged: (value) {
                       setState(() {
                         selectedQualification = value;
@@ -219,7 +266,8 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                       : CustomButton(
                           text: "Save Changes",
                           onPressed: () async {
-                            print("kk "+formatSalaryRange(selectedIncome ?? ""));
+                            print("kk " +
+                                formatSalaryRange(selectedIncome ?? ""));
                             setState(() {
                               isSaving = true;
                             });
@@ -239,8 +287,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                                 selectedQualification)
                                             .id ??
                                         "",
-                                    occupation: widget
-                                            .dropdownModel.occupations!
+                                    occupation: widget.dropdownModel.occupations!
                                             .firstWhere((occupation) =>
                                                 occupation.name ==
                                                 selectedOccupation)
@@ -251,7 +298,10 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                     workLocation: worklocationController.text,
                                     educationalDetails:
                                         educationController.text,
-                                    annualIncome: selectedIncome == "" ? "" : formatSalaryRange(selectedIncome ?? ""),
+                                    annualIncome: selectedIncome == ""
+                                        ? ""
+                                        : formatSalaryRange(
+                                            selectedIncome ?? ""),
                                     context: context)
                                 .then((value) {
                               setState(() {

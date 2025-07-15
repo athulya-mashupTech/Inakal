@@ -9,6 +9,7 @@ import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/model/qualification_options_model.dart';
 import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
 
@@ -441,6 +442,33 @@ class EditProfileService {
     } catch (e) {
       print(e);
       return CasteSubcasteOptionsModel();
+    }
+  }
+
+  Future<QualificationOptionsModel> getQualificationOptions(
+    String education_id,
+    BuildContext context,
+  ) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getQualificationOptionsUrl,
+          fields: {"highest_education": education_id});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final qualificationOptionsModel =
+            QualificationOptionsModel.fromJson(responseJson);
+
+        if (qualificationOptionsModel.type == "success") {
+          _showSnackbar(context, qualificationOptionsModel.message ?? "");
+        }
+        return qualificationOptionsModel;
+      }
+      return QualificationOptionsModel();
+    } catch (e) {
+      print(e);
+      return QualificationOptionsModel();
     }
   }
 

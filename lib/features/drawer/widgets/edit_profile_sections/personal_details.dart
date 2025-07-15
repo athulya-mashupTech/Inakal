@@ -76,26 +76,36 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     noOfChildrenController.text =
         userController.userData.value.user?.numberOfChildren ?? "";
     selectedReligion = widget.dropdownModel.religions!
-            .firstWhere((religion) =>
-                religion.id == userController.userData.value.user?.religion,orElse: () => ReEdOcLanSt(name: ""),)
+            .firstWhere(
+              (religion) =>
+                  religion.id == userController.userData.value.user?.religion,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     selectedCaste = widget.dropdownModel.castes!
-            .firstWhere((caste) =>
-                caste.id == userController.userData.value.user?.caste,orElse: () => CaSub(name: ""))
+            .firstWhere(
+                (caste) =>
+                    caste.id == userController.userData.value.user?.caste,
+                orElse: () => CaSub(name: ""))
             .name ??
         "";
     selectedSubCaste = widget.dropdownModel.subcastes!
-            .firstWhere((subcaste) =>
-                subcaste.id == userController.userData.value.user?.subCaste,orElse: () => CaSub(name: ""))
+            .firstWhere(
+                (subcaste) =>
+                    subcaste.id == userController.userData.value.user?.subCaste,
+                orElse: () => CaSub(name: ""))
             .name ??
         "";
     selectedmaritalStatus =
         formatLabel(userController.userData.value.user?.maritalStatus ?? "");
     selectedmotherTongue = widget.dropdownModel.languages!
-            .firstWhere((languages) =>
-                languages.id ==
-                userController.userData.value.user?.motherTongue,orElse: () => ReEdOcLanSt(name: ""),)
+            .firstWhere(
+              (languages) =>
+                  languages.id ==
+                  userController.userData.value.user?.motherTongue,
+              orElse: () => ReEdOcLanSt(name: ""),
+            )
             .name ??
         "";
     super.initState();
@@ -103,8 +113,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
   Future<void> getCasteSubCasteOptions(String religionId) async {
     await EditProfileService()
-        .getCasteSubcasteOptions(
-            context, religionId)
+        .getCasteSubcasteOptions(context, religionId)
         .then((value) => setState(() {
               casteSubCasteOption = value;
             }));
@@ -179,7 +188,12 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                         selectedCaste = null;
                         selectedSubCaste = null;
                       });
-                      await getCasteSubCasteOptions(widget.dropdownModel.religions!.firstWhere((religion) => religion.name == value, orElse: () => ReEdOcLanSt(id: "")).id ?? "");
+                      await getCasteSubCasteOptions(widget
+                              .dropdownModel.religions!
+                              .firstWhere((religion) => religion.name == value,
+                                  orElse: () => ReEdOcLanSt(id: ""))
+                              .id ??
+                          "");
                       setState(() {
                         selectedReligion = value;
                       });
