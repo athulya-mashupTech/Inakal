@@ -48,7 +48,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Password reset successful")),
       );
-      Get.offAll(() => const LoginPage());
+      // Get.offAll(() => const LoginPage());
     }
   }
 
@@ -141,7 +141,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       obscureText: !isPwdVisible,
                       errorText: _newPasswordError,
                     ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 10),
                     TextFieldWidget(
                       controller: _confirmPasswordController,
                       hintText: "Re-Enter Your New Password",
