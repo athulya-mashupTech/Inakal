@@ -5,6 +5,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/chat/screens/messaging.dart';
 import 'package:inakal/features/drawer/screens/liked_profile.dart';
 import 'package:inakal/features/filter_users/model/filter_model.dart';
 import 'package:inakal/features/filter_users/screens/filtered_profile_screen.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
       // home: GalleryPage(),
       // home:ImageUploadScreen()
       // home: FilteredProfileScreen(FilterProfileModel(totalRows: "254")),
+      // home: Messaging(),
     );
   }
 }
