@@ -33,7 +33,7 @@ class Requests {
   String? toClientId;
   String? assignedBy;
   String? assignedById;
-  Null? remarks;
+  String? remarks;
   String? status;
   String? createdAt;
 

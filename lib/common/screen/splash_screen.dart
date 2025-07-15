@@ -13,7 +13,6 @@ import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/gallery_images_model.dart';
-import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {

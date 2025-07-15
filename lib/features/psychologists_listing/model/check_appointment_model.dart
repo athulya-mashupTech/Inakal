@@ -26,10 +26,10 @@ class CheckAppointmentModel {
 
 class Appointment {
   String? id;
-  Null? doctor;
+  String? doctor;
   String? client;
   String? created;
-  Null? assigned;
+  String? assigned;
   String? status;
   String? remarks;
 

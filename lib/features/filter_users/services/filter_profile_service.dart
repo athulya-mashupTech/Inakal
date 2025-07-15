@@ -8,7 +8,6 @@ import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
 import 'package:inakal/features/filter_users/model/filter_model.dart';
-import 'package:inakal/features/filter_users/screens/filtered_profile_screen.dart';
 
 class FilterProfileService {
   final AuthController authController = Get.find();
