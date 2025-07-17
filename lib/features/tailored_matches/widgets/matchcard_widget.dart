@@ -21,7 +21,7 @@ class MatchCardWidget extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
         boxShadow: [
           BoxShadow(
-            color: AppColors.grey.withOpacity(0.3),
+            color: AppColors.grey.withAlpha((255 * 0.3).round()),
             blurRadius: 8,
             offset: const Offset(0, 5),
           ),

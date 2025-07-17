@@ -225,7 +225,7 @@ class _EditProfileState extends State<EditProfile> {
                           SizedBox(
                             height: 2,
                           ),
-                          AdditionalDetails(dropdownModel!),
+                          AdditionalDetails(),
                           SizedBox(
                             height: 2,
                           ),

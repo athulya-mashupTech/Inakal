@@ -1,3 +1,5 @@
+// ProfilePage.dart
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -24,16 +26,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final box = GetStorage();
   final userController = Get.find<UserDataController>();
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<String>? allImages = [];
-  final List<String> images = [
-    "assets/vectors/harsha1.jpg",
-    "assets/vectors/harsha2.jpg",
-    "assets/vectors/harsha3.jpg",
-    "assets/vectors/harsha4.jpg",
-    "assets/vectors/harsha1.jpg"
-  ];
 
   void _showConfirmationDialog({
     required BuildContext context,
@@ -49,7 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
             borderRadius: BorderRadius.circular(20),
           ),
           child: Container(
-            width: MediaQuery.of(context).size.width * 0.7,
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(20),
@@ -58,9 +50,10 @@ class _ProfilePageState extends State<ProfilePage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 22.0, horizontal: 25),
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 22, horizontal: 25),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Row(
                         children: [
@@ -72,51 +65,35 @@ class _ProfilePageState extends State<ProfilePage> {
                               color: AppColors.black,
                             ),
                           ),
-                          SizedBox(
-                            width: 5,
+                          const SizedBox(width: 5),
+                          Transform.rotate(
+                            angle: -0.5,
+                            child: const Opacity(
+                              opacity: 0.6,
+                              child: Iconify(
+                                Ph.butterfly_duotone,
+                                size: 14,
+                                color: AppColors.primaryRed,
+                              ),
+                            ),
                           ),
-                          Positioned(
-                              top: 10,
-                              child: Transform.rotate(
-                                  angle: -0.5,
-                                  child: const Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: const Opacity(
-                                        opacity: 0.6,
-                                        child: Iconify(
-                                          Ph.butterfly_duotone,
-                                          size: 14,
-                                          color: AppColors.primaryRed,
-                                        ),
-                                      )))),
                           Transform.rotate(
                             angle: 0.5,
-                            child: const Align(
-                              child: Opacity(
-                                opacity: 0.6,
-                                child: Iconify(
-                                  Ph.butterfly_duotone,
-                                  size: 16,
-                                  color: AppColors.primaryRed,
-                                ),
+                            child: const Opacity(
+                              opacity: 0.6,
+                              child: Iconify(
+                                Ph.butterfly_duotone,
+                                size: 16,
+                                color: AppColors.primaryRed,
                               ),
-                              alignment: Alignment.topRight,
                             ),
                           ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.5,
-                            child: Text(
-                              content,
-                              style: const TextStyle(
-                                  fontSize: 16, color: AppColors.black),
-                            ),
-                          ),
-                        ],
+                      Text(
+                        content,
+                        style: const TextStyle(fontSize: 16),
                       ),
                     ],
                   ),
@@ -124,31 +101,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   decoration: BoxDecoration(
                     color: AppColors.softPink.withAlpha(50),
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
+                    borderRadius: const BorderRadius.vertical(
+                      bottom: Radius.circular(20),
                     ),
                   ),
                   child: Row(
                     children: [
                       Expanded(
                         child: TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
+                          onPressed: () => Navigator.of(context).pop(),
                           child: const Text("Cancel"),
                         ),
                       ),
-                      Text(
+                      const Text(
                         " | ",
-                        style: TextStyle(
-                            color: AppColors.black.withAlpha(50), fontSize: 20),
+                        style: TextStyle(fontSize: 20),
                       ),
                       Expanded(
                         child: TextButton(
@@ -156,19 +123,12 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.of(context).pop();
                             onConfirm();
                           },
-                          style: TextButton.styleFrom(
-                            foregroundColor: AppColors.black,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: const Text("Confirm",
-                              style: TextStyle(color: Colors.black)),
+                          child: const Text("Confirm"),
                         ),
                       ),
                     ],
                   ),
-                ),
+                )
               ],
             ),
           ),
@@ -178,58 +138,43 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _showImageOverlay(int index) {
+    final publicGallery = userController.galleryImages.value.gallery
+            ?.where((image) => image.isPublic == "1")
+            .toList() ??
+        [];
+
     showDialog(
       context: context,
-      barrierDismissible: true,
-      builder: (context) {
-        return Dialog(
-          backgroundColor: Colors.transparent,
-          child: Stack(
-            children: [
-              Center(
-                child: Flexible(
-                  child: PageView.builder(
-                    itemCount:
-                        (userController
-                                  .galleryImages.value.gallery
-                                  ?.where((image) => image.isPublic == "1")
-                                  .toList() ??
-                              []).length,
-                    controller: PageController(initialPage: index),
-                    itemBuilder: (context, i) {
-                      final publicGallery = userController
-                                  .galleryImages.value.gallery
-                                  ?.where((image) => image.isPublic == "1")
-                                  .toList() ??
-                              [];
-                      return CachedNetworkImage(
-                        imageUrl: publicGallery[i].image ??
-                            "",
-                        fit: BoxFit.contain,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
+      builder: (_) => Dialog(
+        backgroundColor: Colors.transparent,
+        child: Center(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.8,
+            child: PageView.builder(
+              itemCount: publicGallery.length,
+              controller: PageController(initialPage: index),
+              itemBuilder: (_, i) {
+                return CachedNetworkImage(
+                  imageUrl: publicGallery[i].image ?? "",
+                  fit: BoxFit.contain,
+                );
+              },
+            ),
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 
   int calculateAge(String birthDateString) {
-    DateTime birthDate = DateTime.parse(birthDateString);
-    DateTime today = DateTime.now();
-
+    final birthDate = DateTime.tryParse(birthDateString);
+    if (birthDate == null) return 0;
+    final today = DateTime.now();
     int age = today.year - birthDate.year;
-
-    // Check if the birthday has occurred yet this year
     if (today.month < birthDate.month ||
         (today.month == birthDate.month && today.day < birthDate.day)) {
       age--;
     }
-
     return age;
   }
 
@@ -240,380 +185,249 @@ class _ProfilePageState extends State<ProfilePage> {
       endDrawer: const DrawerWidget(),
       body: Stack(
         children: [
-          Stack(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.height,
-                color: AppColors.white,
-              ),
-              LightPinkGradient(),
-            ],
-          ),
+          LightPinkGradient(),
           SafeArea(
-              child: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20.0),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.all(20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(),
-                      Center(
-                        child: RichText(
-                          text: const TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'My ',
-                                style: TextStyle(
+                      const SizedBox(),
+                      const Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'My ',
+                              style: TextStyle(
                                   color: AppColors.black,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                ),
-                              ),
-                              TextSpan(
-                                text: 'Profile',
-                                style: TextStyle(
+                                  fontSize: 24),
+                            ),
+                            TextSpan(
+                              text: 'Profile',
+                              style: TextStyle(
                                   color: AppColors.primaryRed,
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 24,
-                                ),
-                              ),
-                            ],
-                          ),
+                                  fontSize: 24),
+                            ),
+                          ],
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(
-                          Icons.widgets_rounded,
-                          size: 28,
-                        ),
-                        onPressed: () {
-                          _scaffoldKey.currentState!.openEndDrawer();
-                        },
-                        color: AppColors.primaryRed,
+                        icon: const Icon(Icons.widgets_rounded,
+                            color: AppColors.primaryRed),
+                        onPressed: () =>
+                            _scaffoldKey.currentState!.openEndDrawer(),
                       ),
                     ],
                   ),
                   const SizedBox(height: 10),
                   Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 8.0, vertical: 10),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Obx(() => Container(
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
-                                  color: AppColors.primaryRed,
-                                  width: 3,
-                                ),
+                                    color: AppColors.primaryRed, width: 3),
+                                borderRadius: BorderRadius.circular(15),
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
                                 child: CachedNetworkImage(
                                   imageUrl: userController
                                           .userData.value.user?.image ??
-                                      "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                                      "",
                                   width:
                                       MediaQuery.of(context).size.width * 0.4,
                                   height: 180,
                                   fit: BoxFit.cover,
-                                  placeholder: (context, url) =>
-                                      Shimmer.fromColors(
+                                  placeholder: (_, __) => Shimmer.fromColors(
                                     baseColor: AppColors.grey,
                                     highlightColor: AppColors.lightGrey,
-                                    child: Container(
-                                      color: AppColors.grey,
-                                    ),
+                                    child: Container(color: AppColors.grey),
                                   ),
                                 ),
                               ),
                             )),
                         const SizedBox(width: 16),
                         Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 16),
-                            child: Column(
+                          child: Obx(() {
+                            final user = userController.userData.value.user;
+                            return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Obx(() => Text(
-                                      userController.userData.value.user?.id !=
-                                              null
-                                          ? "Inakal ID: ${userController.userData.value.user?.id}"
-                                          : "Inakal ID Not Specified",
-                                      style: TextStyle(
-                                          fontSize: 16,
-                                          color: AppColors.primaryRed),
-                                    )),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.firstName !=
-                                              null
-                                          ? "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}"
-                                          : "Name Not Specified",
-                                      style: TextStyle(
-                                          fontSize: MediaQuery.of(context)
-                                                  .size
-                                                  .width *
+                                Text(
+                                  "Inakal ID: ${user?.id ?? "Not Specified"}",
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: AppColors.primaryRed),
+                                ),
+                                Text(
+                                  "${user?.firstName ?? ""} ${user?.lastName ?? ""}",
+                                  style: TextStyle(
+                                      fontSize:
+                                          MediaQuery.of(context).size.width *
                                               0.07,
-                                          fontWeight: FontWeight.bold,
-                                          height: 1.1),
-                                    )),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.currentCity !=
-                                              null
-                                          ? "${userController.userData.value.user?.districtName}, ${userController.userData.value.user?.stateName}"
-                                          : "Location loading ...",
-                                      style: TextStyle(fontSize: 16),
-                                    )),
-                                SizedBox(height: 8),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.occupation !=
-                                              null
-                                          ? "${userController.userData.value.user?.occupationName}"
-                                          : "Job Not Specified",
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    )),
-                                Obx(() => Text(
-                                      userController.userData.value.user
-                                                  ?.religion !=
-                                              null
-                                          ? "${userController.userData.value.user?.religionName}"
-                                          : "Religion is loading",
-                                      style: TextStyle(fontSize: 16),
-                                    )),
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.1),
+                                ),
+                                Text(
+                                  "${user?.districtName ?? ""}, ${user?.stateName ?? ""}",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  user?.occupationName ?? "Job Not Specified",
+                                  style: const TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                Text(
+                                  user?.religionName ?? "Religion loading...",
+                                  style: const TextStyle(fontSize: 16),
+                                ),
                               ],
-                            ),
-                          ),
+                            );
+                          }),
                         )
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
+                  Obx(() {
+                    final user = userController.userData.value.user;
+                    return Row(
                       children: [
-                        Iconify(
-                          Mdi.numbers,
-                          color: AppColors.primaryRed,
-                          size: 21,
+                        const Iconify(Mdi.numbers,
+                            color: AppColors.primaryRed, size: 21),
+                        const SizedBox(width: 5),
+                        Text(
+                          "${calculateAge(user?.dob ?? "")} Years",
+                          style: const TextStyle(
+                              fontSize: 18, color: AppColors.black),
                         ),
-                        SizedBox(width: 5),
-                        Obx(() => Text(
-                              userController.userData.value.user?.dob != null
-                                  ? "${calculateAge(userController.userData.value.user?.dob ?? "")} Years"
-                                  : "...",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.black,
-                              ),
-                            )),
-                        SizedBox(width: 12),
-                        Iconify(
-                          Mdi.human_male_height_variant,
-                          color: AppColors.primaryRed,
-                          size: 15,
-                        ),
-                        SizedBox(width: 5),
-                        Obx(() => Text(
-                              userController.userData.value.user?.height != null
-                                  ? "${userController.userData.value.user?.height}" +
-                                      " cm"
-                                  : "...",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.black,
-                              ),
-                            )),
-                        SizedBox(width: 12),
-                        Iconify(Mdi.weight_lifter,
+                        const SizedBox(width: 12),
+                        const Iconify(Mdi.human_male_height_variant,
                             color: AppColors.primaryRed, size: 15),
-                        SizedBox(width: 5),
-                        Obx(() => Text(
-                              userController.userData.value.user?.weight != null
-                                  ? "${userController.userData.value.user?.weight}" +
-                                      " Kg"
-                                  : "...",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: AppColors.black,
-                              ),
-                            )),
+                        const SizedBox(width: 5),
+                        Text("${user?.height ?? "..."} cm",
+                            style: const TextStyle(
+                                fontSize: 18, color: AppColors.black)),
+                        const SizedBox(width: 12),
+                        const Iconify(Mdi.weight_lifter,
+                            color: AppColors.primaryRed, size: 15),
+                        const SizedBox(width: 5),
+                        Text("${user?.weight ?? "..."} Kg",
+                            style: const TextStyle(
+                                fontSize: 18, color: AppColors.black)),
                       ],
-                    ),
-                  ),
+                    );
+                  }),
                   const SizedBox(height: 10),
                   const CompleteProfileCard(),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20, left: 10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'About Me',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.black,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Obx(() => Text(
-                              userController.userData.value.user?.aboutMe !=
-                                      null
-                                  ? "${userController.userData.value.user?.aboutMe}"
-                                  : "Description is Loading",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: AppColors.black,
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-                  Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Obx(() {
-                          // Filter the gallery to only include public images (isPublic == "1")
-                          final publicGallery = userController
-                                  .galleryImages.value.gallery
-                                  ?.where((image) => image.isPublic == "1")
-                                  .toList() ??
-                              [];
+                  const SizedBox(height: 20),
+                  const Text('About Me',
+                      style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.black)),
+                  const SizedBox(height: 8),
+                  Obx(() => Text(
+                        userController.userData.value.user?.aboutMe ??
+                            "Loading...",
+                        style: const TextStyle(
+                            fontSize: 16, color: AppColors.black),
+                      )),
+                  const SizedBox(height: 10),
+                  Obx(() {
+                    final publicGallery = userController
+                            .galleryImages.value.gallery
+                            ?.where((img) => img.isPublic == "1")
+                            .toList() ??
+                        [];
 
-                          return GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              childAspectRatio: 1.3,
-                            ),
-                            itemCount: publicGallery.length > 4
-                                ? 4
-                                : publicGallery.length,
-                            itemBuilder: (context, index) {
-                              return publicGallery.length > 4
-                                  ? index == 3
-                                      ? GestureDetector(
-                                          onTap: () {
-                                            _showImageOverlay(3);
-                                          },
-                                          child: Stack(
-                                            fit: StackFit.expand,
-                                            children: [
-                                              ImageCard(
-                                                  image: publicGallery[index]
-                                                          .image ??
-                                                      ""),
-                                              Container(
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: AppColors.black
-                                                      .withAlpha(150),
-                                                ),
-                                              ),
-                                              Column(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  const Icon(
-                                                    Icons.image_outlined,
-                                                    size: 35,
-                                                    color: AppColors.white,
-                                                  ),
-                                                  Text(
-                                                    "+${publicGallery.length - 3}",
-                                                    style: const TextStyle(
-                                                        color: AppColors.white,
-                                                        fontSize: 24),
-                                                  )
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        )
-                                      : GestureDetector(
-                                          child: ImageCard(
-                                              image:
-                                                  publicGallery[index].image ??
-                                                      ""),
-                                          onTap: () {
-                                            _showImageOverlay(index);
-                                          },
-                                        )
-                                  : GestureDetector(
-                                      child: ImageCard(
-                                          image:
-                                              publicGallery[index].image ?? ""),
-                                      onTap: () {
-                                        _showImageOverlay(index);
-                                      },
-                                    );
-                            },
-                          );
-                        }),
+                    return GridView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: publicGallery.length > 4
+                          ? 4
+                          : publicGallery.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10,
+                        childAspectRatio: 1.3,
                       ),
-                      SizedBox(height: 10),
-                    ],
+                      itemBuilder: (context, index) {
+                        final img = publicGallery[index];
+                        return GestureDetector(
+                          onTap: () => _showImageOverlay(index),
+                          child: index == 3 && publicGallery.length > 4
+                              ? Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    ImageCard(image: img.image ?? ""),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        color: AppColors.black.withAlpha(150),
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Icon(Icons.image_outlined,
+                                            color: AppColors.white, size: 35),
+                                        Text("+${publicGallery.length - 3}",
+                                            style: const TextStyle(
+                                                color: AppColors.white,
+                                                fontSize: 24)),
+                                      ],
+                                    )
+                                  ],
+                                )
+                              : ImageCard(image: img.image ?? ""),
+                        );
+                      },
+                    );
+                  }),
+                  const SizedBox(height: 10),
+                  CustomButton(
+                    text: "Password Reset",
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (_) => PasswordResetScreen()));
+                    },
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        CustomButton(
-                            text: "Password Reset",
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PasswordResetScreen()
-                                          ));
-                            }),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        CustomButton(
-                          text: "Logout",
-                          color: AppColors.black,
-                          onPressed: () {
-                            _showConfirmationDialog(
-                              context: context,
-                              title: "Are you Sure?",
-                              content:
-                                  "Do you really want to logout from inakal.com?",
-                              onConfirm: () {
-                                box.write('isLoggedIn', false);
-                                userController.clearAll();
-                                Get.offAll(() => const LoginPage());
-                              },
-                            );
-                          },
-                        ),
-                      ],
-                    ),
+                  const SizedBox(height: 10),
+                  CustomButton(
+                    text: "Logout",
+                    color: AppColors.black,
+                    onPressed: () {
+                      _showConfirmationDialog(
+                        context: context,
+                        title: "Are you Sure?",
+                        content: "Do you really want to logout from inakal.com?",
+                        onConfirm: () {
+                          box.write('isLoggedIn', false);
+                          userController.clearAll();
+                          Get.offAll(() => const LoginPage());
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
             ),
-          ))
+          ),
         ],
       ),
     );

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class InboxCard extends StatefulWidget {
-  Map<String, String> user;
-  InboxCard({
+  final Map<String, String> user;
+  const InboxCard({
     super.key,
     required this.user,
   });

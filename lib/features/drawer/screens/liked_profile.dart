@@ -19,7 +19,6 @@ class LikedProfile extends StatefulWidget {
 class _LikedProfileState extends State<LikedProfile> {
   LikedProfileModel? likedProfileModel;
   bool isLoading = true;
-  // final userController = Get.find<UserDataController>();
 
   @override
   void initState() {
@@ -39,11 +38,11 @@ class _LikedProfileState extends State<LikedProfile> {
   }
 
   String getLocation(String district, String state) {
-    if (district != "" && state != "") {
+    if (district.isNotEmpty && state.isNotEmpty) {
       return "$district, $state";
-    } else if (district == "" && state != "") {
+    } else if (state.isNotEmpty) {
       return state;
-    } else if (district != "" && state == "") {
+    } else if (district.isNotEmpty) {
       return district;
     }
     return "";
@@ -68,65 +67,41 @@ class _LikedProfileState extends State<LikedProfile> {
                   const SizedBox(height: 30),
                   Row(
                     children: [
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Padding(
-                          padding: EdgeInsets.only(left: 30),
-                          child: Text(
-                            "Liked Profile",
-                            style: TextStyle(
-                              fontSize: 25,
-                              fontWeight: FontWeight.bold,
-                              // color: AppColors.primaryRed
-                            ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 30),
+                        child: Text(
+                          "Liked Profile",
+                          style: const TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Column(
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Column(
-                                children: [
-                                  //To move the butterfly little down
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Positioned(
-                                    top: 10,
-                                    child: Transform.rotate(
-                                      angle: -0.5,
-                                      child: const Align(
-                                        alignment: Alignment.bottomRight,
-                                        child: const Opacity(
-                                          opacity: 0.6,
-                                          child: Iconify(
-                                            Ph.butterfly_duotone,
-                                            size: 14,
-                                            color: AppColors.primaryRed,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                          Transform.rotate(
+                            angle: -0.5,
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: Iconify(
+                                Ph.butterfly_duotone,
+                                size: 14,
+                                color: AppColors.primaryRed,
                               ),
-                              Transform.rotate(
-                                angle: 0.5,
-                                child: const Align(
-                                  child: Opacity(
-                                    opacity: 0.6,
-                                    child: Iconify(
-                                      Ph.butterfly_duotone,
-                                      size: 16,
-                                      color: AppColors.primaryRed,
-                                    ),
-                                  ),
-                                  alignment: Alignment.topRight,
-                                ),
+                            ),
+                          ),
+                          const SizedBox(width: 2),
+                          Transform.rotate(
+                            angle: 0.5,
+                            child: Opacity(
+                              opacity: 0.6,
+                              child: Iconify(
+                                Ph.butterfly_duotone,
+                                size: 16,
+                                color: AppColors.primaryRed,
                               ),
-                            ],
+                            ),
                           ),
                         ],
                       )
@@ -141,8 +116,7 @@ class _LikedProfileState extends State<LikedProfile> {
                         )
                       : likedProfileModel?.relatedProfiles?.isEmpty ?? true
                           ? SizedBox(
-                              height: MediaQuery.of(context).size.height *
-                                  0.5, // Adjust based on how much header content there is
+                              height: MediaQuery.of(context).size.height * 0.5,
                               child: Center(
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -153,13 +127,13 @@ class _LikedProfileState extends State<LikedProfile> {
                                           0.6,
                                     ),
                                     const SizedBox(height: 10),
-                                    Padding(
-                                      padding: const EdgeInsets.all(20.0),
+                                    const Padding(
+                                      padding: EdgeInsets.all(20.0),
                                       child: Center(
                                         child: Text(
                                           "No Liked Profiles Found for your preferences.\nTry changing your preferences or check back later.",
                                           textAlign: TextAlign.center,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontSize: 14,
                                           ),
                                         ),
@@ -177,61 +151,46 @@ class _LikedProfileState extends State<LikedProfile> {
                                 physics: const NeverScrollableScrollPhysics(),
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2, // Number of columns
-                                  crossAxisSpacing:
-                                      10, // Spacing between columns
-                                  mainAxisSpacing: 10, // Spacing between rows
-                                  childAspectRatio:
-                                      1, // Adjust based on card dimensions
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio: 1,
                                 ),
-                                itemCount: likedProfileModel
-                                    ?.relatedProfiles?.length,
+                                itemCount:
+                                    likedProfileModel?.relatedProfiles?.length,
                                 itemBuilder: (context, index) {
-                                    return GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      OtherProfileScreen(
-                                                          id: likedProfileModel!
-                                                              .relatedProfiles![
-                                                                  index]
-                                                              .id!)));
-                                        },
-                                        child: UserCard(
-                                            likedBy: likedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .liked ??
-                                                false,
-                                            dob: likedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .dob ??
-                                                "",
-                                            clientId: likedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .id ??
-                                                "",
-                                            name:
-                                                "${(likedProfileModel?.relatedProfiles?[index].firstName ?? "").trimLeft()} ${(likedProfileModel?.relatedProfiles?[index].lastName ?? "").trimLeft()}",
-                                            location: getLocation(
-                                                likedProfileModel
-                                                        ?.relatedProfiles?[
-                                                            index]
-                                                        .districtName ??
-                                                    "",
-                                                likedProfileModel?.relatedProfiles?[index].stateName ??
-                                                    ""),
-                                            image: likedProfileModel
-                                                        ?.relatedProfiles?[index]
-                                                        .image ==
-                                                    "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                                ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                                : "${likedProfileModel?.relatedProfiles?[index].image}"));
+                                  final profile =
+                                      likedProfileModel!.relatedProfiles![index];
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              OtherProfileScreen(
+                                                  id: profile.id!),
+                                        ),
+                                      );
+                                    },
+                                    child: UserCard(
+                                      likedBy: profile.liked ?? false,
+                                      dob: profile.dob ?? "",
+                                      clientId: profile.id ?? "",
+                                      name:
+                                          "${(profile.firstName ?? "").trimLeft()} ${(profile.lastName ?? "").trimLeft()}",
+                                      location: getLocation(
+                                          profile.districtName ?? "",
+                                          profile.stateName ?? ""),
+                                      image: profile.image ==
+                                              "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                          ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                          : profile.image ?? "",
+                                    ),
+                                  );
                                 },
                               ),
                             ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),

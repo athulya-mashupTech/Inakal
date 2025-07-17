@@ -88,7 +88,7 @@ class GalleryImageCard extends StatelessWidget {
             onTap: onDelete,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withAlpha((255 * 0.6).round()),
                 shape: BoxShape.circle,
               ),
               padding: EdgeInsets.all(4),

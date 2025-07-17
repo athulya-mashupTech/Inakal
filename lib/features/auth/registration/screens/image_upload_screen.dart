@@ -129,7 +129,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                       bottom: 8,
                       child: Container(
                         decoration: BoxDecoration(
-                          color: Colors.black.withOpacity(0.6),
+                          color: Colors.black.withAlpha((255 * 0.6).round()),
                           shape: BoxShape.circle,
                         ),
                         child: const Padding(

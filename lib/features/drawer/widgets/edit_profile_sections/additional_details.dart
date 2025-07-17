@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/common/add_hobbie_widget.dart';
 import 'package:inakal/features/drawer/widgets/common/option_widget.dart';
@@ -11,8 +10,7 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
 class AdditionalDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
-  AdditionalDetails(this.dropdownModel, {super.key});
+  const AdditionalDetails({super.key});
 
   @override
   State<AdditionalDetails> createState() => _AdditionalDetailsState();
@@ -118,7 +116,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                             });
                           },
                         );
-                      }).toList(),
+                      }),
                       AddHobbieWidget(
                         label: "Add",
                         icon: Icons.add,
@@ -126,12 +124,12 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                           final newLanguage = await showDialog<String>(
                             context: context,
                             builder: (context) {
-                              final TextEditingController _controller =
+                              final TextEditingController controller =
                                   TextEditingController();
                               return AlertDialog(
                                 title: Text("Add Hobbies"),
                                 content: TextField(
-                                  controller: _controller,
+                                  controller: controller,
                                   decoration: InputDecoration(
                                     hintText: "Enter your hobbies",
                                   ),
@@ -143,7 +141,7 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      final language = _controller.text.trim();
+                                      final language = controller.text.trim();
                                       if (language.isNotEmpty) {
                                         Navigator.pop(context, language);
                                       }
@@ -170,9 +168,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                   EditProfileDropdown(
                     label: "Smoking Habbits",
                     items: ["No", "Yes", "Occasionally", "Any"],
-                    // widget.dropdownModel.states!
-                    // .map((item) => item.name ?? "")
-                    // .toList(),
                     onChanged: (value) {
                       setState(() {
                         selectedSmokingHabbit = value;
@@ -186,9 +181,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                   EditProfileDropdown(
                     label: "Drinking Habbits",
                     items: ["No", "Yes", "Occasionally", "Any"],
-                    // widget.dropdownModel.states!
-                    // .map((item) => item.name ?? "")
-                    // .toList(),
                     onChanged: (value) {
                       setState(() {
                         selectedDrinkingHabbit = value;
@@ -202,9 +194,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                   EditProfileDropdown(
                     label: "Food Preferences",
                     items: ["Vegetarian", "Non-Vegetarian", "Vegan", "Any"],
-                    // widget.dropdownModel.states!
-                    // .map((item) => item.name ?? "")
-                    // .toList(),
                     onChanged: (value) {
                       setState(() {
                         selectedFoodPreference = value;
@@ -226,9 +215,6 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                       "Friend",
                       "Relative"
                     ],
-                    // widget.dropdownModel.states!
-                    // .map((item) => item.name ?? "")
-                    // .toList(),
                     onChanged: (value) {
                       setState(() {
                         selectedCreatedBy = value;

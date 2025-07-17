@@ -9,8 +9,8 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
 class LocationDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
-  LocationDetails(this.dropdownModel, {super.key});
+  final DropdownModel dropdownModel;
+  const LocationDetails(this.dropdownModel, {super.key});
 
   @override
   State<LocationDetails> createState() => _LocationDetailsState();
