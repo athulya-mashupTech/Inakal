@@ -5,7 +5,6 @@ import 'package:inakal/common/widgets/complete_profile_card.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/chat/screens/inbox_screen.dart';
 import 'package:inakal/features/filter_users/screens/filtering_screen.dart';
-import 'package:inakal/features/home/model/filter_model.dart';
 import 'package:inakal/features/home/model/related_profile_model.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/home/widgets/user_card.dart';
@@ -13,8 +12,7 @@ import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:lottie/lottie.dart';
 
 class HomeScreen extends StatefulWidget {
-  final FilterModel? filterModel;
-  const HomeScreen({super.key, this.filterModel});
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -180,84 +178,40 @@ class _HomeScreenState extends State<HomeScreen> {
                           itemCount:
                               relatedProfileModel?.relatedProfiles?.length,
                           itemBuilder: (context, index) {
-                            if (widget.filterModel?.location != null) {
-                              if (relatedProfileModel
-                                      ?.relatedProfiles?[index].state ==
-                                  widget.filterModel?.location)
-                                return GestureDetector(
-                                    onTap: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  OtherProfileScreen(
-                                                      id: relatedProfileModel!
-                                                          .relatedProfiles![
-                                                              index]
-                                                          .id!)));
-                                    },
-                                    child: UserCard(
-                                        likedBy: relatedProfileModel
+                            return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              OtherProfileScreen(
+                                                  id: relatedProfileModel!
+                                                      .relatedProfiles![index]
+                                                      .id!)));
+                                },
+                                child: UserCard(
+                                    likedBy: relatedProfileModel
+                                            ?.relatedProfiles?[index].liked ??
+                                        false,
+                                    dob: relatedProfileModel?.relatedProfiles?[index].dob ??
+                                        "",
+                                    clientId: relatedProfileModel?.relatedProfiles?[index].id ??
+                                        "",
+                                    name: "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName.toString().trimLeft()}"
+                                        .trimLeft(),
+                                    location: getLocation(
+                                        relatedProfileModel
                                                 ?.relatedProfiles?[index]
-                                                .liked ??
-                                            false,
-                                        dob: relatedProfileModel?.relatedProfiles?[index].dob ??
+                                                .districtName ??
                                             "",
-                                        clientId:
-                                            relatedProfileModel?.relatedProfiles?[index].id ??
-                                                "",
-                                        name: "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName.toString().trimLeft()}"
-                                            .trimLeft(),
-                                        location: getLocation(
-                                            relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .districtName ??
-                                                "",
-                                            relatedProfileModel
-                                                    ?.relatedProfiles?[index]
-                                                    .stateName ??
-                                                ""),
-                                        image: relatedProfileModel?.relatedProfiles?[index].image ==
-                                                "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                            ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                            : "${relatedProfileModel?.relatedProfiles?[index].image}"));
-                            } else {
-                              return GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                OtherProfileScreen(
-                                                    id: relatedProfileModel!
-                                                        .relatedProfiles![index]
-                                                        .id!)));
-                                  },
-                                  child: UserCard(
-                                      likedBy: relatedProfileModel
-                                              ?.relatedProfiles?[index].liked ??
-                                          false,
-                                      dob: relatedProfileModel?.relatedProfiles?[index].dob ??
-                                          "",
-                                      clientId:
-                                          relatedProfileModel?.relatedProfiles?[index].id ??
-                                              "",
-                                      name: "${relatedProfileModel?.relatedProfiles?[index].firstName} ${relatedProfileModel?.relatedProfiles?[index].lastName.toString().trimLeft()}"
-                                          .trimLeft(),
-                                      location: getLocation(
-                                          relatedProfileModel
-                                                  ?.relatedProfiles?[index]
-                                                  .districtName ??
-                                              "",
-                                          relatedProfileModel
-                                                  ?.relatedProfiles?[index]
-                                                  .stateName ??
-                                              ""),
-                                      image: relatedProfileModel?.relatedProfiles?[index].image ==
-                                              "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
-                                          ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
-                                          : "${relatedProfileModel?.relatedProfiles?[index].image}"));
-                            }
+                                        relatedProfileModel
+                                                ?.relatedProfiles?[index]
+                                                .stateName ??
+                                            ""),
+                                    image: relatedProfileModel?.relatedProfiles?[index].image ==
+                                            "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+                                        ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+                                        : "${relatedProfileModel?.relatedProfiles?[index].image}"));
                           },
                         ),
                       ),

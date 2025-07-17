@@ -159,7 +159,7 @@ class _CompleteProfileCardState extends State<CompleteProfileCard>
                                             value: _animation.value / 100,
                                             strokeWidth: 7,
                                             backgroundColor: AppColors.white
-                                                .withOpacity(0.2),
+                                                .withAlpha((255 * 0.2).round()),
                                             valueColor:
                                                 const AlwaysStoppedAnimation<
                                                     Color>(AppColors.white),

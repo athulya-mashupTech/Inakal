@@ -46,7 +46,7 @@ class GenderSelectionWidget extends StatelessWidget {
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withAlpha((255 * 0.1).round()),
               spreadRadius: 1,
               blurRadius: 5,
               offset: Offset(0, 3),

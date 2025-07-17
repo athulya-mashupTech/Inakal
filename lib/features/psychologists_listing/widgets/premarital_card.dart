@@ -61,7 +61,7 @@ class PremaritalCard extends StatelessWidget {
                   child: Text(
                     "Navigate your journey to marriage with expert guidance, ensuring understanding, communication, and a strong foundation.",
                     style: TextStyle(
-                      color: AppColors.white.withOpacity(0.8),
+                      color: AppColors.white.withAlpha((255 * 0.8).round()),
                       fontSize: 14,
                     ),
                   ),

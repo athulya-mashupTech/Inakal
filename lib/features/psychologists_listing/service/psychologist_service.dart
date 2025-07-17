@@ -33,9 +33,11 @@ class PsychologistService {
           return null;
         }
       }
+      return PsychologistModel();
     } catch (e) {
       print("Error fetching doctors: $e");
-      return null;
+      return PsychologistModel();
+      // return null;
     }
   }
 
@@ -63,9 +65,11 @@ class PsychologistService {
           return "error";
         }
       }
+      return "error";
     } catch (e) {
       print("Error checking doctor's : $e");
-      return null;
+      return "error";
+      // return null;
     }
   }
 

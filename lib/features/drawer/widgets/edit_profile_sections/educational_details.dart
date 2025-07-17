@@ -11,8 +11,8 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
 class EducationalDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
-  EducationalDetails(this.dropdownModel, {super.key});
+  final DropdownModel dropdownModel;
+  const EducationalDetails(this.dropdownModel, {super.key});
 
   @override
   State<EducationalDetails> createState() => _EducationalDetailsState();

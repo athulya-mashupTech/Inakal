@@ -60,20 +60,18 @@ class DrawerWidget extends StatelessWidget {
                           SizedBox(
                             width: 5,
                           ),
-                          Positioned(
-                              top: 10,
-                              child: Transform.rotate(
-                                  angle: -0.5,
-                                  child: const Align(
-                                      alignment: Alignment.bottomRight,
-                                      child: const Opacity(
-                                        opacity: 0.6,
-                                        child: Iconify(
-                                          Ph.butterfly_duotone,
-                                          size: 14,
-                                          color: AppColors.primaryRed,
-                                        ),
-                                      )))),
+                          Transform.rotate(
+                              angle: -0.5,
+                              child: const Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: const Opacity(
+                                    opacity: 0.6,
+                                    child: Iconify(
+                                      Ph.butterfly_duotone,
+                                      size: 14,
+                                      color: AppColors.primaryRed,
+                                    ),
+                                  ))),
                           Transform.rotate(
                             angle: 0.5,
                             child: const Align(
@@ -399,20 +397,18 @@ void _showHelpAndSupportDialog({
                           ),
                         ),
                         SizedBox(width: 5),
-                        Positioned(
-                            top: 10,
-                            child: Transform.rotate(
-                                angle: -0.5,
-                                child: const Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: const Opacity(
-                                      opacity: 0.6,
-                                      child: Iconify(
-                                        Ph.butterfly_duotone,
-                                        size: 14,
-                                        color: AppColors.primaryRed,
-                                      ),
-                                    )))),
+                        Transform.rotate(
+                            angle: -0.5,
+                            child: const Align(
+                                alignment: Alignment.bottomRight,
+                                child: const Opacity(
+                                  opacity: 0.6,
+                                  child: Iconify(
+                                    Ph.butterfly_duotone,
+                                    size: 14,
+                                    color: AppColors.primaryRed,
+                                  ),
+                                ))),
                         Transform.rotate(
                           angle: 0.5,
                           child: const Align(

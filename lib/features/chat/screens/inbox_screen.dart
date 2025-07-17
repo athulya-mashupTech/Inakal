@@ -174,7 +174,7 @@ class _InboxScreenState extends State<InboxScreen> {
             children: [
               // Top Filters of chats
               Container(
-                color: AppColors.softPink.withOpacity(0.4),
+                color: AppColors.softPink.withAlpha((255 * 0.4).round()),
                 width: MediaQuery.of(context).size.width,
                 child: SingleChildScrollView(
                   scrollDirection: Axis.horizontal,

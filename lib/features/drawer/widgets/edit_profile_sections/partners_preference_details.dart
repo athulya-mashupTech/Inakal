@@ -8,8 +8,8 @@ import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
 
 class PartnersPreferenceDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
-  PartnersPreferenceDetails(this.dropdownModel, {super.key});
+  final DropdownModel dropdownModel;
+  const PartnersPreferenceDetails(this.dropdownModel, {super.key});
 
   @override
   State<PartnersPreferenceDetails> createState() =>

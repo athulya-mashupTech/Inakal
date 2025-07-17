@@ -13,9 +13,8 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class PersonalDetails extends StatefulWidget {
-  DropdownModel dropdownModel;
-
-  PersonalDetails(this.dropdownModel, {super.key});
+  final DropdownModel dropdownModel;
+  const PersonalDetails(this.dropdownModel, {super.key});
 
   @override
   State<PersonalDetails> createState() => _PersonalDetailsState();

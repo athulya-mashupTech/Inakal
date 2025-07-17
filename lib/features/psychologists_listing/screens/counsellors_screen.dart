@@ -282,19 +282,16 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                                       const SizedBox(
                                         height: 10,
                                       ),
-                                      Positioned(
-                                        top: 10,
-                                        child: Transform.rotate(
-                                          angle: -0.5,
-                                          child: const Align(
-                                            alignment: Alignment.bottomRight,
-                                            child: const Opacity(
-                                              opacity: 0.6,
-                                              child: Iconify(
-                                                Ph.butterfly_duotone,
-                                                size: 14,
-                                                color: AppColors.deepBlue,
-                                              ),
+                                      Transform.rotate(
+                                        angle: -0.5,
+                                        child: const Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: const Opacity(
+                                            opacity: 0.6,
+                                            child: Iconify(
+                                              Ph.butterfly_duotone,
+                                              size: 14,
+                                              color: AppColors.deepBlue,
                                             ),
                                           ),
                                         ),
