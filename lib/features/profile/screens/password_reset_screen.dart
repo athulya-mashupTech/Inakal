@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart' show AppColors;
 import 'package:inakal/features/auth/registration/widgets/text_field_widget.dart';
+import 'package:inakal/features/profile/service/reset_password_service.dart';
+import 'package:lottie/lottie.dart';
 
 class PasswordResetScreen extends StatefulWidget {
   const PasswordResetScreen({super.key});
@@ -11,16 +13,16 @@ class PasswordResetScreen extends StatefulWidget {
 }
 
 class _PasswordResetScreenState extends State<PasswordResetScreen> {
-  
   final TextEditingController _newPasswordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   String? _newPasswordError;
   String? _confirmPasswordError;
   bool isPwdVisible = false;
   bool isCPwdVisible = false;
 
-  void _validateAndSubmit() {
+  void _validateAndSubmit() async {
     final newPassword = _newPasswordController.text.trim();
     final confirmPassword = _confirmPasswordController.text.trim();
 
@@ -42,10 +44,63 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     });
 
     if (_newPasswordError == null && _confirmPasswordError == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Password reset successful")),
+      await ResetPasswordService()
+          .resetPassword(_newPasswordController.text.trim())
+          .then((value) {
+        if (value.type == "success") {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("Password reset successful")),
+          );
+          Navigator.pop(context);
+        } else if (value.type == "danger") {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return Dialog(
+                    child: Container(
+                  decoration:
+                      BoxDecoration(
+                        color: AppColors.white,
+                        borderRadius: BorderRadius.circular(17)),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 16.0, horizontal: 22),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Lottie.asset("assets/lottie/password_exist.json",
+                            height: 250, width: 250),
+                        Text(
+                          "Password Already in Use",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 24),
+                        ),
+                        Text(
+                          "The new password you entered is the same as your current password. Please choose a different password to ensure better security.",
+                          textAlign: TextAlign.center,
+                        ),
+                        Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 32, vertical: 12),
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    "OK",
+                                    style: TextStyle(color: AppColors.black),
+                                  ),
+                                )))
+                      ],
+                    ),
+                  ),
+                ));
+              });
+        }
+      }
       );
-      // Get.offAll(() => const LoginPage());
     }
   }
 
@@ -56,9 +111,11 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       } else if (value.length < 8) {
         _newPasswordError = 'Password must be at least 8 characters';
       } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
-        _newPasswordError = 'Password must contain at least one uppercase letter';
+        _newPasswordError =
+            'Password must contain at least one uppercase letter';
       } else if (!RegExp(r"[a-z]").hasMatch(value)) {
-        _newPasswordError = 'Password must contain at least one lowercase letter';
+        _newPasswordError =
+            'Password must contain at least one lowercase letter';
       } else if (!RegExp(r"[0-9]").hasMatch(value)) {
         _newPasswordError = 'Password must contain at least one digit';
       } else {
