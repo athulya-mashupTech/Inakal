@@ -19,13 +19,25 @@ class _LoginPageState extends State<LoginPage> {
   String _countryCode = '';
   String _phoneNumber = '';
   bool isPwdVisible = false;
+  bool isLoggedIn = false;
 
   void _loginUser() async {
-    await AuthService().loginUser(
-        countryCode: _countryCode.substring(1),
-        phone: _phoneNumber,
-        password: _loginpwdController.text,
-        context: context);
+    setState(() {
+      isLoggedIn = true;
+    });
+    await AuthService()
+        .loginUser(
+            countryCode: _countryCode.substring(1),
+            phone: _phoneNumber,
+            password: _loginpwdController.text,
+            context: context)
+        .then((value) {
+      if (value!.type == "danger") {
+        setState(() {
+          isLoggedIn = false;
+        });
+      }
+    });
   }
 
   @override
@@ -58,8 +70,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               height: MediaQuery.of(context).size.height,
               child: Padding(
-                padding:
-                    const EdgeInsets.all(40),
+                padding: const EdgeInsets.all(40),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -73,7 +84,8 @@ class _LoginPageState extends State<LoginPage> {
                     const Text(
                       'Welcome Back!',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 16),
                     const Text(
@@ -135,19 +147,21 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    CustomButton(
-                      text: "Login",
-                      onPressed: () {
-                        _loginUser();
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => const OTPValidateScreen()));
-                      },
-                      color: AppColors.primaryRed,
-                    ),
+                    isLoggedIn
+                        ? CircularProgressIndicator()
+                        : CustomButton(
+                            text: "Login",
+                            onPressed: () {
+                              _loginUser();
+                              // Navigator.push(
+                              //     context,
+                              //     MaterialPageRoute(
+                              //         builder: (context) => const OTPValidateScreen()));
+                            },
+                            color: AppColors.primaryRed,
+                          ),
                     SizedBox(height: 15),
-              
+
                     /// Sign Up Option
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -161,7 +175,8 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => MobileNoCheckScreen()));
+                                    builder: (context) =>
+                                        MobileNoCheckScreen()));
                           },
                           child: GestureDetector(
                             onTap: () {

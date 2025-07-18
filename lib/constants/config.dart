@@ -74,6 +74,10 @@ const likedProfileUrl = "${baseUrl}getLikedProfiles";
 //Mobile Number Verification API's
 const mobileNumberCheckUrl = "${authBaseUrl}checkMobileNumberExists";
 
+
+//Password rest API
+const resetPasswordUrl = "${baseUrl}passwordReset";
+
 // Inbox Test API
 const inboxTestUrl = "https://mocki.io/v1/9d3b40d5-d3a9-4db9-867b-34d786ae09ed";
 

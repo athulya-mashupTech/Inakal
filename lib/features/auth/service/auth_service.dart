@@ -193,8 +193,7 @@ class AuthService {
 
       if (token.isEmpty) return null;
 
-      final response =
-          await _authRequest(profileCompletionStatusUrl, token);
+      final response = await _authRequest(profileCompletionStatusUrl, token);
 
       final model = ProfileCompletionStatusModel.fromJson(
         json.decode(response),
@@ -239,7 +238,7 @@ class AuthService {
     T Function(Map<String, dynamic>) parser,
   ) async {
     final body = await response.stream.bytesToString();
-    if (response.statusCode == 200 || response.statusCode == 400) {
+    if (response.statusCode == 200 || response.statusCode == 400 || response.statusCode == 401) {
       return parser(json.decode(body));
     }
     return null;

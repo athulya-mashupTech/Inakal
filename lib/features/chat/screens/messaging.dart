@@ -13,11 +13,13 @@ class _MessagingState extends State<Messaging> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   automaticallyImplyLeading: true,
-      //   title: Text("Messaging"),
-      //   backgroundColor: AppColors.lightGrey,
-      // ),
+      appBar: AppBar(
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(Icons.arrow_back_ios_new_rounded)),
+      ),
       body: SafeArea(
           child: Padding(
         padding: const EdgeInsets.all(16.0),

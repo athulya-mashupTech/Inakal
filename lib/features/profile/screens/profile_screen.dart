@@ -13,7 +13,7 @@ import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/constants/widgets/light_pink_gradient.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
-import 'package:inakal/features/auth/login/screens/password_reset_screen.dart';
+import 'package:inakal/features/profile/screens/password_reset_screen.dart';
 import 'package:inakal/features/drawer/widgets/common/drawer_widget.dart';
 import 'package:inakal/features/profile/widgets/image_card.dart';
 import 'package:shimmer/shimmer.dart';
