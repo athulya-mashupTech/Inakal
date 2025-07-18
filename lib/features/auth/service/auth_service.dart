@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:inakal/features/auth/model/auth_dropdown_model.dart';
+import 'package:inakal/features/auth/model/districts_search_model.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/common/model/user_data_model.dart';
@@ -178,7 +181,7 @@ class AuthService {
       // Dropdown
       final dropdownResponse = await _authRequest(dropdownOptionsUrl, token);
       final dropdownModel =
-          DropdownModel.fromJson(json.decode(dropdownResponse));
+          await DropdownModel.fromJson(json.decode(dropdownResponse));
       userController.setDropDownData(dropdownModel);
     } catch (e) {
       print("Fetch User Data Error: $e");
@@ -208,6 +211,85 @@ class AuthService {
     } catch (e) {
       print("Profile Status Error: $e");
       return null;
+    }
+  }
+
+  //---------------- Get Districts----------------
+  Future<DistrictsSearchModel> getDistricts(String districtText) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getSearchedDistrictsUrl,
+          fields: {"searchDistrict": districtText});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final searchedDistrictsModel =
+            DistrictsSearchModel.fromJson(responseJson);
+
+        if (searchedDistrictsModel.type == "success") {
+          print(
+              "Length: ${(searchedDistrictsModel.districts?.length).toString()}");
+          return searchedDistrictsModel;
+        } else
+          return DistrictsSearchModel();
+      }
+      return DistrictsSearchModel();
+    } catch (e) {
+      print(e);
+      return DistrictsSearchModel();
+    }
+  }
+
+  //------------------------- Get Castes and SubCastes ----------------------
+  Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(String religionId) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getCasteSubcastesUrl,
+          fields: {"religion_id": religionId});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final casteSubcasteoptionsModel =
+            CasteSubcasteOptionsModel.fromJson(responseJson);
+
+        if (casteSubcasteoptionsModel.type == "success") {
+          print(
+              "Caste Length: ${(casteSubcasteoptionsModel.castes?.length).toString()}, Subcaste Length: ${(casteSubcasteoptionsModel.castes?.length).toString()}");
+          return casteSubcasteoptionsModel;
+        } else
+          return CasteSubcasteOptionsModel();
+      }
+      return CasteSubcasteOptionsModel();
+    } catch (e) {
+      print(e);
+      return CasteSubcasteOptionsModel();
+    }
+  }
+
+  //---------------- Get Auth Options----------------
+  Future<AuthDropdownModel> getAuthOptions() async {
+    try {
+      final response = await _sendPostRequest(
+          url: getAllDropdownOptionsUrl,
+          fields: {});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final authDropdownModel =
+            AuthDropdownModel.fromJson(responseJson);
+
+        if (authDropdownModel.type == "success") {
+          return authDropdownModel;
+        } else
+          return AuthDropdownModel();
+      }
+      return AuthDropdownModel();
+    } catch (e) {
+      print(e);
+      return AuthDropdownModel();
     }
   }
 

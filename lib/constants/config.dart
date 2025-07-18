@@ -11,6 +11,11 @@ const TermsAndConditionsUrl = "${baseUrlWeb}terms";
 
 //API endpoints
 
+// Helper APIs for Registration
+const getAllDropdownOptionsUrl = "${authBaseUrl}getAllDropDownOptions";
+const getSearchedDistrictsUrl = "${authBaseUrl}searchDistrict";
+const getCasteSubcastesUrl = "${authBaseUrl}getReligionCasteAndSubcaste";
+
 //Login and Registration
 const loginUrl = "${authBaseUrl}login";
 const registerUrl = "${authBaseUrl}register";

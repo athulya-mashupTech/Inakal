@@ -16,6 +16,7 @@ class UserDataController extends GetxController {
   // method to update userData
   void setDropDownData(DropdownModel dropdownData) {
     dropdownModel.value = dropdownData;
+    print("DropDown Options Set");
   }
 
   void setGalleryImages(GalleryImagesModel galleryImagesModel) {
