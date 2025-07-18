@@ -63,6 +63,7 @@ class AuthController extends GetxController {
   void setReligionDetails({
     required String religion,
     required String caste,
+    required String subcaste,
     required String birthStar,
     required String description,
   }) {

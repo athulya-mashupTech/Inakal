@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/model/auth_dropdown_model.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
@@ -8,6 +9,9 @@ import 'package:inakal/features/auth/registration/widgets/registration_loader.da
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/gender_selection.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/auth/registration/widgets/searchable_district_widget.dart';
+import 'package:inakal/features/auth/registration/widgets/searchable_state_widget.dart';
+import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl/intl.dart';
 import '../widgets/text_field_widget.dart';
 
@@ -27,13 +31,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
-  final TextEditingController _cityController = TextEditingController();
+  final TextEditingController _districtController = TextEditingController();
   final TextEditingController _pincodeController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _maritalStatusController =
       TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? selectedGender;
+
+  List<String> filteredStates = [];
+  AuthDropdownModel authDropdownOptions = AuthDropdownModel();
 
   @override
   void dispose() {
@@ -42,7 +49,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     _emailController.dispose();
     _addressController.dispose();
     _countryController.dispose();
-    _cityController.dispose();
+    _districtController.dispose();
     _pincodeController.dispose();
     _dobController.dispose();
     _passwordController.dispose();
@@ -61,22 +68,23 @@ class _RegistrationFormState extends State<RegistrationForm> {
     return null;
   }
 
-  // String? _validatePassword(String? value) {
-  //   if (value == null || value.isEmpty) {
-  //     return 'Password is required';
-  //   } else if (value.length < 8) {
-  //     return 'Password must be at least 8 characters';
-  //   } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
-  //     return 'Password must contain at least one uppercase letter';
-  //   } else if (!RegExp(r"[a-z]").hasMatch(value)) {
-  //     return 'Password must contain at least one lowercase letter';
-  //   } else if (!RegExp(r"[0-9]").hasMatch(value)) {
-  //     return 'Password must contain at least one digit';
-  //   }
-  //   return null;
-  // }
+  @override
+  void initState() {
+    getAuthOptions();
+    super.initState();
+  }
 
   var isChecked = false;
+
+  Future<void> getAuthOptions() async {
+    final value = await AuthService().getAuthOptions();
+    setState(() {
+      authDropdownOptions = value;
+      filteredStates = (authDropdownOptions.data?.states ?? [])
+          .map((state) => state.name ?? "")
+          .toList();
+    });
+  }
 
   final AuthController regController = Get.find();
   void _storeData() {
@@ -87,11 +95,23 @@ class _RegistrationFormState extends State<RegistrationForm> {
         address: _addressController.text,
         country: _countryController.text,
         state: _stateController.text,
-        district: _cityController.text,
+        district: _districtController.text,
         pincode: _pincodeController.text,
         dob: _dobController.text,
-        maritalStatus: _maritalStatusController.text,
-        gender: selectedGender!);
+        maritalStatus: _maritalStatusController.text.toLowerCase(),
+        gender: selectedGender ?? "");
+
+    // print(_firstNameController.text);
+    // print(_secondNameController.text);
+    // print(_emailController.text);
+    // print(_addressController.text);
+    // print(_countryController.text);
+    // print(_stateController.text);
+    // print(_districtController.text);
+    // print(_pincodeController.text);
+    // print(_dobController.text);
+    // print(_maritalStatusController.text.toLowerCase());
+    // print(selectedGender ?? "");
   }
 
   String getHeadingText(String profileFor) {
@@ -129,8 +149,9 @@ class _RegistrationFormState extends State<RegistrationForm> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: Text(
-                  getHeadingText(regController.user.value
-                      .userProfileCreatedFor!), // Replace with the actual profile created for value
+                  getHeadingText(regController
+                          .user.value.userProfileCreatedFor ??
+                      ""), // Replace with the actual profile created for value
                   style: TextStyle(
                     fontSize: 24.0,
                     fontWeight: FontWeight.bold,
@@ -163,12 +184,80 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 validator: (value) =>
                     value!.isEmpty ? 'Address is required' : null,
               ),
-              CountryStateCityWidget(
-                  countryController: _countryController,
-                  stateController: _stateController,
-                  cityController: _cityController,
-                  isChecked: isChecked),
-              const SizedBox(height: 10),
+              // const SizedBox(height: 10),
+
+              /// Districts Autocomplete
+              SearchableDistrictWidget(
+                  label: "District", valueController: _districtController),
+
+              /// State Autocomplete
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) {
+                  if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  }
+                  return filteredStates
+                      .where((state) => state.toLowerCase().contains(
+                            textEditingValue.text.toLowerCase(),
+                          ));
+                },
+                onSelected: (String selection) {
+                  print(selection);
+                  setState(() {
+                    print(selection);
+                    _stateController.text =
+                        ((authDropdownOptions.data ?? Data()).states ?? [])
+                                .firstWhere((state) => state.name == selection,
+                                    orElse: () => RelStaOc(id: ""))
+                                .id ??
+                            "";
+                    print(_stateController.text);
+                  });
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                    onFieldSubmitted) {
+                  // Add focus listener to clear invalid text when focus is lost
+                  focusNode.addListener(() {
+                    if (!focusNode.hasFocus) {
+                      final currentText = textEditingController.text;
+                      bool isValidState = filteredStates.any((state) =>
+                          state.toLowerCase() == currentText.toLowerCase());
+
+                      if (!isValidState && currentText.isNotEmpty) {
+                        textEditingController.clear();
+                        setState(() {
+                          _stateController.clear();
+                        });
+                      }
+                    }
+                  });
+
+                  return TextFieldWidget(
+                    controller: textEditingController,
+                    hintText: "Select State",
+                    focusNode: focusNode,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'State is required';
+                      }
+                      return null;
+                    },
+                  );
+                },
+              ),
+
+              // const SizedBox(height: 10),
+              // SearchableStateWidget(
+              //     label: "State", valueController: _stateController),
+              // const SizedBox(height: 10),
+
+              TextFieldWidget(
+                controller: _countryController,
+                hintText: 'Specify Country',
+                keyboardType: TextInputType.number,
+                validator: (value) =>
+                    value!.isEmpty ? 'Country is required' : null,
+              ),
               TextFieldWidget(
                 controller: _pincodeController,
                 hintText: 'Pincode',
@@ -248,14 +337,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
               DropdownWidget(
                 controller: _maritalStatusController,
                 label: "Marital Status",
-                items: const [
-                  "Single",
-                  "Married",
-                  "Divorced",
-                  "Widowed",
-                  "Separated",
-                  "Complicated"
-                ],
+                items: const ["Single", "Divorced", "Widowed", "Widower"],
               ),
               const SizedBox(height: 17.0),
               CustomButton(

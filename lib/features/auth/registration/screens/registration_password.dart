@@ -29,7 +29,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
 
   initState() {
     super.initState();
-    _profileCreatedForController.text = "Myself";
+    _profileCreatedForController.text = "My Self";
   }
 
   @override
@@ -141,49 +141,18 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                     DropdownWidget(
                         label: "Profile Created for",
                         items: [
-                          "Myself",
-                          "Son",
+                          "My Self",
                           "Daughter",
-                          "Friend",
-                          "Cousin",
+                          "Son",
+                          "Sister",
                           "Brother",
-                          "Sister"
+                          "Brother",
+                          "Relative"
                         ],
                         controller: _profileCreatedForController),
 
                     const SizedBox(height: 10),
-                    // const SizedBox(height: 15),
-                    // const Text("Agree to the T&C and complete the ",
-                    //     style: TextStyle(
-                    //         fontSize: 16, fontWeight: FontWeight.normal)),
-                    // const Text("registration with the mobile number",
-                    //     style: TextStyle(
-                    //         fontSize: 16, fontWeight: FontWeight.normal)),
-                    // const Text("+91 96XXX XXX99",
-                    //     style: TextStyle(
-                    //         fontSize: 21, fontWeight: FontWeight.bold)),
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                    //   child: Row(
-                    //     children: [
-                    //       Checkbox(
-                    //         value: isChecked,
-                    //         onChanged: (bool? value) {
-                    //           setState(() {
-                    //             isChecked = value ?? false;
-                    //           });
-                    //         },
-                    //         focusColor: AppColors.black,
-                    //         activeColor: AppColors.primaryRed,
-                    //       ),
-                    //       // const SizedBox(width: 4),
-                    //       const Expanded(
-                    //         child: Text('I Agree to the Terms and Conditions'),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-
+                    
                     // Checkbox
                     Row(
                       children: [
