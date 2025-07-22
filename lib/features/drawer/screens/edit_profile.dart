@@ -28,6 +28,7 @@ class _EditProfileState extends State<EditProfile> {
   DropdownModel? dropdownModel;
   bool _isLoading = true;
   bool _isSavingImage = false;
+  int? expandedSectionIndex;
 
   Future<void> pickImage(BuildContext context) async {
     final picker = ImagePicker();
@@ -139,30 +140,34 @@ class _EditProfileState extends State<EditProfile> {
                                 child: CircleAvatar(
                                   radius: 80,
                                   child: _isSavingImage
-                                  ? Center(child: CircularProgressIndicator(color: AppColors.primaryRed,))
-                                  : ClipOval(
-                                    child: CachedNetworkImage(
-                                      height: 160,
-                                      width: 160,
-                                      imageUrl: userController
-                                              .userData.value.user?.image ??
-                                          "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
-                                      fit: BoxFit.cover,
-                                      placeholder: (context, url) =>
-                                          Shimmer.fromColors(
-                                        baseColor: AppColors.grey,
-                                        highlightColor: AppColors.white,
-                                        child: Container(
-                                          color: AppColors.grey,
+                                      ? Center(
+                                          child: CircularProgressIndicator(
+                                          color: AppColors.primaryRed,
+                                        ))
+                                      : ClipOval(
+                                          child: CachedNetworkImage(
+                                            height: 160,
+                                            width: 160,
+                                            imageUrl: userController.userData
+                                                    .value.user?.image ??
+                                                "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                                            fit: BoxFit.cover,
+                                            placeholder: (context, url) =>
+                                                Shimmer.fromColors(
+                                              baseColor: AppColors.grey,
+                                              highlightColor: AppColors.white,
+                                              child: Container(
+                                                color: AppColors.grey,
+                                              ),
+                                            ),
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    Image.asset(
+                                              'assets/images/user_avatar.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      errorWidget: (context, url, error) =>
-                                          Image.asset(
-                                        'assets/images/user_avatar.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                  ),
                                 ),
                               )),
                           Positioned(
@@ -207,30 +212,91 @@ class _EditProfileState extends State<EditProfile> {
                         child: Center(child: CircularProgressIndicator()))
                     : Column(
                         children: [
-                          ProfileDetails(dropdownModel!),
+                          ProfileDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 0,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 0 ? null : 0;
+                              });
+                            },
+                          ),
                           SizedBox(height: 2),
-                          PersonalDetails(dropdownModel!),
+                          PersonalDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 1,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 1 ? null : 1;
+                              });
+                            },
+                          ),
                           SizedBox(
                             height: 2,
                           ),
-                          EducationalDetails(dropdownModel!),
+                          EducationalDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 2,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 2 ? null : 2;
+                              });
+                            },
+                          ),
                           SizedBox(
                             height: 2,
                           ),
-                          FamilyDetails(dropdownModel!),
+                          FamilyDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 3,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 3 ? null : 3;
+                              });
+                            },
+                          ),
                           SizedBox(
                             height: 2,
                           ),
-                          LocationDetails(dropdownModel!),
+                          LocationDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 4,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 4 ? null : 4;
+                              });
+                            },
+                          ),
                           SizedBox(
                             height: 2,
                           ),
-                          AdditionalDetails(),
+                          AdditionalDetails(
+                            isExpanded: expandedSectionIndex == 5,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 5 ? null : 5;
+                              });
+                            },
+                          ),
                           SizedBox(
                             height: 2,
                           ),
-                         PartnersPreferenceDetails(dropdownModel!),
-                         
+                          PartnersPreferenceDetails(
+                            dropdownModel!,
+                            isExpanded: expandedSectionIndex == 6,
+                            onTap: () {
+                              setState(() {
+                                expandedSectionIndex =
+                                    expandedSectionIndex == 6 ? null : 6;
+                              });
+                            },
+                          ),
                         ],
                       ),
               ]))),

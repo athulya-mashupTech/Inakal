@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/model/auth_dropdown_model.dart';
+import 'package:inakal/features/auth/model/districts_search_model.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
-import 'package:inakal/features/auth/registration/widgets/country_state_city.dart';
 import 'package:inakal/features/auth/registration/widgets/dropdown_feild.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/gender_selection.dart';
 import 'package:inakal/constants/app_constants.dart';
-import 'package:inakal/features/auth/registration/widgets/searchable_district_widget.dart';
-import 'package:inakal/features/auth/registration/widgets/searchable_state_widget.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:intl/intl.dart';
 import '../widgets/text_field_widget.dart';
@@ -31,16 +29,28 @@ class _RegistrationFormState extends State<RegistrationForm> {
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
-  final TextEditingController _districtController = TextEditingController();
+  TextEditingController _districtController = TextEditingController();
   final TextEditingController _pincodeController = TextEditingController();
   final TextEditingController _dobController = TextEditingController();
   final TextEditingController _maritalStatusController =
       TextEditingController();
+  final TextEditingController _noOfChildrenController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   String? selectedGender;
 
   List<String> filteredStates = [];
   AuthDropdownModel authDropdownOptions = AuthDropdownModel();
+
+  List<String> maritalStatusValues = [
+    "Single",
+    "Divorced",
+    "Widowed",
+    "Widower"
+  ];
+  bool isNoOfChildren = false;
+
+  bool _focusListenerAdded = false;
+  DistrictsSearchModel districtsOptionsModel = DistrictsSearchModel();
 
   @override
   void dispose() {
@@ -53,6 +63,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
     _pincodeController.dispose();
     _dobController.dispose();
     _passwordController.dispose();
+    _maritalStatusController.dispose();
+    _noOfChildrenController.dispose();
     super.dispose();
   }
 
@@ -71,6 +83,14 @@ class _RegistrationFormState extends State<RegistrationForm> {
   @override
   void initState() {
     getAuthOptions();
+    _maritalStatusController.addListener(() {
+      setState(() {
+        print(_maritalStatusController.text);
+        isNoOfChildren =
+            (maritalStatusValues.contains(_maritalStatusController.text) &&
+                _maritalStatusController.text != "Single");
+      });
+    });
     super.initState();
   }
 
@@ -86,6 +106,54 @@ class _RegistrationFormState extends State<RegistrationForm> {
     });
   }
 
+  Future<List<String>> _getSearchedDistricts(String query) async {
+    if (query.isEmpty) {
+      return [];
+    }
+
+    try {
+      final value = await AuthService().getDistricts(query);
+      setState(() {
+        districtsOptionsModel = value;
+      });
+      final items = (value.districts ?? [])
+          .map((district) => district.name ?? "")
+          .where((name) => name.isNotEmpty)
+          .toList();
+      return items;
+    } catch (e) {
+      // Handle error gracefully
+      print('Error fetching districts: $e');
+      return [];
+    }
+  }
+
+  void _handleFocusLoss(TextEditingController textEditingController) async {
+    final currentText = textEditingController.text.trim();
+
+    if (currentText.isEmpty) {
+      return;
+    }
+
+    // Check if the entered text matches any valid district
+    final districts = await _getSearchedDistricts(currentText);
+    final isValidDistrict = districts
+        .any((district) => district.toLowerCase() == currentText.toLowerCase());
+
+    if (!isValidDistrict) {
+      // Clear the text if it doesn't match any valid district
+      textEditingController.clear();
+      setState(() {
+        _districtController.clear();
+      });
+    } else {
+      // Update the main controller if it's a valid district
+      setState(() {
+        _districtController.text = currentText;
+      });
+    }
+  }
+
   final AuthController regController = Get.find();
   void _storeData() {
     regController.setBasicDetails(
@@ -99,19 +167,25 @@ class _RegistrationFormState extends State<RegistrationForm> {
         pincode: _pincodeController.text,
         dob: _dobController.text,
         maritalStatus: _maritalStatusController.text.toLowerCase(),
+        noOfChildren: _noOfChildrenController.text == ""
+            ? "0"
+            : _noOfChildrenController.text,
         gender: selectedGender ?? "");
 
-    // print(_firstNameController.text);
-    // print(_secondNameController.text);
-    // print(_emailController.text);
-    // print(_addressController.text);
-    // print(_countryController.text);
-    // print(_stateController.text);
-    // print(_districtController.text);
-    // print(_pincodeController.text);
-    // print(_dobController.text);
-    // print(_maritalStatusController.text.toLowerCase());
-    // print(selectedGender ?? "");
+    print(_firstNameController.text);
+    print(_secondNameController.text);
+    print(_emailController.text);
+    print(_addressController.text);
+    print(_countryController.text);
+    print(_stateController.text);
+    print(_districtController.text);
+    print(_pincodeController.text);
+    print(_dobController.text);
+    print(_maritalStatusController.text.toLowerCase());
+    print(_noOfChildrenController.text == ""
+            ? "0"
+            : _noOfChildrenController.text);
+    print(selectedGender ?? "");
   }
 
   String getHeadingText(String profileFor) {
@@ -187,8 +261,60 @@ class _RegistrationFormState extends State<RegistrationForm> {
               // const SizedBox(height: 10),
 
               /// Districts Autocomplete
-              SearchableDistrictWidget(
-                  label: "District", valueController: _districtController),
+              Autocomplete<String>(
+                optionsBuilder: (TextEditingValue textEditingValue) async {
+                  if (textEditingValue.text.isEmpty) {
+                    return const Iterable<String>.empty();
+                  }
+
+                  // Fetch districts based on the current input
+                  final districts =
+                      await _getSearchedDistricts(textEditingValue.text);
+
+                  return districts.where((district) => district
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase()));
+                },
+                onSelected: (String selection) {
+                  print('Selected: $selection');
+                  setState(() {
+                    _districtController.text =
+                        (districtsOptionsModel.districts ?? [])
+                                .firstWhere(
+                                  (district) => district.name == selection,
+                                  orElse: () => Districts(id: "", name: ""),
+                                )
+                                .id ??
+                            "";
+                  });
+
+                  print('Selected id: ${_districtController.text}');
+                },
+                fieldViewBuilder: (context, textEditingController, focusNode,
+                    onFieldSubmitted) {
+                  // Add focus listener only once
+                  if (!_focusListenerAdded) {
+                    focusNode.addListener(() {
+                      if (!focusNode.hasFocus) {
+                        _handleFocusLoss(textEditingController);
+                      }
+                    });
+                    _focusListenerAdded = true;
+                  }
+
+                  return TextFieldWidget(
+                    controller: textEditingController,
+                    hintText: "Select District",
+                    focusNode: focusNode,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'District is required';
+                      }
+                      return null;
+                    },
+                  );
+                },
+              ),
 
               /// State Autocomplete
               Autocomplete<String>(
@@ -254,7 +380,6 @@ class _RegistrationFormState extends State<RegistrationForm> {
               TextFieldWidget(
                 controller: _countryController,
                 hintText: 'Specify Country',
-                keyboardType: TextInputType.number,
                 validator: (value) =>
                     value!.isEmpty ? 'Country is required' : null,
               ),
@@ -337,8 +462,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
               DropdownWidget(
                 controller: _maritalStatusController,
                 label: "Marital Status",
-                items: const ["Single", "Divorced", "Widowed", "Widower"],
+                items: maritalStatusValues,
               ),
+              if (isNoOfChildren)
+                Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    TextFieldWidget(
+                      controller: _noOfChildrenController,
+                      hintText: 'No of Children',
+                      keyboardType: TextInputType.number,
+                    ),
+                  ],
+                ),
               const SizedBox(height: 17.0),
               CustomButton(
                 text: "Continue",

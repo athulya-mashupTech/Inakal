@@ -44,7 +44,16 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
-  String getGender(String gender){
+  String getHimOrHer(String gender){
+    if(gender == "Female" || gender == "female")
+      return "her";
+    else if(gender == "Male" || gender == "male")
+      return "him";
+    else
+      return "them";
+  }
+
+  String getHeOrShe(String gender){
     if(gender == "Female" || gender == "female")
       return "her";
     else if(gender == "Male" || gender == "male")
@@ -228,8 +237,8 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                 Text(
                                   switch (widget.req_status) {
                                     "accepted" => "Both liked eachother",
-                                    "pending" => "He liked your Profile",
-                                    _ => "He liked your Profile",
+                                    "pending" => "${getHeOrShe(widget.gender)} liked your Profile",
+                                    _ => "${getHeOrShe(widget.gender)} liked your Profile",
                                   },
                                   style: const TextStyle(
                                       fontSize: 14,
@@ -290,7 +299,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 16.0),
                           child: Text(
-                            "Take the next step and contact ${getGender(widget.gender)} directly",
+                            "Take the next step and contact ${getHimOrHer(widget.gender)} directly",
                             style: TextStyle(
                               fontSize: 13,
                             ),
@@ -314,7 +323,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 16.0),
                               child: Text(
-                                "Accept his interest to communicate further",
+                                "Accept ${getHimOrHer(widget.gender)} interest to communicate further",
                                 style: TextStyle(
                                   fontSize: 13,
                                 ),

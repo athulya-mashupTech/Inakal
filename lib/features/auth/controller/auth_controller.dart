@@ -32,19 +32,19 @@ class AuthController extends GetxController {
     userId.value = '';
   }
 
-  void setBasicDetails({
-    required String firstName,
-    required String lastName,
-    required String email,
-    required String address,
-    required String country,
-    required String state,
-    required String district,
-    required String pincode,
-    required String dob,
-    required String gender,
-    required String maritalStatus,
-  }) {
+  void setBasicDetails(
+      {required String firstName,
+      required String lastName,
+      required String email,
+      required String address,
+      required String country,
+      required String state,
+      required String district,
+      required String pincode,
+      required String dob,
+      required String gender,
+      required String maritalStatus,
+      required String noOfChildren}) {
     user.update((val) {
       val?.userFirstName = firstName;
       val?.userLastName = lastName;
@@ -57,6 +57,7 @@ class AuthController extends GetxController {
       val?.userDob = dob;
       val?.userGender = gender;
       val?.maritalStatus = maritalStatus;
+      val?.noOfChildren = noOfChildren;
     });
   }
 
@@ -72,6 +73,7 @@ class AuthController extends GetxController {
       val?.userCaste = caste;
       val?.userBirthStar = birthStar;
       val?.userDescription = description;
+      val?.userSubcaste = subcaste;
     });
   }
 

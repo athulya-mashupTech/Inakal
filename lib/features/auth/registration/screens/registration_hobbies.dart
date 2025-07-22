@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
+import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/service/auth_service.dart';
+import 'package:lottie/lottie.dart';
 
 class RegistrationHobbies extends StatefulWidget {
   const RegistrationHobbies({super.key});
@@ -130,7 +133,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                   }).toList(),
                 ),
               ),
-              
+
               const SizedBox(height: 10),
               const Text(
                 "Didn't find your hobby? Add it here",
@@ -174,16 +177,50 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
               // Continue Button
               CustomButton(
                 text: "Continue",
-                onPressed: () {
+                onPressed: () async {
                   _storeHobbies();
-                  _registerUser();
-                  Get.to(
-                    const BottomNavBarScreen(),
-                    transition: Transition.rightToLeftWithFade,
-                    duration: const Duration(milliseconds: 800),
+                  await _registerUser();
+
+                  // Show dialog
+                  showDialog(
+                    context: context,
+                    barrierDismissible:
+                        false, // Prevent dismissing by tapping outside
+                    builder: (_) => Dialog(
+                      child: Container(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 20, horizontal: 20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Lottie.asset("assets/lottie/warning.json",
+                                  width:
+                                      MediaQuery.of(context).size.width * .4),
+                              Text(
+                                "Something went wrong!",
+                                style: TextStyle(
+                                    fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                "Registration failed. Please try again.",
+                                style: TextStyle(fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                              SizedBox(height: 20)
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   );
+
+                  await Future.delayed(const Duration(seconds: 3));
+                  Navigator.of(context).pop();
+                  Get.offAll(() => RegistrationHobbies());
                 },
               ),
+
               SizedBox(height: 20.0),
             ],
           ),

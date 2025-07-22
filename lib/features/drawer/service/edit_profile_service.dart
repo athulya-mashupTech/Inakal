@@ -126,7 +126,7 @@ class EditProfileService {
           .map((lang) => {'"value"': '"${lang.trim()}"'})
           .toList()
           .toString());
-      print("weight:${(weight=="")}"+
+      print("weight:${(weight == "")}" +
           '[{"value":"English"}, {"value":"Malayalam"}, {"value":"Hindi"}, {"value":"Kannada"}]');
 
       final response =
@@ -156,7 +156,7 @@ class EditProfileService {
         final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
         if (userDataUpdateModel.type == "success") {
           _showSnackbar(context, userDataUpdateModel.message!);
-        } else{
+        } else {
           _showSnackbar(context, userDataUpdateModel.message ?? "Nil");
         }
         return userDataUpdateModel;
@@ -193,7 +193,7 @@ class EditProfileService {
         "qualification": qualification,
         "education_details": educationalDetails,
         "occupation": occupation,
-        "occupational_details": occupationDetails,
+        "occupation_details": occupationDetails,
         "annual_income": annualIncome,
         "work_location": workLocation
       });
@@ -287,6 +287,34 @@ class EditProfileService {
     } catch (e) {
       print("Error in fetching dropdown options: $e");
       return null;
+    }
+  }
+
+  //get DropDown Options
+  Future<void> updateUserData({
+    required BuildContext context,
+  }) async {
+    try {
+      final response = await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        print("Response : $responseBody");
+        final jsonResponse = json.decode(responseBody);
+
+        // Updating GetX data
+        final user = User.fromJson(jsonResponse);
+        final userData = UserDataModel(user: user);
+        final userController = Get.find<UserDataController>();
+        userController.setUserData(userData);
+        print("Done Updating User Data");
+        // Updating GetX data
+      } else {
+        // print("Error: ${response.statusCode}");
+        _showSnackbar(context, "Failed to fetch dropdown options");
+      }
+    } catch (e) {
+      print("Error in fetching dropdown options: $e");
     }
   }
 

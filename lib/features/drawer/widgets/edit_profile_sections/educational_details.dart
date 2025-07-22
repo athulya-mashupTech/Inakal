@@ -12,7 +12,10 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 
 class EducationalDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
-  const EducationalDetails(this.dropdownModel, {super.key});
+  final bool isExpanded;
+  final void Function() onTap;
+  const EducationalDetails(this.dropdownModel,
+      {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<EducationalDetails> createState() => _EducationalDetailsState();
@@ -30,6 +33,21 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedIncome;
   bool isSaving = false;
 
+  List<String> annualIncomeValues = [
+    "1 Lakh - 3 Lakhs",
+    "3 Lakhs -5 Lakhs",
+    "5 Lakhs - 7 Lakhs",
+    "7 Lakhs - 10 Lakhs",
+    "10 Lakhs - 15 Lakhs",
+    "15 Lakhs - 20 Lakhs",
+    "20 Lakhs - 30 Lakhs",
+    "30 Lakhs - 50 Lakhs",
+    "50 Lakhs - 75 Lakhs",
+    "75 Lakhs - 1 Crores",
+    "1 Crore - 2 Crores",
+    "More than 2 Crore"
+  ];
+
   qualif.QualificationOptionsModel qualificationOptionsModel =
       qualif.QualificationOptionsModel();
 
@@ -38,8 +56,8 @@ class _EducationalDetailsState extends State<EducationalDetails> {
     input = input
         .replaceAll('Crores', '00 Lakhs')
         .replaceAll('Crore', '00 Lakhs')
-        .replaceAll('Lakh', '')
         .replaceAll('Lakhs', '')
+        .replaceAll('Lakh', '')
         .replaceAll('More than ', '')
         .trim();
 
@@ -162,6 +180,15 @@ class _EducationalDetailsState extends State<EducationalDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('educational_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -250,26 +277,15 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   //Annual Income
                   EditProfileDropdown(
                     label: 'Annual Income',
-                    items: [
-                      "1 Lakh - 3 Lakhs",
-                      "3 Lakhs -5 Lakhs",
-                      "5 Lakhs - 7 Lakhs",
-                      "7 Lakhs - 10 Lakhs",
-                      "10 Lakhs - 15 Lakhs",
-                      "15 Lakhs - 20 Lakhs",
-                      "20 Lakhs - 30 Lakhs",
-                      "30 Lakhs - 50 Lakhs",
-                      "50 Lakhs - 75 Lakhs",
-                      "75 Lakhs - 1 Crores",
-                      "1 Crore - 2 Crores",
-                      "More than 2 Crore"
-                    ],
+                    items: annualIncomeValues,
                     onChanged: (value) {
                       setState(() {
                         selectedIncome = value;
                       });
                     },
-                    selectedValue: selectedIncome,
+                    selectedValue: annualIncomeValues.contains(selectedIncome)
+                            ? selectedIncome
+                            : "",
                   ),
                   const SizedBox(height: 16),
 
@@ -323,10 +339,11 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                     educationalDetails: educationController.text,
                                     annualIncome: selectedIncome == "" ? "" : formatSalaryRange(selectedIncome ?? ""),
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )

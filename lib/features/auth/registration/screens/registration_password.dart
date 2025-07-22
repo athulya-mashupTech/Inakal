@@ -56,6 +56,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
 
   final AuthController regController = Get.find();
   void _storePassword() {
+    print(_profileCreatedForController.text);
     regController.setPassword(_passwordController.text);
     regController.setProfileCreatedFor(_profileCreatedForController.text);
   }
@@ -152,7 +153,7 @@ class _RegistrationPasswordState extends State<RegistrationPassword> {
                         controller: _profileCreatedForController),
 
                     const SizedBox(height: 10),
-                    
+
                     // Checkbox
                     Row(
                       children: [
