@@ -58,10 +58,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
               builder: (context) {
                 return Dialog(
                     child: Container(
-                  decoration:
-                      BoxDecoration(
-                        color: AppColors.white,
-                        borderRadius: BorderRadius.circular(17)),
+                  decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(17)),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         vertical: 16.0, horizontal: 22),
@@ -99,8 +98,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 ));
               });
         }
-      }
-      );
+      });
     }
   }
 

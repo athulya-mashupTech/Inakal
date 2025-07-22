@@ -16,6 +16,7 @@ class ReceivedRequests extends StatefulWidget {
 }
 
 class _ReceivedRequestsState extends State<ReceivedRequests> {
+  final TextEditingController searchController = TextEditingController();
   List<String> filters = ["All", "Accepted", "Pending"];
   String selectedFilter = "All";
   List<RequestUserDetailsModel?> allReceivedRequests = [];
@@ -109,6 +110,32 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
             }).toList(),
           ),
         ),
+
+        //search bar
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: TextFormField(
+            controller: searchController,
+            decoration: InputDecoration(
+              hintText: "Search by Name",
+              prefixIcon: Icon(Icons.search),
+              suffixIcon: IconButton(
+                  onPressed: () {
+                    searchController.clear();
+                  },
+                  icon: Icon(Icons.close)),
+              fillColor: AppColors.white,
+              labelStyle: TextStyle(color: AppColors.grey, fontSize: 14),
+              border: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              focusedBorder: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: AppColors.primaryRed),
+              ),
+            ),
+          ),
+        ),
+
         Expanded(
           child: isLoading && filteredUsers.isEmpty
               ? const Center(child: CircularProgressIndicator())
@@ -162,7 +189,8 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                       (occupation) =>
                                           occupation.id == user?.occupation,
                                       orElse: () => ReEdOcLanSt(
-                                          id: '', name: 'Occupation Not Specified'),
+                                          id: '',
+                                          name: 'Occupation Not Specified'),
                                     )
                                     .name ??
                                 "Occupation Not Specified",

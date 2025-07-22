@@ -6,6 +6,7 @@ import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/registration/screens/registrationform.dart';
+import 'package:inakal/features/drawer/screens/subscriptions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,27 +31,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
         useMaterial3: true,
       ),
-      // home: ChatScreen(),
-      // home: PsychologistScreen(),
-      // home: ProfileApp(),
       home: const MyHomePage(title: 'Inakal'),
-      //  home: ForgotPassword(),
-      // home: ProfileDetails(),
-      // home: MatchesScreen(),
-      // home: ProfilePage(),
-      // home: Notifications()
-      // home: LikedProfile(),
-      // home: CounsellorsScreen(),
-      // home: RegistrationForm()
-      // home: HomeScreen(),
-      // home: RegistrationPassword(),
-      // home: FilterScreen(),
-      // home: const RegistrationDescription(),
-      // home: EditProfile()
-      // home: GalleryPage(),
-      // home:ImageUploadScreen()
+      // home: Subscriptions(),
       // home: FilteredProfileScreen(FilterProfileModel(totalRows: "254")),
-      // home: Messaging(),
     );
   }
 }

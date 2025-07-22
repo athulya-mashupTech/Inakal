@@ -304,10 +304,17 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                         CrossAxisAlignment.baseline,
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
-                                      Text(
-                                          userData.occupation ??
-                                              "Job: Not Specified",
-                                          style: const TextStyle(fontSize: 16)),
+                                      Text(dropdownModel!.occupations!
+                                                        .firstWhere(
+                                                            (occupation) =>
+                                                                occupation.id ==
+                                                                userData
+                                                                    .occupation,orElse: () => ReEdOcLanSt(name: "Job Not Specified"),)
+                                                        .name ??
+                                                    "Job Not Specified"
+                                          // userData.occupation ??
+                                          //     "Job: Not Specified",
+                                          ,style: const TextStyle(fontSize: 16)),
                                       const SizedBox(width: 5),
                                       const Text("|",
                                           style: TextStyle(
