@@ -146,9 +146,8 @@ class AuthService {
         _showSnackbar(context, "Successfully Logged In");
         Get.offAll(() => const BottomNavBarScreen());
       } else {
-        _showSnackbar(context, "Login denied");
+        _showSnackbar(context, "Invalid credentials");
       }
-
       return result;
     } catch (e) {
       print("Login Error: $e");
