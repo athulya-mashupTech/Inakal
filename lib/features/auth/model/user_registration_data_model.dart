@@ -4,6 +4,7 @@ class UserRegistrationDataModel {
   String? userEmail;
 
   String? maritalStatus;
+  String? noOfChildren;
   String? userProfileCreatedFor;
   String? userPhoneNumber;
   String? userCountryCode;
@@ -18,6 +19,7 @@ class UserRegistrationDataModel {
 
   String? userReligion;
   String? userCaste;
+  String? userSubcaste;
   String? userBirthStar;
   String? userDescription;
 
@@ -40,11 +42,13 @@ class UserRegistrationDataModel {
     this.userGender,
     this.userReligion,
     this.userCaste,
+    this.userSubcaste,
     this.userBirthStar,
     this.userDescription,
     this.userHobbies,
     this.userPassword,
-    this.maritalStatus
+    this.maritalStatus,
+    this.noOfChildren
   });
 
   Map<String, dynamic> toJson() {
@@ -64,11 +68,13 @@ class UserRegistrationDataModel {
       'userGender': userGender,
       'userReligion': userReligion,
       'userCaste': userCaste,
+      'userSubcaste': userSubcaste,
       'userBirthStar': userBirthStar,
       'userDescription': userDescription,
       'userHobbies': userHobbies,
       'userPassword': userPassword,
-      'maritalStatus': maritalStatus
+      'maritalStatus': maritalStatus,
+      "noOfChildren": noOfChildren
     };
   }
 
@@ -89,11 +95,13 @@ class UserRegistrationDataModel {
       userGender: json['userGender'],
       userReligion: json['userReligion'],
       userCaste: json['userCaste'],
+      userSubcaste: json['userSubcaste'],
       userBirthStar: json['userBirthStar'],
       userDescription: json['userDescription'],
       userHobbies: json['userHobbies'],
       userPassword: json['userPassword'],
       maritalStatus: json['maritalStatus'],
+      noOfChildren: json['noOfChildren']
     );
   }
 }

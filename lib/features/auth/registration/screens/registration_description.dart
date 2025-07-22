@@ -26,6 +26,9 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
   final TextEditingController _subcasteController = TextEditingController();
   final TextEditingController _birthStarController = TextEditingController();
 
+  TextEditingController _casteDisplayController = TextEditingController();
+  TextEditingController _subcasteDisplayController = TextEditingController();
+
   @override
   void dispose() {
     _religionController.dispose();
@@ -35,116 +38,6 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
 
   final TextEditingController _descriptionController = TextEditingController();
 
-  final List<String> fruits = [
-    'Apple',
-    'Banana',
-    'Cherry',
-    'Date',
-    'Fig',
-    'Grape',
-    'Kiwi',
-    'Lemon',
-    'Mango',
-    'Orange',
-    'Papaya',
-    'Peach',
-    'Pear',
-    'Pineapple',
-    'Plum',
-    'Raspberry',
-    'Strawberry',
-    'Watermelon'
-  ];
-
-  Map<String, List<String>> religionsWithSubcastes = {
-    "Hindu": [
-      "Brahmin",
-      "Kshatriya",
-      "Vaishya",
-      "Shudra",
-      "Dalit",
-      "Agarwal",
-      "Iyer",
-      "Iyengar",
-      "Nair",
-      "Maratha",
-      "Jat",
-      "Rajput",
-      "Vokkaliga",
-      "Lingayat",
-      "Reddy",
-      "Chettiar",
-      "Yadav",
-      "Gounder",
-      "Gupta",
-      "Mahishya",
-      "Kayastha"
-    ],
-    "Christian": [
-      "Roman Catholic",
-      "Protestant",
-      "Eastern Orthodox",
-      "Pentecostal",
-      "Evangelical",
-      "Anglican",
-      "Baptist",
-      "Lutheran",
-      "Methodist",
-      "Presbyterian",
-      "Seventh-day Adventist",
-      "Jehovah's Witness",
-      "Syrian Christian",
-      "Marthoma",
-      "Coptic Christian"
-    ],
-    "Muslim": [
-      "Sunni",
-      "Shia",
-      "Ahmadiyya",
-      "Sufi",
-      "Bohra",
-      "Ismaili",
-      "Deobandi",
-      "Barelvi",
-      "Salafi",
-      "Wahhabi",
-      "Hanafi",
-      "Maliki",
-      "Shafi'i",
-      "Hanbali"
-    ],
-    "Buddhist": [
-      "Theravada",
-      "Mahayana",
-      "Vajrayana",
-      "Zen",
-      "Pure Land",
-      "Nichiren",
-      "Tibetan Buddhism"
-    ],
-    "Sikh": [
-      "Jat Sikh",
-      "Ramgarhia",
-      "Khatri Sikh",
-      "Arora Sikh",
-      "Ravidasia",
-      "Mazhabi Sikh",
-      "Nanakpanthi",
-      "Udasi"
-    ],
-    "Jew": [
-      "Ashkenazi",
-      "Sephardic",
-      "Mizrahi",
-      "Beta Israel",
-      "Karaite",
-      "Hasidic",
-      "Orthodox",
-      "Reform",
-      "Conservative"
-    ],
-    "Jain": ["Digambara", "Shwetambara", "Sthanakvasi", "Terapanthi"]
-  };
   final List<String> zodiacSigns = [
     "Aries",
     "Taurus",
@@ -262,12 +155,21 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                                 .id ??
                             "";
                     print(_religionController.text);
+
+                    // Clear controller values
+                    _casteController.clear();
+                    _subcasteController.clear();
+
+                    // Clear displayed text
+                    _casteDisplayController.clear();
+                    _subcasteDisplayController.clear();
+
                     getCasteSubcasteOptions();
                   });
                 },
                 fieldViewBuilder: (context, textEditingController, focusNode,
                     onFieldSubmitted) {
-                  // Add focus listener to clear invalid text when focus is lost
+
                   focusNode.addListener(() {
                     if (!focusNode.hasFocus) {
                       final currentText = textEditingController.text;
@@ -321,7 +223,9 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                 },
                 fieldViewBuilder: (context, textEditingController, focusNode,
                     onFieldSubmitted) {
-                  // Add focus listener to clear invalid text when focus is lost
+                  _casteDisplayController =
+                      textEditingController; // Store reference
+
                   focusNode.addListener(() {
                     if (!focusNode.hasFocus) {
                       final currentText = textEditingController.text;
@@ -377,7 +281,9 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                 },
                 fieldViewBuilder: (context, textEditingController, focusNode,
                     onFieldSubmitted) {
-                  // Add focus listener to clear invalid text when focus is lost
+                  _subcasteDisplayController =
+                      textEditingController; // Store reference
+
                   focusNode.addListener(() {
                     if (!focusNode.hasFocus) {
                       final currentText = textEditingController.text;

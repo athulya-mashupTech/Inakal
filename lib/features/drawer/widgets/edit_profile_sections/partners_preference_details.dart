@@ -9,7 +9,9 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 
 class PartnersPreferenceDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
-  const PartnersPreferenceDetails(this.dropdownModel, {super.key});
+  final bool isExpanded;
+  final void Function() onTap;
+  const PartnersPreferenceDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<PartnersPreferenceDetails> createState() =>
@@ -145,6 +147,15 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('partnerpref_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -312,10 +323,11 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                                             .id ??
                                         "",
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )

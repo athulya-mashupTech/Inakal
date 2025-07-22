@@ -10,7 +10,9 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_text_feild.dart';
 
 class AdditionalDetails extends StatefulWidget {
-  const AdditionalDetails({super.key});
+  final bool isExpanded;
+  final void Function() onTap;
+  const AdditionalDetails({super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<AdditionalDetails> createState() => _AdditionalDetailsState();
@@ -73,6 +75,15 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('additional_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -250,10 +261,11 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                                         selectedFoodPreference ?? ""),
                                     profile_created_by: selectedCreatedBy ?? "",
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )

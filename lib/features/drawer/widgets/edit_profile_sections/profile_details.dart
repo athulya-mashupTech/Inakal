@@ -12,7 +12,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 class ProfileDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
-  ProfileDetails(this.dropdownModel, {Key? key}) : super(key: key);
+  final bool isExpanded;
+  final void Function() onTap;
+  const ProfileDetails(this.dropdownModel, {Key? key, required this.isExpanded, required this.onTap}) : super(key: key);
 
   @override
   _ProfileDetailsState createState() => _ProfileDetailsState();
@@ -63,6 +65,15 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('profile_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -106,8 +117,6 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                     },
                     initialCountryCode: 'IN',
                   ),
-                  // EditProfileTextFeild(
-                  //     label: 'Phone Number', controller: phoneNumberController),
                   const SizedBox(height: 16),
                   EditProfileDatePicker(
                       label: 'Date of Birth',
@@ -149,10 +158,11 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                                     dob: dateOfBirthController.text,
                                     gender: selectedGender ?? "",
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )

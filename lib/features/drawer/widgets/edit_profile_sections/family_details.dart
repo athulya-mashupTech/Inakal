@@ -10,7 +10,9 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 
 class FamilyDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
-  const FamilyDetails(this.dropdownModel, {super.key});
+  final bool isExpanded;
+  final void Function() onTap;
+  const FamilyDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<FamilyDetails> createState() => _FamilyDetailsState();
@@ -78,6 +80,15 @@ class _FamilyDetailsState extends State<FamilyDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('family_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -166,10 +177,11 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                                     siblingsMaritalStatus:
                                         siblingmaritalstatusController.text,
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )

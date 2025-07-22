@@ -14,7 +14,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 
 class PersonalDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
-  const PersonalDetails(this.dropdownModel, {super.key});
+  final bool isExpanded;
+  final void Function() onTap;
+  const PersonalDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<PersonalDetails> createState() => _PersonalDetailsState();
@@ -131,6 +133,15 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     return Container(
       color: AppColors.bgsoftpink,
       child: ExpansionTile(
+        key: Key('personal_details_${widget.isExpanded}'),
+        initiallyExpanded: widget.isExpanded,
+        onExpansionChanged: (expanded) {
+          if (expanded && !widget.isExpanded) {
+            widget.onTap();
+          } else if (!expanded && widget.isExpanded) {
+            widget.onTap();
+          }
+        },
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
         ),
@@ -370,7 +381,7 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     religion: widget.dropdownModel.religions!
                                             .firstWhere((religion) =>
                                                 selectedReligion ==
-                                                religion.name)
+                                                religion.name, orElse: () => ReEdOcLanSt(id: ""),)
                                             .id ??
                                         "",
                                     caste: casteSubCasteOption.castes!
@@ -386,15 +397,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                             .id ??
                                         "",
                                     star_sign: formatBackToKey(starController.text),
-                                    mother_tongue: widget.dropdownModel.languages!.firstWhere((lang) => selectedmotherTongue == lang.name).id ?? "",
+                                    mother_tongue: widget.dropdownModel.languages!.firstWhere((lang) => selectedmotherTongue == lang.name, orElse: () => ReEdOcLanSt(id: "")).id ?? "",
                                     marital_status: formatBackToKey(selectedmaritalStatus ?? ""),
                                     number_of_children: selectedmaritalStatus == "Single" ? "0" : noOfChildrenController.text,
                                     languagesKnown: languages.join(","),
                                     context: context)
-                                .then((value) {
+                                .then((value) async {
                               setState(() {
                                 isSaving = false;
                               });
+                              
+                              await EditProfileService().updateUserData(context: context);
                             });
                           },
                         )
