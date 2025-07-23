@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
 import 'package:inakal/features/filter_users/model/filter_model.dart';
@@ -27,6 +28,36 @@ class FilterProfileService {
       return '$start-$end';
     }
     return '';
+  }
+
+
+  Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(
+      BuildContext context, 
+      String religionId
+      ) async {
+      try {
+      final response = await _sendPostRequest(
+          url: getCasteAndSubcasteOptionsUrl,
+          fields: {
+            "religion_id": religionId
+            });
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final casteSubcasteOptionsModel =
+            CasteSubcasteOptionsModel.fromJson(responseJson);
+
+        if (casteSubcasteOptionsModel.type == "success") {
+          // _showSnackbar(context, casteSubcasteOptionsModel.message ?? "");
+        }
+        return casteSubcasteOptionsModel;
+      }
+      return CasteSubcasteOptionsModel();
+    } catch (e) {
+      print(e);
+      return CasteSubcasteOptionsModel();
+    }
   }
 
   Map<String, String> filterBuilder(AppliedFiltersModel appliedFilters) {

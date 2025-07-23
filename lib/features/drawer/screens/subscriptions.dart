@@ -85,6 +85,7 @@ class _SubscriptionsState extends State<Subscriptions> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(subscriptiontitles[selectedsubscription]),
                         const SizedBox(height: 10),
@@ -166,7 +167,6 @@ class _SubscriptionsState extends State<Subscriptions> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 15),
               CustomButton(text: "Subscribe", onPressed: null),
               const SizedBox(height: 20),

@@ -16,7 +16,13 @@ class PersonalDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
   final bool isExpanded;
   final void Function() onTap;
-  const PersonalDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
+
+  const PersonalDetails(
+    this.dropdownModel, 
+    {super.key, 
+    required this.isExpanded, 
+    required this.onTap
+    });
 
   @override
   State<PersonalDetails> createState() => _PersonalDetailsState();
@@ -217,8 +223,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     label: 'Caste',
                     items: casteSubCasteOption.castes
                             ?.map((item) => item.name ?? "")
-                            .toList() ??
-                        [],
+                            .toList()
+                            ?? [],
                     onChanged: (value) {
                       setState(() {
                         selectedCaste = value;

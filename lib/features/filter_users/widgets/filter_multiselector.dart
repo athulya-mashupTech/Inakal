@@ -14,41 +14,47 @@ class FilterMultiselectorDropdown extends StatefulWidget {
   });
 
   @override
-  State<FilterMultiselectorDropdown> createState() => _FilterMultiselectorDropdownState();
+  State<FilterMultiselectorDropdown> createState() =>
+      _FilterMultiselectorDropdownState();
 }
 
-class _FilterMultiselectorDropdownState extends State<FilterMultiselectorDropdown> {
+class _FilterMultiselectorDropdownState
+    extends State<FilterMultiselectorDropdown> {
   bool isExpanded = false;
   TextEditingController searchController = TextEditingController();
-  List<String> filteredItems = [];
   List<String> selectedItems = [];
+
+  String query = "";
 
   @override
   void initState() {
     super.initState();
-    filteredItems = widget.items;
+
+    widget.valueController.addListener(() {
+      if (widget.valueController.text == "") {
+        setState(() {
+          selectedItems = [];
+        });
+      }
+    });
+
+    searchController.addListener(() {
+      setState(() {
+        query = searchController.text;
+      });
+    });
 
     // If controller has initial value, populate selectedItems
     if (widget.valueController.text.isNotEmpty) {
-      selectedItems = widget.valueController.text.split(',').map((e) => e.trim()).toList();
+      selectedItems =
+          widget.valueController.text.split(',').map((e) => e.trim()).toList();
     }
-
-    searchController.addListener(_filterItems);
   }
 
   @override
   void dispose() {
     searchController.dispose();
     super.dispose();
-  }
-
-  void _filterItems() {
-    setState(() {
-      final query = searchController.text.toLowerCase();
-      filteredItems = widget.items
-          .where((item) => item.toLowerCase().contains(query))
-          .toList();
-    });
   }
 
   void _toggleExpansion() {
@@ -119,7 +125,10 @@ class _FilterMultiselectorDropdownState extends State<FilterMultiselectorDropdow
             ),
           ),
           const SizedBox(height: 10),
-          filteredItems.isEmpty
+          widget.items
+                  .where((item) => item.toLowerCase().contains(query))
+                  .toList()
+                  .isEmpty
               ? const Padding(
                   padding: EdgeInsets.all(16.0),
                   child: Center(
@@ -137,9 +146,14 @@ class _FilterMultiselectorDropdownState extends State<FilterMultiselectorDropdow
                   child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredItems.length,
+                    itemCount: widget.items
+                        .where((item) => item.toLowerCase().contains(query))
+                        .toList()
+                        .length,
                     itemBuilder: (context, index) {
-                      final item = filteredItems[index];
+                      final item = widget.items
+                          .where((item) => item.toLowerCase().contains(query))
+                          .toList()[index];
                       final isSelected = selectedItems.contains(item);
 
                       return ListTile(

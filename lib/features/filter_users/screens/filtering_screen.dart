@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/filter_users/model/applied_filters_model.dart';
@@ -35,6 +36,9 @@ class _FilteringScreenState extends State<FilteringScreen> {
 
   DropdownModel? dropdownModel;
   bool _isLoading = true;
+
+  CasteSubcasteOptionsModel casteSubcasteOptions =
+      CasteSubcasteOptionsModel(castes: [], subcastes: []);
 
   Future<void> _loadDropdownOptions() async {
     await EditProfileService()
@@ -97,23 +101,51 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               .map((item) => item.name ?? "")
                               .toList(),
                           valueController: religionController,
+                          onSelected: (value) async {
+                            print("Callled");
+                            setState(() {
+                              casteController.text = "";
+                              subcasteController.text = "";
+                              casteSubcasteOptions = CasteSubcasteOptionsModel(
+                                  castes: [], subcastes: []);
+                            });
+                            await FilterProfileService()
+                                .getCasteSubcasteOptions(
+                                    context,
+                                    (dropdownModel!.religions ?? [])
+                                            .firstWhere(
+                                              (religion) =>
+                                                  religion.name == value,
+                                              orElse: () => ReEdOcLanSt(id: ""),
+                                            )
+                                            .id ??
+                                        "")
+                                .then((options) {
+                              print(options.castes?.length);
+                              debugPrint(options.castes?.length.toString());
+                              setState(() {
+                                casteSubcasteOptions = options;
+                              });
+                            });
+                          },
                         ),
                         const SizedBox(height: 10),
                         FilterMultiselectorDropdown(
                             label: "Caste",
-                            items: dropdownModel!.castes!
+                            items: (casteSubcasteOptions.castes ?? [])
                                 .map((item) => item.name ?? "")
                                 .toList(),
                             valueController: casteController),
                         const SizedBox(height: 10),
                         FilterMultiselectorDropdown(
                             label: "Sub Caste",
-                            items: dropdownModel!.subcastes!
+                            items: (casteSubcasteOptions.subcastes ?? [])
                                 .map((item) => item.name ?? "")
                                 .toList(),
                             valueController: subcasteController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Age Range",
                             items: [
                               "18-30",
@@ -128,6 +160,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: ageRangeController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Height",
                             items: [
                               '4\'0" - 4\'5" (121-137 cm)',
@@ -141,6 +174,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: heightController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Weight",
                             items: [
                               "40-50 kg",
@@ -155,6 +189,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: weightController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "State",
                             items: dropdownModel!.states!
                                 .map((item) => item.name ?? "")
@@ -162,6 +197,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: stateController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Language",
                             items: dropdownModel!.languages!
                                 .map((item) => item.name ?? "")
@@ -169,11 +205,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: languageController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Marital Status",
                             items: ["Unmarried", "Divorced", "Widower"],
                             valueController: maritalStatusController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Highest Education",
                             items: dropdownModel!.highestEducations!
                                 .map((item) => item.name ?? "")
@@ -188,6 +226,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: occupationController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Annual Income",
                             items: [
                               "1 Lakh - 3 Lakh",
@@ -205,6 +244,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: annualIncomeController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Family Status",
                             items: [
                               "Upper Class",
@@ -214,6 +254,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             valueController: familyStatusController),
                         const SizedBox(height: 10),
                         FilterDropdown(
+                            onSelected: (_) {},
                             label: "Food Preferences",
                             items: [
                               "Vegetarian",
@@ -236,7 +277,6 @@ class _FilteringScreenState extends State<FilteringScreen> {
                         CustomButton(
                           text: "Apply Filters",
                           onPressed: () async {
-
                             print(religionController.text);
                             print(casteController.text);
                             print(subcasteController.text);
@@ -272,7 +312,7 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             final responseModel = await FilterProfileService()
                                 .getfilteredProfiles(
                                     context, 0, appliedFilters);
-                                    
+
                             print("object: ${responseModel}");
                             if (responseModel != null &&
                                 responseModel.type == "success") {
