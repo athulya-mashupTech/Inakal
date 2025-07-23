@@ -34,6 +34,21 @@ class _FilteringScreenState extends State<FilteringScreen> {
   TextEditingController familyStatusController = TextEditingController();
   TextEditingController foodPreferenceController = TextEditingController();
 
+  // TextEditingController religionController = TextEditingController();
+  // TextEditingController casteController = TextEditingController();
+  // TextEditingController subcasteController = TextEditingController();
+  // TextEditingController ageRangeController = TextEditingController();
+  // TextEditingController heightController = TextEditingController();
+  // TextEditingController weightController = TextEditingController();
+  // TextEditingController stateController = TextEditingController();
+  // TextEditingController languageController = TextEditingController();
+  // TextEditingController maritalStatusController = TextEditingController();
+  // TextEditingController highestEducationController = TextEditingController();
+  // TextEditingController occupationController = TextEditingController();
+  // TextEditingController annualIncomeController = TextEditingController();
+  // TextEditingController familyStatusController = TextEditingController();
+  // TextEditingController foodPreferenceController = TextEditingController();
+
   DropdownModel? dropdownModel;
   bool _isLoading = true;
 
