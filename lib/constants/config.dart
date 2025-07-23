@@ -43,6 +43,7 @@ const deleteRequestUrl = "${baseUrl}deleteRequest";
 const galleryImagesUrl = "${baseUrl}userGallery";
 const updateGalleryImageUrl = "${baseUrl}uploadGalleryImage";
 const deleteGalleryImageUrl = "${baseUrl}deleteGalleryImage";
+const getSearchedDistrictsUpdateUrl = "${baseUrl}searchDistrict";
 
 //filter API's
 const filterProfileUrl = "${baseUrl}manualFilter";
@@ -54,7 +55,7 @@ const userPersonalUpdateUrl = "${baseUrl}updatePersonalDetails";
 const userEduProfUpdateUrl = "${baseUrl}updateEduProfDetails";
 const userFamilyUpdateUrl = "${baseUrl}updateFamilyDetails";
 const userLocationUpdateUrl = "${baseUrl}updateLocationDetails";
-const userPreferenceUpdateUrl = "${baseUrl}updatePartnerPrefs";
+const userPreferenceUpdateUrl = "${baseUrl}updatePartnerPref";
 const userAdditionalDetailUpdateUrl = "${baseUrl}updateAdditionalDetails";
 
 const getCasteAndSubcasteOptionsUrl = "${baseUrl}getReligionCasteAndSubcaste";

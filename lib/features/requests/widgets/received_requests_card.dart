@@ -44,19 +44,19 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
-  String getHimOrHer(String gender){
-    if(gender == "Female" || gender == "female")
+  String getHimOrHer(String gender) {
+    if (gender == "Female" || gender == "female")
       return "her";
-    else if(gender == "Male" || gender == "male")
+    else if (gender == "Male" || gender == "male")
       return "him";
     else
       return "them";
   }
 
-  String getHeOrShe(String gender){
-    if(gender == "Female" || gender == "female")
+  String getHeOrShe(String gender) {
+    if (gender == "Female" || gender == "female")
       return "her";
-    else if(gender == "Male" || gender == "male")
+    else if (gender == "Male" || gender == "male")
       return "him";
     else
       return "them";
@@ -105,6 +105,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        print("Id: "+widget.client_id);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -237,8 +238,10 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                 Text(
                                   switch (widget.req_status) {
                                     "accepted" => "Both liked eachother",
-                                    "pending" => "${getHeOrShe(widget.gender)} liked your Profile",
-                                    _ => "${getHeOrShe(widget.gender)} liked your Profile",
+                                    "pending" =>
+                                      "${getHeOrShe(widget.gender)} liked your Profile",
+                                    _ =>
+                                      "${getHeOrShe(widget.gender)} liked your Profile",
                                   },
                                   style: const TextStyle(
                                       fontSize: 14,

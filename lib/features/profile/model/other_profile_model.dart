@@ -1,15 +1,17 @@
 class OtherProfileModel {
   User? user;
-  String? message;
-  String? type;
   List<Gallery>? gallery;
 
-  OtherProfileModel({this.user, this.message, this.type});
+  OtherProfileModel({this.user, this.gallery});
 
   OtherProfileModel.fromJson(Map<String, dynamic> json) {
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    message = json['message'];
-    type = json['type'];
+    if (json['gallery'] != null) {
+      gallery = <Gallery>[];
+      json['gallery'].forEach((v) {
+        gallery!.add(new Gallery.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -17,8 +19,9 @@ class OtherProfileModel {
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
-    data['message'] = this.message;
-    data['type'] = this.type;
+    if (this.gallery != null) {
+      data['gallery'] = this.gallery!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }

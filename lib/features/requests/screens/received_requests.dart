@@ -173,14 +173,14 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                     ? ""
                                     : dropdownModel!.districts!
                                             .firstWhere((dist) =>
-                                                dist.id == user?.district)
+                                                dist.id == user?.district, orElse: () => Districts(name: ""),)
                                             .name ??
                                         "",
                                 user?.state == null || user?.state == ""
                                     ? ""
                                     : dropdownModel!.states!
                                             .firstWhere((state) =>
-                                                state.id == user?.state)
+                                                state.id == user?.state, orElse: () => ReEdOcLanSt(name: ""),)
                                             .name ??
                                         ""),
                             status: user?.status ?? "",

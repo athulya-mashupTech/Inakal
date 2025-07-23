@@ -16,6 +16,8 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   String _countryCode = '';
   String _phoneNumber = '';
 
+  final _formKey = GlobalKey<FormState>();
+
   final AuthController regController = Get.find();
   void _storeData() {
     regController.setMobileNumber(_phoneNumber, _countryCode);
@@ -77,21 +79,24 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                     style: TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 32),
-                  IntlPhoneField(
-                    decoration: InputDecoration(
-                      labelText: 'Mobile Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(5),
-                        borderSide: BorderSide(),
+                  Form(
+                    key: _formKey,
+                    child: IntlPhoneField(
+                      decoration: InputDecoration(
+                        labelText: 'Mobile Number',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(5),
+                          borderSide: BorderSide(),
+                        ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _countryCode = value.countryCode;
+                          _phoneNumber = value.number;
+                        });
+                      },
+                      initialCountryCode: 'IN',
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _countryCode = value.countryCode;
-                        _phoneNumber = value.number;
-                      });
-                    },
-                    initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 10),
 
@@ -99,9 +104,17 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   CustomButton(
                     text: "Send OTP",
                     onPressed: () {
-                      //Store the phone number and country code in the UserRegistrationData Class
-                      _storeData();
-                      mobileVerification();
+                      if (_formKey.currentState!.validate() &&
+                          _phoneNumber != "") {
+                        _storeData();
+                        mobileVerification();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content:
+                                  Text("Please enter a valid mobile number.")),
+                        );
+                      }
                     },
                     color: AppColors.primaryRed,
                   ),

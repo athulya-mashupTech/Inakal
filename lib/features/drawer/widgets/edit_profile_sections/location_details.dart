@@ -77,7 +77,7 @@ class _LocationDetailsState extends State<LocationDetails> {
     if (query.isEmpty) return [];
 
     try {
-      final value = await AuthService().getDistricts(query);
+      final value = await EditProfileService().getDistricts(query);
       setState(() => districtsOptionsModel = value);
 
       return (value.districts ?? [])
