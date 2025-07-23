@@ -4,11 +4,13 @@ import 'package:inakal/constants/app_constants.dart';
 class FilterDropdown extends StatefulWidget {
   final String label;
   final List<String> items;
+  final void Function(String) onSelected;
   final TextEditingController valueController;
 
-  const FilterDropdown({
+  FilterDropdown({
     required this.label,
     required this.items,
+    required this.onSelected,
     required this.valueController,
     super.key,
   });
@@ -58,6 +60,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
         widget.valueController.text = "";
       } else {
         widget.valueController.text = item;
+        widget.onSelected(item);
       }
       isExpanded = false;
       searchController.clear();

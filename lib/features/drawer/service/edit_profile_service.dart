@@ -451,11 +451,15 @@ class EditProfileService {
 
   // API to get Relegion Related Caste and Subcastes
   Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(
-      BuildContext context, String religionId) async {
-    try {
+      BuildContext context, 
+      String religionId
+      ) async {
+      try {
       final response = await _sendPostRequest(
           url: getCasteAndSubcasteOptionsUrl,
-          fields: {"religion_id": religionId});
+          fields: {
+            "religion_id": religionId
+            });
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
