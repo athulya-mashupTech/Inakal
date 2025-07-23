@@ -7,6 +7,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/model/user_data_model.dart';
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/model/districts_search_model.dart';
 import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/qualification_options_model.dart';
@@ -57,6 +58,33 @@ class EditProfileService {
     } catch (e) {
       print('Exception: $e');
       return null;
+    }
+  }
+
+  //---------------- Get Districts----------------
+  Future<DistrictsSearchModel> getDistricts(String districtText) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getSearchedDistrictsUpdateUrl,
+          fields: {"searchDistrict": districtText});
+
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final responseJson = json.decode(responseBody);
+        final searchedDistrictsModel =
+            DistrictsSearchModel.fromJson(responseJson);
+
+        if (searchedDistrictsModel.type == "success") {
+          print(
+              "Length: ${(searchedDistrictsModel.districts?.length).toString()}");
+          return searchedDistrictsModel;
+        } else
+          return DistrictsSearchModel();
+      }
+      return DistrictsSearchModel();
+    } catch (e) {
+      print(e);
+      return DistrictsSearchModel();
     }
   }
 

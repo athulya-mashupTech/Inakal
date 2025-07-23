@@ -11,6 +11,7 @@ import 'package:inakal/features/profile/service/other_profile_service.dart';
 import 'package:inakal/features/profile/widgets/other_profile_detail_card.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
 import 'package:inakal/features/requests/widgets/decline_button.dart';
+import 'package:shimmer/shimmer.dart';
 
 class OtherProfileScreen extends StatefulWidget {
   final String id;
@@ -125,13 +126,13 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
 
     if (district != "") {
       dValue = dropdownModel!.districts!
-              .firstWhere((dist) => dist.id == district)
+              .firstWhere((dist) => dist.id == district, orElse: () => Districts(name: ""),)
               .name ??
           "";
     }
     if (state != "") {
       sValue =
-          dropdownModel!.states!.firstWhere((stat) => stat.id == state).name ??
+          dropdownModel!.states!.firstWhere((stat) => stat.id == state, orElse: () => ReEdOcLanSt(name: "")).name ??
               "";
     }
 
@@ -151,7 +152,8 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     }
     return dropdownModel!.qualifications!
             .firstWhere(
-                (qualification) => qualification.id == userData.qualification)
+                (qualification) => qualification.id == userData.qualification,
+                orElse: () => Qualifications(name: ""))
             .name ??
         "";
   }
@@ -195,25 +197,38 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     bottomLeft: Radius.circular(20),
                                     bottomRight: Radius.circular(20),
                                   ),
-                                  child: Image(
-                                    image: CachedNetworkImageProvider(
-                                        galleryImages?[currentIndex].image ??
-                                            "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"),
+                                  child: CachedNetworkImage(
+                                    imageUrl: galleryImages?[currentIndex]
+                                            .image ??
+                                        "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.width,
-                                    errorBuilder: (context, error, stackTrace) {
-                                      return Image(
-                                        image: const NetworkImage(
-                                          "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
-                                        ),
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                        height:
-                                            MediaQuery.of(context).size.width,
-                                        fit: BoxFit.cover,
-                                      );
-                                    },
                                     fit: BoxFit.cover,
+                                    placeholder: (context, url) =>
+                                        Stack(
+                                          alignment: AlignmentDirectional.center,
+                                          children: [
+                                            Shimmer.fromColors(
+                                                                                  baseColor: Colors.grey[300]!,
+                                                                                  highlightColor: Colors.grey[100]!,
+                                                                                  child: Container(
+                                            width:
+                                                MediaQuery.of(context).size.width,
+                                            height:
+                                                MediaQuery.of(context).size.width,
+                                            color: Colors.white,
+                                                                                  ),
+                                                                                ),
+                                                                                CircularProgressIndicator(color: AppColors.black,)
+                                          ],
+                                        ),
+                                    errorWidget: (context, url, error) =>
+                                        Image.network(
+                                      "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
+                                      width: MediaQuery.of(context).size.width,
+                                      height: MediaQuery.of(context).size.width,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 galleryImages!.length > 1
@@ -304,17 +319,22 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                         CrossAxisAlignment.baseline,
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
-                                      Text(dropdownModel!.occupations!
-                                                        .firstWhere(
-                                                            (occupation) =>
-                                                                occupation.id ==
-                                                                userData
-                                                                    .occupation,orElse: () => ReEdOcLanSt(name: "Job Not Specified"),)
-                                                        .name ??
-                                                    "Job Not Specified"
+                                      Text(
+                                          dropdownModel!.occupations!
+                                                  .firstWhere(
+                                                    (occupation) =>
+                                                        occupation.id ==
+                                                        userData.occupation,
+                                                    orElse: () => ReEdOcLanSt(
+                                                        name:
+                                                            "Job Not Specified"),
+                                                  )
+                                                  .name ??
+                                              "Job Not Specified"
                                           // userData.occupation ??
                                           //     "Job: Not Specified",
-                                          ,style: const TextStyle(fontSize: 16)),
+                                          ,
+                                          style: const TextStyle(fontSize: 16)),
                                       const SizedBox(width: 5),
                                       const Text("|",
                                           style: TextStyle(
@@ -402,10 +422,13 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Religion Not Specified"
                                                 : dropdownModel!.religions!
                                                         .firstWhere(
-                                                            (religion) =>
-                                                                religion.id ==
-                                                                userData
-                                                                    .religion,orElse: () => ReEdOcLanSt(name: "Religion Not Specified"),)
+                                                          (religion) =>
+                                                              religion.id ==
+                                                              userData.religion,
+                                                          orElse: () => ReEdOcLanSt(
+                                                              name:
+                                                                  "Religion Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Religion Not Specified"),
                                         OtherProfileDetailCard(
@@ -414,9 +437,14 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                     userData.caste == null)
                                                 ? "Caste Not Specified"
                                                 : dropdownModel!.castes!
-                                                        .firstWhere((caste) =>
-                                                            caste.id ==
-                                                            userData.caste,orElse: () => CaSub(name: "Caste Not Specified"),)
+                                                        .firstWhere(
+                                                          (caste) =>
+                                                              caste.id ==
+                                                              userData.caste,
+                                                          orElse: () => CaSub(
+                                                              name:
+                                                                  "Caste Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Caste Not Specified"),
                                         OtherProfileDetailCard(
@@ -427,10 +455,15 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         null)
                                                 ? "Mother Tongue Not Specified"
                                                 : dropdownModel!.languages!
-                                                        .firstWhere((languages) =>
-                                                            languages.id ==
-                                                            userData
-                                                                .motherTongue,orElse: () => ReEdOcLanSt(name: "Mother Tongue Not Specified"),)
+                                                        .firstWhere(
+                                                          (languages) =>
+                                                              languages.id ==
+                                                              userData
+                                                                  .motherTongue,
+                                                          orElse: () => ReEdOcLanSt(
+                                                              name:
+                                                                  "Mother Tongue Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Mother Tongue Not Specified"),
                                         OtherProfileDetailCard(
@@ -461,11 +494,15 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 : dropdownModel!
                                                         .highestEducations!
                                                         .firstWhere(
-                                                            (highesteducation) =>
-                                                                highesteducation
-                                                                    .id ==
-                                                                userData
-                                                                    .highestEducation,orElse: () => ReEdOcLanSt(name: "Highest Education Not Specified"),)
+                                                          (highesteducation) =>
+                                                              highesteducation
+                                                                  .id ==
+                                                              userData
+                                                                  .highestEducation,
+                                                          orElse: () => ReEdOcLanSt(
+                                                              name:
+                                                                  "Highest Education Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Highest Education Not Specified"),
                                         OtherProfileDetailCard(
@@ -477,11 +514,16 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Qualification Not Specified"
                                                 : dropdownModel!.qualifications!
                                                         .firstWhere(
-                                                            (qualification) =>
-                                                                qualification
-                                                                    .id ==
-                                                                userData
-                                                                    .qualification,orElse: () => Qualifications(name: "Qualification Not Specified"),)
+                                                          (qualification) =>
+                                                              qualification
+                                                                  .id ==
+                                                              userData
+                                                                  .qualification,
+                                                          orElse: () =>
+                                                              Qualifications(
+                                                                  name:
+                                                                      "Qualification Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Qualification Not Specified"),
                                         OtherProfileDetailCard(
@@ -491,10 +533,14 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ? "Job Not Specified"
                                                 : dropdownModel!.occupations!
                                                         .firstWhere(
-                                                            (occupation) =>
-                                                                occupation.id ==
-                                                                userData
-                                                                    .occupation,orElse: () => ReEdOcLanSt(name: "Job Not Specified"),)
+                                                          (occupation) =>
+                                                              occupation.id ==
+                                                              userData
+                                                                  .occupation,
+                                                          orElse: () => ReEdOcLanSt(
+                                                              name:
+                                                                  "Job Not Specified"),
+                                                        )
                                                         .name ??
                                                     "Job Not Specified"),
                                         OtherProfileDetailCard(
