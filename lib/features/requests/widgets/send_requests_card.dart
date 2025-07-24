@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:iconify_flutter_plus/iconify_flutter_plus.dart';
 import 'package:iconify_flutter_plus/icons/mdi.dart';
 import 'package:iconify_flutter_plus/icons/ph.dart';
+import 'package:inakal/common/widgets/premium_required_popup.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
@@ -33,7 +34,7 @@ class SendRequestsCard extends StatefulWidget {
     required this.req_status,
     required this.religion,
     required this.req_id,
-    required this.onTap, 
+    required this.onTap,
     required this.clientId,
   });
 
@@ -60,6 +61,7 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
       return "$age years";
     }
   }
+
   Future<void> deleteRequest() async {
     await RequestService().deleteRequest(widget.req_id, context);
   }
@@ -83,8 +85,10 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.push(context,
-            MaterialPageRoute(builder: (context) => OtherProfileScreen(id: widget.clientId)));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => OtherProfileScreen(id: widget.clientId)));
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16),
@@ -224,7 +228,11 @@ class _SendRequestsCardState extends State<SendRequestsCard> {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          // Chat button action here
+                                          showDialog(
+                                              context: context,
+                                              builder: (_) => Dialog(
+                                                  child:
+                                                      PremiumRequiredPopup()));
                                         },
                                         style: ElevatedButton.styleFrom(
                                           backgroundColor: AppColors.freshGreen,

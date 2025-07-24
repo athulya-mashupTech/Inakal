@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
+import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:lottie/lottie.dart';
 
 class PremiumRequiredPopup extends StatelessWidget {
@@ -28,7 +29,18 @@ class PremiumRequiredPopup extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 10),
-                CustomButton(text: "View Subscription Plans"),
+                CustomButton(
+                  text: "View Subscription Plans",
+                  onPressed: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Subscriptions(),
+                      ),
+                    );
+                  },
+                ),
                 SizedBox(height: 15),
               ],
             ),

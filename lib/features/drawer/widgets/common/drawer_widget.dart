@@ -15,6 +15,7 @@ import 'package:inakal/features/drawer/screens/liked_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
+import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DrawerWidget extends StatelessWidget {
@@ -183,47 +184,53 @@ class DrawerWidget extends StatelessWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Obx(() => ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  userController.userData.value.user?.image ??
-                                      "",
-                              width: 50,
-                              height: 50,
-                              fit: BoxFit.cover,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: AppColors.grey,
-                                highlightColor: AppColors.lightGrey,
-                                child: Container(
-                                  width: 50,
-                                  height: 50,
-                                  color: AppColors.grey,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Obx(() => ClipOval(
+                              child: CachedNetworkImage(
+                                imageUrl:
+                                    userController.userData.value.user?.image ??
+                                        "",
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: AppColors.grey,
+                                  highlightColor: AppColors.lightGrey,
+                                  child: Container(
+                                    width: 50,
+                                    height: 50,
+                                    color: AppColors.grey,
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) =>
+                                    Icon(Icons.error),
                               ),
-                              errorWidget: (context, url, error) =>
-                                  Icon(Icons.error),
-                            ),
-                          )),
-                      SizedBox(width: 10),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Obx(() => Text(
-                                "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}",
-                                style: TextStyle(
-                                    color: AppColors.white, fontSize: 18),
-                              )),
-                          Obx(() => Text(
-                                'INK${userController.userData.value.user?.id}',
-                                style: TextStyle(
-                                    color: AppColors.white, fontSize: 14),
-                              )),
-                        ],
-                      ),
-                    ],
+                            )),
+                        SizedBox(width: 10),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Obx(() => Text(
+                                  "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}",
+                                  style: TextStyle(
+                                      color: AppColors.white, fontSize: 18),
+                                )),
+                            Obx(() => Text(
+                                  'INK${userController.userData.value.user?.id}',
+                                  style: TextStyle(
+                                      color: AppColors.white, fontSize: 14),
+                                )),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -241,12 +248,13 @@ class DrawerWidget extends StatelessWidget {
                 ListTile(
                   title: const Text('Liked Profiles',
                       style: TextStyle(color: AppColors.white)),
-                  leading: const Icon(Icons.favorite_rounded, color: AppColors.white),
+                  leading: const Icon(Icons.favorite_rounded,
+                      color: AppColors.white),
                   onTap: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) =>  LikedProfile()));
+                            builder: (context) => LikedProfile()));
                   },
                 ),
                 ListTile(

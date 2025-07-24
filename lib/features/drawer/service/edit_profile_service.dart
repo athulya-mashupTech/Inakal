@@ -156,6 +156,7 @@ class EditProfileService {
           .toString());
       print("weight:${(weight == "")}" +
           '[{"value":"English"}, {"value":"Malayalam"}, {"value":"Hindi"}, {"value":"Kannada"}]');
+      print(other_caste_subcaste);
 
       final response =
           await _sendPostRequest(url: userPersonalUpdateUrl, fields: {
@@ -323,7 +324,8 @@ class EditProfileService {
     required BuildContext context,
   }) async {
     try {
-      final response = await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
+      final response =
+          await _sendPostRequest(url: dropdownOptionsUrl, fields: {});
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -479,15 +481,11 @@ class EditProfileService {
 
   // API to get Relegion Related Caste and Subcastes
   Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(
-      BuildContext context, 
-      String religionId
-      ) async {
-      try {
+      BuildContext context, String religionId) async {
+    try {
       final response = await _sendPostRequest(
           url: getCasteAndSubcasteOptionsUrl,
-          fields: {
-            "religion_id": religionId
-            });
+          fields: {"religion_id": religionId});
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
