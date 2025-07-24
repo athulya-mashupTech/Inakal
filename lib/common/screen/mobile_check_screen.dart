@@ -15,6 +15,7 @@ class MobileNoCheckScreen extends StatefulWidget {
 class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   String _countryCode = '';
   String _phoneNumber = '';
+  bool isLoading = false;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -24,8 +25,16 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   }
 
   Future<void> mobileVerification() async {
-    await MobileNumberCheckService().mobilenumberexists(
-        countryCode: _countryCode, PhoneNumber: _phoneNumber, context: context);
+    await MobileNumberCheckService()
+        .mobilenumberexists(
+            countryCode: _countryCode,
+            PhoneNumber: _phoneNumber,
+            context: context)
+        .then((value) {
+        setState(() {
+          isLoading = false;
+        });
+    });
   }
 
   @override
@@ -101,23 +110,31 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                   const SizedBox(height: 10),
 
                   // CustomButton(
-                  CustomButton(
-                    text: "Send OTP",
-                    onPressed: () {
-                      if (_formKey.currentState!.validate() &&
-                          _phoneNumber != "") {
-                        _storeData();
-                        mobileVerification();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                              content:
-                                  Text("Please enter a valid mobile number.")),
-                        );
-                      }
-                    },
-                    color: AppColors.primaryRed,
-                  ),
+                  isLoading
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [CircularProgressIndicator()],
+                        )
+                      : CustomButton(
+                          text: "Send OTP",
+                          onPressed: () {
+                            setState(() {
+                              isLoading = true;
+                            });
+                            if (_formKey.currentState!.validate() &&
+                                _phoneNumber != "") {
+                              _storeData();
+                              mobileVerification();
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text(
+                                        "Please enter a valid mobile number.")),
+                              );
+                            }
+                          },
+                          color: AppColors.primaryRed,
+                        ),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

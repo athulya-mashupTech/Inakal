@@ -32,8 +32,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryRed),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Inakal'),
-      // home: Subscriptions(),
+      // home: const MyHomePage(title: 'Inakal'),
+      home: RegistrationForm(),
       // home: FilteredProfileScreen(FilterProfileModel(totalRows: "254")),
     );
   }

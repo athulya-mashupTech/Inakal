@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/common/widgets/bottom_navigation.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
 import 'package:inakal/features/auth/registration/screens/registration_description.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
@@ -20,6 +21,7 @@ class RegistrationHobbies extends StatefulWidget {
 }
 
 class _RegistrationHobbiesState extends State<RegistrationHobbies> {
+  bool isLoading = false;
   final List<String> interests = [
     "Reading",
     "Photography",
@@ -175,51 +177,70 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
               SizedBox(height: 15),
 
               // Continue Button
-              CustomButton(
-                text: "Continue",
-                onPressed: () async {
-                  _storeHobbies();
-                  await _registerUser();
+              isLoading
+                  ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                      children: [CircularProgressIndicator()],
+                    )
+                  : CustomButton(
+                      text: "Continue",
+                      onPressed: () async {
+                        _storeHobbies();
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await _registerUser().then((value) async {
+                          if (value != null && value.type == "success") {
+                            Get.offAll(LoginPage());
+                          } else {
+                            // Show dialog
+                            setState(() {
+                              isLoading = false;
+                            });
+                            showDialog(
+                              context: context,
+                              barrierDismissible:
+                                  false, // Prevent dismissing by tapping outside
+                              builder: (_) => Dialog(
+                                child: Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 20, horizontal: 20),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Lottie.asset(
+                                            "assets/lottie/warning.json",
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                .4),
+                                        Text(
+                                          "Something went wrong!",
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        Text(
+                                          "${(value ?? RegisterModel(message: "Registration Failed")).message}. Please try again.",
+                                          style: TextStyle(fontSize: 14),
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        SizedBox(height: 20)
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
 
-                  // Show dialog
-                  showDialog(
-                    context: context,
-                    barrierDismissible:
-                        false, // Prevent dismissing by tapping outside
-                    builder: (_) => Dialog(
-                      child: Container(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Lottie.asset("assets/lottie/warning.json",
-                                  width:
-                                      MediaQuery.of(context).size.width * .4),
-                              Text(
-                                "Something went wrong!",
-                                style: TextStyle(
-                                    fontSize: 18, fontWeight: FontWeight.bold),
-                              ),
-                              Text(
-                                "Registration failed. Please try again.",
-                                style: TextStyle(fontSize: 14),
-                                textAlign: TextAlign.center,
-                              ),
-                              SizedBox(height: 20)
-                            ],
-                          ),
-                        ),
-                      ),
+                            await Future.delayed(const Duration(seconds: 3));
+                            Navigator.of(context).pop();
+                            Get.offAll(() => MobileNoCheckScreen());
+                          }
+                        });
+                      },
                     ),
-                  );
-
-                  await Future.delayed(const Duration(seconds: 3));
-                  Navigator.of(context).pop();
-                  Get.offAll(() => RegistrationHobbies());
-                },
-              ),
 
               SizedBox(height: 20.0),
             ],

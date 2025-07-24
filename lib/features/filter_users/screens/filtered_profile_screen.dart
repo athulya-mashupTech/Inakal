@@ -220,13 +220,13 @@ class _FilteredProfileScreenState extends State<FilteredProfileScreen> {
                                                           .district ==
                                                       ""
                                               ? ""
-                                              : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district).name ??
+                                              : dropdownModel!.districts!.firstWhere((dist) => dist.id == filteredProfiles[index].district, orElse: () => Districts(name: "")).name ??
                                                   "",
                                           filteredProfiles[index].state == null ||
                                                   filteredProfiles[index].state ==
                                                       ""
                                               ? ""
-                                              : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state).name ??
+                                              : dropdownModel!.states!.firstWhere((state) => state.id == filteredProfiles[index].state, orElse: () => ReEdOcLanSt(name: "")).name ??
                                                   ""),
                                       dob: filteredProfiles[index].dob ??
                                           "0000-00-00",
