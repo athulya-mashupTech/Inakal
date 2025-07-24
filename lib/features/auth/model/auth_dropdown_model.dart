@@ -1,51 +1,46 @@
 class AuthDropdownModel {
-  Data? data;
-  String? message;
-  String? type;
+  List<ReHeOcLangSt>? religions;
+  List<ReHeOcLangSt>? highestEducations;
+  List<ReHeOcLangSt>? occupations;
+  List<ReHeOcLangSt>? languages;
+  List<ReHeOcLangSt>? states;
 
-  AuthDropdownModel({this.data, this.message, this.type});
+  AuthDropdownModel(
+      {this.religions,
+      this.highestEducations,
+      this.occupations,
+      this.languages,
+      this.states});
 
   AuthDropdownModel.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-    message = json['message'];
-    type = json['type'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
-    }
-    data['message'] = this.message;
-    data['type'] = this.type;
-    return data;
-  }
-}
-
-class Data {
-  List<RelStaOc>? religions;
-  List<RelStaOc>? occupations;
-  List<RelStaOc>? states;
-
-  Data({this.religions, this.occupations, this.states});
-
-  Data.fromJson(Map<String, dynamic> json) {
     if (json['religions'] != null) {
-      religions = <RelStaOc>[];
+      religions = <ReHeOcLangSt>[];
       json['religions'].forEach((v) {
-        religions!.add(new RelStaOc.fromJson(v));
+        religions!.add(new ReHeOcLangSt.fromJson(v));
+      });
+    }
+    if (json['highest_educations'] != null) {
+      highestEducations = <ReHeOcLangSt>[];
+      json['highest_educations'].forEach((v) {
+        highestEducations!.add(new ReHeOcLangSt.fromJson(v));
       });
     }
     if (json['occupations'] != null) {
-      occupations = <RelStaOc>[];
+      occupations = <ReHeOcLangSt>[];
       json['occupations'].forEach((v) {
-        occupations!.add(new RelStaOc.fromJson(v));
+        occupations!.add(new ReHeOcLangSt.fromJson(v));
+      });
+    }
+    if (json['languages'] != null) {
+      languages = <ReHeOcLangSt>[];
+      json['languages'].forEach((v) {
+        languages!.add(new ReHeOcLangSt.fromJson(v));
       });
     }
     if (json['states'] != null) {
-      states = <RelStaOc>[];
+      states = <ReHeOcLangSt>[];
       json['states'].forEach((v) {
-        states!.add(new RelStaOc.fromJson(v));
+        states!.add(new ReHeOcLangSt.fromJson(v));
       });
     }
   }
@@ -55,8 +50,15 @@ class Data {
     if (this.religions != null) {
       data['religions'] = this.religions!.map((v) => v.toJson()).toList();
     }
+    if (this.highestEducations != null) {
+      data['highest_educations'] =
+          this.highestEducations!.map((v) => v.toJson()).toList();
+    }
     if (this.occupations != null) {
       data['occupations'] = this.occupations!.map((v) => v.toJson()).toList();
+    }
+    if (this.languages != null) {
+      data['languages'] = this.languages!.map((v) => v.toJson()).toList();
     }
     if (this.states != null) {
       data['states'] = this.states!.map((v) => v.toJson()).toList();
@@ -65,14 +67,14 @@ class Data {
   }
 }
 
-class RelStaOc {
+class ReHeOcLangSt {
   String? id;
   String? name;
   String? status;
 
-  RelStaOc({this.id, this.name, this.status});
+  ReHeOcLangSt({this.id, this.name, this.status});
 
-  RelStaOc.fromJson(Map<String, dynamic> json) {
+  ReHeOcLangSt.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     status = json['status'];

@@ -39,6 +39,12 @@ class _OTPValidateScreenState extends State<OTPValidateScreen> {
   String _enteredOtp = '';
 
   @override
+  void initState() {
+    print(widget.otp);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(

@@ -35,28 +35,28 @@ class AuthService {
       final response = await _sendPostRequest(
         url: registerUrl,
         fields: {
-          "first_name": userData.userFirstName!,
-          "last_name": userData.userLastName!,
-          "email": userData.userEmail!,
-          "password": userData.userPassword!,
-          "country_code": userData.userCountryCode!,
-          "phone": userData.userPhoneNumber!,
-          "address": userData.userAddress!,
-          "district": userData.userDistrict!,
-          "state": userData.userState!,
-          "country": userData.userCountry!,
-          "religion": userData.userReligion!,
-          "caste": userData.userCaste!,
-          "sub_caste ": userData.userSubcaste!,
+          "first_name": userData.userFirstName ?? "",
+          "last_name": userData.userLastName ?? "",
+          "email": userData.userEmail ?? "",
+          "password": userData.userPassword ?? "",
+          "country_code": userData.userCountryCode ?? "",
+          "phone": userData.userPhoneNumber ?? "",
+          "address": userData.userAddress ?? "",
+          "district": userData.userDistrict ?? "",
+          "state": userData.userState ?? "",
+          "country": userData.userCountry ?? "",
+          "religion": userData.userReligion ?? "",
+          "caste": userData.userCaste ?? "",
+          "sub_caste ": userData.userSubcaste ?? "",
           "no_of_children": userData.noOfChildren ?? "0",
-          "star_sign": userData.userBirthStar!,
-          "about_me": userData.userDescription!,
-          "hobbies": userData.userHobbies!,
-          "profile_created_by": userData.userProfileCreatedFor!,
-          "marital_status": userData.maritalStatus!,
-          "zipCode": userData.userPincode!,
-          "dob": userData.userDob!,
-          "gender": userData.userGender!,
+          "star_sign": userData.userBirthStar ?? "",
+          "about_me": userData.userDescription ?? "",
+          "hobbies": userData.userHobbies ?? "",
+          "profile_created_by": userData.userProfileCreatedFor ?? "",
+          "marital_status": userData.maritalStatus ?? "",
+          "zipCode": userData.userPincode ?? "",
+          "dob": userData.userDob ?? "",
+          "gender": userData.userGender ?? "",
         },
       );
 
@@ -72,40 +72,7 @@ class AuthService {
           Get.to(() => const LoginPage());
           return result;
         } else {
-          showDialog(
-            context: context,
-            barrierDismissible: false, // Prevent dismissing by tapping outside
-            builder: (_) => Dialog(
-              child: Container(
-                child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Lottie.asset("assets/lottie/error_404.json",
-                          width: MediaQuery.of(context).size.width * .4),
-                      SizedBox(height: 10),
-                      Text(
-                        "Something went wrong",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Registration failed. Please try again.",
-                        style: TextStyle(fontSize: 14),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          );
-
-          await Future.delayed(const Duration(seconds: 3));
-          Navigator.of(context).pop();
-          Get.offAll(() => MobileNoCheckScreen());
+          return result;
         }
       }
       return null;
@@ -319,11 +286,7 @@ class AuthService {
         final responseBody = await response.stream.bytesToString();
         final responseJson = json.decode(responseBody);
         final authDropdownModel = AuthDropdownModel.fromJson(responseJson);
-
-        if (authDropdownModel.type == "success") {
-          return authDropdownModel;
-        } else
-          return AuthDropdownModel();
+        return authDropdownModel;
       }
       return AuthDropdownModel();
     } catch (e) {

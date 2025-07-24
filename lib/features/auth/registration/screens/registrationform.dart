@@ -41,6 +41,11 @@ class _RegistrationFormState extends State<RegistrationForm> {
   List<String> filteredStates = [];
   AuthDropdownModel authDropdownOptions = AuthDropdownModel();
 
+  String selectedStateName = "";
+  String selectedDistrictName = "";
+  String selectedDistrictsStateId = "";
+  TextEditingController districtSearchController = TextEditingController();
+
   List<String> maritalStatusValues = [
     "Single",
     "Divorced",
@@ -100,7 +105,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
     final value = await AuthService().getAuthOptions();
     setState(() {
       authDropdownOptions = value;
-      filteredStates = (authDropdownOptions.data?.states ?? [])
+      filteredStates = (authDropdownOptions.states ?? [])
           .map((state) => state.name ?? "")
           .toList();
     });
@@ -132,6 +137,13 @@ class _RegistrationFormState extends State<RegistrationForm> {
     final currentText = textEditingController.text.trim();
 
     if (currentText.isEmpty) {
+      // Clear everything when text is empty
+      setState(() {
+        _districtController.clear();
+        selectedDistrictName = "";
+        selectedDistrictsStateId = "";
+        districtSearchController.clear();
+      });
       return;
     }
 
@@ -142,14 +154,19 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
     if (!isValidDistrict) {
       // Clear the text if it doesn't match any valid district
-      textEditingController.clear();
       setState(() {
         _districtController.clear();
+        selectedDistrictName = "";
+        selectedDistrictsStateId = "";
+        districtSearchController.clear();
       });
+      textEditingController.clear();
     } else {
-      // Update the main controller if it's a valid district
+      // Update the controllers if it's a valid district
       setState(() {
-        _districtController.text = currentText;
+        districtSearchController.text = currentText;
+        // Note: You might need to also update _districtController.text with the district ID here
+        // if you can find the matching district from the search results
       });
     }
   }
@@ -183,8 +200,8 @@ class _RegistrationFormState extends State<RegistrationForm> {
     print(_dobController.text);
     print(_maritalStatusController.text.toLowerCase());
     print(_noOfChildrenController.text == ""
-            ? "0"
-            : _noOfChildrenController.text);
+        ? "0"
+        : _noOfChildrenController.text);
     print(selectedGender ?? "");
   }
 
@@ -278,20 +295,45 @@ class _RegistrationFormState extends State<RegistrationForm> {
                 onSelected: (String selection) {
                   print('Selected: $selection');
                   setState(() {
-                    _districtController.text =
-                        (districtsOptionsModel.districts ?? [])
+                    final selectedDistrict =
+                        (districtsOptionsModel.districts ?? []).firstWhere(
+                      (district) => district.name == selection,
+                      orElse: () => Districts(id: "", name: ""),
+                    );
+
+                    _districtController.text = selectedDistrict.id ?? "";
+                    selectedDistrictsStateId = selectedDistrict.stateId ?? "";
+                    print("Distict's State ID" + selectedDistrictsStateId);
+
+                    if (_stateController.text != selectedDistrictsStateId) {
+                      setState(() {
+                        _stateController.text = (authDropdownOptions.states ??
+                                    [])
                                 .firstWhere(
-                                  (district) => district.name == selection,
-                                  orElse: () => Districts(id: "", name: ""),
-                                )
+                                    (state) =>
+                                        state.id == selectedDistrictsStateId,
+                                    orElse: () => ReHeOcLangSt(id: ""))
                                 .id ??
                             "";
+                        selectedStateName = (authDropdownOptions.states ?? [])
+                                .firstWhere(
+                                    (state) =>
+                                        state.id == selectedDistrictsStateId,
+                                    orElse: () => ReHeOcLangSt(name: ""))
+                                .name ??
+                            "";
+                      });
+                      print(selectedStateName);
+                    }
                   });
 
                   print('Selected id: ${_districtController.text}');
                 },
                 fieldViewBuilder: (context, textEditingController, focusNode,
                     onFieldSubmitted) {
+                  // Sync the autocomplete's text controller with our managed controller
+                  textEditingController.text = districtSearchController.text;
+
                   // Add focus listener only once
                   if (!_focusListenerAdded) {
                     focusNode.addListener(() {
@@ -301,6 +343,15 @@ class _RegistrationFormState extends State<RegistrationForm> {
                     });
                     _focusListenerAdded = true;
                   }
+
+                  // Listen to changes in the autocomplete text controller and sync back
+                  textEditingController.addListener(() {
+                    if (districtSearchController.text !=
+                        textEditingController.text) {
+                      districtSearchController.text =
+                          textEditingController.text;
+                    }
+                  });
 
                   return TextFieldWidget(
                     controller: textEditingController,
@@ -328,21 +379,47 @@ class _RegistrationFormState extends State<RegistrationForm> {
                           ));
                 },
                 onSelected: (String selection) {
-                  print(selection);
-                  setState(() {
-                    print(selection);
-                    _stateController.text =
-                        ((authDropdownOptions.data ?? Data()).states ?? [])
-                                .firstWhere((state) => state.name == selection,
-                                    orElse: () => RelStaOc(id: ""))
-                                .id ??
-                            "";
-                    print(_stateController.text);
-                  });
+                  print('State selected: $selection');
+
+                  // Get the ID of the newly selected state
+                  String newStateId = (authDropdownOptions.states ?? [])
+                          .firstWhere((state) => state.name == selection,
+                              orElse: () => ReHeOcLangSt(id: ""))
+                          .id ??
+                      "";
+
+                  // Check if the newly selected state is different from the district's state
+                  if (selectedDistrictsStateId.isNotEmpty &&
+                      selectedDistrictsStateId != newStateId) {
+                    // Clear district-related data when state changes
+                    setState(() {
+                      selectedStateName = selection;
+                      _stateController.text = newStateId;
+
+                      // Clear district data since state changed
+                      _districtController.text = "";
+                      selectedDistrictName = "";
+                      selectedDistrictsStateId = "";
+
+                      // IMPORTANT: Clear the district text controller to update UI
+                      districtSearchController.clear();
+                    });
+                    print('State changed - District data cleared');
+                  } else {
+                    // Just update state data without clearing district
+                    setState(() {
+                      selectedStateName = selection;
+                      _stateController.text = newStateId;
+                    });
+                  }
+
+                  print('New state ID: $newStateId');
                 },
                 fieldViewBuilder: (context, textEditingController, focusNode,
                     onFieldSubmitted) {
-                  // Add focus listener to clear invalid text when focus is lost
+                  // Set the current selected state name in the text field
+                  textEditingController.text = selectedStateName;
+
                   focusNode.addListener(() {
                     if (!focusNode.hasFocus) {
                       final currentText = textEditingController.text;
@@ -352,7 +429,16 @@ class _RegistrationFormState extends State<RegistrationForm> {
                       if (!isValidState && currentText.isNotEmpty) {
                         textEditingController.clear();
                         setState(() {
+                          selectedStateName = "";
                           _stateController.clear();
+                          // Also clear district data when state is cleared
+                          if (selectedDistrictsStateId.isNotEmpty) {
+                            _districtController.text = "";
+                            selectedDistrictName = "";
+                            selectedDistrictsStateId = "";
+                            // IMPORTANT: Clear the district text controller to update UI
+                            districtSearchController.clear();
+                          }
                         });
                       }
                     }

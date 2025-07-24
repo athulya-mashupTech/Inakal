@@ -78,7 +78,7 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
     final value = await AuthService().getAuthOptions();
     setState(() {
       authDropdownOptions = value;
-      filteredReligions = (authDropdownOptions.data?.religions ?? [])
+      filteredReligions = (authDropdownOptions.religions ?? [])
           .map((state) => state.name ?? "")
           .toList();
     });
@@ -148,10 +148,10 @@ class _RegistrationDescriptionState extends State<RegistrationDescription> {
                   print(selection);
                   setState(() {
                     _religionController.text =
-                        ((authDropdownOptions.data ?? Data()).religions ?? [])
+                        (authDropdownOptions.religions ?? [])
                                 .firstWhere(
                                     (religion) => religion.name == selection,
-                                    orElse: () => RelStaOc(id: ""))
+                                    orElse: () => ReHeOcLangSt(id: ""))
                                 .id ??
                             "";
                     print(_religionController.text);
