@@ -3,12 +3,18 @@ import 'package:inakal/constants/app_constants.dart';
 
 class FilterMultiselectorDropdown extends StatefulWidget {
   final String label;
+  final void Function() onTap;
+  final bool isExpanded;
+  final bool? religionSelected;
   final List<String> items;
   final TextEditingController valueController;
 
   const FilterMultiselectorDropdown({
     required this.label,
+    required this.onTap,
+    required this.isExpanded,
     required this.items,
+    this.religionSelected,
     required this.valueController,
     super.key,
   });
@@ -59,9 +65,7 @@ class _FilterMultiselectorDropdownState
 
   void _toggleExpansion() {
     FocusScope.of(context).unfocus(); // hide keyboard
-    setState(() {
-      isExpanded = !isExpanded;
-    });
+    widget.onTap();
   }
 
   void _toggleItem(String item) {
@@ -87,14 +91,21 @@ class _FilterMultiselectorDropdownState
             child: TextFormField(
               controller: widget.valueController,
               readOnly: true,
+              forceErrorText: widget.religionSelected == false ? "Please select Religion first!" : null,
               decoration: InputDecoration(
                 hintText: 'Select ${widget.label}',
                 labelStyle: const TextStyle(fontSize: 14),
                 suffixIcon: Icon(
-                  isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                  widget.isExpanded
+                      ? Icons.arrow_drop_up
+                      : Icons.arrow_drop_down,
                 ),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                  // borderSide: BorderSide(color: AppColors.primaryRed),
                 ),
                 focusedBorder: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -106,7 +117,7 @@ class _FilterMultiselectorDropdownState
             ),
           ),
         ),
-        if (isExpanded) ...[
+        if (widget.isExpanded) ...[
           const SizedBox(height: 10),
           TextField(
             controller: searchController,
@@ -143,38 +154,55 @@ class _FilterMultiselectorDropdownState
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.items
-                        .where((item) => item.toLowerCase().contains(query))
-                        .toList()
-                        .length,
-                    itemBuilder: (context, index) {
-                      final item = widget.items
+                  child: SizedBox(
+                    height: widget.items
+                                .where((item) =>
+                                    item.toLowerCase().contains(query))
+                                .toList()
+                                .length >
+                            4
+                        ? 230
+                        : null,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: widget.items
+                                  .where((item) =>
+                                      item.toLowerCase().contains(query))
+                                  .toList()
+                                  .length >
+                              4
+                          ? ScrollPhysics()
+                          : NeverScrollableScrollPhysics(),
+                      itemCount: widget.items
                           .where((item) => item.toLowerCase().contains(query))
-                          .toList()[index];
-                      final isSelected = selectedItems.contains(item);
+                          .toList()
+                          .length,
+                      itemBuilder: (context, index) {
+                        final item = widget.items
+                            .where((item) => item.toLowerCase().contains(query))
+                            .toList()[index];
+                        final isSelected = selectedItems.contains(item);
 
-                      return ListTile(
-                        title: Text(
-                          item,
-                          style: TextStyle(
-                            color: isSelected
-                                ? AppColors.primaryRed
-                                : AppColors.black,
+                        return ListTile(
+                          title: Text(
+                            item,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? AppColors.primaryRed
+                                  : AppColors.black,
+                            ),
                           ),
-                        ),
-                        trailing: isSelected
-                            ? const Tooltip(
-                                message: 'Deselect',
-                                child: Icon(Icons.check,
-                                    color: AppColors.primaryRed),
-                              )
-                            : null,
-                        onTap: () => _toggleItem(item),
-                      );
-                    },
+                          trailing: isSelected
+                              ? const Tooltip(
+                                  message: 'Deselect',
+                                  child: Icon(Icons.check,
+                                      color: AppColors.primaryRed),
+                                )
+                              : null,
+                          onTap: () => _toggleItem(item),
+                        );
+                      },
+                    ),
                   ),
                 ),
         ],

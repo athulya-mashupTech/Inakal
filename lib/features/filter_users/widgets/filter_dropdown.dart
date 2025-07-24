@@ -3,12 +3,16 @@ import 'package:inakal/constants/app_constants.dart';
 
 class FilterDropdown extends StatefulWidget {
   final String label;
+  final void Function() onTap;
+  final bool isExpanded;
   final List<String> items;
   final void Function(String) onSelected;
   final TextEditingController valueController;
 
-  FilterDropdown({
+  const FilterDropdown({
     required this.label,
+    required this.onTap,
+    required this.isExpanded,
     required this.items,
     required this.onSelected,
     required this.valueController,
@@ -20,7 +24,6 @@ class FilterDropdown extends StatefulWidget {
 }
 
 class _FilterDropdownState extends State<FilterDropdown> {
-  bool isExpanded = false;
   TextEditingController searchController = TextEditingController();
   List<String> filteredItems = [];
 
@@ -47,10 +50,8 @@ class _FilterDropdownState extends State<FilterDropdown> {
   }
 
   void _toggleExpansion() {
-    FocusScope.of(context).unfocus(); // hide keyboard if any
-    setState(() {
-      isExpanded = !isExpanded;
-    });
+    print("toggle");
+    widget.onTap();
   }
 
   void _selectItem(String item) {
@@ -62,7 +63,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
         widget.valueController.text = item;
         widget.onSelected(item);
       }
-      isExpanded = false;
+      widget.onTap();
       searchController.clear();
       filteredItems = widget.items;
     });
@@ -83,7 +84,9 @@ class _FilterDropdownState extends State<FilterDropdown> {
                 hintText: 'Select ${widget.label}',
                 labelStyle: const TextStyle(fontSize: 14),
                 suffixIcon: Icon(
-                  isExpanded ? Icons.arrow_drop_up : Icons.arrow_drop_down,
+                  widget.isExpanded
+                      ? Icons.arrow_drop_up
+                      : Icons.arrow_drop_down,
                 ),
                 border: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -98,7 +101,7 @@ class _FilterDropdownState extends State<FilterDropdown> {
             ),
           ),
         ),
-        if (isExpanded) ...[
+        if (widget.isExpanded) ...[
           const SizedBox(height: 10),
           TextField(
             controller: searchController,
@@ -132,33 +135,39 @@ class _FilterDropdownState extends State<FilterDropdown> {
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: filteredItems.length,
-                    itemBuilder: (context, index) {
-                      final item = filteredItems[index];
-                      final isSelected = widget.valueController.text == item;
+                  child: SizedBox(
+                    height: 
+                          filteredItems.length > 4 ? 230 : null,
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      physics: filteredItems.length > 4
+                          ? ScrollPhysics()
+                          : NeverScrollableScrollPhysics(),
+                      itemCount: filteredItems.length,
+                      itemBuilder: (context, index) {
+                        final item = filteredItems[index];
+                        final isSelected = widget.valueController.text == item;
 
-                      return ListTile(
-                        title: Text(
-                          item,
-                          style: TextStyle(
-                            color: isSelected
-                                ? AppColors.primaryRed
-                                : AppColors.black,
+                        return ListTile(
+                          title: Text(
+                            item,
+                            style: TextStyle(
+                              color: isSelected
+                                  ? AppColors.primaryRed
+                                  : AppColors.black,
+                            ),
                           ),
-                        ),
-                        trailing: isSelected
-                            ? const Tooltip(
-                                message: 'Deselect',
-                                child: Icon(Icons.check,
-                                    color: AppColors.primaryRed),
-                              )
-                            : null,
-                        onTap: () => _selectItem(item),
-                      );
-                    },
+                          trailing: isSelected
+                              ? const Tooltip(
+                                  message: 'Deselect',
+                                  child: Icon(Icons.check,
+                                      color: AppColors.primaryRed),
+                                )
+                              : null,
+                          onTap: () => _selectItem(item),
+                        );
+                      },
+                    ),
                   ),
                 ),
         ],

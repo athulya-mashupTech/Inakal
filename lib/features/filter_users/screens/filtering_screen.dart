@@ -34,23 +34,10 @@ class _FilteringScreenState extends State<FilteringScreen> {
   TextEditingController familyStatusController = TextEditingController();
   TextEditingController foodPreferenceController = TextEditingController();
 
-  // TextEditingController religionController = TextEditingController();
-  // TextEditingController casteController = TextEditingController();
-  // TextEditingController subcasteController = TextEditingController();
-  // TextEditingController ageRangeController = TextEditingController();
-  // TextEditingController heightController = TextEditingController();
-  // TextEditingController weightController = TextEditingController();
-  // TextEditingController stateController = TextEditingController();
-  // TextEditingController languageController = TextEditingController();
-  // TextEditingController maritalStatusController = TextEditingController();
-  // TextEditingController highestEducationController = TextEditingController();
-  // TextEditingController occupationController = TextEditingController();
-  // TextEditingController annualIncomeController = TextEditingController();
-  // TextEditingController familyStatusController = TextEditingController();
-  // TextEditingController foodPreferenceController = TextEditingController();
-
   DropdownModel? dropdownModel;
   bool _isLoading = true;
+  int? expandedFilterIndex;
+  bool religionSelected = true;
 
   CasteSubcasteOptionsModel casteSubcasteOptions =
       CasteSubcasteOptionsModel(castes: [], subcastes: []);
@@ -70,6 +57,17 @@ class _FilteringScreenState extends State<FilteringScreen> {
   @override
   void initState() {
     _loadDropdownOptions();
+    religionController.addListener(() {
+      if (religionController.text == "") {
+        setState(() {
+          religionSelected = false;
+        });
+      } else {
+        setState(() {
+          religionSelected = true;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -117,7 +115,6 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               .toList(),
                           valueController: religionController,
                           onSelected: (value) async {
-                            print("Callled");
                             setState(() {
                               casteController.text = "";
                               subcasteController.text = "";
@@ -143,6 +140,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               });
                             });
                           },
+                          onTap: () {
+                            setState(() {
+                              expandedFilterIndex =
+                                  expandedFilterIndex == 0 ? null : 0;
+                            });
+                          },
+                          isExpanded: expandedFilterIndex == 0,
                         ),
                         const SizedBox(height: 10),
                         FilterMultiselectorDropdown(
@@ -150,58 +154,119 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             items: (casteSubcasteOptions.castes ?? [])
                                 .map((item) => item.name ?? "")
                                 .toList(),
-                            valueController: casteController),
+                            valueController: casteController,
+                            religionSelected: religionSelected,
+                            onTap: () {
+                              if (expandedFilterIndex != 11) {
+                                if (religionController.text == "")
+                                  setState(() {
+                                    religionSelected = false;
+                                  });
+                              } else {
+                                setState(() {
+                                  religionSelected = true;
+                                });
+                              }
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 11 ? null : 11;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 11),
                         const SizedBox(height: 10),
                         FilterMultiselectorDropdown(
-                            label: "Sub Caste",
-                            items: (casteSubcasteOptions.subcastes ?? [])
-                                .map((item) => item.name ?? "")
-                                .toList(),
-                            valueController: subcasteController),
+                          label: "Sub Caste",
+                          items: (casteSubcasteOptions.subcastes ?? [])
+                              .map((item) => item.name ?? "")
+                              .toList(),
+                          valueController: subcasteController,
+                          religionSelected: religionSelected,
+                          onTap: () {
+                            if (expandedFilterIndex != 11) {
+                              if (religionController.text == "")
+                                setState(() {
+                                  religionSelected = false;
+                                });
+                            } else {
+                              setState(() {
+                                religionSelected = true;
+                              });
+                            }
+                            setState(() {
+                              expandedFilterIndex =
+                                  expandedFilterIndex == 1 ? null : 1;
+                            });
+                          },
+                          isExpanded: expandedFilterIndex == 1,
+                        ),
                         const SizedBox(height: 10),
                         FilterDropdown(
-                            onSelected: (_) {},
-                            label: "Age Range",
-                            items: [
-                              "18-30",
-                              "25-35",
-                              "30-40",
-                              "35-45",
-                              "40-50",
-                              "45-55",
-                              "50-60",
-                              "55-65"
-                            ],
-                            valueController: ageRangeController),
+                          onSelected: (_) {},
+                          label: "Age Range",
+                          items: [
+                            "18-30",
+                            "25-35",
+                            "30-40",
+                            "35-45",
+                            "40-50",
+                            "45-55",
+                            "50-60",
+                            "55-65"
+                          ],
+                          valueController: ageRangeController,
+                          onTap: () {
+                            setState(() {
+                              expandedFilterIndex =
+                                  expandedFilterIndex == 2 ? null : 2;
+                            });
+                          },
+                          isExpanded: expandedFilterIndex == 2,
+                        ),
                         const SizedBox(height: 10),
                         FilterDropdown(
-                            onSelected: (_) {},
-                            label: "Height",
-                            items: [
-                              '4\'0" - 4\'5" (121-137 cm)',
-                              '4\'5" - 4\'10" (137–147 cm)',
-                              '5\'4\'10" - 5\'3" (147-160 cm)',
-                              '3" - 5\'8" (160-173 cm)',
-                              '5\'8" - 6\'1" (173-185 cm)',
-                              '6\'1" - 6\'6" (185-198 cm)',
-                              '6\'6" - 7\'0" (198-213 cm)'
-                            ],
-                            valueController: heightController),
+                          onSelected: (_) {},
+                          label: "Height",
+                          items: [
+                            '4\'0" - 4\'5" (121-137 cm)',
+                            '4\'5" - 4\'10" (137–147 cm)',
+                            '5\'4\'10" - 5\'3" (147-160 cm)',
+                            '3" - 5\'8" (160-173 cm)',
+                            '5\'8" - 6\'1" (173-185 cm)',
+                            '6\'1" - 6\'6" (185-198 cm)',
+                            '6\'6" - 7\'0" (198-213 cm)'
+                          ],
+                          valueController: heightController,
+                          onTap: () {
+                            setState(() {
+                              expandedFilterIndex =
+                                  expandedFilterIndex == 3 ? null : 3;
+                            });
+                          },
+                          isExpanded: expandedFilterIndex == 3,
+                        ),
                         const SizedBox(height: 10),
                         FilterDropdown(
-                            onSelected: (_) {},
-                            label: "Weight",
-                            items: [
-                              "40-50 kg",
-                              "50-60 kg",
-                              "60-70 kg",
-                              "70-80 kg",
-                              "80-90 kg",
-                              "90-100 kg",
-                              "100-110 kg",
-                              "110-120 kg"
-                            ],
-                            valueController: weightController),
+                          onSelected: (_) {},
+                          label: "Weight",
+                          items: [
+                            "40-50 kg",
+                            "50-60 kg",
+                            "60-70 kg",
+                            "70-80 kg",
+                            "80-90 kg",
+                            "90-100 kg",
+                            "100-110 kg",
+                            "110-120 kg"
+                          ],
+                          valueController: weightController,
+                          onTap: () {
+                            setState(() {
+                              expandedFilterIndex =
+                                  expandedFilterIndex == 4 ? null : 4;
+                            });
+                          },
+                          isExpanded: expandedFilterIndex == 4,
+                        ),
                         const SizedBox(height: 10),
                         FilterDropdown(
                             onSelected: (_) {},
@@ -209,6 +274,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             items: dropdownModel!.states!
                                 .map((item) => item.name ?? "")
                                 .toList(),
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 5 ? null : 5;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 5,
                             valueController: stateController),
                         const SizedBox(height: 10),
                         FilterDropdown(
@@ -217,12 +289,26 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             items: dropdownModel!.languages!
                                 .map((item) => item.name ?? "")
                                 .toList(),
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 6 ? null : 6;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 6,
                             valueController: languageController),
                         const SizedBox(height: 10),
                         FilterDropdown(
                             onSelected: (_) {},
                             label: "Marital Status",
                             items: ["Unmarried", "Divorced", "Widower"],
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 7 ? null : 7;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 7,
                             valueController: maritalStatusController),
                         const SizedBox(height: 10),
                         FilterDropdown(
@@ -231,6 +317,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             items: dropdownModel!.highestEducations!
                                 .map((item) => item.name ?? "")
                                 .toList(),
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 8 ? null : 8;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 8,
                             valueController: highestEducationController),
                         const SizedBox(height: 10),
                         FilterMultiselectorDropdown(
@@ -238,6 +331,14 @@ class _FilteringScreenState extends State<FilteringScreen> {
                             items: dropdownModel!.occupations!
                                 .map((item) => item.name ?? "")
                                 .toList(),
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 9 ? null : 9;
+                              });
+                            },
+                            religionSelected: true,
+                            isExpanded: expandedFilterIndex == 9,
                             valueController: occupationController),
                         const SizedBox(height: 10),
                         FilterDropdown(
@@ -256,6 +357,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               "75 Lakh - 1 Crore",
                               "More than 2 Crores"
                             ],
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 10 ? null : 10;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 10,
                             valueController: annualIncomeController),
                         const SizedBox(height: 10),
                         FilterDropdown(
@@ -266,6 +374,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               "Middle Class",
                               "Lower Class"
                             ],
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 11 ? null : 11;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 11,
                             valueController: familyStatusController),
                         const SizedBox(height: 10),
                         FilterDropdown(
@@ -277,6 +392,13 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               "Vegan",
                               "Any"
                             ],
+                            onTap: () {
+                              setState(() {
+                                expandedFilterIndex =
+                                    expandedFilterIndex == 12 ? null : 12;
+                              });
+                            },
+                            isExpanded: expandedFilterIndex == 12,
                             valueController: foodPreferenceController),
                         SizedBox(
                           height: 16,

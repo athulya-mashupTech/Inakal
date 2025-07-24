@@ -17,12 +17,8 @@ class PersonalDetails extends StatefulWidget {
   final bool isExpanded;
   final void Function() onTap;
 
-  const PersonalDetails(
-    this.dropdownModel, 
-    {super.key, 
-    required this.isExpanded, 
-    required this.onTap
-    });
+  const PersonalDetails(this.dropdownModel,
+      {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<PersonalDetails> createState() => _PersonalDetailsState();
@@ -82,6 +78,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
     starController.text = userController.userData.value.user?.starSign ?? "";
     noOfChildrenController.text =
         userController.userData.value.user?.numberOfChildren ?? "";
+    otherCasteSubCasteController.text =
+        userController.userData.value.user?.otherCasteSubcaste ?? "";
     selectedReligion = widget.dropdownModel.religions!
             .firstWhere(
               (religion) =>
@@ -223,8 +221,8 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                     label: 'Caste',
                     items: casteSubCasteOption.castes
                             ?.map((item) => item.name ?? "")
-                            .toList()
-                            ?? [],
+                            .toList() ??
+                        [],
                     onChanged: (value) {
                       setState(() {
                         selectedCaste = value;
@@ -385,25 +383,35 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     height: heightController.text,
                                     weight: weightController.text,
                                     religion: widget.dropdownModel.religions!
-                                            .firstWhere((religion) =>
-                                                selectedReligion ==
-                                                religion.name, orElse: () => ReEdOcLanSt(id: ""),)
+                                            .firstWhere(
+                                              (religion) =>
+                                                  selectedReligion ==
+                                                  religion.name,
+                                              orElse: () => ReEdOcLanSt(id: ""),
+                                            )
                                             .id ??
                                         "",
                                     caste: casteSubCasteOption.castes!
-                                            .firstWhere((caste) =>
-                                                selectedCaste == caste.name, orElse: () => Castes(id: ""))
+                                            .firstWhere(
+                                                (caste) =>
+                                                    selectedCaste == caste.name,
+                                                orElse: () => Castes(id: ""))
                                             .id ??
                                         "",
                                     other_caste_subcaste:
                                         otherCasteSubCasteController.text,
                                     sub_caste: casteSubCasteOption.subcastes!
-                                            .firstWhere((subCaste) =>
-                                                selectedSubCaste == subCaste.name, orElse: () => Subcastes(id: ""))
+                                            .firstWhere((subCaste) => selectedSubCaste == subCaste.name,
+                                                orElse: () => Subcastes(id: ""))
                                             .id ??
                                         "",
-                                    star_sign: formatBackToKey(starController.text),
-                                    mother_tongue: widget.dropdownModel.languages!.firstWhere((lang) => selectedmotherTongue == lang.name, orElse: () => ReEdOcLanSt(id: "")).id ?? "",
+                                    star_sign:
+                                        formatBackToKey(starController.text),
+                                    mother_tongue: widget.dropdownModel.languages!
+                                            .firstWhere((lang) => selectedmotherTongue == lang.name,
+                                                orElse: () => ReEdOcLanSt(id: ""))
+                                            .id ??
+                                        "",
                                     marital_status: formatBackToKey(selectedmaritalStatus ?? ""),
                                     number_of_children: selectedmaritalStatus == "Single" ? "0" : noOfChildrenController.text,
                                     languagesKnown: languages.join(","),
@@ -412,8 +420,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                               setState(() {
                                 isSaving = false;
                               });
-                              
-                              await EditProfileService().updateUserData(context: context);
+
+                              await EditProfileService()
+                                  .updateUserData(context: context);
                             });
                           },
                         )

@@ -21,6 +21,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
   String? _confirmPasswordError;
   bool isPwdVisible = false;
   bool isCPwdVisible = false;
+  bool isLoading = false;
 
   void _validateAndSubmit() async {
     final newPassword = _newPasswordController.text.trim();
@@ -44,6 +45,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
     });
 
     if (_newPasswordError == null && _confirmPasswordError == null) {
+      setState(() {
+        isLoading = true;
+      });
       await ResetPasswordService()
           .resetPassword(_newPasswordController.text.trim())
           .then((value) {
@@ -53,6 +57,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
           );
           Navigator.pop(context);
         } else if (value.type == "danger") {
+          setState(() {
+            isLoading = false;
+          });
           showDialog(
               context: context,
               builder: (context) {
@@ -118,6 +125,26 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
         _newPasswordError = 'Password must contain at least one digit';
       } else {
         _newPasswordError = null; // Password is valid
+      }
+    });
+  }
+
+  void _validateConfirmPassword(String? value) {
+    setState(() {
+      if (value == null || value.isEmpty) {
+        _confirmPasswordError = 'Confirm Password is required';
+      } else if (value.length < 8) {
+        _confirmPasswordError = 'Confirm Password must be at least 8 characters';
+      } else if (!RegExp(r"[A-Z]").hasMatch(value)) {
+        _confirmPasswordError =
+            'Confirm Password must contain at least one uppercase letter';
+      } else if (!RegExp(r"[a-z]").hasMatch(value)) {
+        _confirmPasswordError =
+            'Confirm Password must contain at least one lowercase letter';
+      } else if (!RegExp(r"[0-9]").hasMatch(value)) {
+        _confirmPasswordError = 'Confirm Password must contain at least one digit';
+      } else {
+        _confirmPasswordError = null;
       }
     });
   }
@@ -212,15 +239,25 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                       errorText: _confirmPasswordError,
                     ),
                     const SizedBox(height: 20),
-                    CustomButton(
-                      text: "Reset Password",
-                      onPressed: () {
-                        _validatePassword(_newPasswordController.text.trim());
-                        if (_newPasswordError == null) {
-                          _validateAndSubmit();
-                        }
-                      },
-                    ),
+                    isLoading
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              CircularProgressIndicator(),
+                            ],
+                          )
+                        : CustomButton(
+                            text: "Reset Password",
+                            onPressed: () {
+                              _validatePassword(
+                                  _newPasswordController.text.trim());
+                              _validateConfirmPassword(
+                                  _confirmPasswordController.text.trim());
+                              if (_newPasswordError == null) {
+                                _validateAndSubmit();
+                              }
+                            },
+                          ),
                   ],
                 ),
               ),
