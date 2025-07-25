@@ -183,12 +183,17 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
                   // height feild
                   EditProfileTextFeild(
-                      label: 'Height (cm)', controller: heightController),
+                      label: 'Height (cm)',
+                      controller: heightController,
+                      inputType: TextInputType.number,
+                       ),
                   const SizedBox(height: 16),
 
                   //weight feild
                   EditProfileTextFeild(
-                      label: 'Weight (kg)', controller: weightController),
+                      label: 'Weight (kg)', 
+                      inputType: TextInputType.number,
+                      controller: weightController),
                   const SizedBox(height: 16),
 
                   //religion feild
