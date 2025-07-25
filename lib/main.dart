@@ -5,9 +5,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
-import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/screens/registrationform.dart';
-import 'package:inakal/features/drawer/screens/subscriptions.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

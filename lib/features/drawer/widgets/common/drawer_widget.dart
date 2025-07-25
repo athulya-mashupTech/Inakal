@@ -15,7 +15,6 @@ import 'package:inakal/features/drawer/screens/liked_profile.dart';
 import 'package:inakal/features/drawer/screens/notifications.dart';
 import 'package:inakal/features/drawer/screens/subscriptions.dart';
 import 'package:inakal/features/drawer/screens/terms_conditions.dart';
-import 'package:inakal/features/profile/screens/profile_screen.dart';
 import 'package:shimmer/shimmer.dart';
 
 class DrawerWidget extends StatelessWidget {

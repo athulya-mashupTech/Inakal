@@ -4,7 +4,6 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/model/districts_search_model.dart' as dsm;
-import 'package:inakal/features/auth/service/auth_service.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
