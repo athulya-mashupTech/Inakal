@@ -220,7 +220,11 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
                                               fontWeight: FontWeight.bold),
                                         ),
                                         Text(
-                                          "${(value ?? RegisterModel(message: "Registration Failed")).message}. Please try again.",
+                                          value == null 
+                                          ? "${(RegisterModel(message: "Registration Failed")).message}. Please try again." 
+                                          : value.type == "danger"
+                                          ? "${value.message}. Please try again."
+                                          : "Registration Failed. Please try again.",
                                           style: TextStyle(fontSize: 14),
                                           textAlign: TextAlign.center,
                                         ),

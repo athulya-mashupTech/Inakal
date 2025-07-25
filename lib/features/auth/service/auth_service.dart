@@ -30,11 +30,12 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
+      print(userData.userProfileCreatedFor ?? "Not got!");
       final response = await _sendPostRequest(
         url: registerUrl,
         fields: {
-          "first_name": userData.userFirstName ?? "",
-          "last_name": userData.userLastName ?? "",
+          "first_name": (userData.userFirstName ?? "").trim(),
+          "last_name": (userData.userLastName ?? "").trim(),
           "email": userData.userEmail ?? "",
           "password": userData.userPassword ?? "",
           "country_code": userData.userCountryCode ?? "",
@@ -62,7 +63,7 @@ class AuthService {
           response, (json) => RegisterModel.fromJson(json));
 
       if (result != null) {
-        _showSnackbar(context, result.message ?? "");
+        print(result.message ?? "");
         if (result.type == "success") {
           _showSnackbar(
               context, "Please log in to continue and access your account",

@@ -48,10 +48,12 @@ class _FilteringScreenState extends State<FilteringScreen> {
         .then((value) {
       setState(() {
         dropdownModel = value;
+
       });
     }).then((value) => setState(() {
               _isLoading = false;
             }));
+            
   }
 
   @override

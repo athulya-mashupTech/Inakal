@@ -40,7 +40,6 @@
 //   }
 // }
 
-
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
 
@@ -48,6 +47,7 @@ class EditProfileDropdown extends StatelessWidget {
   final String label;
   final List<String> items;
   final ValueChanged<String?> onChanged;
+  final String? errorText;
   final String? selectedValue;
 
   const EditProfileDropdown({
@@ -55,6 +55,7 @@ class EditProfileDropdown extends StatelessWidget {
     required this.items,
     required this.onChanged,
     this.selectedValue,
+    this.errorText,
     super.key,
   });
 
@@ -64,6 +65,7 @@ class EditProfileDropdown extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         fillColor: AppColors.white,
+        errorText: (errorText == "" || errorText == null) ? null : "$label $errorText",
         labelStyle: TextStyle(color: AppColors.grey, fontSize: 14),
         border: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(10)),
