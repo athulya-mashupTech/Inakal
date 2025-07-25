@@ -5,6 +5,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
+import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/profile/model/other_profile_model.dart';
 import 'package:inakal/features/profile/service/other_profile_service.dart';
@@ -22,12 +23,12 @@ class OtherProfileScreen extends StatefulWidget {
 
 class _OtherProfileScreenState extends State<OtherProfileScreen> {
   final userController = Get.find<UserDataController>();
-  DropdownModel? dropdownModel;
+  DropdownModel dropdownModel = DropdownModel();
   String? selectedReligion;
   OtherProfileModel? otherUserModel;
   User userData = User();
   bool isLoading = true;
-  String? requestStatus = "Pending";
+  String requestStatus = "Pending";
 
   final List<String> imagePaths = [
     "assets/vectors/suriya.jpeg",
@@ -35,16 +36,29 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     "assets/vectors/suriya3.jpg",
   ];
 
-  final List<Gallery>? galleryImages = [];
+  final List<Gallery> galleryImages = [];
   final ScrollController _scrollController = ScrollController();
   int currentIndex = 0;
 
   @override
   void initState() {
+    dropdownModel = userController.dropdownModel.value;
+    print((dropdownModel.religions ?? [ReEdOcLanSt(name: "Null")])[0].name);
     super.initState();
     getUserData();
     getRequestStatus();
-    dropdownModel = userController.dropdownModel.value;
+  }
+
+  Future<void> _loadDropdownOptions() async {
+    await EditProfileService()
+        .getDropdownOptions(context: context)
+        .then((value) {
+      setState(() {
+        dropdownModel = value ?? DropdownModel();
+      });
+    }).then((value) => setState(() {
+              isLoading = false;
+            }));
   }
 
   Future<void> getUserData() async {
@@ -54,27 +68,27 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
       setState(() {
         otherUserModel = value;
         userData = otherUserModel?.user ?? User();
-        galleryImages?.add(Gallery(image: userData.image ?? ""));
-        galleryImages?.addAll(otherUserModel?.gallery ?? []);
-        print("first: ${galleryImages?.length}");
-        if (galleryImages!.length == 0) {
-          galleryImages?.add(Gallery(
+        galleryImages.add(Gallery(image: userData.image ?? ""));
+        galleryImages.addAll(otherUserModel?.gallery ?? []);
+        print("first: ${galleryImages.length}");
+        if (galleryImages.length == 0) {
+          galleryImages.add(Gallery(
               image:
                   "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"));
         }
-        print(galleryImages?.length);
+        print(galleryImages.length);
 
-        print("Id:" + userData.id.toString());
-        isLoading = false;
+        print("Religion:" + userData.religion.toString());
       });
     });
+    await _loadDropdownOptions();
   }
 
   Future<void> getRequestStatus() async {
     await OtherProfileService().getRequestStatus(widget.id).then((value) {
       //(otherUserModel?.user?.id ?? "").then((value){
       setState(() {
-        requestStatus = value;
+        requestStatus = value ?? "Pending";
         print("Request status: $requestStatus");
       });
     });
@@ -125,15 +139,20 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
     String sValue = state;
 
     if (district != "") {
-      dValue = dropdownModel!.districts!
-              .firstWhere((dist) => dist.id == district, orElse: () => Districts(name: ""),)
+      dValue = ((dropdownModel ?? DropdownModel()).districts ?? [])
+              .firstWhere(
+                (dist) => dist.id == district,
+                orElse: () => Districts(name: ""),
+              )
               .name ??
           "";
     }
     if (state != "") {
-      sValue =
-          dropdownModel!.states!.firstWhere((stat) => stat.id == state, orElse: () => ReEdOcLanSt(name: "")).name ??
-              "";
+      sValue = ((dropdownModel ?? DropdownModel()).states ?? [])
+              .firstWhere((stat) => stat.id == state,
+                  orElse: () => ReEdOcLanSt(name: ""))
+              .name ??
+          "";
     }
 
     if (dValue != "" && sValue != "") {
@@ -147,10 +166,11 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
   }
 
   String getQualification() {
-    for (var element in dropdownModel!.qualifications!) {
+    for (var element
+        in ((dropdownModel ?? DropdownModel()).qualifications ?? [])) {
       debugPrint(element.name);
     }
-    return dropdownModel!.qualifications!
+    return ((dropdownModel ?? DropdownModel()).qualifications ?? [])
             .firstWhere(
                 (qualification) => qualification.id == userData.qualification,
                 orElse: () => Qualifications(name: ""))
@@ -204,24 +224,27 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     width: MediaQuery.of(context).size.width,
                                     height: MediaQuery.of(context).size.width,
                                     fit: BoxFit.cover,
-                                    placeholder: (context, url) =>
-                                        Stack(
-                                          alignment: AlignmentDirectional.center,
-                                          children: [
-                                            Shimmer.fromColors(
-                                                                                  baseColor: Colors.grey[300]!,
-                                                                                  highlightColor: Colors.grey[100]!,
-                                                                                  child: Container(
-                                            width:
-                                                MediaQuery.of(context).size.width,
-                                            height:
-                                                MediaQuery.of(context).size.width,
+                                    placeholder: (context, url) => Stack(
+                                      alignment: AlignmentDirectional.center,
+                                      children: [
+                                        Shimmer.fromColors(
+                                          baseColor: Colors.grey[300]!,
+                                          highlightColor: Colors.grey[100]!,
+                                          child: Container(
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            height: MediaQuery.of(context)
+                                                .size
+                                                .width,
                                             color: Colors.white,
-                                                                                  ),
-                                                                                ),
-                                                                                CircularProgressIndicator(color: AppColors.black,)
-                                          ],
+                                          ),
                                         ),
+                                        CircularProgressIndicator(
+                                          color: AppColors.black,
+                                        )
+                                      ],
+                                    ),
                                     errorWidget: (context, url, error) =>
                                         Image.network(
                                       "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg",
@@ -231,7 +254,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     ),
                                   ),
                                 ),
-                                galleryImages!.length > 1
+                                galleryImages.length > 1
                                     ? Positioned(
                                         bottom: 10,
                                         child: SizedBox(
@@ -281,7 +304,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                         ),
                                       )
                                     : Container(),
-                                currentIndex != (galleryImages?.length ?? 0) - 1
+                                currentIndex != (galleryImages.length) - 1
                                     ? Positioned(
                                         right: 10,
                                         child: IconButton(
@@ -320,7 +343,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                     textBaseline: TextBaseline.alphabetic,
                                     children: [
                                       Text(
-                                          dropdownModel!.occupations!
+                                          (((dropdownModel ?? DropdownModel())
+                                                          .occupations) ??
+                                                      [])
                                                   .firstWhere(
                                                     (occupation) =>
                                                         occupation.id ==
@@ -420,7 +445,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             value: (userData.religion == "" ||
                                                     userData.religion == null)
                                                 ? "Religion Not Specified"
-                                                : dropdownModel!.religions!
+                                                : ((dropdownModel ??
+                                                                    DropdownModel())
+                                                                .religions ??
+                                                            [])
                                                         .firstWhere(
                                                           (religion) =>
                                                               religion.id ==
@@ -436,7 +464,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             value: (userData.caste == "" ||
                                                     userData.caste == null)
                                                 ? "Caste Not Specified"
-                                                : dropdownModel!.castes!
+                                                : (dropdownModel ??
+                                                            DropdownModel())
+                                                        .castes!
                                                         .firstWhere(
                                                           (caste) =>
                                                               caste.id ==
@@ -454,7 +484,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                     userData.motherTongue ==
                                                         null)
                                                 ? "Mother Tongue Not Specified"
-                                                : dropdownModel!.languages!
+                                                : (dropdownModel ??
+                                                            DropdownModel())
+                                                        .languages!
                                                         .firstWhere(
                                                           (languages) =>
                                                               languages.id ==
@@ -491,8 +523,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                     userData.highestEducation ==
                                                         null)
                                                 ? "Highest Education Not Specified"
-                                                : dropdownModel!
-                                                        .highestEducations!
+                                                : ((dropdownModel ??
+                                                                    DropdownModel())
+                                                                .highestEducations ??
+                                                            [])
                                                         .firstWhere(
                                                           (highesteducation) =>
                                                               highesteducation
@@ -512,7 +546,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                     userData.qualification ==
                                                         null)
                                                 ? "Qualification Not Specified"
-                                                : dropdownModel!.qualifications!
+                                                : ((dropdownModel ??
+                                                                    DropdownModel())
+                                                                .qualifications ??
+                                                            [])
                                                         .firstWhere(
                                                           (qualification) =>
                                                               qualification
@@ -531,7 +568,10 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             value: (userData.occupation == "" ||
                                                     userData.occupation == null)
                                                 ? "Job Not Specified"
-                                                : dropdownModel!.occupations!
+                                                : ((dropdownModel ??
+                                                                    DropdownModel())
+                                                                .occupations ??
+                                                            [])
                                                         .firstWhere(
                                                           (occupation) =>
                                                               occupation.id ==

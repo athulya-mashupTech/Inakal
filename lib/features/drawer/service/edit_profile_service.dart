@@ -13,6 +13,7 @@ import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/model/qualification_options_model.dart';
 import 'package:inakal/features/drawer/model/upload_profile_image_model.dart';
 import 'package:inakal/features/drawer/model/user_data_update_model.dart.dart';
+import 'package:lottie/lottie.dart';
 
 class EditProfileService {
   final AuthController authController = Get.find();

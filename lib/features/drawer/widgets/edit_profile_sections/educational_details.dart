@@ -32,6 +32,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
   String? selectedOccupation;
   String? selectedIncome;
   bool isSaving = false;
+  String errorText = "";
 
   List<String> annualIncomeValues = [
     "1 Lakh - 3 Lakhs",
@@ -227,6 +228,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                         selectedHighestEducation = value;
                       });
                     },
+                    errorText: selectedHighestEducation == "" ? errorText : null,
                     selectedValue: selectedHighestEducation,
                   ),
                   const SizedBox(height: 16),
@@ -256,6 +258,7 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                   //Occupation
                   EditProfileDropdown(
                     label: 'Occupation',
+                    errorText: selectedOccupation == "" ? errorText : null,
                     items: widget.dropdownModel.occupations!
                         .map((item) => item.name ?? "")
                         .toList(),
@@ -284,8 +287,8 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                       });
                     },
                     selectedValue: annualIncomeValues.contains(selectedIncome)
-                            ? selectedIncome
-                            : "",
+                        ? selectedIncome
+                        : "",
                   ),
                   const SizedBox(height: 16),
 
@@ -320,8 +323,8 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                                     ReEdOcLanSt(id: ""))
                                             .id ??
                                         "",
-                                    qualification: qualificationOptionsModel
-                                            .qualifications!
+                                    qualification: (qualificationOptionsModel
+                                            .qualifications ?? [])
                                             .firstWhere((qualification) => qualification.name == selectedQualification,
                                                 orElse: () =>
                                                     qualif.Qualifications())
@@ -340,10 +343,19 @@ class _EducationalDetailsState extends State<EducationalDetails> {
                                     annualIncome: selectedIncome == "" ? "" : formatSalaryRange(selectedIncome ?? ""),
                                     context: context)
                                 .then((value) async {
+                              if (value != null &&
+                                  value.type == "danger" &&
+                                  value.message ==
+                                      "Highest Education and Occupation are required fields") {
+                                setState(() {
+                                  errorText = "is a required field!";
+                                });
+                              }
                               setState(() {
                                 isSaving = false;
                               });
-                              await EditProfileService().updateUserData(context: context);
+                              await EditProfileService()
+                                  .updateUserData(context: context);
                             });
                           },
                         )
