@@ -51,7 +51,7 @@ class AuthService {
           "star_sign": userData.userBirthStar ?? "",
           "about_me": userData.userDescription ?? "",
           "hobbies": userData.userHobbies ?? "",
-          "profile_created_by": userData.userProfileCreatedFor ?? "",
+          "profileCreatedFor": userData.userProfileCreatedFor ?? "",
           "marital_status": userData.maritalStatus ?? "",
           "zipCode": userData.userPincode ?? "",
           "dob": userData.userDob ?? "",
@@ -64,6 +64,7 @@ class AuthService {
 
       if (result != null) {
         print(result.message ?? "");
+        print(result.type ?? "");
         if (result.type == "success") {
           _showSnackbar(
               context, "Please log in to continue and access your account",
@@ -188,10 +189,21 @@ class AuthService {
       userController.setUserData(userModel);
 
       // Gallery
-      final galleryResponse = await _authRequest(galleryImagesUrl, token);
-      final galleryModel =
-          GalleryImagesModel.fromJson(json.decode(galleryResponse));
-      userController.setGalleryImages(galleryModel);
+      final galleryRequest =
+          http.MultipartRequest('POST', Uri.parse(galleryImagesUrl));
+      galleryRequest.headers.addAll({'Authorization': 'Bearer $token'});
+      final response = await galleryRequest.send();
+
+      if (response.statusCode == 200 || response.statusCode == 404) {
+        final galleryResponse = await response.stream.bytesToString();
+        final galleryModel =
+            GalleryImagesModel.fromJson(json.decode(galleryResponse));
+        if (galleryModel.type == "success") {
+          userController.setGalleryImages(galleryModel);
+        } else {
+          userController.setGalleryImages(GalleryImagesModel(gallery: []));
+        }
+      }
 
       // Dropdown
       final dropdownResponse = await _authRequest(dropdownOptionsUrl, token);

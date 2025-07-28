@@ -4,6 +4,7 @@ import 'package:inakal/common/screen/mobile_check_screen.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
 import 'package:inakal/features/auth/login/screens/login_page.dart';
 import 'package:inakal/features/auth/model/register_model.dart';
+import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/widgets/registration_loader.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/features/auth/registration/widgets/custom_hobbies.dart';
@@ -238,7 +239,7 @@ class _RegistrationHobbiesState extends State<RegistrationHobbies> {
 
                             await Future.delayed(const Duration(seconds: 3));
                             Navigator.of(context).pop();
-                            Get.offAll(() => MobileNoCheckScreen());
+                            Get.offAll(() => RegistrationPassword());
                           }
                         });
                       },

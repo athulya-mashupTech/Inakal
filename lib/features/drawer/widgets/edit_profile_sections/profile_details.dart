@@ -14,7 +14,9 @@ class ProfileDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
   final bool isExpanded;
   final void Function() onTap;
-  const ProfileDetails(this.dropdownModel, {Key? key, required this.isExpanded, required this.onTap}) : super(key: key);
+  const ProfileDetails(this.dropdownModel,
+      {Key? key, required this.isExpanded, required this.onTap})
+      : super(key: key);
 
   @override
   _ProfileDetailsState createState() => _ProfileDetailsState();
@@ -30,8 +32,19 @@ class _ProfileDetailsState extends State<ProfileDetails> {
   String? selectedGender;
   String _countryCode = '';
   String _phoneNumber = '';
+  String emailErrorText = "";
 
   bool isSaving = false;
+
+  String? _validateEmail(String? value) {
+    if (value == null || value == "") return null;
+    String pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(value)) {
+      return 'format is incorrect!';
+    }
+    return null;
+  }
 
   @override
   void initState() {
@@ -47,6 +60,13 @@ class _ProfileDetailsState extends State<ProfileDetails> {
     print(_countryCode);
     dateOfBirthController.text = userController.userData.value.user?.dob ?? "";
     selectedGender = userController.userData.value.user?.gender ?? "";
+    emailErrorText = _validateEmail(emailController.text) ?? "";
+
+    emailController.addListener(() {
+      setState(() {
+        emailErrorText = _validateEmail(emailController.text) ?? "";
+      });
+    });
     super.initState();
   }
 
@@ -98,7 +118,9 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       label: 'Last Name', controller: lastNameController),
                   const SizedBox(height: 16),
                   EditProfileTextFeild(
-                      label: 'Email', controller: emailController),
+                      errorText: emailErrorText,
+                      label: 'Email',
+                      controller: emailController),
                   const SizedBox(height: 16),
                   IntlPhoneField(
                     controller: phoneNumberController,
@@ -130,7 +152,7 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                         selectedGender = value;
                       });
                     },
-                    selectedValue: selectedGender,
+                    selectedValue: ["Male", "Female"].contains(selectedGender) ? selectedGender : "",
                   ),
                   const SizedBox(height: 16),
                   isSaving
@@ -145,25 +167,28 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       : CustomButton(
                           text: "Save Changes",
                           onPressed: () async {
-                            setState(() {
-                              isSaving = true;
-                            });
-                            await EditProfileService()
-                                .updateProfileDetails(
-                                    firstName: firstNameController.text,
-                                    lastName: lastNameController.text,
-                                    email: emailController.text,
-                                    countryCode: _countryCode,
-                                    phoneNumber: _phoneNumber,
-                                    dob: dateOfBirthController.text,
-                                    gender: selectedGender ?? "",
-                                    context: context)
-                                .then((value) async {
+                            if (emailErrorText == "") {
                               setState(() {
-                                isSaving = false;
+                                isSaving = true;
                               });
-                              await EditProfileService().updateUserData(context: context);
-                            });
+                              await EditProfileService()
+                                  .updateProfileDetails(
+                                      firstName: firstNameController.text,
+                                      lastName: lastNameController.text,
+                                      email: emailController.text,
+                                      countryCode: _countryCode,
+                                      phoneNumber: _phoneNumber,
+                                      dob: dateOfBirthController.text,
+                                      gender: selectedGender ?? "",
+                                      context: context)
+                                  .then((value) async {
+                                setState(() {
+                                  isSaving = false;
+                                });
+                                await EditProfileService()
+                                    .updateUserData(context: context);
+                              });
+                            }
                           },
                         )
                 ],

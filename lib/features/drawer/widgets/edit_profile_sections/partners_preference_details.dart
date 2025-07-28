@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/drawer/model/caste_subcaste_options_model.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
 import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile_dropdown.dart';
@@ -11,7 +12,8 @@ class PartnersPreferenceDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
   final bool isExpanded;
   final void Function() onTap;
-  const PartnersPreferenceDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
+  const PartnersPreferenceDetails(this.dropdownModel,
+      {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<PartnersPreferenceDetails> createState() =>
@@ -30,6 +32,51 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
   String? selectedPreferredDrinkingHabit;
   String? selectedPreferredQualification;
   bool isSaving = false;
+  String errorText = "";
+  CasteSubcasteOptionsModel casteSubCasteOption =
+      CasteSubcasteOptionsModel(castes: [], subcastes: []);
+
+  final weightOptions = [
+    "18-30",
+    "25-35",
+    "30-40",
+    "35-45",
+    "40-50",
+    "45-55",
+    "50-60",
+    "55-65"
+  ];
+  final heightOptions = [
+                      '4\'0" - 4\'6" (121-137 cm)',
+                      '4\'6" - 4\'10" (137-147 cm)',
+                      '4\'10" - 5\'3" (147-160 cm)',
+                      '5\'3" - 5\'8" (160-173 cm)',
+                      '5\'8" - 6\'1" (173-185 cm)',
+                      '6\'1" - 6\'6" (185-198 cm)',
+                      '6\'6" - 7\'0" (198-213 cm)'
+                    ];
+  final habitOptions = ["Yes", "No", "Occasionally", "Any"];
+  final foodOptions = ["Vegetarian", "Non Vegetarian", "Vegan", "Any"];
+
+  Future<void> getCasteSubCasteOptions(String religionId) async {
+    await EditProfileService()
+        .getCasteSubcasteOptions(context, religionId)
+        .then((value) {
+      setState(() {
+        casteSubCasteOption = value;
+        selectedPreferredCaste = (casteSubCasteOption.castes ?? [])
+                .firstWhere(
+                  (caste) =>
+                      caste.id ==
+                      userController.userData.value.user?.preferredCaste,
+                  orElse: () => Castes(name: ""),
+                )
+                .name ??
+            "";
+      });
+      print("LKength: " + (casteSubCasteOption.castes ?? []).length.toString());
+    });
+  }
 
   String formatToKey(String label) {
     RegExp regex = RegExp(r'\((\d{2,3}-\d{2,3}) cm\)');
@@ -94,9 +141,12 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
 
   @override
   void initState() {
+    getCasteSubCasteOptions(
+        userController.userData.value.user?.preferredReligion ?? "");
+
     selectedPreferredAgeRange =
         userController.userData.value.user?.preferredAgeRange ?? "";
-    selectedPreferredReligion = widget.dropdownModel.religions!
+    selectedPreferredReligion = (widget.dropdownModel.religions ?? [])
             .firstWhere(
               (religion) =>
                   religion.id ==
@@ -111,26 +161,19 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
         userController.userData.value.user?.preferredFoodPreferences ?? "");
     selectedPreferredHeightRange = formatToLabel(
         userController.userData.value.user?.preferredHeightRange ?? "");
-    selectedPreferredCaste = widget.dropdownModel.castes!
-            .firstWhere(
-              (caste) =>
-                  caste.id ==
-                  userController.userData.value.user?.preferredCaste,
-              orElse: () => CaSub(name: ""),
-            )
-            .name ??
-        "";
     selectedPreferredDrinkingHabit = formatLabel(
         userController.userData.value.user?.preferredDrinkingHabits ?? "");
-    selectedPreferredQualification = widget.dropdownModel.highestEducations!
-            .firstWhere(
-              (qualification) =>
-                  qualification.id ==
-                  userController.userData.value.user?.preferredQualification,
-              orElse: () => ReEdOcLanSt(name: ""),
-            )
-            .name ??
-        "";
+    selectedPreferredQualification =
+        (widget.dropdownModel.highestEducations ?? [])
+                .firstWhere(
+                  (qualification) =>
+                      qualification.id ==
+                      userController
+                          .userData.value.user?.preferredQualification,
+                  orElse: () => ReEdOcLanSt(name: ""),
+                )
+                .name ??
+            "";
     print(selectedPreferredAgeRange);
     print(selectedPreferredCaste);
     print(selectedPreferredDrinkingHabit);
@@ -175,30 +218,33 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                 children: [
                   EditProfileDropdown(
                     label: "Preferred Age Range",
-                    items: [
-                      "18-30",
-                      "25-35",
-                      "30-40",
-                      "35-45",
-                      "40-50",
-                      "45-55",
-                      "50-60",
-                      "55-65"
-                    ],
+                    items: weightOptions,
+                    errorText:
+                        selectedPreferredAgeRange == "" ? errorText : null,
                     onChanged: (value) {
                       setState(() {
                         selectedPreferredAgeRange = value;
                       });
                     },
-                    selectedValue: selectedPreferredAgeRange,
+                    selectedValue: weightOptions.contains(selectedPreferredAgeRange) ? selectedPreferredAgeRange : "",
                   ),
                   const SizedBox(height: 16),
                   EditProfileDropdown(
                     label: "Preferred Religion",
-                    items: widget.dropdownModel.religions!
+                    items: (widget.dropdownModel.religions ?? [])
                         .map((item) => item.name ?? "")
                         .toList(),
-                    onChanged: (value) {
+                    onChanged: (value) async {
+                      setState(() {
+                        selectedPreferredCaste = null;
+                      });
+                      await getCasteSubCasteOptions(
+                          (widget.dropdownModel.religions ?? [])
+                                  .firstWhere(
+                                      (religion) => religion.name == value,
+                                      orElse: () => ReEdOcLanSt(id: ""))
+                                  .id ??
+                              "");
                       setState(() {
                         selectedPreferredReligion = value;
                       });
@@ -207,49 +253,8 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                   ),
                   const SizedBox(height: 16),
                   EditProfileDropdown(
-                    label: "Preferred Smoking habit",
-                    items: ["Yes", "No", "Occasionally", "Any"],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedPreferredSmokingHabit = value;
-                      });
-                    },
-                    selectedValue: selectedPreferredSmokingHabit,
-                  ),
-                  const SizedBox(height: 16),
-                  EditProfileDropdown(
-                    label: "Preferred Food Preference",
-                    items: ["Vegetarian", "Non Vegetarian", "Vegan", "Any"],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedPreferredFood = value;
-                      });
-                    },
-                    selectedValue: selectedPreferredFood,
-                  ),
-                  const SizedBox(height: 16),
-                  EditProfileDropdown(
-                    label: "Preferred Height Range",
-                    items: [
-                      '4\'0" - 4\'6" (121-137 cm)',
-                      '4\'6" - 4\'10" (137-147 cm)',
-                      '4\'10" - 5\'3" (147-160 cm)',
-                      '5\'3" - 5\'8" (160-173 cm)',
-                      '5\'8" - 6\'1" (173-185 cm)',
-                      '6\'1" - 6\'6" (185-198 cm)',
-                      '6\'6" - 7\'0" (198-213 cm)'
-                    ],
-                    onChanged: (value) {
-                      setState(() {
-                        selectedPreferredHeightRange = value;
-                      });
-                    },
-                    selectedValue: selectedPreferredHeightRange,
-                  ),
-                  const SizedBox(height: 16),
-                  EditProfileDropdown(
                     label: "Preferred Caste",
-                    items: widget.dropdownModel.castes!
+                    items: (casteSubCasteOption.castes ?? [])
                         .map((item) => item.name ?? "")
                         .toList(),
                     onChanged: (value) {
@@ -261,19 +266,54 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                   ),
                   const SizedBox(height: 16),
                   EditProfileDropdown(
+                    label: "Preferred Smoking habit",
+                    items: habitOptions,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPreferredSmokingHabit = value;
+                      });
+                    },
+                    selectedValue: habitOptions.contains(selectedPreferredSmokingHabit) ? selectedPreferredSmokingHabit : "",
+                  ),
+                  const SizedBox(height: 16),
+                  EditProfileDropdown(
+                    label: "Preferred Food Preference",
+                    items: foodOptions,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPreferredFood = value;
+                      });
+                    },
+                    selectedValue: foodOptions.contains(selectedPreferredFood) ? selectedPreferredFood : "",
+                  ),
+                  const SizedBox(height: 16),
+                  EditProfileDropdown(
+                    label: "Preferred Height Range",
+                    items: heightOptions,
+                    errorText:
+                        selectedPreferredHeightRange == "" ? errorText : null,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedPreferredHeightRange = value;
+                      });
+                    },
+                    selectedValue: heightOptions.contains(selectedPreferredHeightRange) ? selectedPreferredHeightRange : "",
+                  ),
+                  const SizedBox(height: 16),
+                  EditProfileDropdown(
                     label: "Preferred Drinking Habits",
-                    items: ["Yes", "No", "Occasionally", "Any"],
+                    items: habitOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedPreferredDrinkingHabit = value;
                       });
                     },
-                    selectedValue: selectedPreferredDrinkingHabit,
+                    selectedValue: habitOptions.contains(selectedPreferredDrinkingHabit) ? selectedPreferredDrinkingHabit : "",
                   ),
                   const SizedBox(height: 16),
                   EditProfileDropdown(
                     label: "Preferred Qualifications",
-                    items: widget.dropdownModel.highestEducations!
+                    items: (widget.dropdownModel.highestEducations ?? [])
                         .map((item) => item.name ?? "")
                         .toList(),
                     onChanged: (value) {
@@ -304,7 +344,15 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                                     preferredAgeRange:
                                         selectedPreferredAgeRange ?? "",
                                     preferredReligion:
-                                        widget.dropdownModel.religions!.firstWhere((religion) => religion.name == selectedPreferredReligion).id ??
+                                        (widget.dropdownModel.religions ?? [])
+                                                .firstWhere(
+                                                  (religion) =>
+                                                      religion.name ==
+                                                      selectedPreferredReligion,
+                                                  orElse: () =>
+                                                      ReEdOcLanSt(id: ""),
+                                                )
+                                                .id ??
                                             "",
                                     preferredSmokingHabits: formatBackToKey(
                                         selectedPreferredSmokingHabit ?? ""),
@@ -312,22 +360,39 @@ class _PartnersPreferenceDetailsState extends State<PartnersPreferenceDetails> {
                                         selectedPreferredFood ?? ""),
                                     preferredHeightRange: formatToKey(
                                         selectedPreferredHeightRange ?? ""),
-                                    preferredCaste: widget.dropdownModel.castes!.firstWhere((caste) => caste.name == selectedPreferredCaste).id ??
+                                    preferredCaste: (casteSubCasteOption.castes ?? [])
+                                            .firstWhere((caste) => caste.name == selectedPreferredCaste,
+                                                orElse: () => Castes(id: ""))
+                                            .id ??
                                         "",
                                     preferredDrinkingHabits: formatBackToKey(
                                         selectedPreferredDrinkingHabit ?? ""),
-                                    preferredQualification: widget
-                                            .dropdownModel.highestEducations!
-                                            .firstWhere((Qualifications) =>
-                                                Qualifications.name == selectedPreferredQualification)
+                                    preferredQualification: (widget
+                                                    .dropdownModel
+                                                    .highestEducations ??
+                                                [])
+                                            .firstWhere(
+                                              (Qualifications) =>
+                                                  Qualifications.name ==
+                                                  selectedPreferredQualification,
+                                              orElse: () => ReEdOcLanSt(id: ""),
+                                            )
                                             .id ??
                                         "",
                                     context: context)
                                 .then((value) async {
+                              if (value != null && value.type == "danger") {
+                                setState(() {
+                                  if (value.message ==
+                                      "Preferred Age Range and Height Range are required fields")
+                                    errorText = "is a required field!";
+                                });
+                              }
                               setState(() {
                                 isSaving = false;
                               });
-                              await EditProfileService().updateUserData(context: context);
+                              await EditProfileService()
+                                  .updateUserData(context: context);
                             });
                           },
                         )

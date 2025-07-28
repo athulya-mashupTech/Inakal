@@ -12,7 +12,8 @@ import 'package:inakal/features/drawer/widgets/edit_profile_widgets/edit_profile
 class AdditionalDetails extends StatefulWidget {
   final bool isExpanded;
   final void Function() onTap;
-  const AdditionalDetails({super.key, required this.isExpanded, required this.onTap});
+  const AdditionalDetails(
+      {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<AdditionalDetails> createState() => _AdditionalDetailsState();
@@ -26,6 +27,17 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
   String? selectedFoodPreference;
   String? selectedCreatedBy;
   List<String> hobbies = [];
+  final profileCreatedOptions = [
+    "My Self",
+    "Daughter",
+    "Son",
+    "Sister",
+    "Brother",
+    "Friend",
+    "Relative"
+  ];
+  final habitOptions = ["Yes", "No", "Occasionally", "Any"];
+  final foodOptions = ["Vegetarian", "Non Vegetarian", "Vegan", "Any"];
 
   bool isSaving = false;
 
@@ -40,7 +52,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
         formatLabel(userController.userData.value.user?.foodPreferences ?? "");
     selectedCreatedBy =
         userController.userData.value.user?.profileCreatedBy ?? "";
-    hobbies = (userController.userData.value.user?.hobbies ?? "").split(",");
+    final rawHobbies = userController.userData.value.user?.hobbies ?? "";
+    hobbies = rawHobbies.isEmpty ? [] : rawHobbies.split(",").toList();
     super.initState();
   }
 
@@ -178,60 +191,54 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                   // Smoking Habbits - DropDown
                   EditProfileDropdown(
                     label: "Smoking Habbits",
-                    items: ["No", "Yes", "Occasionally", "Any"],
+                    items: habitOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedSmokingHabbit = value;
                       });
                     },
-                    selectedValue: selectedSmokingHabbit,
+                    selectedValue: habitOptions.contains(selectedSmokingHabbit) ? selectedSmokingHabbit : "",
                   ),
                   const SizedBox(height: 16),
 
                   // Drinking Habbits - DropDown
                   EditProfileDropdown(
                     label: "Drinking Habbits",
-                    items: ["No", "Yes", "Occasionally", "Any"],
+                    items: habitOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedDrinkingHabbit = value;
                       });
                     },
-                    selectedValue: selectedDrinkingHabbit,
+                    selectedValue: habitOptions.contains(selectedDrinkingHabbit) ? selectedDrinkingHabbit : "",
                   ),
                   const SizedBox(height: 16),
 
                   // Food Preferences - DropDown
                   EditProfileDropdown(
                     label: "Food Preferences",
-                    items: ["Vegetarian", "Non-Vegetarian", "Vegan", "Any"],
+                    items: foodOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedFoodPreference = value;
                       });
                     },
-                    selectedValue: selectedFoodPreference,
+                    selectedValue: foodOptions.contains(selectedFoodPreference) ? selectedFoodPreference : "",
                   ),
                   const SizedBox(height: 16),
 
                   // Profile Created For
                   EditProfileDropdown(
                     label: "Profile Created for",
-                    items: [
-                      "My Self",
-                      "Daughter",
-                      "Son",
-                      "Sister",
-                      "Brother",
-                      "Friend",
-                      "Relative"
-                    ],
+                    items: profileCreatedOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedCreatedBy = value;
                       });
                     },
-                    selectedValue: selectedCreatedBy,
+                    selectedValue: profileCreatedOptions.contains(selectedCreatedBy)
+                        ? selectedCreatedBy
+                        : "",
                   ),
                   const SizedBox(height: 16),
                   isSaving
@@ -265,7 +272,8 @@ class _AdditionalDetailsState extends State<AdditionalDetails> {
                               setState(() {
                                 isSaving = false;
                               });
-                              await EditProfileService().updateUserData(context: context);
+                              await EditProfileService()
+                                  .updateUserData(context: context);
                             });
                           },
                         )

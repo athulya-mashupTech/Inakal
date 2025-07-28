@@ -12,7 +12,8 @@ class FamilyDetails extends StatefulWidget {
   final DropdownModel dropdownModel;
   final bool isExpanded;
   final void Function() onTap;
-  const FamilyDetails(this.dropdownModel, {super.key, required this.isExpanded, required this.onTap});
+  const FamilyDetails(this.dropdownModel,
+      {super.key, required this.isExpanded, required this.onTap});
 
   @override
   State<FamilyDetails> createState() => _FamilyDetailsState();
@@ -30,6 +31,9 @@ class _FamilyDetailsState extends State<FamilyDetails> {
       TextEditingController();
   String? selectedFamilyType;
   String? selectedFamilyStatus;
+  String errorText = "";
+
+  final familyTypeOptions = ["Joint", "Nuclear"];
 
   bool isSaving = false;
 
@@ -109,13 +113,14 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                   //Family Type Status
                   EditProfileDropdown(
                     label: 'Family Type',
-                    items: ["Joint", "Nuclear"],
+                    items: familyTypeOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedFamilyType = value;
                       });
                     },
-                    selectedValue: selectedFamilyType,
+                    errorText: selectedFamilyType == "" ? errorText : null,
+                    selectedValue: familyTypeOptions.contains(selectedFamilyType) ? selectedFamilyType : "",
                   ),
                   const SizedBox(height: 16),
 
@@ -178,10 +183,18 @@ class _FamilyDetailsState extends State<FamilyDetails> {
                                         siblingmaritalstatusController.text,
                                     context: context)
                                 .then((value) async {
+                              if (value != null && value.type == "danger") {
+                                setState(() {
+                                  if (value.message ==
+                                      "Family Type is a required field")
+                                    errorText = "is a required field!";
+                                });
+                              }
                               setState(() {
                                 isSaving = false;
                               });
-                              await EditProfileService().updateUserData(context: context);
+                              await EditProfileService()
+                                  .updateUserData(context: context);
                             });
                           },
                         )

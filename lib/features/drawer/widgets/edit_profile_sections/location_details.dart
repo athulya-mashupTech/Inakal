@@ -62,6 +62,7 @@ class _LocationDetailsState extends State<LocationDetails> {
 
     selectedDistrictName = userDistrict?.name ?? "";
     selectedDistrictId = userDistrict?.id ?? "";
+    selectedDistrictsStateId = userDistrict?.stateId ?? "";
 
     selectedState = widget.dropdownModel.states
             ?.firstWhere(

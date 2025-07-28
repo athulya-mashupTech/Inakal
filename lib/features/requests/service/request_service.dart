@@ -95,9 +95,7 @@ class RequestService {
                   "Failed to load user details for id ${request.toClientId}");
             }
           }).toList();
-
-          // Wait for all user detail fetches to complete
-          print(userDetailsFutures);
+          
           return await Future.wait(userDetailsFutures);
         } else {
           _showSnackbar(
@@ -196,8 +194,6 @@ class RequestService {
             }
           }).toList();
 
-          // Wait for all user detail fetches to complete
-          print(userDetailsFutures);
           return await Future.wait(userDetailsFutures);
         } else {
           _showSnackbar(

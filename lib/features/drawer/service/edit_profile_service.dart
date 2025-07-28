@@ -185,8 +185,6 @@ class EditProfileService {
         final userDataUpdateModel = UserDataUpdateModel.fromJson(jsonResponse);
         if (userDataUpdateModel.type == "success") {
           _showSnackbar(context, userDataUpdateModel.message!);
-        } else {
-          _showSnackbar(context, userDataUpdateModel.message ?? "Nil");
         }
         return userDataUpdateModel;
       } else {
@@ -296,7 +294,7 @@ class EditProfileService {
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
-        print("Response : $responseBody");
+        // print("Response : $responseBody");
         final jsonResponse = json.decode(responseBody);
         final dropdownModel = DropdownModel.fromJson(jsonResponse);
 
