@@ -16,12 +16,23 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
   String _countryCode = '';
   String _phoneNumber = '';
   bool isLoading = false;
+  String? _phoneError;
 
   final _formKey = GlobalKey<FormState>();
 
   final AuthController regController = Get.find();
   void _storeData() {
     regController.setMobileNumber(_phoneNumber, _countryCode);
+  }
+
+  void _validatePhonenumber() {
+    setState(() {
+      if (_phoneNumber.trim().isEmpty) {
+        _phoneError = 'Phone number cannot be empty';
+      } else {
+        _phoneError = null;
+      }
+    });
   }
 
   Future<void> mobileVerification() async {
@@ -31,9 +42,9 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
             PhoneNumber: _phoneNumber,
             context: context)
         .then((value) {
-        setState(() {
-          isLoading = false;
-        });
+      setState(() {
+        isLoading = false;
+      });
     });
   }
 
@@ -97,8 +108,10 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                           borderRadius: BorderRadius.circular(5),
                           borderSide: BorderSide(),
                         ),
+                        errorText: _phoneError
                       ),
                       onChanged: (value) {
+                        _validatePhonenumber();
                         setState(() {
                           _countryCode = value.countryCode;
                           _phoneNumber = value.number;
@@ -118,11 +131,12 @@ class _MobileNoCheckScreenState extends State<MobileNoCheckScreen> {
                       : CustomButton(
                           text: "Send OTP",
                           onPressed: () {
-                            setState(() {
-                              isLoading = true;
-                            });
+                            _validatePhonenumber();
                             if (_formKey.currentState!.validate() &&
                                 _phoneNumber != "") {
+                              setState(() {
+                                isLoading = true;
+                              });
                               _storeData();
                               mobileVerification();
                             } else {

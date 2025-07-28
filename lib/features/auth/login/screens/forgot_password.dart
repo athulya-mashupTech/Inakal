@@ -21,25 +21,41 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   String _errorText = '';
   String _otpErrorText = '';
   String _enteredOtp = '';
+  bool isLoading = false;
+  bool isOtpLoading = false;
 
   Future<void> otpSent() async {
+    setState(() {
+      isLoading = true;
+    });
     await AuthService()
         .sentOtp(context, _countryCode.substring(1), _phoneNumber)
         .then((value) {
       setState(() {
         _otp = value ?? "";
         if (_otp == "") {
-          _errorText = 'Invalid OTP. Please try again.';
+          _errorText = 'Invalid Phone number. Use a registered mobile number';
         } else {
           _otpStatus = true;
         }
+        isLoading = false;
       });
     });
   }
 
   Future<void> validateOtp() async {
+    setState(() {
+      isOtpLoading = true;
+    });
     await AuthService()
-        .verifyLoginOtp(context, _countryCode.substring(1), _phoneNumber, _otp);
+        .verifyLoginOtp(context, _countryCode.substring(1), _phoneNumber, _otp)
+        .then((value) {
+      if (value.type == "danger") {
+        setState(() {
+          isOtpLoading = false;
+        });
+      }
+    });
   }
 
   final defaultPinTheme = PinTheme(
@@ -161,20 +177,22 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 const SizedBox(height: 15),
                               ],
                             )
-                          : CustomButton(
-                              text: "Send OTP",
-                              onPressed: () {
-                                if (_phoneNumber.isEmpty) {
-                                  setState(() {
-                                    _errorText =
-                                        'Please enter your mobile number';
-                                  });
-                                } else {
-                                  otpSent();
-                                }
-                              },
-                              color: AppColors.primaryRed,
-                            ),
+                          : isLoading
+                              ? CircularProgressIndicator()
+                              : CustomButton(
+                                  text: "Send OTP",
+                                  onPressed: () {
+                                    if (_phoneNumber.isEmpty) {
+                                      setState(() {
+                                        _errorText =
+                                            'Please enter your mobile number';
+                                      });
+                                    } else {
+                                      otpSent();
+                                    }
+                                  },
+                                  color: AppColors.primaryRed,
+                                ),
                     )
                   ],
                 ),
@@ -214,7 +232,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ResendOTP(),
           Padding(
             padding: const EdgeInsets.only(top: 12),
-            child: CustomButton(
+            child: isOtpLoading
+            ? CircularProgressIndicator()
+            : CustomButton(
               text: "Verify OTP",
               onPressed: () {
                 if (_enteredOtp.isEmpty || _enteredOtp.length < 6) {
@@ -253,14 +273,16 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
         TextButton(
           onPressed: () async => await otpSent(),
-          child: Text('Resend Code',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryRed,
-            decoration: TextDecoration.underline,
-            decorationColor: AppColors.primaryRed,
-          ),),
+          child: Text(
+            'Resend Code',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryRed,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.primaryRed,
+            ),
+          ),
         ),
       ],
     );

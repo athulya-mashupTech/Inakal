@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:inakal/common/formatter/no_emoji_formatter.dart';
 import 'package:inakal/constants/app_constants.dart';
 
 class EditProfileTextFeild extends StatelessWidget {
+
   String label;
   TextEditingController controller;
   int? maxlines = 1;
@@ -19,6 +21,7 @@ class EditProfileTextFeild extends StatelessWidget {
     return TextFormField(
       maxLines:  maxlines == 3 ? null : 1,
       keyboardType: inputType,
+       inputFormatters: [NoEmojiFormatter()],
       controller: controller,
       decoration: InputDecoration(
         labelText: label,
