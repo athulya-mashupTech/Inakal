@@ -20,6 +20,8 @@ class _LoginPageState extends State<LoginPage> {
   String _phoneNumber = '';
   bool isPwdVisible = false;
   bool isLoggedIn = false;
+  final _formKey = GlobalKey<FormState>();
+  String? _phoneError;
 
   void _loginUser() async {
     setState(() {
@@ -36,6 +38,16 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           isLoggedIn = false;
         });
+      }
+    });
+  }
+
+  void _validatePhonenumber() {
+    setState(() {
+      if (_phoneNumber.trim().isEmpty) {
+        _phoneError = 'Phone number cannot be empty';
+      } else {
+        _phoneError = null;
       }
     });
   }
@@ -94,38 +106,59 @@ class _LoginPageState extends State<LoginPage> {
                       style: TextStyle(fontSize: 16),
                     ),
                     const SizedBox(height: 32),
-                    IntlPhoneField(
-                      decoration: InputDecoration(
-                        labelText: 'Mobile Number',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                          borderSide: const BorderSide(),
-                        ),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          IntlPhoneField(
+                            validator: (value) async {
+                              if (value != null && value.number == "") {
+                                return "Phone number cannot be empty";
+                              }
+                              return null;
+                            },
+                            decoration: InputDecoration(
+                                labelText: 'Mobile Number',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(5),
+                                  borderSide: const BorderSide(),
+                                ),
+                                errorText: _phoneError),
+                            onChanged: (value) {
+                              _validatePhonenumber();
+                              setState(() {
+                                _countryCode = value.countryCode;
+                                _phoneNumber = value.number;
+                              });
+                            },
+                            initialCountryCode: 'IN',
+                          ),
+                          const SizedBox(height: 10),
+                          TextFieldWidget(
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Password cannot be empty";
+                                }
+                                return null;
+                              },
+                              suffixIcon: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    isPwdVisible = !isPwdVisible;
+                                  });
+                                },
+                                icon: isPwdVisible
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
+                              ),
+                              prefixIcon: const Icon(Icons.lock),
+                              obscureText: !isPwdVisible,
+                              controller: _loginpwdController,
+                              hintText: "Password"),
+                        ],
                       ),
-                      onChanged: (value) {
-                        setState(() {
-                          _countryCode = value.countryCode;
-                          _phoneNumber = value.number;
-                        });
-                      },
-                      initialCountryCode: 'IN',
                     ),
-                    const SizedBox(height: 10),
-                    TextFieldWidget(
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            setState(() {
-                              isPwdVisible = !isPwdVisible;
-                            });
-                          },
-                          icon: isPwdVisible
-                              ? const Icon(Icons.visibility)
-                              : const Icon(Icons.visibility_off),
-                        ),
-                        prefixIcon: const Icon(Icons.lock),
-                        obscureText: !isPwdVisible,
-                        controller: _loginpwdController,
-                        hintText: "Password"),
+
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
@@ -152,7 +185,17 @@ class _LoginPageState extends State<LoginPage> {
                         : CustomButton(
                             text: "Login",
                             onPressed: () {
-                              _loginUser();
+                              _validatePhonenumber();
+                              if (_formKey.currentState!.validate() &&
+                                  _phoneNumber != "") {
+                                _loginUser();
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content: Text(
+                                          "Please enter a valid mobile number & password.")),
+                                );
+                              }
                               // Navigator.push(
                               //     context,
                               //     MaterialPageRoute(

@@ -318,7 +318,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    user?.religionName ?? "Religion loading...",
+                                    user?.religionName ?? "Religion Not Specified",
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -368,7 +368,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     const SizedBox(height: 8),
                     Obx(() => Text(
                           userController.userData.value.user?.aboutMe ??
-                              "Loading...",
+                              "Not Specified",
                           style: const TextStyle(
                               fontSize: 16, color: AppColors.black),
                         )),

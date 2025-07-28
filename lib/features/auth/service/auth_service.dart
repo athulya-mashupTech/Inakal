@@ -88,7 +88,9 @@ class AuthService {
     try {
       final response = await _sendPostRequest(
         url: sentOtpUrl,
-        fields: {"phone": phone, "country_code": countryCode},
+        fields: {
+        "phone": phone, 
+        "country_code": countryCode},
       );
 
       final result = await _parseResponse<SentOtpModel>(
@@ -106,12 +108,16 @@ class AuthService {
   }
 
   // ------------------ Login via OTP ------------------
-  Future<void> verifyLoginOtp(BuildContext context, String countryCode,
+  Future<LoginModel> verifyLoginOtp(BuildContext context, String countryCode,
       String phone, String otp) async {
     try {
       final response = await _sendPostRequest(
         url: verifyOtpUrl,
-        fields: {"phone": phone, "country_code": countryCode, "otp": otp},
+        fields: {
+          "phone": phone, 
+          "country_code": countryCode, 
+          "otp": otp
+          },
       );
 
       final result = await _parseResponse<LoginModel>(
@@ -124,9 +130,11 @@ class AuthService {
       } else {
         _showSnackbar(context, "Login denied");
       }
+      return result ?? LoginModel();
     } catch (e) {
       _showSnackbar(context, "OTP Verification failed");
       print("OTP Error: $e");
+      return LoginModel(type: "danger");
     }
   }
 
