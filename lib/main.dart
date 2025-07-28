@@ -5,6 +5,7 @@ import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/screen/splash_screen.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/auth/registration/screens/registration_password.dart';
 import 'package:inakal/features/auth/registration/screens/registrationform.dart';
 
 void main() async {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Inakal'),
-      // home: RegistrationForm(),
+      // home: RegistrationPassword(),
       // home: FilteredProfileScreen(FilterProfileModel(totalRows: "254")),
     );
   }

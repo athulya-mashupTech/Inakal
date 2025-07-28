@@ -89,6 +89,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 32, vertical: 12),
                             child: TextButton(
+                              style: TextButton.styleFrom(backgroundColor: AppColors.softPink.withAlpha(50)),
                                 onPressed: () {
                                   Navigator.pop(context);
                                 },
@@ -249,6 +250,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                         : CustomButton(
                             text: "Reset Password",
                             onPressed: () {
+                              FocusScope.of(context).unfocus();
                               _validatePassword(
                                   _newPasswordController.text.trim());
                               _validateConfirmPassword(

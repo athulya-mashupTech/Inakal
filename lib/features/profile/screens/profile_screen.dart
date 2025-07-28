@@ -278,6 +278,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       highlightColor: AppColors.lightGrey,
                                       child: Container(color: AppColors.grey),
                                     ),
+                                    errorWidget: (context, url, error) => Image.asset("assets/vectors/user_avatar.jpg"),
                                   ),
                                 ),
                               )),

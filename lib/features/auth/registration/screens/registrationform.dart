@@ -540,7 +540,7 @@ class _RegistrationFormState extends State<RegistrationForm> {
 
                   if (pickedDate != null) {
                     String formattedDate =
-                        DateFormat('dd-MM-yyyy').format(pickedDate);
+                        DateFormat('yyyy-MM-dd').format(pickedDate);
                     _dobController.text = formattedDate;
                   }
                 },

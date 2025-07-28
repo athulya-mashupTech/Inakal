@@ -48,12 +48,10 @@ class _FilteringScreenState extends State<FilteringScreen> {
         .then((value) {
       setState(() {
         dropdownModel = value;
-
       });
     }).then((value) => setState(() {
               _isLoading = false;
             }));
-            
   }
 
   @override
@@ -414,57 +412,49 @@ class _FilteringScreenState extends State<FilteringScreen> {
                         //   height: 10,
                         // ),
                         CustomButton(
-                          text: "Apply Filters",
-                          onPressed: () async {
-                            print(religionController.text);
-                            print(casteController.text);
-                            print(subcasteController.text);
-                            print(ageRangeController.text);
-                            print(heightController.text);
-                            print(weightController.text);
-                            print(stateController.text);
-                            print(languageController.text);
-                            print(maritalStatusController.text);
-                            print(highestEducationController.text);
-                            print(occupationController.text);
-                            print(annualIncomeController.text);
-                            print(familyStatusController.text);
-                            print(foodPreferenceController.text);
-                            final appliedFilters = AppliedFiltersModel(
-                                filterReligion: religionController.text,
-                                filterCaste: [casteController.text],
-                                filterSubCaste: [subcasteController.text],
-                                filterAgeGroup: ageRangeController.text,
-                                filterHeight: heightController.text,
-                                filterWeight: weightController.text,
-                                filterState: stateController.text,
-                                filterMotherTongue: languageController.text,
-                                filterMaritalStatus:
-                                    maritalStatusController.text,
-                                filterEducation:
-                                    highestEducationController.text,
-                                filterOccupation: [occupationController.text],
-                                filterAnnualIncome: annualIncomeController.text,
-                                filterFoodPreference:
-                                    foodPreferenceController.text);
-                            print("object");
-                            final responseModel = await FilterProfileService()
-                                .getfilteredProfiles(
-                                    context, 0, appliedFilters);
+                            text: "Apply Filters",
+                            onPressed: () async {
+                              print(religionController.text);
+                              print(casteController.text);
+                              print(subcasteController.text);
+                              print(ageRangeController.text);
+                              print(heightController.text);
+                              print(weightController.text);
+                              print(stateController.text);
+                              print(languageController.text);
+                              print(maritalStatusController.text);
+                              print(highestEducationController.text);
+                              print(occupationController.text);
+                              print(annualIncomeController.text);
+                              print(familyStatusController.text);
+                              print(foodPreferenceController.text);
+                              final appliedFilters = AppliedFiltersModel(
+                                  filterReligion: religionController.text,
+                                  filterCaste: [casteController.text],
+                                  filterSubCaste: [subcasteController.text],
+                                  filterAgeGroup: ageRangeController.text,
+                                  filterHeight: heightController.text,
+                                  filterWeight: weightController.text,
+                                  filterState: stateController.text,
+                                  filterMotherTongue: languageController.text,
+                                  filterMaritalStatus:
+                                      maritalStatusController.text,
+                                  filterEducation:
+                                      highestEducationController.text,
+                                  filterOccupation: [occupationController.text],
+                                  filterAnnualIncome:
+                                      annualIncomeController.text,
+                                  filterFoodPreference:
+                                      foodPreferenceController.text);
+                              print("object");
 
-                            print("object: ${responseModel}");
-                            if (responseModel != null &&
-                                responseModel.type == "success") {
-                              print(responseModel.type);
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           FilteredProfileScreen(
-                                              responseModel, appliedFilters)));
-                            }
-                          },
-                        ),
+                                              appliedFilters)));
+                            }),
                         SizedBox(
                           height: 16,
                         ),

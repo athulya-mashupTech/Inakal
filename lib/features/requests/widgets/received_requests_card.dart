@@ -44,6 +44,8 @@ class ReceivedRequestsCard extends StatefulWidget {
 }
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
+  String userImage = "";
+
   String getHimOrHer(String gender) {
     if (gender == "Female" || gender == "female")
       return "her";
@@ -102,10 +104,19 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   }
 
   @override
+  void initState() {
+    userImage = widget.image ==
+            "https://etutor.s3.ap-south-1.amazonaws.com/users/avatar.png"
+        ? "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg"
+        : widget.image;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        print("Id: "+widget.client_id);
+        print("Id: " + widget.client_id);
         Navigator.push(
             context,
             MaterialPageRoute(
@@ -141,7 +152,7 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                                   .saturation, // Apply the grayscale effect using saturation
                             ),
                             child: CachedNetworkImage(
-                              imageUrl: widget.image,
+                              imageUrl: userImage,
                               width: MediaQuery.of(context).size.width * 0.3,
                               height: MediaQuery.of(context).size.width * 0.4,
                               fit: BoxFit.cover,

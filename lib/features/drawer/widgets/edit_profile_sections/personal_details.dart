@@ -39,8 +39,14 @@ class _PersonalDetailsState extends State<PersonalDetails> {
   String? selectedSubCaste;
   String? selectedmaritalStatus;
   String? selectedmotherTongue;
-  List<String> languages = ["Malayalam", "English"];
-  List<String> maritalStatus = ["Single", "Divorced", "Widowed", "Widow"];
+  List<String> languages = [];
+  List<String> maritalStatusOptions = [
+    "Single",
+    "Divorced",
+    "Widowed",
+    "Widow"
+  ];
+  String errorText = "";
 
   CasteSubcasteOptionsModel casteSubCasteOption =
       CasteSubcasteOptionsModel(castes: [], subcastes: []);
@@ -113,6 +119,9 @@ class _PersonalDetailsState extends State<PersonalDetails> {
             )
             .name ??
         "";
+    final rawLanguages = userController.userData.value.user?.languagesKnown ?? "";
+    languages = rawLanguages.isEmpty ? [] : rawLanguages.split(",").toList();
+
     super.initState();
   }
 
@@ -183,16 +192,18 @@ class _PersonalDetailsState extends State<PersonalDetails> {
 
                   // height feild
                   EditProfileTextFeild(
-                      label: 'Height (cm)',
-                      controller: heightController,
-                      inputType: TextInputType.number,
-                       ),
+                    label: 'Height (cm)',
+                    controller: heightController,
+                    inputType: TextInputType.number,
+                    errorText: heightController.text == "" ? errorText : null,
+                  ),
                   const SizedBox(height: 16),
 
                   //weight feild
                   EditProfileTextFeild(
-                      label: 'Weight (kg)', 
+                      label: 'Weight (kg)',
                       inputType: TextInputType.number,
+                      errorText: weightController.text == "" ? errorText : null,
                       controller: weightController),
                   const SizedBox(height: 16),
 
@@ -282,13 +293,16 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                   //marital status feild
                   EditProfileDropdown(
                     label: 'Marital Status',
-                    items: maritalStatus,
+                    items: maritalStatusOptions,
                     onChanged: (value) {
                       setState(() {
                         selectedmaritalStatus = value;
                       });
                     },
-                    selectedValue: selectedmaritalStatus,
+                    selectedValue:
+                        maritalStatusOptions.contains(selectedmaritalStatus)
+                            ? selectedmaritalStatus
+                            : "",
                   ),
 
                   const SizedBox(height: 16),
@@ -422,6 +436,16 @@ class _PersonalDetailsState extends State<PersonalDetails> {
                                     languagesKnown: languages.join(","),
                                     context: context)
                                 .then((value) async {
+                              if (value != null && value.type == "danger") {
+                                setState(() {
+                                  if (value.message ==
+                                      "Height and Weight are required fields")
+                                    errorText = "is a required field!";
+                                  else if (value.message ==
+                                      "Height and Weight must be numeric values")
+                                    errorText = "should numeric value!";
+                                });
+                              }
                               setState(() {
                                 isSaving = false;
                               });

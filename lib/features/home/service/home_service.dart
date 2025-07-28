@@ -68,7 +68,7 @@ class HomeService {
         final relatedProfileModel = RelatedProfileModel.fromJson(jsonResponse);
 
         if (relatedProfileModel.type == "success") {
-          _showSnackbar(context, "Related Profile Data Fetched");
+          // _showSnackbar(context, "Related Profile Data Fetched");
         } else {
           _showSnackbar(context, "Related profile data fetching faied");
         }

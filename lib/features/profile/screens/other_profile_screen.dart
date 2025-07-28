@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:inakal/common/controller/user_data_controller.dart';
 import 'package:inakal/common/widgets/custom_button.dart';
+import 'package:inakal/common/widgets/premium_required_popup.dart';
 import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/drawer/model/dropdown_model.dart';
 import 'package:inakal/features/drawer/service/edit_profile_service.dart';
@@ -660,17 +661,19 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                         ],
                                       );
                                     case "message":
-                                      return const CustomButton(
+                                      return CustomButton(
+                                        onPressed: () => showDialog(context: context, builder: (_) => Dialog(child: PremiumRequiredPopup())),
                                           text:
-                                              "Message"); // Replace with your message-related widget
+                                              "Message");
                                     case "rejected":
                                       return const CustomButton(
+                                        color: AppColors.black,
                                           text: "User not interested");
                                     default:
                                       return CustomButton(
                                           text: "Send Interest",
                                           onPressed:
-                                              sendInterestToUser); // fallback if status is null or unknown
+                                              sendInterestToUser);
                                   }
                                 },
                               ),
