@@ -296,7 +296,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         color: AppColors.primaryRed),
                                   ),
                                   Text(
-                                    "${user?.firstName ?? ""} ${user?.lastName ?? ""}",
+                                    "${(user?.firstName ?? "").trim()} ${(user?.lastName ?? "").trim()}",
                                     style: TextStyle(
                                         fontSize:
                                             MediaQuery.of(context).size.width *

@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 
 class MatchesCard extends StatelessWidget {
-  const MatchesCard({super.key, required this.image, required this.name, required this.designation});
+  const MatchesCard(
+      {super.key,
+      required this.id,
+      required this.image,
+      required this.name,
+      required this.designation});
+  final String id;
   final String image;
   final String name;
   final String designation;
@@ -10,8 +17,10 @@ class MatchesCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-      },
+      onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => OtherProfileScreen(id: id))),
       child: SizedBox(
         width: MediaQuery.of(context).size.width * 0.5 - 30,
         child: ClipRRect(
@@ -23,9 +32,9 @@ class MatchesCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  height: 150,
-                  width: MediaQuery.of(context).size.width * 0.5 - 30,
-                  child: Image.asset(image, fit: BoxFit.cover)),
+                    height: 150,
+                    width: MediaQuery.of(context).size.width * 0.5 - 30,
+                    child: Image.network(image, fit: BoxFit.cover)),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
@@ -38,10 +47,12 @@ class MatchesCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1),
                       // SizedBox(height: 5),
-                      Text(designation,
-                          style: TextStyle(fontSize: 13),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,),
+                      Text(
+                        designation,
+                        style: TextStyle(fontSize: 13),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
                     ],
                   ),
                 )

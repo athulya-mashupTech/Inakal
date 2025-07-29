@@ -38,6 +38,7 @@ class _LocationDetailsState extends State<LocationDetails> {
   String? selectedState;
   bool isEditing = false;
   bool isSaving = false;
+  String? districtError;
 
   dsm.DistrictsSearchModel districtsOptionsModel = dsm.DistrictsSearchModel();
 
@@ -240,7 +241,10 @@ class _LocationDetailsState extends State<LocationDetails> {
                   },
                   onSelected: (selection) {
                     _onDistrictSelected(selection);
-                    setState(() => isEditing = false);
+                    setState(() {
+                      districtError = null;
+                      isEditing = false;
+                    });
                   },
                   fieldViewBuilder: (context, textEditingController, focusNode,
                       onFieldSubmitted) {
@@ -263,6 +267,7 @@ class _LocationDetailsState extends State<LocationDetails> {
                         decoration: InputDecoration(
                           labelText: "Select District",
                           fillColor: AppColors.white,
+                          errorText: districtError,
                           labelStyle: TextStyle(
                             color: AppColors.grey,
                             fontSize: 14,
@@ -336,14 +341,11 @@ class _LocationDetailsState extends State<LocationDetails> {
                                   .updateUserData(context: context);
                             });
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text(
-                                    'Please select a valid district matching the state'),
-                                backgroundColor: AppColors.primaryRed,
-                              ),
-                            );
-                            setState(() => isSaving = false);
+                            setState(() {
+                              districtError =
+                                  'Please select a valid district matching the state';
+                              isSaving = false;
+                            });
                           }
                         },
                       ),

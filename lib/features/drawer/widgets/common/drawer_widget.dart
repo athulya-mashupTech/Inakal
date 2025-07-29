@@ -213,20 +213,24 @@ class DrawerWidget extends StatelessWidget {
                               ),
                             )),
                         SizedBox(width: 10),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Obx(() => Text(
-                                  "${userController.userData.value.user?.firstName} ${userController.userData.value.user?.lastName}",
-                                  style: TextStyle(
-                                      color: AppColors.white, fontSize: 18),
-                                )),
-                            Obx(() => Text(
-                                  'INK${userController.userData.value.user?.id}',
-                                  style: TextStyle(
-                                      color: AppColors.white, fontSize: 14),
-                                )),
-                          ],
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Obx(() => Text(
+                                    "${(userController.userData.value.user?.firstName ?? "").trim()} ${(userController.userData.value.user?.lastName ?? "").trim()}",
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(
+                                        color: AppColors.white, fontSize: 18),
+                                  )),
+                              Obx(() => Text(
+                                    'INK${userController.userData.value.user?.id}',
+                                    style: TextStyle(
+                                        color: AppColors.white, fontSize: 14),
+                                  )),
+                            ],
+                          ),
                         ),
                       ],
                     ),
