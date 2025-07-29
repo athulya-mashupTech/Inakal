@@ -70,7 +70,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
         otherUserModel = value;
         userData = otherUserModel?.user ?? User();
         galleryImages.add(Gallery(image: userData.image ?? ""));
-        galleryImages.addAll(otherUserModel?.gallery ?? []);
+        galleryImages.addAll((otherUserModel?.gallery ?? [])
+            .where((image) => image.isPublic == "1")
+            .toList());
         print("first: ${galleryImages.length}");
         if (galleryImages.length == 0) {
           galleryImages.add(Gallery(
@@ -662,18 +664,20 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                       );
                                     case "message":
                                       return CustomButton(
-                                        onPressed: () => showDialog(context: context, builder: (_) => Dialog(child: PremiumRequiredPopup())),
-                                          text:
-                                              "Message");
+                                          onPressed: () => showDialog(
+                                              context: context,
+                                              builder: (_) => Dialog(
+                                                  child:
+                                                      PremiumRequiredPopup())),
+                                          text: "Message");
                                     case "rejected":
                                       return const CustomButton(
-                                        color: AppColors.black,
+                                          color: AppColors.black,
                                           text: "User not interested");
                                     default:
                                       return CustomButton(
                                           text: "Send Interest",
-                                          onPressed:
-                                              sendInterestToUser);
+                                          onPressed: sendInterestToUser);
                                   }
                                 },
                               ),
