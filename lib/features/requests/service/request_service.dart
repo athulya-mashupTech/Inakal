@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:inakal/constants/config.dart';
 import 'package:inakal/features/auth/controller/auth_controller.dart';
+import 'package:inakal/features/profile/model/request_status_model.dart';
 import 'package:inakal/features/requests/model/request_action_model.dart';
 import 'package:inakal/features/requests/model/received_request_model.dart';
 import 'package:inakal/features/requests/model/request_user_details_model.dart';
@@ -17,7 +18,7 @@ class RequestService {
   Future<List<RequestUserDetailsModel?>> getSentRequestUserDetails(
       BuildContext context) async {
     try {
-      final response = await _sendGetRequest(url: sentRequestsUrl);
+      final response = await _sendPostRequest(url: sentRequestsUrl, fields: {});
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -88,14 +89,14 @@ class RequestService {
 
               // Combine user details with match status
               return RequestUserDetailsModel?.fromJson(
-                  userJson['user'], request.status!, request.id!);
+                  userJson['user'], request.status!, "", request.id!);
             } else {
               // Handle failed user fetch
               throw Exception(
                   "Failed to load user details for id ${request.toClientId}");
             }
           }).toList();
-          
+
           return await Future.wait(userDetailsFutures);
         } else {
           _showSnackbar(
@@ -116,7 +117,7 @@ class RequestService {
   Future<List<RequestUserDetailsModel?>> getReceivedRequestUserDetails(
       BuildContext context) async {
     try {
-      final response = await _sendGetRequest(url: receivedRequestsUrl);
+      final response = await _sendPostRequest(url: receivedRequestsUrl, fields: {});
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -134,12 +135,26 @@ class RequestService {
             print("ID: ${request.fromClientId!}");
             final userDetailsResponse = await _sendPostRequest(
               url: userDetailsFetchUrl,
-              fields: {"userid": request.fromClientId!},
+              fields: {"userid": request.fromClientId ?? ""},
             );
+
+            final sentReqStatusResponse =
+                await _sendPostRequest(url: getRequestStatusUrl, fields: {"clientid": request.fromClientId ?? ""});
 
             if (userDetailsResponse.statusCode == 200) {
               final userBody = await userDetailsResponse.stream.bytesToString();
               var userJson = json.decode(userBody);
+
+              // Sent Request Response
+              RequestStatusModel sentReqStatusModel = RequestStatusModel();
+              if (sentReqStatusResponse.statusCode == 200) {
+                final sentReqStatusBody =
+                    await sentReqStatusResponse.stream.bytesToString();
+                final sentReqStatusJson = json.decode(sentReqStatusBody);
+                sentReqStatusModel =
+                    RequestStatusModel.fromJson(sentReqStatusJson);
+              }
+
               userJson['user']['last_seen'] = "N/A";
               print(userJson['user']['first_name']);
               if (userJson['user']['first_name'] == null ||
@@ -184,9 +199,29 @@ class RequestService {
                     "https://i.pinimg.com/736x/dc/9c/61/dc9c614e3007080a5aff36aebb949474.jpg";
               }
 
+              // Chechking the button text to be reutrned - request status
+              String requestStatus = "";
+              if (request.status == "pending") {
+                requestStatus = "pending";
+              } else if (request.status == "accepted") {
+                if (sentReqStatusModel.sentStatus == "accepted") {
+                  requestStatus = "message";
+                } else if (sentReqStatusModel.sentStatus == "pending") {
+                  requestStatus = "waiting";
+                } else if (sentReqStatusModel.sentStatus == "rejected") {
+                  requestStatus = "rejected";
+                } else if (sentReqStatusModel.sentStatus == null) {
+                  requestStatus = "send";
+                } else {
+                  requestStatus = "error";
+                }
+              } else {
+                requestStatus = "error";
+              }
+
               // Combine user details with match status
               return RequestUserDetailsModel?.fromJson(
-                  userJson['user'], request.status!, request.id!);
+                  userJson['user'], requestStatus, request.status ?? "accepted", request.id!);
             } else {
               // Handle failed user fetch
               throw Exception(
@@ -211,6 +246,46 @@ class RequestService {
     } catch (e) {
       print("Error fetching received requests: $e");
       return [];
+    }
+  }
+
+  Future<String?> getRequestStatus(String clientId) async {
+    try {
+      final response = await _sendPostRequest(
+          url: getRequestStatusUrl, fields: {"clientid": clientId});
+      if (response.statusCode == 200) {
+        final responseBody = await response.stream.bytesToString();
+        final jsonResponse = json.decode(responseBody);
+        final requestStatusModel = RequestStatusModel.fromJson(jsonResponse);
+
+        if (requestStatusModel.type == "success") {
+          if (requestStatusModel.sentStatus == "accepted") {
+            if (requestStatusModel.receivedStatus == "pending") {
+              return "acceptOrDecline";
+            } else {
+              return "message";
+            }
+          } else if (requestStatusModel.sentStatus == "pending") {
+            if (requestStatusModel.receivedStatus == "pending") {
+              return "acceptOrDecline";
+            } else {
+              return "waiting";
+            }
+          } else if (requestStatusModel.sentStatus == "rejected") {
+            return "rejected";
+          } else {
+            return null;
+          }
+        } else {
+          return null;
+        }
+      } else {
+        print("Error: ${response.statusCode}");
+        return null;
+      }
+    } catch (e) {
+      print("Error in fetching request status: $e");
+      return null;
     }
   }
 
@@ -248,7 +323,8 @@ class RequestService {
       final response = await _sendPostRequest(
           url: acceptRequestUrl, fields: {"request_id": requestId});
 
-      debugPrint("${response.reasonPhrase}"+" "+response.statusCode.toString());
+      debugPrint(
+          "${response.reasonPhrase}" + " " + response.statusCode.toString());
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -278,7 +354,8 @@ class RequestService {
       final response = await _sendPostRequest(
           url: rejectRequestUrl, fields: {"request_id": requestId});
 
-      debugPrint("${response.reasonPhrase}"+" "+response.statusCode.toString());
+      debugPrint(
+          "${response.reasonPhrase}" + " " + response.statusCode.toString());
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();

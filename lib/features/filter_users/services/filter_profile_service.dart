@@ -30,17 +30,12 @@ class FilterProfileService {
     return '';
   }
 
-
   Future<CasteSubcasteOptionsModel> getCasteSubcasteOptions(
-      BuildContext context, 
-      String religionId
-      ) async {
-      try {
+      BuildContext context, String religionId) async {
+    try {
       final response = await _sendPostRequest(
           url: getCasteAndSubcasteOptionsUrl,
-          fields: {
-            "religion_id": religionId
-            });
+          fields: {"religion_id": religionId});
 
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
@@ -60,122 +55,135 @@ class FilterProfileService {
     }
   }
 
-  Map<String, String> filterBuilder(AppliedFiltersModel appliedFilters) {
-    final userController = Get.find<UserDataController>();
-    DropdownModel? dropdownModel = userController.dropdownModel.value;
-    Map<String, String> filters = {};
-
-    // Religion Mapping
-    if (appliedFilters.filterReligion != "")
-      filters["filter_religion"] = (dropdownModel.religions!
-                  .firstWhere((religion) =>
-                      religion.name == appliedFilters.filterReligion)
-                  .id ==
-              -1)
-          ? ""
-          : dropdownModel.religions!
-                  .firstWhere((religion) =>
-                      religion.name == appliedFilters.filterReligion)
-                  .id ??
-              "";
-
-    // // Caste Mapping
-    // if (appliedFilters.filterCaste != "")
-    //   filters["filterCaste"] = appliedFilters.filterCaste.toString();
-    // // SubCaste Mapping
-    // if (appliedFilters.filterSubCaste != "")
-    //   filters["filterSubCaste"] = appliedFilters.filterSubCaste.toString();
-
-    // Age Mapping
-    if (appliedFilters.filterAgeGroup != "")
-      filters["filter_age_group"] = appliedFilters.filterAgeGroup;
-    // Height Mapping
-    if (extractCmRange(appliedFilters.filterHeight) != null)
-      filters["filter_height"] = extractCmRange(appliedFilters.filterHeight)!;
-    // print(extractCmRange(appliedFilters.filterHeight));
-    // Weight Mapping
-    if (appliedFilters.filterWeight != "")
-      filters["filter_weight"] = appliedFilters.filterWeight;
-    // State Mapping
-    if (appliedFilters.filterState != "")
-      filters["filter_state"] = (dropdownModel.states!
-                  .firstWhere(
-                      (state) => state.name == appliedFilters.filterState)
-                  .id ==
-              -1)
-          ? ""
-          : dropdownModel.states!
-                  .firstWhere(
-                      (state) => state.name == appliedFilters.filterState)
-                  .id ??
-              "";
-    // Mother Tongue Mapping
-    if (appliedFilters.filterMotherTongue != "")
-      filters["filter_language"] = (dropdownModel.languages!
-                  .firstWhere((language) =>
-                      language.name == appliedFilters.filterMotherTongue)
-                  .id ==
-              -1)
-          ? ""
-          : dropdownModel.languages!
-                  .firstWhere((language) =>
-                      language.name == appliedFilters.filterMotherTongue)
-                  .id ??
-              "";
-    // Marital Status Mapping
-    if (appliedFilters.filterMaritalStatus != "")
-      filters["filter_marital_status"] = appliedFilters.filterMaritalStatus;
-    // Highest Education Mapping
-    if (appliedFilters.filterEducation != "")
-      filters["filter_education"] = (dropdownModel.highestEducations!
-                  .firstWhere((education) =>
-                      education.name == appliedFilters.filterEducation)
-                  .id ==
-              -1)
-          ? ""
-          : dropdownModel.highestEducations!
-                  .firstWhere((education) =>
-                      education.name == appliedFilters.filterEducation)
-                  .id ??
-              "";
-
-    // // Occupation Mapping
-    // if (appliedFilters.filterOccupation != "")
-    //   filters["filter_occupation"] = appliedFilters.filterOccupation.toString();
-
-    // Annual Income Mapping
-    if (appliedFilters.filterAnnualIncome != "")
-      // print(convertIncomeRange(appliedFilters.filterAnnualIncome));
-      filters["filter_annual_income"] =
-          convertIncomeRange(appliedFilters.filterAnnualIncome);
-
-    // // Family Status Mapping
-    // if (appliedFilters.fa != "")
-    //   filters["filter_age_group"] = appliedFilters.fa;
-
-    // Food Preference Mapping
-    if (appliedFilters.filterFoodPreference != "")
-      filters["filter_food_preference"] =
-          appliedFilters.filterFoodPreference.toLowerCase();
-
-    return filters;
-  }
-
   Future<FilterProfileModel?> getfilteredProfiles(BuildContext context,
       int page, AppliedFiltersModel appliedFilters) async {
     try {
-      Map<String, String> filters = {};
-      filters = filterBuilder(appliedFilters);
-      filters["page"] = "$page";
+      final userController = Get.find<UserDataController>();
+      DropdownModel? dropdownModel = userController.dropdownModel.value;
 
-      print(filters);
-      print("Done: " + filterProfileUrl);
+      final request =
+          http.MultipartRequest('POST', Uri.parse(filterProfileUrl));
+      final token = authController.token.value;
 
-      final response =
-          await _sendPostRequest(url: filterProfileUrl, fields: filters);
+      if (token.isEmpty) {
+        print("Error: Token is null or empty");
+        return Future.error("Unauthorized: Missing token");
+      }
 
-      // print("Done: ${response.statusCode}");
-      // _showSnackbar(context, response.reasonPhrase ?? "None");
+      final headers = {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'multipart/form-data', // Add this
+      };
+      request.headers.addAll(headers);
+
+      // Adding filters to fetch users
+      request.fields["page"] = "$page";
+      // Religion - String
+      if (appliedFilters.filterReligion != "") {
+        var religionId = dropdownModel.religions!
+            .firstWhere((r) => r.name == appliedFilters.filterReligion)
+            .id
+            .toString();
+        request.fields['filter_religion'] = religionId;
+      }
+
+      // Caste
+      print(appliedFilters.filterCaste);
+      if (appliedFilters.filterCaste.isNotEmpty) {
+        for (int i = 0; i < appliedFilters.filterCaste.length; i++) {
+          request.fields['filterCaste[$i]'] = appliedFilters.filterCaste[i];
+        }
+      }
+
+      // Subcaste
+      if (appliedFilters.filterSubCaste.isNotEmpty) {
+        for (int i = 0; i < appliedFilters.filterSubCaste.length; i++) {
+          request.fields['filterSubCaste[$i]'] =
+              appliedFilters.filterSubCaste[i];
+        }
+      }
+
+      // Age Group
+      if (appliedFilters.filterAgeGroup != "")
+        request.fields["filter_age_group"] = appliedFilters.filterAgeGroup;
+
+      // Height
+      if (extractCmRange(appliedFilters.filterHeight) != null)
+        request.fields["filter_height"] =
+            extractCmRange(appliedFilters.filterHeight)!;
+
+      // Weight
+      if (appliedFilters.filterWeight != "")
+        request.fields["filter_weight"] = appliedFilters.filterWeight;
+
+      // State
+      if (appliedFilters.filterState != "")
+        request.fields["filter_state"] = (dropdownModel.states!
+                    .firstWhere(
+                        (state) => state.name == appliedFilters.filterState)
+                    .id ==
+                -1)
+            ? ""
+            : dropdownModel.states!
+                    .firstWhere(
+                        (state) => state.name == appliedFilters.filterState)
+                    .id ??
+                "";
+
+      // Language
+      if (appliedFilters.filterMotherTongue != "")
+        request.fields["filter_language"] = (dropdownModel.languages!
+                    .firstWhere((language) =>
+                        language.name == appliedFilters.filterMotherTongue)
+                    .id ==
+                -1)
+            ? ""
+            : dropdownModel.languages!
+                    .firstWhere((language) =>
+                        language.name == appliedFilters.filterMotherTongue)
+                    .id ??
+                "";
+
+      // Marital Status
+      if (appliedFilters.filterMaritalStatus != "")
+        request.fields["filter_marital_status"] =
+            appliedFilters.filterMaritalStatus;
+
+      // Education
+      if (appliedFilters.filterEducation != "")
+        request.fields["filter_education"] = (dropdownModel.highestEducations!
+                    .firstWhere((education) =>
+                        education.name == appliedFilters.filterEducation)
+                    .id ==
+                -1)
+            ? ""
+            : dropdownModel.highestEducations!
+                    .firstWhere((education) =>
+                        education.name == appliedFilters.filterEducation)
+                    .id ??
+                "";
+
+      // Occupation
+      if (appliedFilters.filterOccupation.isNotEmpty) {
+        for (int i = 0; i < appliedFilters.filterOccupation.length; i++) {
+          request.fields['filter_occupation[$i]'] =
+              appliedFilters.filterOccupation[i];
+        }
+      }
+
+      // Annual Income
+      if (appliedFilters.filterAnnualIncome != "")
+        request.fields["filter_annual_income"] =
+            convertIncomeRange(appliedFilters.filterAnnualIncome);
+
+      // Food Preference
+      if (appliedFilters.filterFoodPreference != "")
+        request.fields["filter_food_preference"] =
+            appliedFilters.filterFoodPreference.toLowerCase();
+
+      print(request.fields);
+
+      final response = await request.send();
 
       if (response.statusCode == 200) {
         final responseData = await response.stream.bytesToString();

@@ -481,6 +481,22 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                         .name ??
                                                     "Caste Not Specified"),
                                         OtherProfileDetailCard(
+                                            title: "Subcaste",
+                                            value: (userData.caste == "" ||
+                                                    userData.caste == null)
+                                                ? "Subcaste Not Specified"
+                                                : dropdownModel.subcastes!
+                                                        .firstWhere(
+                                                          (subcaste) =>
+                                                              subcaste.id ==
+                                                              userData.subCaste,
+                                                          orElse: () => CaSub(
+                                                              name:
+                                                                  "Subcaste Not Specified"),
+                                                        )
+                                                        .name ??
+                                                    "Caste Not Specified"),
+                                        OtherProfileDetailCard(
                                             title: "Mother Tongue",
                                             value: (userData.motherTongue ==
                                                         "" ||
@@ -571,9 +587,7 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                             value: (userData.occupation == "" ||
                                                     userData.occupation == null)
                                                 ? "Job Not Specified"
-                                                : ((dropdownModel ??
-                                                                    DropdownModel())
-                                                                .occupations ??
+                                                : (dropdownModel.occupations ??
                                                             [])
                                                         .firstWhere(
                                                           (occupation) =>

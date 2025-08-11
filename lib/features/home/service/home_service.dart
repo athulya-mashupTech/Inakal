@@ -61,7 +61,7 @@ class HomeService {
   Future<RelatedProfileModel?> getRelatedProfile(
       {required BuildContext context}) async {
     try {
-      final response = await _sendGetRequest(url: relatedProfileUrl);
+      final response = await _sendPostRequest(url: relatedProfileUrl, fields: {});
       if (response.statusCode == 200) {
         final responseBody = await response.stream.bytesToString();
         final jsonResponse = json.decode(responseBody);

@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:inakal/common/widgets/custom_button.dart';
 import 'package:inakal/common/widgets/premium_required_popup.dart';
 import 'package:inakal/constants/app_constants.dart';
+import 'package:inakal/features/home/service/home_service.dart';
 import 'package:inakal/features/profile/screens/other_profile_screen.dart';
 import 'package:inakal/features/requests/service/request_service.dart';
 import 'package:inakal/features/requests/widgets/accept_button.dart';
@@ -21,23 +23,24 @@ class ReceivedRequestsCard extends StatefulWidget {
   final String height;
   final String religion;
   final String role;
-  String req_status;
+  final void Function() realoadFun;
+  final String req_status;
 
-  ReceivedRequestsCard({
-    super.key,
-    required this.image,
-    required this.name,
-    required this.location,
-    required this.status,
-    required this.role,
-    required this.age,
-    required this.gender,
-    required this.height,
-    required this.req_status,
-    required this.religion,
-    required this.client_id,
-    required this.req_id,
-  });
+  const ReceivedRequestsCard(
+      {super.key,
+      required this.image,
+      required this.name,
+      required this.location,
+      required this.status,
+      required this.role,
+      required this.age,
+      required this.gender,
+      required this.height,
+      required this.req_status,
+      required this.religion,
+      required this.client_id,
+      required this.req_id,
+      required this.realoadFun});
 
   @override
   State<ReceivedRequestsCard> createState() => _ReceivedRequestsCardState();
@@ -45,6 +48,7 @@ class ReceivedRequestsCard extends StatefulWidget {
 
 class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   String userImage = "";
+  bool buttonLoading = false;
 
   String getHimOrHer(String gender) {
     if (gender == "Female" || gender == "female")
@@ -55,13 +59,22 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
       return "them";
   }
 
-  String getHeOrShe(String gender) {
+  String getHisOrHer(String gender) {
     if (gender == "Female" || gender == "female")
       return "her";
     else if (gender == "Male" || gender == "male")
-      return "him";
+      return "his";
     else
-      return "them";
+      return "their";
+  }
+
+  String getHeOrShe(String gender) {
+    if (gender == "Female" || gender == "female")
+      return "She";
+    else if (gender == "Male" || gender == "male")
+      return "He";
+    else
+      return "They";
   }
 
   String calculateAge(String birthDateString) {
@@ -84,21 +97,36 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
   }
 
   Future<void> acceptRequest() async {
+    setState(() {
+      buttonLoading = true;
+    });
     await RequestService().acceptRequest(widget.req_id, context).then((value) {
       if (value?.type == "success") {
-        setState(() {
-          widget.req_status = "accepted";
-        });
+        widget.realoadFun();
       }
     });
   }
 
   Future<void> rejectRequest() async {
+    setState(() {
+      buttonLoading = true;
+    });
     await RequestService().rejectRequest(widget.req_id, context).then((value) {
       if (value?.type == "success") {
-        setState(() {
-          widget.req_status = "rejected";
-        });
+        widget.realoadFun();
+      }
+    });
+  }
+
+  Future<void> sendRequest() async {
+    setState(() {
+      buttonLoading = true;
+    });
+    await HomeService()
+        .sentInterestToUser(widget.client_id, context)
+        .then((value) {
+      if (value?.type == "success") {
+        widget.realoadFun();
       }
     });
   }
@@ -303,84 +331,184 @@ class _ReceivedRequestsCardState extends State<ReceivedRequestsCard> {
                   ),
                 ],
               ),
-
               const SizedBox(height: 10),
-
-              widget.req_status == "accepted"
-                  ? Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Text(
-                            "Take the next step and contact ${getHimOrHer(widget.gender)} directly",
-                            style: TextStyle(
-                              fontSize: 13,
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        MessageButton(
-                            text: "Message",
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (_) =>
-                                      Dialog(child: PremiumRequiredPopup()));
-                            })
-                      ],
-                    )
-                  : widget.req_status == "pending"
-                      ? Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text(
-                                "Accept ${getHimOrHer(widget.gender)} interest to communicate further",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                    child: DeclineButton(
-                                  text: "Decline",
-                                  onPressed: rejectRequest,
-                                )),
-                                SizedBox(width: 10),
-                                Expanded(
-                                    child: AcceptButton(
-                                  text: "Accept",
-                                  onPressed: acceptRequest,
-                                )),
-                              ],
-                            ),
-                          ],
-                        )
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Text(
-                                "You have declined this request",
-                                style: TextStyle(
-                                  fontSize: 13,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-              // : const CustomButton(text: "Message")
+              buildStatusWidget()
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget buildStatusWidget() {
+    switch (widget.req_status) {
+      case "message":
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "Take the next step and contact ${getHimOrHer(widget.gender)} directly",
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+            SizedBox(height: 5),
+            buttonLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: AppColors.primaryRed,
+                      )
+                    ],
+                  )
+                : MessageButton(
+                    text: "Message",
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (_) => Dialog(child: PremiumRequiredPopup()),
+                      );
+                    },
+                  ),
+          ],
+        );
+
+      case "rejected":
+        return Center(
+          child: Row(
+            children: [
+              Icon(Icons.close, color: AppColors.darkRed),
+              SizedBox(width: 5),
+              Text("${getHeOrShe(widget.gender)} rejected your request!", style: TextStyle(color: AppColors.brightRed),)
+            ],
+          ),
+        );
+
+      case "pending":
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "Accept ${getHisOrHer(widget.gender)} interest to communicate further",
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+            SizedBox(height: 5),
+            buttonLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: AppColors.primaryRed,
+                      )
+                    ],
+                  )
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: DeclineButton(
+                          text: "Decline",
+                          onPressed: rejectRequest,
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: AcceptButton(
+                          text: "Accept",
+                          onPressed: acceptRequest,
+                        ),
+                      ),
+                    ],
+                  ),
+          ],
+        );
+
+      case "send":
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "You accepted ${getHisOrHer(widget.gender)} request. Connect back to communicate further",
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+            SizedBox(height: 5),
+            buttonLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: AppColors.primaryRed,
+                      )
+                    ],
+                  )
+                : CustomButton(
+                    text: "Send Interest",
+                    onPressed: () => sendRequest(),
+                  )
+          ],
+        );
+
+      case "waiting":
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.0),
+              child: Text(
+                "Request has been sent to ${getHimOrHer(widget.gender)}",
+                style: TextStyle(fontSize: 13),
+              ),
+            ),
+            SizedBox(height: 5),
+            buttonLoading
+                ? Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        color: AppColors.primaryRed,
+                      )
+                    ],
+                  )
+                : CustomButton(text: "Waiting for Response"),
+          ],
+        );
+
+      case "rejected":
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "You have declined ${getHisOrHer(widget.gender)} request!",
+            style: TextStyle(fontSize: 13, color: AppColors.darkRed),
+          ),
+        );
+
+      case "error":
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.warning_rounded,
+                color: AppColors.warmOrange,
+              ),
+              Text(
+                "Something went wrong. Please try again later.",
+                style: TextStyle(fontSize: 13, color: AppColors.warmOrange),
+              ),
+            ],
+          ),
+        );
+
+      default:
+        return SizedBox(); // or a fallback widget
+    }
   }
 }

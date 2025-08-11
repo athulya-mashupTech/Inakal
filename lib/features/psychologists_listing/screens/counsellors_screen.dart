@@ -8,6 +8,7 @@ import 'package:inakal/constants/app_constants.dart';
 import 'package:inakal/features/psychologists_listing/model/psychologist_model.dart';
 import 'package:inakal/features/psychologists_listing/service/psychologist_service.dart';
 import 'package:inakal/features/psychologists_listing/widgets/counsellor_widget.dart';
+import 'package:lottie/lottie.dart';
 
 class CounsellorsScreen extends StatefulWidget {
   const CounsellorsScreen({super.key});
@@ -20,7 +21,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
   var btext = "Loading...";
   var bcolor = AppColors.grey;
   String? consultancy_required;
-  PsychologistModel? psychologistModelData;
+  PsychologistModel psychologistModelData = PsychologistModel(doctors: []);
   bool isDoctorsLoading = true;
   bool isAppointmentLoading = true;
 
@@ -38,6 +39,10 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
       if (value != null) {
         setState(() {
           psychologistModelData = value;
+        });
+      } else {
+        setState(() {
+          psychologistModelData = PsychologistModel(doctors: []);
         });
       }
     }).catchError((error) {
@@ -64,7 +69,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
             bcolor = AppColors.freshGreen;
           } else {
             btext = "Error checking appointment details";
-            bcolor = AppColors.freshGreen;
+            bcolor = AppColors.errorRed;
           }
         });
       }
@@ -255,7 +260,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                             text: const TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Guiding  ',
+                                  text: 'Guiding ',
                                   style: TextStyle(
                                       color: AppColors.black,
                                       fontWeight: FontWeight.bold,
@@ -264,7 +269,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                                 TextSpan(
                                   text: 'Hearts',
                                   style: TextStyle(
-                                      color: AppColors.deepBlue,
+                                      color: AppColors.primaryRed,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 24),
                                 ),
@@ -291,7 +296,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                                             child: Iconify(
                                               Ph.butterfly_duotone,
                                               size: 14,
-                                              color: AppColors.deepBlue,
+                                              color: AppColors.primaryRed,
                                             ),
                                           ),
                                         ),
@@ -306,7 +311,7 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                                         child: Iconify(
                                           Ph.butterfly_duotone,
                                           size: 16,
-                                          color: AppColors.deepBlue,
+                                          color: AppColors.primaryRed,
                                         ),
                                       ),
                                       alignment: Alignment.topRight,
@@ -331,28 +336,59 @@ class _CounsellorsScreenState extends State<CounsellorsScreen> {
                 ),
                 const SizedBox(height: 10),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                  child: isDoctorsLoading == true
-                      ? Center(
-                          child: CircularProgressIndicator(
-                            color: AppColors.primaryRed,
-                          ),
-                        )
-                      : Wrap(
-                          spacing: 5.0,
-                          runSpacing: 5.0,
-                          alignment: WrapAlignment.start,
-                          children: psychologistModelData!.doctors!
-                              .map((psychologist) {
-                            return CounsellorWidget(
-                                image: psychologist.image!,
-                                name: psychologist.name!,
-                                designation: psychologist
-                                    .specializations! // psychologist.phone!,
-                                );
-                          }).toList(),
-                        ),
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                    child: isDoctorsLoading == true
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: AppColors.primaryRed,
+                            ),
+                          )
+                        : (psychologistModelData.doctors ?? []).length == 0
+                            ? SizedBox(
+                                height: MediaQuery.of(context).size.height *
+                                    0.5, // Adjust based on how much header content there is
+                                child: Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Lottie.asset(
+                                        "assets/lottie/empty_data.json",
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.6,
+                                      ),
+                                      const SizedBox(height: 10),
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Center(
+                                          child: Text(
+                                            "No Doctors Found\nTry again later!",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Wrap(
+                                spacing: 5.0,
+                                runSpacing: 5.0,
+                                alignment: WrapAlignment.start,
+                                children: (psychologistModelData.doctors ?? [])
+                                    .map((psychologist) {
+                                  return CounsellorWidget(
+                                      image: psychologist.image ?? "",
+                                      name: psychologist.name ?? "",
+                                      designation:
+                                          psychologist.specializations ??
+                                              "" // psychologist.phone!,
+                                      );
+                                }).toList(),
+                              )),
                 SizedBox(
                   height: 20,
                 )
