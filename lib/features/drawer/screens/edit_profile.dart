@@ -217,8 +217,7 @@ class _EditProfileState extends State<EditProfile> {
                             isExpanded: expandedSectionIndex == 0,
                             onTap: () {
                               setState(() {
-                                expandedSectionIndex =
-                                    expandedSectionIndex == 0 ? null : 0;
+                                expandedSectionIndex = (expandedSectionIndex == 0) ? null : 0;
                               });
                             },
                           ),

@@ -430,22 +430,51 @@ class _FilteringScreenState extends State<FilteringScreen> {
                               print(foodPreferenceController.text);
                               final appliedFilters = AppliedFiltersModel(
                                   filterReligion: religionController.text,
-                                  filterCaste: [casteController.text],
-                                  filterSubCaste: [subcasteController.text],
+                                  filterCaste: casteController.text == ""
+                                      ? []
+                                      : casteController.text
+                                          .split(", ")
+                                          .map((caste) =>
+                                              (casteSubcasteOptions.castes ?? [])
+                                                  .firstWhere((option) => option.name == caste,
+                                                      orElse: () =>
+                                                          Castes(id: ""))
+                                                  .id ??
+                                              "")
+                                          .toList(),
+                                  filterSubCaste: subcasteController.text == ""
+                                      ? []
+                                      : subcasteController.text
+                                          .split(", ")
+                                          .map((subcaste) =>
+                                              (casteSubcasteOptions.subcastes ?? [])
+                                                  .firstWhere(
+                                                      (option) => option.name == subcaste,
+                                                      orElse: () => Subcastes(id: ""))
+                                                  .id ??
+                                              "")
+                                          .toList(),
                                   filterAgeGroup: ageRangeController.text,
                                   filterHeight: heightController.text,
                                   filterWeight: weightController.text,
                                   filterState: stateController.text,
                                   filterMotherTongue: languageController.text,
-                                  filterMaritalStatus:
-                                      maritalStatusController.text,
-                                  filterEducation:
-                                      highestEducationController.text,
-                                  filterOccupation: [occupationController.text],
-                                  filterAnnualIncome:
-                                      annualIncomeController.text,
-                                  filterFoodPreference:
-                                      foodPreferenceController.text);
+                                  filterMaritalStatus: maritalStatusController.text,
+                                  filterEducation: highestEducationController.text,
+                                  filterOccupation: occupationController.text == ""
+                                      ? []
+                                      : occupationController.text
+                                          .split(", ")
+                                          .map((occupation) =>
+                                              ((dropdownModel ?? DropdownModel()).occupations ?? [])
+                                                  .firstWhere((option) => option.name == occupation,
+                                                      orElse: () =>
+                                                          ReEdOcLanSt(id: ""))
+                                                  .id ??
+                                              "")
+                                          .toList(),
+                                  filterAnnualIncome: annualIncomeController.text,
+                                  filterFoodPreference: foodPreferenceController.text);
                               print("object");
 
                               Navigator.push(

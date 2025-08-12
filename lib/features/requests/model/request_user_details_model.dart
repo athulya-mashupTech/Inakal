@@ -13,6 +13,7 @@ class RequestUserDetailsModel {
   final String occupation;
   final String lastSeen;
   final String status;
+  final String receivedStatus;
   final String? requestId;
 
   RequestUserDetailsModel({
@@ -30,11 +31,12 @@ class RequestUserDetailsModel {
     required this.occupation,
     required this.lastSeen,
     required this.status,
+    required this.receivedStatus,
     required this.requestId,
   });
 
   factory RequestUserDetailsModel.fromJson(
-      Map<String, dynamic> json, String status, String? requestId) {
+      Map<String, dynamic> json, String status, String receivedStatus, String? requestId) {
     return RequestUserDetailsModel(
       clientID: json['id'],
       image: json['image'],
@@ -51,6 +53,7 @@ class RequestUserDetailsModel {
       lastSeen: json['last_seen'] ?? "12/12/2023",
       requestId: requestId,
       status: status,
+      receivedStatus: receivedStatus
     );
   }
 }

@@ -31,7 +31,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
     super.initState();
     dropdownModel = userController.dropdownModel.value;
     fetchReceivedRequests();
-    
+
     // Add listener to search controller
     searchController.addListener(() {
       setState(() {
@@ -59,6 +59,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
   }
 
   Future<void> fetchReceivedRequests() async {
+    print("fetching Requests");
     setState(() {
       isLoading = true;
       filteredUsers.clear();
@@ -67,6 +68,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
     await RequestService().getReceivedRequestUserDetails(context).then((value) {
       setState(() {
         allReceivedRequests = value;
+        print(allReceivedRequests.length);
         applyFilters();
         isLoading = false;
       });
@@ -76,19 +78,20 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
   void applyFilters() {
     // First apply status filter
     List<RequestUserDetailsModel?> statusFilteredUsers;
-    
+
     if (selectedFilter == "All") {
       statusFilteredUsers = allReceivedRequests
-          .where(
-              (user) => user?.status == "accepted" || user?.status == "pending")
+          .where((user) =>
+              user?.receivedStatus == "accepted" ||
+              user?.receivedStatus == "pending")
           .toList();
     } else if (selectedFilter == "Accepted") {
       statusFilteredUsers = allReceivedRequests
-          .where((user) => user?.status == "accepted")
+          .where((user) => user?.receivedStatus == "accepted")
           .toList();
     } else if (selectedFilter == "Pending") {
       statusFilteredUsers = allReceivedRequests
-          .where((user) => user?.status == "pending")
+          .where((user) => user?.receivedStatus == "pending")
           .toList();
     } else {
       statusFilteredUsers = allReceivedRequests;
@@ -100,15 +103,15 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
     } else {
       filteredUsers = statusFilteredUsers.where((user) {
         if (user == null) return false;
-        
-        final firstName = user.firstName?.toLowerCase() ?? "";
-        final lastName = user.lastName?.toLowerCase() ?? "";
+
+        final firstName = user.firstName.toLowerCase();
+        final lastName = user.lastName.toLowerCase();
         final fullName = "$firstName $lastName".trim();
         final query = searchQuery.toLowerCase();
-        
-        return firstName.contains(query) || 
-               lastName.contains(query) || 
-               fullName.contains(query);
+
+        return firstName.contains(query) ||
+            lastName.contains(query) ||
+            fullName.contains(query);
       }).toList();
     }
   }
@@ -163,9 +166,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
               hintText: "Search by Name",
               prefixIcon: Icon(Icons.search),
               suffixIcon: searchController.text.isNotEmpty
-                  ? IconButton(
-                      onPressed: clearSearch,
-                      icon: Icon(Icons.close))
+                  ? IconButton(onPressed: clearSearch, icon: Icon(Icons.close))
                   : null,
               fillColor: AppColors.white,
               labelStyle: TextStyle(color: AppColors.grey, fontSize: 14),
@@ -186,9 +187,10 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                   ? LayoutBuilder(
                       builder: (context, constraints) {
                         // Get keyboard height
-                        final keyboardHeight = MediaQuery.of(context).viewInsets.bottom;
+                        final keyboardHeight =
+                            MediaQuery.of(context).viewInsets.bottom;
                         final isKeyboardVisible = keyboardHeight > 0;
-                        
+
                         return SingleChildScrollView(
                           child: ConstrainedBox(
                             constraints: BoxConstraints(
@@ -200,18 +202,22 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                 children: [
                                   Lottie.asset(
                                     "assets/lottie/empty_data.json",
-                                    width: isKeyboardVisible 
-                                        ? MediaQuery.of(context).size.width * 0.4  // Smaller when keyboard is visible
-                                        : MediaQuery.of(context).size.width * 0.6,
-                                    height: isKeyboardVisible 
-                                        ? MediaQuery.of(context).size.width * 0.4
+                                    width: isKeyboardVisible
+                                        ? MediaQuery.of(context).size.width *
+                                            0.4 // Smaller when keyboard is visible
+                                        : MediaQuery.of(context).size.width *
+                                            0.6,
+                                    height: isKeyboardVisible
+                                        ? MediaQuery.of(context).size.width *
+                                            0.4
                                         : null,
                                   ),
                                   SizedBox(height: isKeyboardVisible ? 8 : 16),
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 16.0),
                                     child: Text(
-                                      searchQuery.isNotEmpty 
+                                      searchQuery.isNotEmpty
                                           ? "No results found for '$searchQuery'"
                                           : "No Requests Found",
                                       style: TextStyle(
@@ -244,15 +250,22 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                 user?.district == null || user?.district == ""
                                     ? ""
                                     : dropdownModel!.districts!
-                                            .firstWhere((dist) =>
-                                                dist.id == user?.district, orElse: () => Districts(name: ""),)
+                                            .firstWhere(
+                                              (dist) =>
+                                                  dist.id == user?.district,
+                                              orElse: () => Districts(name: ""),
+                                            )
                                             .name ??
                                         "",
                                 user?.state == null || user?.state == ""
                                     ? ""
                                     : dropdownModel!.states!
-                                            .firstWhere((state) =>
-                                                state.id == user?.state, orElse: () => ReEdOcLanSt(name: ""),)
+                                            .firstWhere(
+                                              (state) =>
+                                                  state.id == user?.state,
+                                              orElse: () =>
+                                                  ReEdOcLanSt(name: ""),
+                                            )
                                             .name ??
                                         ""),
                             status: user?.status ?? "",
@@ -280,6 +293,7 @@ class _ReceivedRequestsState extends State<ReceivedRequests> {
                                     )
                                     .name ??
                                 "Not Specified",
+                            realoadFun: () => fetchReceivedRequests(),
                           );
                         },
                       ),

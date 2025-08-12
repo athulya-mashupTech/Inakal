@@ -35,7 +35,17 @@ class _HomeScreenState extends State<HomeScreen> {
           relatedProfileModel = value;
           isLoading = false;
         });
+      } else {
+        setState(() {
+          relatedProfileModel = RelatedProfileModel(relatedProfiles: []);
+          isLoading = false;
+        });
       }
+    }).timeout(Duration(seconds: 10), onTimeout: () {
+      setState(() {
+        relatedProfileModel = RelatedProfileModel(relatedProfiles: []);
+        isLoading = false;
+      });
     });
   }
 
@@ -149,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 padding: const EdgeInsets.all(20.0),
                                 child: Center(
                                   child: Text(
-                                    "No Related Profiles Found for your preferences.\nTry changing your preferences or check back later.",
+                                    "No Related Profiles Found\nTry again later!",
                                     textAlign: TextAlign.center,
                                     style: const TextStyle(
                                       fontSize: 14,

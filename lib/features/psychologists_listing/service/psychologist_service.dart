@@ -16,8 +16,8 @@ class PsychologistService {
   Future<PsychologistModel?> getAllDoctors(
       {required BuildContext context}) async {
     try {
-      final response = await _sendGetRequest(
-        url: allDoctorsUrl,
+      final response = await _sendPostRequest(
+        url: allDoctorsUrl, fields: {}
       );
 
       if (response.statusCode == 200) {
@@ -45,8 +45,8 @@ class PsychologistService {
   Future<String?> checkDoctorAppointment(
       {required BuildContext context}) async {
     try {
-      final response = await _sendGetRequest(
-        url: checkAppointmentUrl,
+      final response = await _sendPostRequest(
+        url: checkAppointmentUrl, fields: {}
       );
 
       if (response.statusCode == 200) {
