@@ -122,22 +122,26 @@ class _ProfileDetailsState extends State<ProfileDetails> {
                       label: 'Email',
                       controller: emailController),
                   const SizedBox(height: 16),
-                  IntlPhoneField(
-                    controller: phoneNumberController,
-                    decoration: InputDecoration(
-                      labelText: 'Mobile Number',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(),
+                  AbsorbPointer(
+                    child: IntlPhoneField(
+                      controller: phoneNumberController,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        errorText: "Contact Customer Care to update",
+                        labelText: 'Mobile Number',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                          borderSide: BorderSide(),
+                        ),
                       ),
+                      onChanged: (value) {
+                        setState(() {
+                          _countryCode = value.countryCode;
+                          _phoneNumber = value.number;
+                        });
+                      },
+                      initialCountryCode: 'IN',
                     ),
-                    onChanged: (value) {
-                      setState(() {
-                        _countryCode = value.countryCode;
-                        _phoneNumber = value.number;
-                      });
-                    },
-                    initialCountryCode: 'IN',
                   ),
                   const SizedBox(height: 16),
                   EditProfileDatePicker(

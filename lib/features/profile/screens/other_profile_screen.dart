@@ -416,7 +416,11 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                       style: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.bold)),
-                                  Text(userData.aboutMe ?? "Not Specified",
+                                  Text(
+                                      (userData.aboutMe == ""
+                                              ? "Not Specified"
+                                              : userData.aboutMe) ??
+                                          "Not Specified",
                                       style: const TextStyle(fontSize: 16)),
                                 ],
                               ),
@@ -606,7 +610,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 "Not Specified"),
                                         OtherProfileDetailCard(
                                             title: "Working Location",
-                                            value: userData.workLocation ??
+                                            value: (userData.workLocation == ""
+                                                    ? "Not Specified"
+                                                    : userData.workLocation) ??
                                                 "Not Specified"),
                                       ],
                                     ),
@@ -646,7 +652,9 @@ class _OtherProfileScreenState extends State<OtherProfileScreen> {
                                                 ""),
                                         OtherProfileDetailCard(
                                             title: "Hobbies",
-                                            value: userData.hobbies ??
+                                            value: (userData.hobbies == ""
+                                                    ? "Not Specified"
+                                                    : userData.hobbies) ??
                                                 "Not Specified"),
                                       ],
                                     ),

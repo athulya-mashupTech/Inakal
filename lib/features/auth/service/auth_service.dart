@@ -139,7 +139,7 @@ class AuthService {
   }
 
   // ------------------ Login via Password ------------------
-  Future<LoginModel?> loginUser({
+  Future<LoginModel> loginUser({
     required String countryCode,
     required String phone,
     required String password,
@@ -165,10 +165,10 @@ class AuthService {
       } else {
         _showSnackbar(context, "Invalid credentials");
       }
-      return result;
+      return result ?? LoginModel(type: "danger");
     } catch (e) {
       print("Login Error: $e");
-      return null;
+      return LoginModel(type: "danger");
     }
   }
 
