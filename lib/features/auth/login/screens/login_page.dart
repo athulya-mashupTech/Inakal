@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
             password: _loginpwdController.text,
             context: context)
         .then((value) {
-      if (value!.type == "danger") {
+      if (value.type == "danger") {
         setState(() {
           isLoggedIn = false;
         });

@@ -278,7 +278,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                       highlightColor: AppColors.lightGrey,
                                       child: Container(color: AppColors.grey),
                                     ),
-                                    errorWidget: (context, url, error) => Image.asset("assets/vectors/user_avatar.jpg"),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                            "assets/vectors/user_avatar.jpg"),
                                   ),
                                 ),
                               )),
@@ -305,8 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         height: 1.1),
                                   ),
                                   Text(
-                                    getLocation(
-                                        user?.districtName ?? "",
+                                    getLocation(user?.districtName ?? "",
                                         user?.stateName ?? ""),
                                     style: const TextStyle(fontSize: 16),
                                   ),
@@ -318,7 +319,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                         fontWeight: FontWeight.w600),
                                   ),
                                   Text(
-                                    user?.religionName ?? "Religion Not Specified",
+                                    user?.religionName ??
+                                        "Religion Not Specified",
                                     style: const TextStyle(fontSize: 16),
                                   ),
                                 ],
@@ -367,7 +369,10 @@ class _ProfilePageState extends State<ProfilePage> {
                             color: AppColors.black)),
                     const SizedBox(height: 8),
                     Obx(() => Text(
-                          userController.userData.value.user?.aboutMe ??
+                          (userController.userData.value.user?.aboutMe == ""
+                                  ? "Not Specified"
+                                  : userController
+                                      .userData.value.user?.aboutMe) ??
                               "Not Specified",
                           style: const TextStyle(
                               fontSize: 16, color: AppColors.black),
@@ -379,7 +384,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               ?.where((img) => img.isPublic == "1")
                               .toList() ??
                           [];
-              
+
                       return GridView.builder(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -403,7 +408,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ImageCard(image: img.image ?? ""),
                                       Container(
                                         decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                           color: AppColors.black.withAlpha(150),
                                         ),
                                       ),
