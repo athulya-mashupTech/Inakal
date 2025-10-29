@@ -27,7 +27,7 @@ class _LikedProfileState extends State<LikedProfile> {
   }
 
   Future<void> getLikedProfile() async {
-    LikedProfileService().getLikedProfile(context: context).then((value) {
+    await LikedProfileService().getLikedProfile(context: context).then((value) {
       if (value != null) {
         setState(() {
           likedProfileModel = value;

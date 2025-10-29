@@ -28,6 +28,7 @@ class LikedProfileService {
         return likedProfileModel;
       } else {
         _showSnackbar(context, "Error: ${response.statusCode}");
+        debugPrint(response.reasonPhrase);
         return null;
       }
     } catch (e) {
@@ -40,7 +41,7 @@ class LikedProfileService {
   Future<http.StreamedResponse> _sendGetRequest({
     required String url,
   }) async {
-    final request = http.MultipartRequest('GET', Uri.parse(url));
+    final request = http.MultipartRequest('POST', Uri.parse(url));
     final token =
         authController.token.value; // Get the token from AuthController
     final headers = {
