@@ -70,7 +70,7 @@ class HomeService {
         if (relatedProfileModel.type == "success") {
           // _showSnackbar(context, "Related Profile Data Fetched");
         } else {
-          _showSnackbar(context, "Related profile data fetching faied");
+          _showSnackbar(context, "Related profile data fetching failed");
         }
         return relatedProfileModel;
       } else {
